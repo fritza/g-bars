@@ -60,15 +60,11 @@ struct ContentView: View {
     }
 
     var labels: (status: String, button: String) {
-        if !motionManager.accelerometryAvailable {
+        guard motionManager.accelerometryAvailable else {
             return (status: "Not available", button: "")
         }
-        else if isCollecting  {
-            return (status: reading.acceleration.description, button: "Stop")
-        }
-        else {
-            return (status: "Idle", button: "Start")
-        }
+
+        return isCollecting ? (status: reading.acceleration.description, button: "Stop") : (status: "Idle", button: "Start")
     }
 
     var body: some View {
