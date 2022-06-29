@@ -46,8 +46,7 @@ struct SimpleBarView: View {
         self.spaceWidth = spacing * barWidth
 
         self.maxValue = Swift.max(
-            (data.max() ?? -.infinity),
-            reservedMax)
+            (data.max() ?? -.infinity), reservedMax)
 
         barColor = color
     }
@@ -95,7 +94,8 @@ struct SimpleBarView: View {
                             bar(for: datum, in: proxy.size)
                         }
                     }
-                    .padding(EdgeInsets(top: 5.0, leading: 0, bottom: 0, trailing: 0))
+                    .padding(EdgeInsets(top: 5.0, leading: 0,
+                                        bottom: 0, trailing: 0))
                 }
             }
         }
@@ -103,16 +103,20 @@ struct SimpleBarView: View {
 }
 
 struct ThreeBarView_Previews: PreviewProvider {
+    static let sampleData: [Double] = [2.0, 0.9, 0.4 ]//, 1.2]
     static var previews: some View {
-        let sampleData: [Double] = [2.0, 0.9, 0.4 ]//, 1.2]
-        return SimpleBarView(
-            sampleData,
-            spacing: 0.4,
-            color: .green // .accentColor
-//                            , reservedMax: 3.0
-        )
+        NavigationView {
+            SimpleBarView(
+                sampleData, spacing: 0.4, color: .green
+            )
             .frame(width: .infinity, height: 160, alignment: .center)
             .padding()
-            .previewInterfaceOrientation(.portrait)
+            .toolbar {
+                Button("Stop") {
+                }
+                .navigationTitle("G-Bars")
+            }
+        }
+        .previewInterfaceOrientation(.portrait)
     }
 }
