@@ -101,6 +101,7 @@ final class MotionManager {
 
     // MARK: Properties
 
+    /// The singleton `MotionManager`. Do not instantiate `MotionManager`.
     static let shared = MotionManager()
     static var census = 0
 
