@@ -17,6 +17,15 @@
 		1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */; };
 		1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */; };
 		1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */; };
+		1FCB95E8286CD7A000DE9DD0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E7286CD7A000DE9DD0 /* Collections */; };
+		1FCB95EA286CD7A000DE9DD0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E9286CD7A000DE9DD0 /* DequeModule */; };
+		1FCB95EC286CD7A000DE9DD0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95EB286CD7A000DE9DD0 /* OrderedCollections */; };
+		1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */; };
+		1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */; };
+		1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */; };
+		1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */; };
+		1FCB95F7286CD88A00DE9DD0 /* AccelerometerItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */; };
+		1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +59,12 @@
 		1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBarView.swift; sourceTree = "<group>"; };
 		1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerationWriter.swift; sourceTree = "<group>"; };
 		1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreMotion.swift; sourceTree = "<group>"; };
+		1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+extensions.swift"; sourceTree = "<group>"; };
+		1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
+		1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Formatting+Extensions.swift"; sourceTree = "<group>"; };
+		1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerItem.swift; sourceTree = "<group>"; };
+		1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerItemTests.swift; sourceTree = "<group>"; };
+		1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYZ.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +72,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FCB95E8286CD7A000DE9DD0 /* Collections in Frameworks */,
+				1FCB95EA286CD7A000DE9DD0 /* DequeModule in Frameworks */,
+				1FCB95EC286CD7A000DE9DD0 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +118,7 @@
 		1FCB95B4286CD37700DE9DD0 /* G Bars */ = {
 			isa = PBXGroup;
 			children = (
+				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
 				1FCB95B7286CD37700DE9DD0 /* ContentView.swift */,
@@ -129,6 +148,7 @@
 		1FCB95CF286CD37800DE9DD0 /* G BarsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */,
 				1FCB95D0286CD37800DE9DD0 /* G_BarsUITests.swift */,
 				1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */,
 			);
@@ -138,10 +158,22 @@
 		1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */ = {
 			isa = PBXGroup;
 			children = (
+				1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */,
 				1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */,
 				1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */,
+				1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */,
 			);
 			path = Accelerometry;
+			sourceTree = "<group>";
+		};
+		1FCB95ED286CD7F500DE9DD0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */,
+				1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */,
+				1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +192,11 @@
 			dependencies = (
 			);
 			name = "G Bars";
+			packageProductDependencies = (
+				1FCB95E7286CD7A000DE9DD0 /* Collections */,
+				1FCB95E9286CD7A000DE9DD0 /* DequeModule */,
+				1FCB95EB286CD7A000DE9DD0 /* OrderedCollections */,
+			);
 			productName = "G Bars";
 			productReference = 1FCB95B2286CD37700DE9DD0 /* G Bars.app */;
 			productType = "com.apple.product-type.application";
@@ -232,6 +269,9 @@
 				Base,
 			);
 			mainGroup = 1FCB95A9286CD37700DE9DD0;
+			packageReferences = (
+				1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 1FCB95B3286CD37700DE9DD0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -274,9 +314,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
 				1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */,
+				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
+				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
+				1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */,
+				1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
 			);
@@ -295,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */,
+				1FCB95F7286CD88A00DE9DD0 /* AccelerometerItemTests.swift in Sources */,
 				1FCB95D1286CD37800DE9DD0 /* G_BarsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,6 +649,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1FCB95E7286CD7A000DE9DD0 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		1FCB95E9286CD7A000DE9DD0 /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		1FCB95EB286CD7A000DE9DD0 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1FCB95AA286CD37700DE9DD0 /* Project object */;
 }
