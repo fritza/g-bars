@@ -41,15 +41,12 @@ final class CMWatcher: ObservableObject {
 }
 
 struct ContentView: View {
-    static let hzOverride: TimeInterval = 1.0/10.0
+    static let hzOverride: TimeInterval = 1.0/60.0
 
     enum Errors: Error {
         case collectionCancelled
     }
     @State private var isCollecting = false
-    
-//    private var motionManager = CMWatcher()
-//    private var motionManager = MotionManager(interval: Self.hzOverride)
     // FIXME: The sampling rate should be configurable.
     private var motionManager = MotionManager()
 
@@ -72,11 +69,6 @@ struct ContentView: View {
             Spacer()
             Text("Async Accelerometry")
                 .font(.largeTitle)
-            // TODO: Show the count in the IncomingAccelerometry buffer.
-            // It's impossible to isolate a var.
-            // But the count varies. It reports
-            // the state of the accelerometry queue,
-            // which is isolated.
             HStack {
                 Text(labels.status)
                 Spacer()
