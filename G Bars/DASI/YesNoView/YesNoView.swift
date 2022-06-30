@@ -45,20 +45,18 @@ struct YesNoView: View {
     var body: some View {
         GeometryReader { context in
             VStack(alignment: .center) {
-                ForEach(0..<viewConfig.count)
-                { index in
-                    YesNoButton(
-                        id: index,
-                        title: viewConfig[index]
-                            .title,
-                        completion:
-                            { btn in
-                                //                        print("Chose \(btn.id)")
-                            })
+                ForEach(viewConfig) { vc in
+                    YesNoButton(id: vc.id,
+                                title: vc.title,
+                                width: context.size.width,
+                                completion: { btn in
+                        completion(vc)
+                    })
                     .frame(width: context.size.width,
                            height: context.size.height * 0.4)
                 }
             }
+            .buttonStyle(.bordered)
         }
     }
 }

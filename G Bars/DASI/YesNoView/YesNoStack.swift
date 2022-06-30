@@ -39,33 +39,53 @@ struct YesNoStack: View {
     }
 
     var body: some View {
-        VStack {
-            YesNoButton(
-                id: 1, title: "Yes",
-                completion: selectButton(id:)
-            )
-            Spacer(minLength: 24)
-            YesNoButton(
-                id: 2, title: "No",
-                completion: selectButton(id:))
-            Spacer()
+        GeometryReader { proxy in
+            VStack {
+                Spacer()
+                YesNoButton(
+                    id: 1, title: "Yes", width: proxy.size.width * 0.8,
+                    completion: selectButton(id:)
+                )
+//                .frame(height: proxy.size.height * 0.5)
+//                Spacer(minLength: 8)
+                YesNoButton(
+                    id: 2, title: "No", width: proxy.size.width * 0.8,
+                    completion: selectButton(id:))
+                .frame(height: proxy.size.height * 0.45)
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
-final class YNUState: ObservableObject {
+final class YNUState: ObservableObject, CustomStringConvertible {
     @State var answer: AnswerState = .no
+    var description: String {
+        let valueString: String
+        switch answer {
+        case .unknown:
+            valueString = "?! "
+        case .yes:
+            valueString = "Yes"
+        case .no:
+            valueString = "No "
+        }
+       return "YNUState: \(valueString)"
+    }
 }
 
 struct YesNoStack_Previews: PreviewProvider {
     static let ynuState = YNUState()
     @State static var last: String = "NONE"
     static var previews: some View {
-        VStack {
+        VStack(alignment: .center) {
+            Spacer()
             YesNoStack(boundState: ynuState.$answer
-                       , completion: nil)
-            .frame(height: 160, alignment: .center)
+                       , completion: {state in last = state.description})
+            .frame(height: 100, alignment: .center)
+            Spacer()
+            Text("The setting is \(last)")
         }
 #if G_BARS
         .environmentObject(DASIResponseList())

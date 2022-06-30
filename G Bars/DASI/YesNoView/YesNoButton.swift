@@ -8,40 +8,6 @@
 import SwiftUI
 
 
-// MARK: - Frame/color modifier
-fileprivate
-struct Sizing: ViewModifier {
-    let boundSize: CGSize
-//    let proxy: GeometryProxy
-    let color: Color?
-    init(proxy: GeometryProxy,
-         color: Color?) {
-        self.boundSize = proxy.size
-        self.color = color
-    }
-
-    func body(content: Content) -> some View {
-        content.frame(
-            width: boundSize.width,
-            height: boundSize.height,
-            alignment: .center)
-    }
-}
-
-// MARK: Link to View
-extension View {
-    func bounding(proxy: GeometryProxy,
-                  color: Color? = nil) -> some View {
-        modifier(Sizing(proxy: proxy, color: color))
-    }
-}
-
-extension String {
-    func asChecked(_ checked: Bool) -> String {
-        (checked ? "✓ " : "  ") + self
-    }
-}
-
 // MARK: - YesNoButton
 struct YesNoButton: View {
     // FIXME: "choiceView" is a bad name for a ViewChoice
@@ -49,14 +15,16 @@ struct YesNoButton: View {
     //    let contextSize: CGSize
 
     // FICME: global response list from global sted environment?
-    #if G_BARS
+#if G_BARS
     @EnvironmentObject var reportContents: DASIResponseList
-    #else
+#else
     var reportContents: DASIResponseList = RootState.shared.dasiResponses
-    #endif
+#endif
 
     // FIXME: Direct access to the content state
     @EnvironmentObject var envt: DASIPages
+
+    let enclosingWidth: CGFloat
 
     let id: Int
     let title: String
@@ -80,53 +48,60 @@ struct YesNoButton: View {
         }
     }
 
-    init(id: Int, title: String,
+    @ViewBuilder func checkedLabelView(text: String, checked: Bool = false) -> some View {
+        if checked {
+            HStack(alignment: .center) {
+                Image(systemName: "checkmark.circle")
+                Text(text)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+        }
+        else {
+            Text(text)
+                .font(.title2)
+                .fontWeight(.semibold)
+        }
+    }
+
+    init(id: Int, title: String, width: CGFloat,
          completion: ( (YesNoButton) -> Void)? ) {
         self.id = id
         self.title = title
         self.completion = completion
+        enclosingWidth = width
     }
 
     // MARK: body
     var body: some View {
-        GeometryReader { proxy in
+        HStack(alignment: .center) {
             Button(
                 action: {
                     completion?(self)
                 },
                 label: {
-                    Text(self.title.asChecked(shouldBeChecked)
-                    )
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .bounding(proxy: proxy)
+                    checkedLabelView(text: title, checked: isChecked)
+                        .frame(width: enclosingWidth)
                 })
-                .bounding(proxy: proxy)
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.roundedRectangle(radius: 12)
-                )
-        }
+        }        .buttonStyle(.bordered)
+
     }
 }
 
 // MARK: - Previews
 struct YesNoButton_Previews: PreviewProvider {
     static var previews: some View {
-        HStack {
-//            Color(.red)
-            YesNoButton(id: 1, title: "Seldom") {
-                btn in
-                btn.isChecked.toggle()
-//                print("Beep! button \(btn.title)")
-            }
-
-//            Color.green
+        //        HStack {
+        //            Color(.red)
+        YesNoButton(id: 1, title: "Rarely", width: 330) {
+            btn in
+            btn.isChecked.toggle()
         }
         .padding()
-        .frame(width: 300, height: 80, alignment: .center)
-        #if G_BARS
+        .frame(width: 400, height: 80, alignment: .center)
+#if G_BARS
         .environmentObject(DASIResponseList())
         .environmentObject(DASIPages())
-        #endif
+#endif
     }
 }
