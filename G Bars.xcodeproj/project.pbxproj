@@ -50,7 +50,7 @@
 
 /* Begin PBXFileReference section */
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
-		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogViewSizing.swift; path = "G Bars/LogViewSizing.swift"; sourceTree = "<group>"; };
+		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,7 +104,6 @@
 		1FCB95A9286CD37700DE9DD0 = {
 			isa = PBXGroup;
 			children = (
-				1F26AFA9286E056400586654 /* LogViewSizing.swift */,
 				1FCB95B4286CD37700DE9DD0 /* G Bars */,
 				1FCB95C5286CD37800DE9DD0 /* G BarsTests */,
 				1FCB95CF286CD37800DE9DD0 /* G BarsUITests */,
@@ -178,6 +177,7 @@
 		1FCB95ED286CD7F500DE9DD0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1F26AFA9286E056400586654 /* LogViewSizing.swift */,
 				1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */,
 				1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */,
 				1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */,

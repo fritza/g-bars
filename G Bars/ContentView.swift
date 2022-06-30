@@ -12,6 +12,10 @@ extension CMAcceleration: CustomStringConvertible {
     public var description: String {
         "Acc(\(x.pointThree), \(y.pointThree), \(z.pointThree))"
     }
+
+    public var scalar: Double {
+        sqrt(x*x + y*y + z*z)
+    }
 }
 
 final class CMWatcher: ObservableObject {
@@ -89,6 +93,9 @@ struct ContentView: View {
                     .animation(
                         .easeInOut(duration: Self.hzOverride),
                         value: reading.acceleration.x)
+                HorizontalBar(reading.acceleration.scalar,
+                              minValue: 0.05, maxValue: 8.0)
+                .frame(width: .infinity, height: 40, alignment: .leading)
             }
             Spacer()
         }
