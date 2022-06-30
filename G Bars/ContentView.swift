@@ -18,13 +18,17 @@ extension CMAcceleration: CustomStringConvertible {
     }
 }
 
+extension CMAccelerometerData {
+    public var scalar: Double { acceleration.scalar }
+}
+
 final class CMWatcher: ObservableObject {
     @Published var reading: CMAccelerometerData
     static var census: Int = 0
     private var motionManager: MotionManager
 
     init() {
-//        motionManager = MotionManager(interval: 1.0)
+        //        motionManager = MotionManager(interval: 1.0)
         // FIXME: The sampling rate should be configurable.
         motionManager = MotionManager()
 
@@ -83,19 +87,18 @@ struct ContentView: View {
             }
             .padding()
             if isCollecting {
-                SimpleBarView(
-                    [
-                        abs(reading.acceleration.x),
-                        abs(reading.acceleration.y),
-                        abs(reading.acceleration.z)
-                    ],
-                    spacing: 0.20, color: .teal, reservedMax: 1.25)
-                    .animation(
-                        .easeInOut(duration: Self.hzOverride),
-                        value: reading.acceleration.x)
+                VStack {
+                    SimpleBarView(
+                        [
+                            abs(reading.acceleration.x),
+                            abs(reading.acceleration.y),
+                            abs(reading.acceleration.z)
+                        ],
+                        spacing: 0.20, color: .teal, reservedMax: 1.25)
+                }
                 HorizontalBar(reading.acceleration.scalar,
                               minValue: 0.05, maxValue: 8.0)
-                .frame(width: .infinity, height: 40, alignment: .leading)
+                .frame(height: 40, alignment: .leading)
             }
             Spacer()
         }
