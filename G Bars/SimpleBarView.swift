@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let globalScaler = LogViewSizing(min: 0.05, max: 3.0)
+
 struct SimpleBarView: View {
     /// The breadth of the space between bars, as a fraction of the bar width
     let spaceFraction: CGFloat
@@ -70,8 +72,10 @@ struct SimpleBarView: View {
 
     func bar(for datum: CGFloat, in size: CGSize) ->  some View {
         return Rectangle()
+//            .frame(width : barWidth * size.width       ,
+//                   height: size.height * datum/maxValue)
             .frame(width : barWidth * size.width       ,
-                   height: size.height * datum/maxValue)
+                   height: globalScaler.scale(datum, within: size.height))
             .foregroundColor(barColor)
     }
 

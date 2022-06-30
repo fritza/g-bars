@@ -10,13 +10,11 @@ import SwiftUI
 
 struct HorizontalBar: View {
     let value: Double
-    let scaler: LogViewSizing
     let barColor: Color
 
     init(_ value: Double, minValue: Double, maxValue: Double, ofColor color: Color = .blue) {
         self.value = value
         self.barColor = color
-        scaler = LogViewSizing(min: minValue, max: maxValue)
     }
 
     // FIXME: Share these with SimpleBarView
@@ -38,7 +36,7 @@ struct HorizontalBar: View {
     }
 
     func bar(in size: CGSize) ->  some View {
-        let scaledValue = scaler.scale(value, within: size.width)
+        let scaledValue = globalScaler.scale(value, within: size.width)
         let inset = 0.25
 
         return Rectangle()
