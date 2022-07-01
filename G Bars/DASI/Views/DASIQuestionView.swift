@@ -41,7 +41,7 @@ struct DASIQuestionView: View {
     // FIXME: Verify that the report contents don't go away
     // before it's time to report.
     var body: some View {
-        return VStack {
+        return VStack(alignment: .leading) {
             QuestionContentView(
                 content: question.text,
                 questionIndex: question.id)
@@ -56,7 +56,7 @@ struct DASIQuestionView: View {
         }
 
         .navigationTitle(
-            "DASI - \(question.id)"
+            "Survey — \(question.id)"
         )
     }
 }

@@ -23,6 +23,7 @@
 		1F26AFC3286E27DF00586654 /* ForwardBackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC2286E27DF00586654 /* ForwardBackBar.swift */; };
 		1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC5286E27FB00586654 /* YesNoButton.swift */; };
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
+		1F57E80A286F773600FFB840 /* DASIQuestionNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* ContentView.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
@@ -81,6 +82,7 @@
 		1F26AFC6286E27FB00586654 /* YesNoStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoStack.swift; sourceTree = "<group>"; };
 		1F26AFC7286E27FB00586654 /* YesNoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoView.swift; sourceTree = "<group>"; };
 		1F57E806286F6AE700FFB840 /* DASIQuestionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIQuestionItemView.swift; sourceTree = "<group>"; };
+		1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIQuestionNavigationView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */,
+				1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */,
 				1F57E806286F6AE700FFB840 /* DASIQuestionItemView.swift */,
 				1F26AFB6286E217300586654 /* SurveyContainerView.swift */,
 				1F26AFB8286E219600586654 /* DASICompleteView.swift */,
@@ -401,6 +404,7 @@
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1F26AFAF286E205400586654 /* DASIUserResponse.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
+				1F57E80A286F773600FFB840 /* DASIQuestionNavigationView.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
