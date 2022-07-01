@@ -10,32 +10,32 @@ import SwiftUI
 
 // MARK: - YesNoButton
 struct YesNoButton: View {
-
-    let id: Int
+    let id: AnswerState
+    var value: AnswerState { id }
     /// The `String` to display, possibly in addition to a checkmark
     let title: String
     /// Callback to notify the client of a click.
-    let completion: ((YesNoButton) -> Void)?
+    let completion: ((AnswerState) -> Void)?
 
-    /// Button state (wheter to display a checkmark in the title)
-    let isChecked: Bool
+    /// Global state (display a checkmark in the title if self,id is the same))
+    let selectedState: AnswerState
 
     let enclosingWidth: CGFloat
 
-    init(id: Int, title: String, checked: Bool,
+    init(state: AnswerState, title: String, currentSelection: AnswerState,
          width: CGFloat,
-         completion: ( (YesNoButton) -> Void)? ) {
-        self.id = id
+         completion: ( (AnswerState) -> Void)? ) {
+        self.id = state
         self.title = title
-        self.isChecked = checked
         self.completion = completion
+        self.selectedState = currentSelection
         enclosingWidth = width
     }
 
     /// Label for the button, depending on whether the button is selected.
     @ViewBuilder func checkedLabelView(text: String )
     -> some View {
-        if isChecked {
+        if id == selectedState {
             HStack(alignment: .center) {
                 Image(systemName: "checkmark.circle")
                 Text(text)
@@ -56,7 +56,7 @@ struct YesNoButton: View {
             Button(
                 action: {
                     /// Upon tao, tell the client via callback
-                    completion?(self)
+                    completion?(self.value)
                 },
                 label: {
                     /// Checked or unchecked label
@@ -70,17 +70,20 @@ struct YesNoButton: View {
 
 // MARK: - Previews
 struct YesNoButton_Previews: PreviewProvider {
+    static let currently: AnswerState = .yes
     static var previews: some View {
-        YesNoButton(id: 1, title: "Rarely", checked: true, width: 330) {
+        YesNoButton(state: .yes, title: "Often",
+                    currentSelection: currently,  width: 330) {
             btn in
         }
         .padding()
         .frame(width: 400, height: 80, alignment: .center)
-
-        YesNoButton(id: 1, title: "Often", checked: false, width: 330) {
+        YesNoButton(state: .no, title: "Rarely",
+                    currentSelection: currently,  width: 330) {
             btn in
         }
         .padding()
         .frame(width: 400, height: 80, alignment: .center)
+        
     }
 }

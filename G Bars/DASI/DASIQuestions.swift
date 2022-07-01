@@ -27,6 +27,14 @@ enum AnswerState: String, Codable, Equatable, CustomStringConvertible {
         }
     }
 
+    var plainText: String {
+        switch self {
+        case .no:       return "No"
+        case .unknown:  return "•"
+        case .yes:      return "Yes"
+        }
+    }
+
     /// Inverse of `description`. These must match case and content with  "•",  "Y", or "N". Otherwise initialization fails.
     init?(described: String) {
         switch described {

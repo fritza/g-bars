@@ -16,55 +16,45 @@ import SwiftUI
 struct YesNoStack: View {
     typealias AnswerVoid = ((AnswerState) -> Void)
 
-    @State var currentAnswer = AnswerState.unknown
+    /// The currently-selected AnswerState; client code provides a binding to the value.
     @Binding var boundState: AnswerState
+    /// The existing selection for `AnswerState`
+//    let parentState: AnswerState
 
-    init(boundState: Binding<AnswerState>) {
+    init(boundState: Binding<AnswerState>
+//         , parentState: AnswerState
+    ) {
         self._boundState = boundState
+//        self.parentState = parentState
     }
 
-    func selectButton(id button: YesNoButton) {
-        switch button.id {
-        case 1: currentAnswer  = .yes
-        case 2: currentAnswer  = .no
-        default: currentAnswer = .unknown
-        }
-        boundState = currentAnswer
+    func set(value: AnswerState) {
+        boundState = value
+    }
+
+    func yesNoButton(value: AnswerState, label: String,
+                     in width: CGFloat) -> some View {
+        YesNoButton(
+            state: value, title: label,
+            currentSelection: boundState,
+            width: width * 0.8,
+            completion: { set(value: $0) }
+        )
     }
 
     var body: some View {
         GeometryReader { proxy in
             VStack {
                 Spacer()
-                YesNoButton(
-                    id: 1, title: "Yes", checked: (currentAnswer == .yes),
-                    width: proxy.size.width * 0.8,
-                    completion: {
-                        btn in
-//                       boundState = .yes; btn.isChecked = true
-                        selectButton(id: btn)
-                    }
-                )
-
-/*
- NO NO NO.
- We want the stack to have a single state.
- (What do I mean by that?)
-
- */
-
-
-
-                YesNoButton(
-                    id: 2, title: "No",
-                    checked: (currentAnswer == .no),
-                    width: proxy.size.width * 0.8,
-                    completion: { _ in boundState = .no  })
-                .frame(height: proxy.size.height * 0.45)
+                yesNoButton(value: .yes, label: "Yes",
+                            in: proxy.size.width)
+                yesNoButton(value: .no, label: "No",
+                            in: proxy.size.width)
                 Spacer()
             }
             .padding()
         }
+        .animation(.easeInOut, value: boundState)
     }
 }
 
@@ -85,19 +75,18 @@ final class YNUState: ObservableObject, CustomStringConvertible {
 }
 
 struct YesNoStack_Previews: PreviewProvider {
-    static let ynuState = YNUState()
+    @State static var ynuState: AnswerState = .yes
     @State static var last: String = "NONE"
+
     static var previews: some View {
         VStack(alignment: .center) {
             Spacer()
-            YesNoStack(boundState: ynuState.$answer)
+            YesNoStack(boundState: $ynuState
+//                       , parentState: .no
+            )
                 .frame(height: 100, alignment: .center)
             Spacer()
-            Text("The setting is \(last)")
+            Text("The setting is \(ynuState.description)")
         }
-#if G_BARS
-        .environmentObject(DASIResponseList())
-        .environmentObject(DASIPages())
-#endif
     }
 }

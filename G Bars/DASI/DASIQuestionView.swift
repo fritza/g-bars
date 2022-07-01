@@ -23,11 +23,7 @@ struct QuestionContentView: View {
 
 struct DASIQuestionView: View {
     @EnvironmentObject var envt: DASIPages
-    #if G_BARS
     @EnvironmentObject var reportContents: DASIResponseList
-    #else
-    var reportContents: DASIResponseList = RootState.shared.dasiResponses
-    #endif
 
     @State var answerState: AnswerState
 
@@ -73,21 +69,7 @@ struct DASIQuestionView: View {
 
                 Spacer()
                 YesNoStack(
-                    boundState: self.$answerState
-                    //,
-//                    completion: { state in
-//#warning("How many times do we do this?")
-//                        guard let qID = envt.questionIdentifier else {
-//                            return
-//                        }
-//                        reportContents
-//                            .didRespondToQuestion(
-//                                id: qID,
-//                                with: state)
-//                        envt.increment()
-//                        updateForNewBinding()
-//                    }
-                )
+                    boundState: self.$answerState)
                 .frame(height: 130)
                 .padding()
             }
