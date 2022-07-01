@@ -80,6 +80,7 @@
 		1F26AFC5286E27FB00586654 /* YesNoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoButton.swift; sourceTree = "<group>"; };
 		1F26AFC6286E27FB00586654 /* YesNoStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoStack.swift; sourceTree = "<group>"; };
 		1F26AFC7286E27FB00586654 /* YesNoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoView.swift; sourceTree = "<group>"; };
+		1F57E806286F6AE700FFB840 /* DASIQuestionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIQuestionItemView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -140,11 +141,8 @@
 				1F26AFAE286E205400586654 /* DASIUserResponse.swift */,
 				1F26AFB0286E209800586654 /* DASIResponseList.swift */,
 				1F26AFBC286E226600586654 /* SubjectID.swift */,
-				1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */,
+				1F57E808286F74D100FFB840 /* Views */,
 				1F26AFC2286E27DF00586654 /* ForwardBackBar.swift */,
-				1F26AFB6286E217300586654 /* SurveyContainerView.swift */,
-				1F26AFB8286E219600586654 /* DASICompleteView.swift */,
-				1F26AFBA286E21A900586654 /* DASIOnboardView.swift */,
 				1F26AFBE286E22CF00586654 /* DASIPages.swift */,
 			);
 			path = DASI;
@@ -158,6 +156,18 @@
 				1F26AFC7286E27FB00586654 /* YesNoView.swift */,
 			);
 			path = YesNoView;
+			sourceTree = "<group>";
+		};
+		1F57E808286F74D100FFB840 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */,
+				1F57E806286F6AE700FFB840 /* DASIQuestionItemView.swift */,
+				1F26AFB6286E217300586654 /* SurveyContainerView.swift */,
+				1F26AFB8286E219600586654 /* DASICompleteView.swift */,
+				1F26AFBA286E21A900586654 /* DASIOnboardView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		1FCB95A9286CD37700DE9DD0 = {

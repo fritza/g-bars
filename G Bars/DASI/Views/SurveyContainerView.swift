@@ -17,6 +17,8 @@ struct SurveyContainerView: View {
     static let dasiResponses = DASIResponseList()
     #endif
 
+    @State var currentAnswer: AnswerState = .unknown
+
     var body: some View {
         NavigationView {
             VStack {
@@ -31,8 +33,10 @@ struct SurveyContainerView: View {
                 NavigationLink(
                     isActive: $contentEnvt.refersToQuestion,
                     destination: {
-                        DASIQuestionView(answerState: .unknown)
-                            .navigationBarBackButtonHidden(true)
+                        // FIXME: Dummied-in just to save the compiler error.
+                        DASIQuestionView(question: DASIQuestion.questions[2], state: $currentAnswer, onSelection: { q, a in
+                        })
+                        .navigationBarBackButtonHidden(true)
                     },
 
                     label: { EmptyView() }

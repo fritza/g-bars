@@ -18,18 +18,17 @@ struct YesNoStack: View {
 
     /// The currently-selected AnswerState; client code provides a binding to the value.
     @Binding var boundState: AnswerState
-    /// The existing selection for `AnswerState`
-//    let parentState: AnswerState
+    let selectionCallback: (AnswerState) -> Void
 
-    init(boundState: Binding<AnswerState>
-//         , parentState: AnswerState
-    ) {
+    init(boundState: Binding<AnswerState>,
+         onSelection selected: @escaping (AnswerState) -> Void) {
         self._boundState = boundState
-//        self.parentState = parentState
+        selectionCallback = selected
     }
 
     func set(value: AnswerState) {
         boundState = value
+        selectionCallback(value)
     }
 
     func yesNoButton(value: AnswerState, label: String,
@@ -81,9 +80,7 @@ struct YesNoStack_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .center) {
             Spacer()
-            YesNoStack(boundState: $ynuState
-//                       , parentState: .no
-            )
+            YesNoStack(boundState: $ynuState) { _ in }
                 .frame(height: 100, alignment: .center)
             Spacer()
             Text("The setting is \(ynuState.description)")
