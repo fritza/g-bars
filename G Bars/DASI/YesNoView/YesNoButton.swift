@@ -10,47 +10,32 @@ import SwiftUI
 
 // MARK: - YesNoButton
 struct YesNoButton: View {
-    // FIXME: "choiceView" is a bad name for a ViewChoice
-    //    let choiceView: ViewChoice
-    //    let contextSize: CGSize
 
-    // FICME: global response list from global sted environment?
-#if G_BARS
-    @EnvironmentObject var reportContents: DASIResponseList
-#else
-    var reportContents: DASIResponseList = RootState.shared.dasiResponses
-#endif
+    let id: Int
+    /// The `String` to display, possibly in addition to a checkmark
+    let title: String
+    /// Callback to notify the client of a click.
+    let completion: ((YesNoButton) -> Void)?
 
-    // FIXME: Direct access to the content state
-    @EnvironmentObject var envt: DASIPages
+    /// Button state (wheter to display a checkmark in the title)
+    let isChecked: Bool
 
     let enclosingWidth: CGFloat
 
-    let id: Int
-    let title: String
-    let completion: ((YesNoButton) -> Void)?
-    
-    @State var isChecked = false
-
-    static let buttonHeight: CGFloat = 48
-    static let buttonWidthFactor: CGFloat = 0.9
-
-    var shouldBeChecked: Bool {
-        // FIXME: Direct access to the content state
-        guard let currentID = envt.questionIdentifier,
-              let answer = reportContents.responseForQuestion(identifier: currentID)
-        else {
-            return false
-        }
-        switch answer {
-        case .no: return self.id == 2
-        case .unknown: return false
-        case .yes: return self.id == 1
-        }
+    init(id: Int, title: String, checked: Bool,
+         width: CGFloat,
+         completion: ( (YesNoButton) -> Void)? ) {
+        self.id = id
+        self.title = title
+        self.isChecked = checked
+        self.completion = completion
+        enclosingWidth = width
     }
 
-    @ViewBuilder func checkedLabelView(text: String, checked: Bool = false) -> some View {
-        if checked {
+    /// Label for the button, depending on whether the button is selected.
+    @ViewBuilder func checkedLabelView(text: String )
+    -> some View {
+        if isChecked {
             HStack(alignment: .center) {
                 Image(systemName: "checkmark.circle")
                 Text(text)
@@ -65,23 +50,17 @@ struct YesNoButton: View {
         }
     }
 
-    init(id: Int, title: String, width: CGFloat,
-         completion: ( (YesNoButton) -> Void)? ) {
-        self.id = id
-        self.title = title
-        self.completion = completion
-        enclosingWidth = width
-    }
-
     // MARK: body
     var body: some View {
         HStack(alignment: .center) {
             Button(
                 action: {
+                    /// Upon tao, tell the client via callback
                     completion?(self)
                 },
                 label: {
-                    checkedLabelView(text: title, checked: isChecked)
+                    /// Checked or unchecked label
+                    checkedLabelView(text: title)
                         .frame(width: enclosingWidth)
                 })
         }        .buttonStyle(.bordered)
@@ -92,17 +71,16 @@ struct YesNoButton: View {
 // MARK: - Previews
 struct YesNoButton_Previews: PreviewProvider {
     static var previews: some View {
-        //        HStack {
-        //            Color(.red)
-        YesNoButton(id: 1, title: "Rarely", width: 330) {
+        YesNoButton(id: 1, title: "Rarely", checked: true, width: 330) {
             btn in
-            btn.isChecked.toggle()
         }
         .padding()
         .frame(width: 400, height: 80, alignment: .center)
-#if G_BARS
-        .environmentObject(DASIResponseList())
-        .environmentObject(DASIPages())
-#endif
+
+        YesNoButton(id: 1, title: "Often", checked: false, width: 330) {
+            btn in
+        }
+        .padding()
+        .frame(width: 400, height: 80, alignment: .center)
     }
 }

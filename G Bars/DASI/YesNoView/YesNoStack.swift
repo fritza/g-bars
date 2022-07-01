@@ -29,7 +29,7 @@ struct YesNoStack: View {
         case 2: currentAnswer  = .no
         default: currentAnswer = .unknown
         }
-        boundState = currentAnswer        
+        boundState = currentAnswer
     }
 
     var body: some View {
@@ -37,8 +37,13 @@ struct YesNoStack: View {
             VStack {
                 Spacer()
                 YesNoButton(
-                    id: 1, title: "Yes", width: proxy.size.width * 0.8,
-                    completion: { btn in boundState = .yes; btn.isChecked = true }
+                    id: 1, title: "Yes", checked: (currentAnswer == .yes),
+                    width: proxy.size.width * 0.8,
+                    completion: {
+                        btn in
+//                       boundState = .yes; btn.isChecked = true
+                        selectButton(id: btn)
+                    }
                 )
 
 /*
@@ -51,7 +56,9 @@ struct YesNoStack: View {
 
 
                 YesNoButton(
-                    id: 2, title: "No", width: proxy.size.width * 0.8,
+                    id: 2, title: "No",
+                    checked: (currentAnswer == .no),
+                    width: proxy.size.width * 0.8,
                     completion: { _ in boundState = .no  })
                 .frame(height: proxy.size.height * 0.45)
                 Spacer()
