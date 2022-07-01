@@ -73,19 +73,20 @@ struct DASIQuestionView: View {
 
                 Spacer()
                 YesNoStack(
-                    boundState: self.$answerState,
-                    completion: { state in
-#warning("How many times do we do this?")
-                        guard let qID = envt.questionIdentifier else {
-                            return
-                        }
-                        reportContents
-                            .didRespondToQuestion(
-                                id: qID,
-                                with: state)
-                        envt.increment()
-                        updateForNewBinding()
-                    }
+                    boundState: self.$answerState
+                    //,
+//                    completion: { state in
+//#warning("How many times do we do this?")
+//                        guard let qID = envt.questionIdentifier else {
+//                            return
+//                        }
+//                        reportContents
+//                            .didRespondToQuestion(
+//                                id: qID,
+//                                with: state)
+//                        envt.increment()
+//                        updateForNewBinding()
+//                    }
                 )
                 .frame(height: 130)
                 .padding()

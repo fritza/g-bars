@@ -29,6 +29,7 @@ struct YesNoButton: View {
     let id: Int
     let title: String
     let completion: ((YesNoButton) -> Void)?
+    
     @State var isChecked = false
 
     static let buttonHeight: CGFloat = 48

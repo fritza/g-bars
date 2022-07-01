@@ -18,14 +18,9 @@ struct YesNoStack: View {
 
     @State var currentAnswer = AnswerState.unknown
     @Binding var boundState: AnswerState
-    let completion: ((AnswerState) -> Void)?
 
-    init(boundState: Binding<AnswerState>
-         , completion: AnswerVoid?
-    )
-    {
+    init(boundState: Binding<AnswerState>) {
         self._boundState = boundState
-        self.completion = completion
     }
 
     func selectButton(id button: YesNoButton) {
@@ -34,8 +29,7 @@ struct YesNoStack: View {
         case 2: currentAnswer  = .no
         default: currentAnswer = .unknown
         }
-        boundState = currentAnswer
-        completion?(currentAnswer)
+        boundState = currentAnswer        
     }
 
     var body: some View {
@@ -44,13 +38,21 @@ struct YesNoStack: View {
                 Spacer()
                 YesNoButton(
                     id: 1, title: "Yes", width: proxy.size.width * 0.8,
-                    completion: selectButton(id:)
+                    completion: { btn in boundState = .yes; btn.isChecked = true }
                 )
-//                .frame(height: proxy.size.height * 0.5)
-//                Spacer(minLength: 8)
+
+/*
+ NO NO NO.
+ We want the stack to have a single state.
+ (What do I mean by that?)
+
+ */
+
+
+
                 YesNoButton(
                     id: 2, title: "No", width: proxy.size.width * 0.8,
-                    completion: selectButton(id:))
+                    completion: { _ in boundState = .no  })
                 .frame(height: proxy.size.height * 0.45)
                 Spacer()
             }
@@ -81,9 +83,8 @@ struct YesNoStack_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .center) {
             Spacer()
-            YesNoStack(boundState: ynuState.$answer
-                       , completion: {state in last = state.description})
-            .frame(height: 100, alignment: .center)
+            YesNoStack(boundState: ynuState.$answer)
+                .frame(height: 100, alignment: .center)
             Spacer()
             Text("The setting is \(last)")
         }
