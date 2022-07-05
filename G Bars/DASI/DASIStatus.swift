@@ -89,6 +89,22 @@ enum DASIPhase {
     }
 }
 
+extension DASIPhase: Equatable {
+    static func == (lhs: DASIPhase, rhs: DASIPhase) -> Bool {
+        switch (lhs, rhs) {
+        case (.intro, .intro), (.completion, completion):
+            return true
+#if G_BARS
+        case (.display, .display):
+            return true
+#endif
+        case (.responding(let i), .responding(let j)):
+            return i == j
+        default: return false
+        }
+    }
+}
+
 // MARK: - DASIStatus
 /// View model embodying the progress and responses for the DASI survey.
 ///
@@ -99,8 +115,8 @@ final class DASIStatus: ObservableObject {
     @Published var responses: [AnswerState]
     @Published var currentPhase: DASIPhase
 
-    init(existingAnswers: [AnswerState] = []) {
-        currentPhase = .intro
+    init(phase: DASIPhase = .intro, existingAnswers: [AnswerState] = []) {
+        currentPhase = phase
 
         if existingAnswers.isEmpty {
             responses = [AnswerState](repeating: .unknown, count: Self.dasiQuestions.count)
@@ -115,6 +131,7 @@ final class DASIStatus: ObservableObject {
     /// Advance the `DASIPhase` cursor.
     ///
     /// The client/caller must be sure to record the user's response before removing the focus from the question being answered.
+    @discardableResult
     func advance() -> DASIPhase {
         currentPhase = currentPhase.advance() ?? .completion
         return currentPhase
@@ -123,6 +140,7 @@ final class DASIStatus: ObservableObject {
     /// Retard the `DASIPhase` cursor.
     ///
     /// The client/caller must be sure to record the user's response before removing the focus from the question being answered.
+    @discardableResult
     func decrement() -> DASIPhase {
         currentPhase = currentPhase.decrement() ?? .intro
         return currentPhase
