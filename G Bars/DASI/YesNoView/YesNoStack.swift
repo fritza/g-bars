@@ -14,8 +14,6 @@ import SwiftUI
  */
 
 struct YesNoStack: View {
-    typealias AnswerVoid = ((AnswerState) -> Void)
-
     /// The currently-selected AnswerState; client code provides a binding to the value.
     @Binding var boundState: AnswerState
     let selectionCallback: (AnswerState) -> Void
