@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DASIQuestionNavigationView: View {
+    @EnvironmentObject var status: DASIStatus
+
     @State var displayedID: Int
     @State var currentAnswerState: AnswerState
 
@@ -23,14 +25,16 @@ struct DASIQuestionNavigationView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Next →") {
-                    displayedID += 1
-                    currentAnswerState = .unknown
+                    status.advance()
+//                    displayedID += 1
+//                    currentAnswerState = .unknown
                 }
                     .disabled(displayedID >= DASIQuestion.questions.count)
             }
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("← Back") {
-                    displayedID -= 1
+                    status.decrement()
+//                    displayedID -= 1
                     currentAnswerState = .unknown
                 }
                     .disabled(displayedID <= 1)
@@ -49,5 +53,6 @@ struct DASIQuestionNavigationView_Previews: PreviewProvider {
                 displayedID: 2,
                 currentAnswerState: currentAnswer)
         }
+        .environmentObject(DASIStatus(phase: .responding(index: 2)))
     }
 }
