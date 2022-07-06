@@ -28,6 +28,7 @@
 		1F57E81028749AE800FFB840 /* DASIStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E80F28749AE800FFB840 /* DASIStatus.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */; };
 		1F57E8152874D57400FFB840 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
+		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* ContentView.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
@@ -91,6 +92,7 @@
 		1F57E80F28749AE800FFB840 /* DASIStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIStatus.swift; sourceTree = "<group>"; };
 		1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialViews.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
+		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				1F57E808286F74D100FFB840 /* Views */,
 				1F26AFC2286E27DF00586654 /* ForwardBackBar.swift */,
 				1F26AFBE286E22CF00586654 /* DASIPages.swift */,
+				1F707E6F28761ACB0099E398 /* ValueController */,
 			);
 			path = DASI;
 			sourceTree = "<group>";
@@ -183,6 +186,14 @@
 				1F26AFBA286E21A900586654 /* DASIOnboardView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1F707E6F28761ACB0099E398 /* ValueController */ = {
+			isa = PBXGroup;
+			children = (
+				1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */,
+			);
+			path = ValueController;
 			sourceTree = "<group>";
 		};
 		1FCB95A9286CD37700DE9DD0 = {
@@ -417,6 +428,7 @@
 				1F26AFAF286E205400586654 /* DASIUserResponse.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F57E80A286F773600FFB840 /* DASIQuestionNavigationView.swift in Sources */,
+				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
 				1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */,
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
