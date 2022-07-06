@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+/*
+ NOTE (2022-07-06):
+
+ There should be separate views between
+ intro (same as conclusion)
+ responses
+ display
+ conclusion (same as intro)
+ */
+
 // MARK: - DASIStatus
 /// View model embodying the progress and responses for the DASI survey.
 ///
@@ -19,7 +29,6 @@ final class DASIStatus: ObservableObject {
 
     init(phase: DASIPhase = .intro, existingAnswers: [AnswerState] = []) {
         currentPhase = phase
-
         if existingAnswers.isEmpty {
             responses = [AnswerState](repeating: .unknown, count: Self.dasiQuestions.count)
         }
