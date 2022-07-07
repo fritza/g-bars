@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(*, obsoleted: 0.0.0, message: "Now using navigation tool buttons.")
 struct ForwardBackBar: View {
     let wantForward: Bool
     let wantBack: Bool

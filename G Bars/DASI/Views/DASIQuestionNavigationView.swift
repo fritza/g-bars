@@ -32,7 +32,7 @@
  */
 
 import SwiftUI
-
+@available(*, obsoleted: 0.0.0, "Use SurveyContainerView.")
 struct DASIQuestionNavigationView: View {
     @EnvironmentObject var status: DASIResponseStatus
     //    @State var currentAnswerState: AnswerState
