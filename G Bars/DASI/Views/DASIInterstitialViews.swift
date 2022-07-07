@@ -24,12 +24,35 @@ Tap "Confirm" to record your responses and end the survey.
 """
 
 struct DASIInterstitialView: View {
-    @EnvironmentObject var status: DASIStatus
+    @EnvironmentObject var status: DASIResponseStatus
 
     let titleText: String
     let bodyText: String
     let systemImageName: String
     let continueTitle: String
+
+    let phase: DASIPhase
+
+    @ViewBuilder
+    func withToolbar<V: View>(original: V) -> some View {
+        if phase == .intro {
+            original
+        }
+        else {
+            original
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("← Back") {
+
+                            // FIXME: handle the back button.
+                            // SEE ALSO: DASIQuestionNavigationView
+                            //           which also has next/back buttons.
+                            // The wrapper approach is better because it can choose among the interstitials and questions.
+                        }
+                    }
+                }
+        }
+    }
 
     var body: some View {
         let gm = GeometryReader { proxy in
@@ -52,41 +75,35 @@ struct DASIInterstitialView: View {
             }
             .navigationTitle(titleText)
         }
-        if status.currentPhase != .intro {
-            return AnyView(
-                gm
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("← Back") {
-                                status.decrement()
-                            }
-                            //                        .disabled(status.currentPhase == .intro)
-                        }
-                    }
-            )}
-        else { return AnyView(gm) }
+
+        withToolbar(original: gm)
     }
 }
 
 struct DASIInterstitialView_Previews: PreviewProvider {
+    static let responseList: [AnswerState] = [
+        .yes, .yes, .no, .no, .yes, .no
+        ]
 
     static var previews: some View {
         NavigationView {
             DASIInterstitialView(titleText: "Finished",
                                  bodyText: completionPhaseText,
                                  systemImageName: "checkmark.square",
-                                 continueTitle: "Confirm")
+                                 continueTitle: "Confirm",
+                                 phase: .completion)
             .padding()
         }
-        .environmentObject(DASIStatus(phase: .completion))
+        .environmentObject(DASIResponseStatus(from: responseList))
 
         NavigationView {
             DASIInterstitialView(titleText: "Survey",
                                  bodyText: introPhaseText,
                                  systemImageName: "checkmark.square",
-                                 continueTitle: "Continue")
+                                 continueTitle: "Continue",
+                                 phase: .intro)
             .padding()
         }
-        .environmentObject(DASIStatus(phase: .intro))
+        .environmentObject(DASIResponseStatus(from: responseList))
     }
 }

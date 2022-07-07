@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct DASIQuestionItemView: View {
-    let content: DASIQuestion
+    let content: String
 
-    internal init(content: DASIQuestion) {
+    internal init(content: String) {
         self.content = content
     }
 
     var body: some View {
-        Text(content.text)
+        Text(content)
             .font(.title)
             .minimumScaleFactor(0.5)
     }
@@ -25,7 +25,10 @@ struct DASIQuestionItemView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             ForEach(2..<8) { index in
-                DASIQuestionItemView(content: DASIQuestion.questions[index])
+                DASIQuestionItemView(content:
+                                        "For Rent, see Owner."
+                                        //DASIQuestion.questions[index]
+                )
             }
         }
     }

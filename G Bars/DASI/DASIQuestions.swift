@@ -119,7 +119,7 @@ public struct DASIQuestion: Identifiable, Codable, Comparable {
     public static func <  (lhs: DASIQuestion, rhs: DASIQuestion) -> Bool { lhs.id <  rhs.id }
 }
 
-extension DASIQuestion {
+extension DASIQuestion: Equatable {
     /// The question whose `id` comes after `self`'s `id.
     ///
     /// Does not mutate.

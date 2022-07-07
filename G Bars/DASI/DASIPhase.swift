@@ -32,7 +32,7 @@ enum DASIPhase {
         switch self {
         case .intro:
             return .responding(index: 1)
-        case .responding(let index) where index < DASIStatus.dasiQuestions.count:
+        case .responding(let index) where index < DASIResponseStatus.dasiQuestions.count:
             return .responding(index: index+1)
 #if G_BARS
         case .responding:
@@ -69,7 +69,7 @@ enum DASIPhase {
             return .responding(index: index - 1)
 #if G_BARS
         case .display:
-            return .responding(index: DASIStatus.dasiQuestions.count)
+            return .responding(index: DASIResponseStatus.dasiQuestions.count)
         case .completion:
             return .display
 #else

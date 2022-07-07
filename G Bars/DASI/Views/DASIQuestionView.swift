@@ -13,50 +13,28 @@ import SwiftUI
 ///  _That is all._ The parent `View` gets a callback when the selection is made.
 ///  There is also a bound ``AnswerState`` to set and report the current selectioin.
 struct DASIQuestionView: View {
-    // @EnvironmentObject var status: DASIStatus
-
-    @Binding var answerState: AnswerState
-    let question: DASIQuestion
-    let onSelection: ((DASIQuestion, AnswerState) -> Void)?
-
-    init(question: DASIQuestion, state: Binding<AnswerState>,
-         onSelection: ((DASIQuestion, AnswerState) -> Void)? = nil) {
-        self.question = question
-        self._answerState = state
-        self.onSelection = onSelection
-    }
-
-    // FIXME: Verify that the report contents don't go away
-    // before it's time to report.
+    @EnvironmentObject var responseStatus: DASIResponseStatus
     var body: some View {
-        return VStack(alignment: .leading) {
-            Text(question.text)
+        VStack(alignment: .leading) {
+            Text(responseStatus.currentQuestion.text)
                 .font(.title)
                 .minimumScaleFactor(0.5)
-            .padding()
-            Spacer()
-            YesNoStack(
-                boundState: self.$answerState) {
-                    onSelection?(question, $0)
-                }
-            .frame(height: 130)
             .padding()
         }
 
         .navigationTitle(
-            "Survey — \(question.id)"
+            "Survey — \(responseStatus.currentIndex + 1)"
         )
     }
 }
 
 struct DASIQuestionView_Previews: PreviewProvider {
-    @State static var aState: AnswerState = .unknown
     static var previews: some View {
         NavigationView {
-            DASIQuestionView(question: DASIQuestion.questions[2],
-                             state: $aState)
-            //, onSelection: { q, a in
-//            })
+            DASIQuestionView()
         }
+        .environmentObject(DASIResponseStatus(
+            from: [ .yes, .yes, .no, .no, .yes, .no ]
+        ))
     }
 }
