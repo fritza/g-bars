@@ -126,7 +126,7 @@ extension DASIQuestion: Equatable {
     /// - returns: the succeeding `DASIQuestion`, or `nil` if there is no question in range.
     public var next: DASIQuestion? {
         let proposedQuestionID = id + 1
-        guard DASIStages.indexRange.contains(proposedQuestionID) else { return nil }
+        guard DASIPhase.isALegalQuestionNumber(proposedQuestionID) else { return nil }
         return Self.with(id: proposedQuestionID)
     }
 
@@ -136,7 +136,7 @@ extension DASIQuestion: Equatable {
     /// - returns: the preceding `DASIQuestion`, or `nil` if there is no question in range.
     public var previous: DASIQuestion? {
         let proposedQuestionID = id - 1
-        guard DASIStages.indexRange.contains(proposedQuestionID) else { return nil }
+        guard DASIPhase.isALegalQuestionNumber(proposedQuestionID) else { return nil }
         return Self.with(id: proposedQuestionID)
     }
 }

@@ -50,6 +50,7 @@ enum DASIPhase {
 
     /// Mutate self to the next phase to be presented.
     /// - returns: The next phase as returned by `successor()`, or `nil` if there is none (current phase is `.completion`).
+    @discardableResult
     mutating func advance() -> DASIPhase? {
         guard let next = successor() else { return nil }
         self = next
@@ -82,6 +83,7 @@ enum DASIPhase {
     /// Mutate self to the previous phase to be presented.
     /// - note: See comment on ``DASIPhase`` as to nomenclature.
     /// - returns: The previous phase as returned by `successor()`, or `nil` if there is none (current phase is `.intro`).
+    @discardableResult
     mutating func decrement() -> DASIPhase? {
         guard let previous = predecessor() else { return nil }
         self = previous
@@ -89,7 +91,34 @@ enum DASIPhase {
     }
 }
 
-extension DASIPhase: Equatable {
+extension DASIPhase {
+    /// Whether this phase is `.responding` rather than `.intro`, `.display`, or `.completion`
+    var refersToQuestion: Bool {
+        if case DASIPhase.responding(index: _) = self {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    /// If this phase refers to a question, the number of the question, or `nil` if not a question.
+    var questionNumber: Int? {
+        if case DASIPhase.responding(index: let index) = self {
+            return index
+        }
+        return nil
+    }
+
+    static let startIndex = 0
+    static let endIndex   = DASIQuestion.questions.count
+    static let indexRange = (startIndex ..< endIndex)
+    static func isALegalQuestionNumber(_ number: Int) -> Bool {
+        indexRange.contains(number)
+    }
+}
+
+extension DASIPhase: Hashable {
     static func == (lhs: DASIPhase, rhs: DASIPhase) -> Bool {
         switch (lhs, rhs) {
         case (.intro, .intro), (.completion, completion):
@@ -101,6 +130,17 @@ extension DASIPhase: Equatable {
         case (.responding(let i), .responding(let j)):
             return i == j
         default: return false
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .intro: hasher.combine(1)
+        case .completion: hasher.combine(2)
+        case .display: hasher.combine(3)
+        case .responding(index: let index):
+            hasher.combine(4)
+            hasher.combine(index)
         }
     }
 }

@@ -7,11 +7,7 @@
 
 import SwiftUI
 
-/// A View that presents a ``DASIQuestion`` (text, id) and the response.
-///
-/// Displays the content in a `Text`, and a ``YesNoStack`` for the response.
-///  _That is all._ The parent `View` gets a callback when the selection is made.
-///  There is also a bound ``AnswerState`` to set and report the current selectioin.
+/// A View that presents a ``DASIQuestion`` (text, id). It does not have any active (e.g. button) content.
 struct DASIQuestionView: View {
     @EnvironmentObject var responseStatus: DASIResponseStatus
     var body: some View {

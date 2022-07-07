@@ -24,16 +24,16 @@ import Combine
 final class DASIPages: ObservableObject
 // , SubjectIDDependent
 {
-    @Published var selected: DASIStages!
+    @Published var selected: DASIPhase!
     @Published var refersToQuestion: Bool
 
-    init(_ selection: DASIStages = .landing) {
+    init(_ selection: DASIPhase = .intro) {
         selected = selection
         refersToQuestion = selection.refersToQuestion
     }
 
     func teardownFromSubjectID() async throws -> DASIPages? {
-        let newSelection = DASIStages.landing
+        let newSelection = DASIPhase.intro
         selected = newSelection
         refersToQuestion = newSelection.refersToQuestion
         return self
@@ -43,20 +43,20 @@ final class DASIPages: ObservableObject
     ///
     /// At the end of the question pages, this should advance to `.completion`. There is no increment from `.completion`.
     func increment() {
-        selected.goForward()
+        selected.advance()
         refersToQuestion = selected.refersToQuestion
     }
 
     /// Reflect the selection of the previous page.
     ///
-    /// From the start of the question pages, this should regress to `.landing`. There is no decrement from `.landing`.
+    /// From the start of the question pages, this should regress to `.intro`. There is no decrement from `.intro`.
     func decrement() {
-        selected.goBack()
+        selected.decrement()
         refersToQuestion = selected.refersToQuestion
     }
 
     var questionIdentifier: Int? {
-        guard let containedID = selected.questionIdentifier else {
+        guard let containedID = selected.questionNumber else {
             return nil
 //            preconditionFailure(
 //                "selected wasn't a .presenting.")

@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-private let introPhaseText = """
+// TODO: Store this text somewhere like a plist
+let introPhaseText = """
 The following questions ask about your ability to perform routine and recreational tasks. This is the only time you will be asked to complete this survey; use the "Next" and "Back" buttons to review your answers, as you will not be able to change them once the survay is complete.
 
 Tap "Continue" to start the survey.
 """
 
-private let completionPhaseText = """
+let completionPhaseText = """
 You have completed the survey.
 
 This is the only time you will be asked to respond to this survey; you will not be able to change your answers once the survay is complete.

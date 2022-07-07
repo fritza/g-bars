@@ -7,15 +7,14 @@
 
 import SwiftUI
 
-struct SurveyContainerView: View {
-    @StateObject var contentEnvt: DASIPages = DASIPages() // RootState.shared.dasiContent
-    // FIXME: Too many EnvironmentObjects
 
-    #if G_BARS
-    @StateObject var dasiResponses = DASIResponseList()
-    #else
-    static let dasiResponses = DASIResponseList()
-    #endif
+// TODO: Put `DASIResponseStatus` into the environment
+//       originating at the App level.
+// TODO: Put DASIPages into the environment
+/// Host to `NavigationLink`s that display interstitials and DASI questions.
+struct SurveyContainerView: View {
+    @EnvironmentObject var dasiResponses: DASIResponseStatus
+    @EnvironmentObject var contentEnvt: DASIPages
 
     @State var currentAnswer: AnswerState = .unknown
 
@@ -28,29 +27,33 @@ struct SurveyContainerView: View {
                 Button("RATS Next") {
                     assert(contentEnvt.selected != nil)
 //                    contentEnvt.selected =
-                    contentEnvt.selected?.goForward()
+                    contentEnvt.selected!.advance()
                 }
                 NavigationLink(
                     isActive: $contentEnvt.refersToQuestion,
                     destination: {
                         // FIXME: Dummied-in just to save the compiler error.
-                        DASIQuestionView(question: DASIQuestion.questions[2], state: $currentAnswer, onSelection: { q, a in
-                        })
+                        DASIQuestionView()
                         .navigationBarBackButtonHidden(true)
                     },
 
                     label: { EmptyView() }
                 )
                 NavigationLink(
-                    tag: DASIStages.landing,
+                    tag: DASIPhase.intro,
                     selection: $contentEnvt.selected,
                     destination: {
-                        DASIOnboardView()
-                        .navigationBarBackButtonHidden(true)
+                        DASIInterstitialView(
+                            titleText: "Finished", bodyText: introPhaseText,
+                            systemImageName: "checkmark.square",
+                            continueTitle: "Continue",
+                            phase: .intro)
+//                        DASIOnboardView()
+//                        .navigationBarBackButtonHidden(true)
                 },
                                label: {EmptyView()}
                 )
-                NavigationLink(tag: DASIStages.completion,
+                NavigationLink(tag: DASIPhase.completion,
                                selection: $contentEnvt.selected,
                                destination: {
                     DASICompleteView()
@@ -78,16 +81,15 @@ struct SurveyContainerView: View {
                 }
                 #endif
             }
-            #if G_BARS
-            .environmentObject(dasiResponses)
-            #endif
         }
     }
 }
 
 struct SurveyContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        SurveyContainerView(contentEnvt: DASIPages(.landing))
+        SurveyContainerView()
+            .environmentObject(DASIResponseStatus())
+            .environmentObject(DASIPages())
     }
 }
 
