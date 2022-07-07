@@ -37,18 +37,9 @@ fileprivate var nextSteps: String {
 // FIXME: Should there be a Back button?
 
 struct DASICompleteView: View {
-    @EnvironmentObject var envt: DASIPages
-#if G_BARS
+//    @EnvironmentObject var envt: DASIPages
     @EnvironmentObject var reportContents: DASIResponseList
     @EnvironmentObject var contentEnvt: DASIPages
-#else
-    // FIxME: Take contents from global, not .environmentObject.
-    var reportContents: DASIResponseList {
-        RootState.shared.dasiResponses
-    }
-    @EnvironmentObject private var rootState: RootState
-    #endif
-
 
 
     var allItemsAnswered: Bool {

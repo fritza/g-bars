@@ -16,19 +16,29 @@ final class DASIResponseStatus: ObservableObject {
     var currentIndex: Int
     /// The workflow progress through the questions. **ONE INDEXED**
     var currentPhase: DASIPhase {
-        return .responding(currentIndex + 1)
+        return .responding(index: currentIndex + 1)
     }
 
-    @Published var currentValue: AnswerState {
-        didSet {
-            allAnswers[currentIndex] = currentValue
+    var currentValue: AnswerState {
+        get {
+            allAnswers[currentIndex]
+        }
+        set {
+            allAnswers[currentIndex] = newValue
         }
     }
+
     /// Cursor through the lists of questions and responses. **ZERO INDEXED**
     static let dasiQuestions: [DASIQuestion] = DASIQuestion.questions
+    var currentQuestion: DASIQuestion { Self.dasiQuestions[currentIndex] }
 
-    init(from existing: [AnswerState], index: Int = 0) {
-        allAnswers = existing
+    init(from existing: [AnswerState] = [], index: Int = 0) {
+        if existing.isEmpty {
+            allAnswers = [AnswerState](repeating: .unknown, count: DASIQuestion.questions.count)
+        }
+        else {
+            allAnswers = existing
+            }
         currentIndex = index
         currentValue = existing[index]
     }
@@ -38,7 +48,6 @@ final class DASIResponseStatus: ObservableObject {
     func advance() {
         if canAdvance {
             currentIndex += 1
-            currentValue = allAnswers[currentIndex]
         }
     }
 
@@ -46,7 +55,17 @@ final class DASIResponseStatus: ObservableObject {
     func retreat() {
         if canRetreat {
             currentIndex -= 1
-            currentValue = allAnswers[currentIndex]
         }
+    }
+
+    var unknownIdentifiers: [Int] {
+        let retval = allAnswers.enumerated()
+            .filter { pair in pair.1 == .unknown }
+            .map { pair in pair.0+1 }
+        return retval
+    }
+
+    var firstUnknownIdentifier: Int? {
+        unknownIdentifiers.first
     }
 }
