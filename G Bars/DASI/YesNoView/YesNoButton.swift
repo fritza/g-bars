@@ -9,33 +9,34 @@ import SwiftUI
 
 
 // MARK: - YesNoButton
-struct YesNoButton: View {
-    let id: AnswerState
-    var value: AnswerState { id }
+struct YesNoButton: View, Identifiable {
+    let isSelected: Bool
+
+    /// Convenience value for identifying the button when it's tapped.
+    let id: Int
     /// The `String` to display, possibly in addition to a checkmark
     let title: String
     /// Callback to notify the client of a click.
-    let completion: ((AnswerState) -> Void)?
+    let completion: (YesNoButton) -> Void
 
-    /// Global state (display a checkmark in the title if self,id is the same))
-    let selectedState: AnswerState
+    let fittingSize: CGSize
 
-    let enclosingWidth: CGFloat
+    //    let enclosingWidth: CGFloat
 
-    init(state: AnswerState, title: String, currentSelection: AnswerState,
-         width: CGFloat,
-         completion: ( (AnswerState) -> Void)? ) {
-        self.id = state
+    init(_ title: String, identifier: Int, selected: Bool,
+         fittingSize: CGSize,
+         completion: @escaping (YesNoButton) -> Void) {
         self.title = title
+        self.id = identifier
+        self.isSelected = selected
+        self.fittingSize = fittingSize
         self.completion = completion
-        self.selectedState = currentSelection
-        enclosingWidth = width
+        //        enclosingWidth = width
     }
-
     /// Label for the button, depending on whether the button is selected.
-    @ViewBuilder func checkedLabelView(text: String )
+    @ViewBuilder func checkedLabelView(text: String)
     -> some View {
-        if id == selectedState {
+        if isSelected {
             HStack(alignment: .center) {
                 Image(systemName: "checkmark.circle")
                 Text(text)
@@ -56,34 +57,31 @@ struct YesNoButton: View {
             Button(
                 action: {
                     /// Upon tao, tell the client via callback
-                    completion?(self.value)
+                    completion(self)
                 },
                 label: {
                     /// Checked or unchecked label
                     checkedLabelView(text: title)
-                        .frame(width: enclosingWidth)
+                        .frame(width: fittingSize.width
+                               , height: fittingSize.height)
                 })
         }        .buttonStyle(.bordered)
-
     }
 }
 
 // MARK: - Previews
 struct YesNoButton_Previews: PreviewProvider {
-    static let currently: AnswerState = .yes
+    @State static var currently: Int = 2
+    static let bSize = CGSize(width: 320, height: 40)
     static var previews: some View {
-        YesNoButton(state: .yes, title: "Often",
-                    currentSelection: currently,  width: 330) {
-            btn in
-        }
-        .padding()
-        .frame(width: 400, height: 80, alignment: .center)
-        YesNoButton(state: .no, title: "Rarely",
-                    currentSelection: currently,  width: 330) {
-            btn in
-        }
-        .padding()
-        .frame(width: 400, height: 80, alignment: .center)
-        
+        YesNoButton("Often", identifier: 1,
+                    selected: currently == 1,
+                    fittingSize: bSize)
+                    { currently = $0.id }
+
+        YesNoButton("Rarely", identifier: 2,
+                    selected: currently == 2,
+                    fittingSize: bSize)
+        { currently = $0.id }
     }
 }

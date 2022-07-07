@@ -15,43 +15,38 @@ import SwiftUI
 
 struct YesNoStack: View {
     /// The currently-selected AnswerState; client code provides a binding to the value.
-    @Binding var boundState: AnswerState
-    let selectionCallback: (AnswerState) -> Void
-
-    init(boundState: Binding<AnswerState>,
-         onSelection selected: @escaping (AnswerState) -> Void) {
+    @Binding var boundState: Int
+    init(boundState: Binding<Int>) {
         self._boundState = boundState
-        selectionCallback = selected
     }
 
-    func set(value: AnswerState) {
+    static let bSize = CGSize(width: 320, height: 40)
+
+    func set(value: Int) {
         boundState = value
-        selectionCallback(value)
     }
 
-    func yesNoButton(value: AnswerState, label: String,
-                     in width: CGFloat) -> some View {
-        YesNoButton(
-            state: value, title: label,
-            currentSelection: boundState,
-            width: width * 0.8,
-            completion: { set(value: $0) }
-        )
+    func yesNoButton(_ buttonTitle: String, identifier: Int,
+                     selected: Bool, inSize size: CGSize
+                     ) -> some View {
+        YesNoButton(buttonTitle, identifier: identifier,
+                    selected: selected,
+                    fittingSize: Self.bSize) { button in
+            set(value: button.id)
+        }
     }
 
     var body: some View {
         GeometryReader { proxy in
-            VStack {
+            VStack(alignment: .center) {
                 Spacer()
-                yesNoButton(value: .yes, label: "Yes",
-                            in: proxy.size.width)
-                yesNoButton(value: .no, label: "No",
-                            in: proxy.size.width)
+                yesNoButton("Yes", identifier: 1, selected: boundState == 1, inSize: proxy.size)
+                yesNoButton("No" , identifier: 2, selected: boundState == 2, inSize: proxy.size)
                 Spacer()
             }
+
             .padding()
         }
-        .animation(.easeInOut, value: boundState)
     }
 }
 
@@ -72,16 +67,15 @@ final class YNUState: ObservableObject, CustomStringConvertible {
 }
 
 struct YesNoStack_Previews: PreviewProvider {
-    @State static var ynuState: AnswerState = .yes
+    @State static var ynuState: Int = 1
     @State static var last: String = "NONE"
 
     static var previews: some View {
         VStack(alignment: .center) {
             Spacer()
-            YesNoStack(boundState: $ynuState) { _ in }
-                .frame(height: 100, alignment: .center)
+            YesNoStack(boundState: $ynuState)
             Spacer()
-            Text("The setting is \(ynuState.description)")
+            Text("The setting is \(ynuState)")
         }
     }
 }
