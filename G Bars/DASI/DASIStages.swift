@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - DASIStages
 
+@available(*, obsoleted: 0.0.0, message: "Replaced with DASIPhase")
 /// Application of `QuestionID` to navigation through the stages of the DASI phase of the app. The intended use is a `@State` or a `@StateObject` property to be bound to the root survey view. The child views set the value, the root changes the view binding.
 ///
 ///

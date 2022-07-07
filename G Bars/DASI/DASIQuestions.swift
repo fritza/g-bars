@@ -91,6 +91,9 @@ public struct DASIQuestion: Identifiable, Codable, Comparable {
     public let score: Double
 
     // WARNING: the ID is 1-based
+    /// Load an array of `DASIQuestion` from JSON.
+    ///
+    /// - note: The indices of the questions are **one-based**.
     public static let questions: [DASIQuestion] = {
         guard let dasiURL = Bundle.main.url(
             forResource: Self.jsonBasename, withExtension: "json") else {

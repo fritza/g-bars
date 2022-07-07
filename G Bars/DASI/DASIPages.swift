@@ -16,8 +16,6 @@ import Combine
 /// Used in:
 /// - `SurveyContainerView`
 /// - `DASIQuestionView`
-/// - `DASICompleteView`
-/// - `DASIOnboardView`
 /// - `SurveyContainerView`
 /// - `YesNoButton` (**Pull out as a dependency?**
 /// - `ApplicationOnboardView` (**Wrong Place**)
@@ -32,12 +30,12 @@ final class DASIPages: ObservableObject
         refersToQuestion = selection.refersToQuestion
     }
 
-    func teardownFromSubjectID() async throws -> DASIPages? {
-        let newSelection = DASIPhase.intro
-        selected = newSelection
-        refersToQuestion = newSelection.refersToQuestion
-        return self
-    }
+//    func teardownFromSubjectID() async throws -> DASIPages? {
+//        let newSelection = DASIPhase.intro
+//        selected = newSelection
+//        refersToQuestion = newSelection.refersToQuestion
+//        return self
+//    }
 
     /// Reflect the selection of the next page.
     ///

@@ -45,17 +45,8 @@ The `String` returned by `csvDASIRecords` can be converted to `Data`, and writte
 
 */
 
-// MARK: - DASIReportErrors
-enum DASIReportErrors: Error {
-    case wrongDataType(UTType)
-    case notRegularFile
-    case noReadableReport
-    case missingDASIHeader(String)
-    case wrongNumberOfResponseElements(Int, Int)
-    case outputHandleNotInitialized
-    case couldntCreateDASIFile
-}
 
+@available(*, obsoleted: 0.0.0, message: "replaced with DASIResponseStatus")
 // MARK: - DASIResponseList
 /// Responses to all DASI questions. Records changes to each response. Encodes the response list into the data for a CSV file. This is the data model _only,_ without regard for how it is to be stored.
 ///

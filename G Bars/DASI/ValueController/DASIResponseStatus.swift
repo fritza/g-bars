@@ -7,6 +7,23 @@
 
 import Foundation
 
+protocol CSVRepresentable {
+    func csvLine() throws -> String?
+}
+
+// MARK: - DASIReportErrors
+enum DASIReportErrors: Error {
+//    case wrongDataType(UTType)
+    case notRegularFile
+    case noReadableReport
+    case missingDASIHeader(String)
+    case dasiResponsesIncomplete
+    case wrongNumberOfResponseElements(Int, Int)
+    case outputHandleNotInitialized
+    case couldntCreateDASIFile
+}
+
+
 /// Provide content to DASI response views.
 ///
 /// Intended to be an `@EnvironmentObject` for those views.
@@ -67,5 +84,35 @@ final class DASIResponseStatus: ObservableObject {
 
     var firstUnknownIdentifier: Int? {
         unknownIdentifiers.first
+    }
+}
+
+extension DASIResponseStatus: CSVRepresentable {
+    func csvLine() throws -> String? {
+        guard firstUnknownIdentifier != nil else {
+            throw DASIReportErrors.dasiResponsesIncomplete
+        }
+
+        guard let subjectID = SubjectID.shared.subjectID else {
+            assertionFailure("No subject ID, shouldn't get to \(#function) in the first place.")
+            return nil
+        }
+
+        let firstTimestamp = Date().timeIntervalSince1960.rounded
+
+        let numberedResponses = allAnswers.enumerated()
+            .map {
+                    String(describing: $0)
+                    + ","
+                    + String(describing: $1)
+            }
+
+        let components: [String] =
+        [subjectID] + [firstTimestamp] + numberedResponses
+
+        assert(components.count == 2+DASIQuestion.count,
+               "Expected \(2+DASIQuestion.count) response items, got \(components.count)")
+
+        return components.joined(separator: ",")
     }
 }

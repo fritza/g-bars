@@ -58,12 +58,15 @@ final class DASIStatus: ObservableObject {
     }
 
     // MARK: Access to responses
+    /// The **zero-based** index of the response currently in work.
     var currentResponseIndex: Int? {
         guard case .responding(let questionID) = currentPhase else { return nil }
         return questionID
     }
 
     /// The response to the `position`th question. `currentResponseIndex` need not be a `.responding`.
+    ///
+    ///  - warning: The index is **zero-based**.
     subscript(position: Int) -> AnswerState {
         get {
             precondition((1...Self.dasiQuestions.count).contains(position))
