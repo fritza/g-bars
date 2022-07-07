@@ -20,7 +20,6 @@
 		1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC5286E27FB00586654 /* YesNoButton.swift */; };
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
-		1F57E80A286F773600FFB840 /* DASIQuestionNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
@@ -415,7 +414,6 @@
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1F26AFAF286E205400586654 /* DASIUserResponse.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
-				1F57E80A286F773600FFB840 /* DASIQuestionNavigationView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
 				1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */,
