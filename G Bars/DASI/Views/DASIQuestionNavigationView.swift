@@ -34,36 +34,27 @@
 import SwiftUI
 
 struct DASIQuestionNavigationView: View {
-    @EnvironmentObject var status: DASIStatus
+    @EnvironmentObject var status: DASIResponseStatus
     //    @State var currentAnswerState: AnswerState
 
     var body: some View {
-        DASIQuestionView(
-            question: DASIQuestion.questions[status.currentResponseIndex ?? 0],
-            state: $status.responses[status.currentResponseIndex!]
-        )
-        // It _looks_ like merely setting the response
-        // can trigger advance().
-        .onChange(of: status.responses[status.currentResponseIndex!], perform: { _ in  status.advance() })
+        DASIQuestionView()
+        
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Next →") {
-                    // If the binding works as I hope,
-                    // there's no need to sync-up the stored value.
                     status.advance()
                 }
-                .disabled(status.currentResponseIndex ?? 0 >= DASIQuestion.questions.count)
+                .disabled(!status.canAdvance)
             }
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("← Back") {
-                    // If the binding works as I hope,
-                    // there's no need to sync-up the stored value.
-                    status.decrement()
+                    status.retreat()
                 }
-                .disabled(status.currentResponseIndex ?? 0 <= 1)
+                .disabled(!status.canRetreat)
             }
         }
-        .animation(.easeInOut, value: status.currentResponseIndex)
+//        .animation(.easeInOut, value: status.currentResponseIndex)
     }
 }
 
@@ -71,7 +62,7 @@ struct DASIQuestionNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             DASIQuestionNavigationView()
-                .environmentObject(DASIStatus(phase: .responding(index: 2)))
+                .environmentObject(DASIResponseStatus(from: [ .yes, .yes, .no, .no, .yes, .no ]))
         }
     }
 }

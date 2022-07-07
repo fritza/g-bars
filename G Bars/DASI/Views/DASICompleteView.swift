@@ -36,6 +36,7 @@ fileprivate var nextSteps: String {
 
 // FIXME: Should there be a Back button?
 
+@available(*, obsoleted: 0.0.0, message: "Replaced with DASIInterstitialView")
 struct DASICompleteView: View {
 //    @EnvironmentObject var envt: DASIPages
     @EnvironmentObject var reportContents: DASIResponseList
