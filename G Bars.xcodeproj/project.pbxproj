@@ -65,20 +65,13 @@
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1F26AFAC286E203300586654 /* DASIQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DASIQuestions.json; sourceTree = "<group>"; };
 		1F26AFAE286E205400586654 /* DASIUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIUserResponse.swift; sourceTree = "<group>"; };
-		1F26AFB0286E209800586654 /* DASIResponseList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseList.swift; sourceTree = "<group>"; };
 		1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIQuestionView.swift; sourceTree = "<group>"; };
 		1F26AFB4286E214A00586654 /* DASIQuestions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIQuestions.swift; sourceTree = "<group>"; };
 		1F26AFB6286E217300586654 /* SurveyContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyContainerView.swift; sourceTree = "<group>"; };
-		1F26AFB8286E219600586654 /* DASICompleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASICompleteView.swift; sourceTree = "<group>"; };
-		1F26AFBA286E21A900586654 /* DASIOnboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIOnboardView.swift; sourceTree = "<group>"; };
 		1F26AFBC286E226600586654 /* SubjectID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectID.swift; sourceTree = "<group>"; };
 		1F26AFBE286E22CF00586654 /* DASIPages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIPages.swift; sourceTree = "<group>"; };
-		1F26AFC0286E23E300586654 /* DASIStages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIStages.swift; sourceTree = "<group>"; };
-		1F26AFC2286E27DF00586654 /* ForwardBackBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForwardBackBar.swift; sourceTree = "<group>"; };
 		1F26AFC5286E27FB00586654 /* YesNoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoButton.swift; sourceTree = "<group>"; };
 		1F26AFC6286E27FB00586654 /* YesNoStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoStack.swift; sourceTree = "<group>"; };
-		1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIQuestionNavigationView.swift; sourceTree = "<group>"; };
-		1F57E80F28749AE800FFB840 /* DASIStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIStatus.swift; sourceTree = "<group>"; };
 		1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialViews.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
@@ -138,14 +131,10 @@
 				1F26AFC4286E27FB00586654 /* YesNoView */,
 				1F26AFAC286E203300586654 /* DASIQuestions.json */,
 				1F26AFB4286E214A00586654 /* DASIQuestions.swift */,
-				1F57E80F28749AE800FFB840 /* DASIStatus.swift */,
 				1F57E8142874D57400FFB840 /* DASIPhase.swift */,
-				1F26AFC0286E23E300586654 /* DASIStages.swift */,
 				1F26AFAE286E205400586654 /* DASIUserResponse.swift */,
-				1F26AFB0286E209800586654 /* DASIResponseList.swift */,
 				1F26AFBC286E226600586654 /* SubjectID.swift */,
 				1F57E808286F74D100FFB840 /* Views */,
-				1F26AFC2286E27DF00586654 /* ForwardBackBar.swift */,
 				1F26AFBE286E22CF00586654 /* DASIPages.swift */,
 				1F707E6F28761ACB0099E398 /* ValueController */,
 			);
@@ -166,10 +155,7 @@
 			children = (
 				1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */,
 				1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */,
-				1F57E809286F773600FFB840 /* DASIQuestionNavigationView.swift */,
 				1F26AFB6286E217300586654 /* SurveyContainerView.swift */,
-				1F26AFB8286E219600586654 /* DASICompleteView.swift */,
-				1F26AFBA286E21A900586654 /* DASIOnboardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
