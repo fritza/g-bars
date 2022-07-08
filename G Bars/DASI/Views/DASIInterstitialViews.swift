@@ -25,7 +25,8 @@ Tap "Confirm" to record your responses and end the survey.
 """
 
 struct DASIInterstitialView: View {
-    @EnvironmentObject var status: DASIResponseStatus
+    @EnvironmentObject var pages: DASIPages
+
 
     let titleText: String
     let bodyText: String
@@ -34,29 +35,8 @@ struct DASIInterstitialView: View {
 
     let phase: DASIPhase
 
-    @ViewBuilder
-    func withToolbar<V: View>(original: V) -> some View {
-        if phase == .intro {
-            original
-        }
-        else {
-            original
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button("← Back") {
-
-                            // FIXME: handle the back button.
-                            // SEE ALSO: DASIQuestionNavigationView
-                            //           which also has next/back buttons.
-                            // The wrapper approach is better because it can choose among the interstitials and questions.
-                        }
-                    }
-                }
-        }
-    }
-
     var body: some View {
-        let gm = GeometryReader { proxy in
+        GeometryReader { proxy in
             VStack {
                 Spacer()
                 HStack {
@@ -72,20 +52,24 @@ struct DASIInterstitialView: View {
                 Text(bodyText)
                     .font(.body)
                 Spacer()
-                Button(continueTitle) {}
+                Button(continueTitle) {
+                    if phase == .intro {
+                        pages.increment()
+                    }
+                    else if phase == .completion {
+                        // Accepting would bump you to
+                        // the next grand phase of the workflow.
+                    }
+                }
             }
             .navigationTitle(titleText)
         }
 
-        withToolbar(original: gm)
+        //        withToolbar(original: gm)
     }
 }
 
 struct DASIInterstitialView_Previews: PreviewProvider {
-    static let responseList: [AnswerState] = [
-        .yes, .yes, .no, .no, .yes, .no
-        ]
-
     static var previews: some View {
         NavigationView {
             DASIInterstitialView(titleText: "Finished",
@@ -93,9 +77,13 @@ struct DASIInterstitialView_Previews: PreviewProvider {
                                  systemImageName: "checkmark.square",
                                  continueTitle: "Confirm",
                                  phase: .completion)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("← Back") {}
+                }
+            }
             .padding()
         }
-        .environmentObject(DASIResponseStatus(from: responseList))
 
         NavigationView {
             DASIInterstitialView(titleText: "Survey",
@@ -105,6 +93,5 @@ struct DASIInterstitialView_Previews: PreviewProvider {
                                  phase: .intro)
             .padding()
         }
-        .environmentObject(DASIResponseStatus(from: responseList))
     }
 }

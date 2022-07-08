@@ -48,7 +48,7 @@ enum DASIPhase {
         }
     }
 
-    /// Mutate self to the next phase to be presented.
+    /// Mutate self to the next phase to be presented. Does mutate the value.
     /// - returns: The next phase as returned by `successor()`, or `nil` if there is none (current phase is `.completion`).
     @discardableResult
     mutating func advance() -> DASIPhase? {
