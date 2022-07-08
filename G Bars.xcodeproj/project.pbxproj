@@ -21,12 +21,13 @@
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
+		1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A7F287876A100490885 /* DASIPagesTests.swift */; };
+		1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* ContentView.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
 		1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */; };
-		1FCB95D1286CD37800DE9DD0 /* G_BarsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95D0286CD37800DE9DD0 /* G_BarsUITests.swift */; };
 		1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */; };
 		1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */; };
 		1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */; };
@@ -38,7 +39,6 @@
 		1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */; };
 		1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */; };
 		1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */; };
-		1FCB95F7286CD88A00DE9DD0 /* AccelerometerItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */; };
 		1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */; };
 		1FCB95FC286CF0F500DE9DD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -75,6 +75,8 @@
 		1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialViews.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
+		1F9F2A7F287876A100490885 /* DASIPagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPagesTests.swift; sourceTree = "<group>"; };
+		1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhaseTests.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */,
+				1F9F2A7F287876A100490885 /* DASIPagesTests.swift */,
+				1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */,
 			);
 			path = "G BarsTests";
 			sourceTree = "<group>";
@@ -423,7 +427,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */,
 				1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */,
+				1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,8 +438,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */,
-				1FCB95F7286CD88A00DE9DD0 /* AccelerometerItemTests.swift in Sources */,
-				1FCB95D1286CD37800DE9DD0 /* G_BarsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

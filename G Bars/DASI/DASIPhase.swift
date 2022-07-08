@@ -110,9 +110,9 @@ extension DASIPhase {
         return nil
     }
 
-    static let startIndex = 0
-    static let endIndex   = DASIQuestion.questions.count
-    static let indexRange = (startIndex ..< endIndex)
+    static let startQuestionID = 1
+    static let endQuestionID   = DASIQuestion.questions.count
+    static let indexRange = (startQuestionID ... endQuestionID)
     static func isALegalQuestionNumber(_ number: Int) -> Bool {
         indexRange.contains(number)
     }

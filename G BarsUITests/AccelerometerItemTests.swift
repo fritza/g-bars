@@ -7,7 +7,7 @@
 
 import XCTest
 import CoreMotion
-@testable import Better_Step
+@testable import G_Bars
 
 class BinaryFormatTests: XCTestCase {
     func testPointThree() {

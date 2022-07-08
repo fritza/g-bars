@@ -50,14 +50,12 @@ final class DASIResponseStatus: ObservableObject {
     var currentQuestion: DASIQuestion { Self.dasiQuestions[currentIndex] }
 
     init(from existing: [AnswerState] = [], index: Int = 0) {
-        if existing.isEmpty {
-            allAnswers = [AnswerState](repeating: .unknown, count: DASIQuestion.questions.count)
-        }
-        else {
-            allAnswers = existing
-            }
+        let answerList = existing.isEmpty ?
+        [AnswerState](repeating: .unknown, count: DASIQuestion.count) :
+        existing
+        allAnswers = answerList
         currentIndex = index
-        currentValue = existing[index]
+        currentValue = answerList[index]
     }
 
     var indexLimit: Int { allAnswers.count-1 }
