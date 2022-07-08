@@ -7,7 +7,10 @@
 
 import XCTest
 
+/*
 class G_BarsUITests: XCTestCase {
+
+
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,6 +23,16 @@ class G_BarsUITests: XCTestCase {
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testInterstitialView() {
+        var interstitialPage =
+        DASIInterstitialView(titleText: "Finished",
+                             bodyText: completionPhaseText,
+                             systemImageName: "checkmark.square",
+                             continueTitle: "Confirm",
+                             phase: .completion)
+        // TODO: Re-learn the XCTUI repertoire
     }
 
     func testExample() throws {
@@ -39,3 +52,4 @@ class G_BarsUITests: XCTestCase {
         }
     }
 }
+*/

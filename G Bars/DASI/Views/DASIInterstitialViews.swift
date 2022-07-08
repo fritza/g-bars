@@ -27,7 +27,6 @@ Tap "Confirm" to record your responses and end the survey.
 struct DASIInterstitialView: View {
     @EnvironmentObject var pages: DASIPages
 
-
     let titleText: String
     let bodyText: String
     let systemImageName: String
@@ -36,7 +35,7 @@ struct DASIInterstitialView: View {
     let phase: DASIPhase
 
     var body: some View {
-        GeometryReader { proxy in
+        let gr = GeometryReader { proxy in
             VStack {
                 Spacer()
                 HStack {
@@ -48,24 +47,39 @@ struct DASIInterstitialView: View {
                         .frame(width: 0.5*proxy.size.width)
                     Spacer()
                 }
+                .accessibilityLabel("icon")
                 Spacer()
                 Text(bodyText)
                     .font(.body)
+                    .accessibilityLabel("descriptive text")
                 Spacer()
                 Button(continueTitle) {
                     if phase == .intro {
-                        pages.increment()
+                        _ = pages.increment()
                     }
                     else if phase == .completion {
                         // Accepting would bump you to
                         // the next grand phase of the workflow.
                     }
                 }
+                .accessibilityLabel("continuation button")
             }
             .navigationTitle(titleText)
         }
-
-        //        withToolbar(original: gm)
+        if phase == .completion {
+            return AnyView(
+                gr.toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("← Back") {
+                            _ = pages.decrement()
+                        }
+                    }   // button
+                }   // toolbar
+            )   // AnyView()
+        }
+        else {
+            return AnyView(gr)
+        }
     }
 }
 
@@ -77,11 +91,6 @@ struct DASIInterstitialView_Previews: PreviewProvider {
                                  systemImageName: "checkmark.square",
                                  continueTitle: "Confirm",
                                  phase: .completion)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("← Back") {}
-                }
-            }
             .padding()
         }
 
