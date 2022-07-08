@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+/*
 class G_BarsUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
@@ -30,3 +30,4 @@ class G_BarsUITestsLaunchTests: XCTestCase {
         add(attachment)
     }
 }
+*/

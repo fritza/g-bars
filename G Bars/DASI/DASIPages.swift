@@ -30,31 +30,26 @@ final class DASIPages: ObservableObject
         refersToQuestion = selection.refersToQuestion
     }
 
-//    func teardownFromSubjectID() async throws -> DASIPages? {
-//        let newSelection = DASIPhase.intro
-//        selected = newSelection
-//        refersToQuestion = newSelection.refersToQuestion
-//        return self
-//    }
-
     /// Reflect the selection of the next page.
     ///
     /// At the end of the question pages, this should advance to `.completion`. There is no increment from `.completion`.
-    func increment() {
-        selected.advance()
+    func increment() -> Bool {
+        guard selected.advance() else { return false }
         refersToQuestion = selected.refersToQuestion
+        return true
     }
 
     /// Reflect the selection of the previous page.
     ///
     /// From the start of the question pages, this should regress to `.intro`. There is no decrement from `.intro`.
-    func decrement() {
-        selected.decrement()
+    func decrement() -> Bool {
+        guard selected.decrement() else { return false }
         refersToQuestion = selected.refersToQuestion
+        return true
     }
 
     var questionIdentifier: Int? {
-        guard let containedID = selected.questionNumber else {
+        guard let containedID = selected.questionIdentifier else {
             return nil
 //            preconditionFailure(
 //                "selected wasn't a .presenting.")

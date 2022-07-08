@@ -18,27 +18,41 @@ class DASIPhaseTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    // FIXME: Add testRespondingDecrement
     func testRespondingIncrement() throws {
         var phase = DASIPhase.intro
         XCTAssertEqual(phase, .intro)
 
         for qn in (DASIPhase.startQuestionID...DASIPhase.endQuestionID) {
             let successorValue = phase.successor()
+                // In this look successor should not be nil
             XCTAssertNotNil(successorValue)
             XCTAssertEqual(successorValue!, .responding(index: qn))
 
-            let nextPhase = phase.advance()
-            XCTAssertNotNil(nextPhase)
-            XCTAssertEqual(phase, .responding(index: qn))
+            let didAdvance = phase.advance()
+            XCTAssert(didAdvance)
             XCTAssert(phase.refersToQuestion)
 
-            XCTAssertNotNil(phase.questionNumber)
-            if let nextNumber = phase.questionNumber {
+            XCTAssertNotNil(phase.questionIdentifier)
+            if let nextNumber = phase.questionIdentifier {
                 XCTAssertEqual(nextNumber, qn)
             }
         }
 
         XCTAssertEqual(phase, .responding(index: DASIPhase.endQuestionID))
+    }
+
+    func testMutationOutOfRange() {
+        var lowEnd = DASIPhase.intro
+        XCTAssertFalse(lowEnd.decrement())
+
+        var middle = DASIPhase.display
+        XCTAssert(middle.decrement())
+
+        var highEnd = DASIPhase.completion
+        XCTAssertFalse(highEnd.advance())
+        middle = .display
+        XCTAssert(middle.advance())
     }
 
     func testIncrementToDisplay() {
@@ -49,7 +63,7 @@ class DASIPhaseTests: XCTestCase {
         if let sValue = successorValue {
             XCTAssertEqual(sValue, .display)
             XCTAssertFalse(sValue.refersToQuestion)
-            XCTAssertNil(sValue.questionNumber)
+            XCTAssertNil(sValue.questionIdentifier)
         }
 
         let nextPhase = phase.advance()
@@ -66,7 +80,7 @@ class DASIPhaseTests: XCTestCase {
         if let sValue = successorValue {
             XCTAssertEqual(sValue, .completion)
             XCTAssertFalse(sValue.refersToQuestion)
-            XCTAssertNil(sValue.questionNumber)
+            XCTAssertNil(sValue.questionIdentifier)
         }
 
         let nextPhase = phase.advance()
@@ -108,16 +122,16 @@ class DASIPhaseTests: XCTestCase {
         if let sValue = predecessorValue {
             XCTAssertEqual(sValue, .responding(index: DASIPhase.endQuestionID))
             XCTAssert(sValue.refersToQuestion)
-            XCTAssertNotNil(sValue.questionNumber)
-            XCTAssertEqual(sValue.questionNumber!,
+            XCTAssertNotNil(sValue.questionIdentifier)
+            XCTAssertEqual(sValue.questionIdentifier!,
                               DASIPhase.endQuestionID)
         }
 
         let nextPhase = phase.decrement()
         XCTAssertNotNil(nextPhase)
         XCTAssert(phase.refersToQuestion)
-        XCTAssertNotNil(phase.questionNumber)
-        XCTAssertEqual(phase.questionNumber!,
+        XCTAssertNotNil(phase.questionIdentifier)
+        XCTAssertEqual(phase.questionIdentifier!,
                           DASIPhase.endQuestionID)
     }
 
@@ -129,7 +143,7 @@ class DASIPhaseTests: XCTestCase {
         if let sValue = predecessorValue {
             XCTAssertEqual(sValue, .display)
             XCTAssertFalse(sValue.refersToQuestion)
-            XCTAssertNil(sValue.questionNumber)
+            XCTAssertNil(sValue.questionIdentifier)
         }
 
         let nextPhase = phase.decrement()

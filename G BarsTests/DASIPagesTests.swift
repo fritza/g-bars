@@ -9,22 +9,48 @@ import XCTest
 @testable import G_Bars
 
 class DASIPagesTests: XCTestCase {
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    // Unfortunately, I don't have time to consume the @Published attributes
 
-        // TODO: Also test DASIPages(selection:)
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testIncrement() throws {
+    func testIncrement() {
         let pages = DASIPages()
-        let questions = DASIQuestion.questions
+        XCTAssertEqual(pages.selected, .intro)
+        XCTAssertFalse(pages.refersToQuestion)
 
-        throw XCTSkip()
+        XCTAssert(pages.increment())
+        XCTAssertEqual(pages.selected, .responding(index: DASIPhase.startQuestionID))
+        for qID in (DASIPhase.startQuestionID+1
+                    ...
+                    DASIPhase.endQuestionID) {
+            XCTAssert(pages.increment())
+            XCTAssertEqual(pages.selected, .responding(index: qID),
+                           "Increment from ID \(qID)")
+            XCTAssert(pages.refersToQuestion)
+        }
+
+        XCTAssert(pages.increment())
+        XCTAssertEqual(pages.selected, .display)
+        XCTAssert(pages.increment())
+        XCTAssertEqual(pages.selected, .completion)
+        XCTAssertFalse(pages.refersToQuestion)
+
+        // FIXME: What happens if you increment beyond .completion?
     }
+//
+//    func testIN() {
+//        let pages = DASIPages()
+//
+//        for qn in (DASIPhase.startQuestionID...DASIPhase.endQuestionID) {
+//            XCTAssert(pages.increment())
+//            XCTAssertNotNil(pages.selected)
+//            XCTAssertEqual(pages.selected, .responding(index: qn))
+//                // In this look successor should not be nil
+//
+//            XCTAssertNotNil(pages.questionIdentifier)
+//            if let nextNumber = pages.questionIdentifier {
+//                XCTAssertEqual(nextNumber, qn)
+//            }
+//        }
+//    }
 
 
 }

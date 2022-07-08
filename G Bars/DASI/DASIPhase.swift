@@ -51,10 +51,10 @@ enum DASIPhase {
     /// Mutate self to the next phase to be presented. Does mutate the value.
     /// - returns: The next phase as returned by `successor()`, or `nil` if there is none (current phase is `.completion`).
     @discardableResult
-    mutating func advance() -> DASIPhase? {
-        guard let next = successor() else { return nil }
+    mutating func advance() -> Bool {
+        guard let next = successor() else { return false }
         self = next
-        return next
+        return true
     }
 
     // MARK: decrement
@@ -84,10 +84,10 @@ enum DASIPhase {
     /// - note: See comment on ``DASIPhase`` as to nomenclature.
     /// - returns: The previous phase as returned by `successor()`, or `nil` if there is none (current phase is `.intro`).
     @discardableResult
-    mutating func decrement() -> DASIPhase? {
-        guard let previous = predecessor() else { return nil }
+    mutating func decrement() -> Bool {
+        guard let previous = predecessor() else { return false }
         self = previous
-        return previous
+        return true
     }
 }
 
@@ -103,7 +103,7 @@ extension DASIPhase {
     }
 
     /// If this phase refers to a question, the number of the question, or `nil` if not a question.
-    var questionNumber: Int? {
+    var questionIdentifier: Int? {
         if case DASIPhase.responding(index: let index) = self {
             return index
         }
