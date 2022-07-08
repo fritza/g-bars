@@ -34,32 +34,46 @@ struct SurveyContainerView: View {
                     destination: {
                         // FIXME: Dummied-in just to save the compiler error.
                         DASIQuestionView()
-                        .navigationBarBackButtonHidden(true)
+                            .navigationBarBackButtonHidden(true)
                     },
 
                     label: { EmptyView() }
                 )
+
+                // MARK: .completion
+                NavigationLink(
+                    tag: DASIPhase.completion,
+                    selection: $contentEnvt.selected,
+                    destination: {
+                        DASIInterstitialView(
+                            titleText: "Finished",
+                            bodyText: introPhaseText,
+                            systemImageName: "checkmark.square",
+                            continueTitle: "Continue",
+                            phase: DASIPhase.intro)
+                    },
+                    label: {EmptyView()}
+                )
+                .toolbar {
+                    ToolbarItem {
+                        Button("← Back") {
+                            contentEnvt.selected = .responding(index: DASIResponseStatus.dasiQuestions.count-1)
+                        }
+                    }
+                }
+
                 NavigationLink(
                     tag: DASIPhase.intro,
                     selection: $contentEnvt.selected,
                     destination: {
                         DASIInterstitialView(
-                            titleText: "Finished", bodyText: introPhaseText,
+                            titleText: "Survey",
+                            bodyText: completionPhaseText,
                             systemImageName: "checkmark.square",
-                            continueTitle: "Continue",
-                            phase: .intro)
-//                        DASIOnboardView()
-//                        .navigationBarBackButtonHidden(true)
-                },
-                               label: {EmptyView()}
-                )
-                NavigationLink(tag: DASIPhase.completion,
-                               selection: $contentEnvt.selected,
-                               destination: {
-                    DASICompleteView()
-                        .navigationBarBackButtonHidden(true)
-                },
-                               label: {EmptyView()}
+                            continueTitle: "Finished",
+                            phase: DASIPhase.completion)
+                    },
+                    label: {EmptyView()}
                 )
             }
             // FIXME: This doesn't update global completion.
