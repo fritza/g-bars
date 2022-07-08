@@ -93,7 +93,7 @@ enum DASIPhase {
 
 extension DASIPhase {
     /// Whether this phase is `.responding` rather than `.intro`, `.display`, or `.completion`
-    var refersToQuestion: Bool {
+    var refersToQuestion: Bool! {
         if case DASIPhase.responding(index: _) = self {
             return true
         }

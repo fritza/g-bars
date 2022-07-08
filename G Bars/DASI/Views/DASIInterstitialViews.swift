@@ -64,6 +64,7 @@ struct DASIInterstitialView: View {
                 }
                 .accessibilityLabel("continuation button")
             }
+            .padding()
             .navigationTitle(titleText)
         }
         if phase == .completion {

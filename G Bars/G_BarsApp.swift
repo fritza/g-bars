@@ -10,6 +10,7 @@ import SwiftUI
 
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
+let dasiPages = DASIPages()
 
 @main
 struct G_BarsApp: App {
@@ -25,6 +26,8 @@ struct G_BarsApp: App {
         WindowGroup {
 #if true
             NavigationView {
+                SurveyContainerView()
+                /*
                 VStack {
                     DASIQuestionView()
                     YesNoStack(boundState: $yesNoState)
@@ -41,7 +44,9 @@ struct G_BarsApp: App {
                     rootResponseStatus.currentValue =
                     (newValue == 1) ? .yes : .no
                 }
+                 */
             }
+            .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
 #elseif false
             NavigationView {

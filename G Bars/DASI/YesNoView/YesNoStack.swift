@@ -42,7 +42,6 @@ struct YesNoStack: View {
                 Spacer()
                 yesNoButton("Yes", identifier: 1, selected: boundState == 1, inSize: proxy.size)
                 yesNoButton("No" , identifier: 2, selected: boundState == 2, inSize: proxy.size)
-                Spacer()
             }
 
             .padding()

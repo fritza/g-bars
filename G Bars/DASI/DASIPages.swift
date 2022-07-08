@@ -23,7 +23,7 @@ final class DASIPages: ObservableObject
 // , SubjectIDDependent
 {
     @Published var selected: DASIPhase!
-    @Published var refersToQuestion: Bool
+    @Published var refersToQuestion: Bool!
 
     init(_ selection: DASIPhase = .intro) {
         selected = selection

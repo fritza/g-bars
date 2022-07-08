@@ -17,85 +17,120 @@ struct SurveyContainerView: View {
     @EnvironmentObject var contentEnvt: DASIPages
 
     @State var currentAnswer: AnswerState = .unknown
+    @State var yesNoState: Int = 1
 
     var body: some View {
-        NavigationView {
-            VStack {
-                Text(
-                    "SHOULD NOT APPEAR(\(contentEnvt.selected?.description ?? "EMPTY"))"
-                )
-                Button("RATS Next") {
-                    assert(contentEnvt.selected != nil)
-//                    contentEnvt.selected =
-                    contentEnvt.selected!.advance()
+//        NavigationView {
+        VStack {
+
+
+             //                Text(
+             //                    "SHOULD NOT APPEAR(\(contentEnvt.selected.description))"
+             //                )
+             //                Button("RATS Next") {
+             //                    _ = contentEnvt.increment()
+             //                }
+
+             // MARK: Questions
+
+            NavigationLink(tag: true, selection: $contentEnvt.refersToQuestion, destination: {
+                VStack {
+                    DASIYNQuestionView()
                 }
-                NavigationLink(
-                    isActive: $contentEnvt.refersToQuestion,
-                    destination: {
-                        // FIXME: Dummied-in just to save the compiler error.
-                        DASIQuestionView()
-                            .navigationBarBackButtonHidden(true)
-                    },
-
-                    label: { EmptyView() }
-                )
-
-                // MARK: .completion
-                NavigationLink(
-                    tag: DASIPhase.completion,
-                    selection: $contentEnvt.selected,
-                    destination: {
-                        DASIInterstitialView(
-                            titleText: "Finished",
-                            bodyText: introPhaseText,
-                            systemImageName: "checkmark.square",
-                            continueTitle: "Continue",
-                            phase: DASIPhase.intro)
-                    },
-                    label: {EmptyView()}
-                )
-                .toolbar {
-                    ToolbarItem {
-                        Button("← Back") {
-                            contentEnvt.selected = .responding(index: DASIResponseStatus.dasiQuestions.count-1)
-                        }
-                    }
-                }
-
-                NavigationLink(
-                    tag: DASIPhase.intro,
-                    selection: $contentEnvt.selected,
-                    destination: {
-                        DASIInterstitialView(
-                            titleText: "Survey",
-                            bodyText: completionPhaseText,
-                            systemImageName: "checkmark.square",
-                            continueTitle: "Finished",
-                            phase: DASIPhase.completion)
-                    },
-                    label: {EmptyView()}
-                )
+            }, label: {
+                EmptyView()
             }
-            // FIXME: This doesn't update global completion.
-            .onDisappear {
-                // Does this belong at disappearance
-                // of the tab? We want a full count of
-                // responses + concluding screen.
-                // ABOVE ALL, don't post the initial screen
-                // as soon as the conclusion screen is
-                // called for.
+            )
+//            .environmentObject(yesNoState)
 
-                #if !G_BARS
-                if Self.dasiResponses // RootState.shared.dasiResponses
-                    .unknownResponseIDs.isEmpty {
-                    RootState.shared.didComplete(phase: .dasi)
-                }
-                else {
-                    RootState.shared.didNotComplete(phase: .dasi)
-                }
-                #endif
-            }
+            /*
+            NavigationLink(
+                isActive: $contentEnvt.refersToQuestion,
+             destination: {
+             VStack {
+             DASIQuestionView()
+}   }
+             YesNoStack(boundState: $yesNoState)
+             Text("Integer state = \(yesNoState)")
+
+             // NOTE WELL:
+             // .onChange is executed _after_ the following
+             // Text accesses .currentValue.
+             Text("Transmitted state = \(rootResponseStatus.currentValue.description)")
+             }
+             .onChange(of: yesNoState) { newValue in
+             rootResponseStatus.currentValue =
+             (newValue == 1) ? .yes : .no
+             }
+             .toolbar {
+             ToolbarItem(placement: .navigationBarLeading) {
+             Button("← Back") {
+             _ = contentEnvt.decrement()
+             }
+             }
+             ToolbarItem(placement: .navigationBarLeading) {
+             Button("Next →") {
+             _ = contentEnvt.increment()
+             }
+             }
+             }
+             },
+             label: { EmptyView() }
+             )
+             */
+
+            // MARK: .completion
+            NavigationLink(
+                tag: DASIPhase.completion,
+                selection: $contentEnvt.selected,
+                destination: {
+                    DASIInterstitialView(
+                        titleText: "Survey Completed",
+                        bodyText: completionPhaseText,
+                        systemImageName: "checkmark.square",
+                        continueTitle: "Continue (not in partial demo)",
+                        phase: DASIPhase.completion)
+                },
+                label: {EmptyView()}
+            )
+
+            // MARK: Onboarding
+            NavigationLink(
+                tag: DASIPhase.intro,
+                selection: $contentEnvt.selected,
+                destination: {
+                    DASIInterstitialView(
+                        titleText: "DASI Survey",
+                        bodyText: introPhaseText,
+                        systemImageName: "checkmark.square",
+                        continueTitle: "Continue",
+                        phase: DASIPhase.intro)
+                },
+                label: {EmptyView()}
+            )
         }
+        .navigationBarBackButtonHidden(true)
+        // FIXME: This doesn't update global completion.
+        .onDisappear {
+            // Does this belong at disappearance
+            // of the tab? We want a full count of
+            // responses + concluding screen.
+            // ABOVE ALL, don't post the initial screen
+            // as soon as the conclusion screen is
+            // called for.
+
+#if !G_BARS
+            if Self.dasiResponses // RootState.shared.dasiResponses
+                .unknownResponseIDs.isEmpty {
+                RootState.shared.didComplete(phase: .dasi)
+            }
+            else {
+                RootState.shared.didNotComplete(phase: .dasi)
+            }
+#endif
+            //   }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -109,17 +144,17 @@ struct SurveyContainerView_Previews: PreviewProvider {
 
 /*
  WORKS: Observing the environment to select self's content.
-        Next, how to select the next contained view.
+ Next, how to select the next contained view.
  var body: some View {
-     NavigationView {
-         VStack {
-             Text(contentEnvt.selected.rawValue)
-             Button("Next") {
-                 contentEnvt.selected = contentEnvt.selected.next
-             }
-         }
-         .navigationTitle("Containment")
-     }
+ NavigationView {
+ VStack {
+ Text(contentEnvt.selected.rawValue)
+ Button("Next") {
+ contentEnvt.selected = contentEnvt.selected.next
+ }
+ }
+ .navigationTitle("Containment")
+ }
  }
 
  */

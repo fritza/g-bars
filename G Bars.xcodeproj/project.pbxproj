@@ -23,6 +23,7 @@
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
 		1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A7F287876A100490885 /* DASIPagesTests.swift */; };
 		1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */; };
+		1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* ContentView.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
@@ -77,6 +78,7 @@
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
 		1F9F2A7F287876A100490885 /* DASIPagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPagesTests.swift; sourceTree = "<group>"; };
 		1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhaseTests.swift; sourceTree = "<group>"; };
+		1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIYNQuestionView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */,
 				1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */,
 				1F26AFB6286E217300586654 /* SurveyContainerView.swift */,
+				1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
+				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
 				1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
