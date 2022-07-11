@@ -1,9 +1,12 @@
 //
-//  ContentView.swift
+//  AcccelerometryView.swift
 //  Async Accel
 //
 //  Created by Fritz Anderson on 3/10/22.
 //
+
+
+// TODO: Rename this.
 
 import SwiftUI
 import CoreMotion
@@ -48,7 +51,7 @@ final class CMWatcher: ObservableObject {
     }
 }
 
-struct ContentView: View {
+struct AcccelerometryView: View {
     static let hzOverride: TimeInterval = 1.0/60.0
 
     enum Errors: Error {
@@ -118,6 +121,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        AcccelerometryView()
     }
 }
