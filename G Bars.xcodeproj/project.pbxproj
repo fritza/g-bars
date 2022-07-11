@@ -23,8 +23,8 @@
 		1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A7F287876A100490885 /* DASIPagesTests.swift */; };
 		1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */; };
 		1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */; };
+		1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
-		1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* ContentView.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
 		1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */; };
@@ -79,7 +79,7 @@
 		1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIYNQuestionView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
-		1FCB95B7286CD37700DE9DD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
 		1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1FCB95C2286CD37800DE9DD0 /* G BarsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "G BarsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,7 +197,7 @@
 				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
-				1FCB95B7286CD37700DE9DD0 /* ContentView.swift */,
+				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
 				1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */,
 				1F26AFA7286E049800586654 /* HorizontalBar.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
@@ -399,7 +399,6 @@
 			files = (
 				1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */,
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
-				1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
@@ -415,6 +414,7 @@
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
+				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
