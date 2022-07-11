@@ -19,6 +19,7 @@ struct DASIYNQuestionView: View {
             YesNoStack(boundState: $yesNoState)
 //            Text("Integer state = \(yesNoState)")
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("← Back") {

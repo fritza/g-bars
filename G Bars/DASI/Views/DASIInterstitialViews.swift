@@ -65,6 +65,7 @@ struct DASIInterstitialView: View {
                 .accessibilityLabel("continuation button")
             }
             .padding()
+            .navigationBarBackButtonHidden(true)
             .navigationTitle(titleText)
         }
         if phase == .completion {

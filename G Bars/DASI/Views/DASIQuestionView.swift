@@ -17,9 +17,9 @@ struct DASIQuestionView: View {
                 .minimumScaleFactor(0.5)
             .padding()
         }
-
+        .navigationBarBackButtonHidden(true)
         .navigationTitle(
-            "Survey — \(responseStatus.currentIndex + 1)"
+            "Survey — \(String(describing: responseStatus.currentQuestion.id))"
         )
     }
 }
@@ -32,5 +32,6 @@ struct DASIQuestionView_Previews: PreviewProvider {
         .environmentObject(DASIResponseStatus(
             from: [ .yes, .yes, .no, .no, .yes, .no ]
         ))
+        .environmentObject(DASIPages(.responding(index: 3)))
     }
 }
