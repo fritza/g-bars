@@ -43,5 +43,6 @@ final class SubjectID: ObservableObject {
     private init() {
         subjectID = UserDefaults.standard
             .string(forKey: AppStorageKeys.subjectID.rawValue)
+        ?? "N/A"
     }
 }

@@ -12,11 +12,12 @@ import SwiftUI
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
 
+//@AppStorage(AppStorageKeys.subjectID.rawValue) var subjectID = "Subject ID not for publication."
+
 @main
 struct G_BarsApp: App {
     @State var selectedTab: Int = 0
     @State var yesNoState: Int = 1
-    @AppStorage("REPLACE subject id") var subjectID = "1234"
 
 //    @State var responseStatus = DASIResponseStatus(from: [ .yes, .yes, .no, .no, .yes, .no ])
 
@@ -24,6 +25,15 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
+            TabView(selection: $selectedTab) {
+                NavigationView { AcccelerometryView() }
+                    .tabItem { Label("Acceleration", systemImage: "arrow.up.arrow.down") }
+
+                NavigationView { SurveyContainerView() }
+                    .tabItem { Label("DASI", systemImage: "checkmark.square") }
+
+
+            }
 #if true
             NavigationView {
                 SurveyContainerView()

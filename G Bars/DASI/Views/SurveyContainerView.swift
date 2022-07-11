@@ -20,10 +20,9 @@ struct SurveyContainerView: View {
     @State var yesNoState: Int = 1
 
     var body: some View {
-//        NavigationView {
+        //        NavigationView {
         List {
-             // MARK: Questions
-
+            // MARK: - Questions
             NavigationLink(tag: SurveyProgress.questionProgress,
                            selection: $contentEnvt.surveyProgress,
                            destination: {
@@ -34,9 +33,8 @@ struct SurveyContainerView: View {
                 Text("Question - \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.questionProgress == contentEnvt.surveyProgress))")
             }
             )
-//            .environmentObject(yesNoState)
 
-            // MARK: .completion
+            // MARK: - .completion
             NavigationLink(
                 tag: SurveyProgress.completionProgress,
                 selection: $contentEnvt.surveyProgress,
@@ -53,17 +51,17 @@ struct SurveyContainerView: View {
                 }
             )
 
-            // MARK: Onboarding
+            // MARK: - Onboarding
             NavigationLink(
                 tag: SurveyProgress.introProgress,
                 selection: {
                     print("Progress =", contentEnvt.surveyProgress ?? "none")
                     return $contentEnvt.surveyProgress
                 }()
-//                    $contentEnvt.surveyProgress
+                //                    $contentEnvt.surveyProgress
             )
             {
-//                Text("Well?")
+                //                Text("Well?")
                 DASIInterstitialView(titleText: "Survey",
                                      bodyText: introPhaseText,
                                      systemImageName: "checkmark.square",
@@ -74,9 +72,11 @@ struct SurveyContainerView: View {
             Text("Onboarding -  \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.introProgress == contentEnvt.surveyProgress))")
         }
 
+            // MARK: - Display
             NavigationLink(tag: SurveyProgress.displayProgress,
                            selection: $contentEnvt.surveyProgress) {
-                Text("Display View\nfor rent")
+                DASIDisplayView()
+//                Text("Display View\nfor rent")
             } label: {
                 Text("Display - \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.displayProgress == contentEnvt.surveyProgress))")
             }

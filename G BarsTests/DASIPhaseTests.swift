@@ -8,6 +8,9 @@
 import XCTest
 @testable import G_Bars
 
+
+// FIXME: Add tests for Comparable and Range<Bound>
+
 class DASIPhaseTests: XCTestCase {
 
     override func setUpWithError() throws {

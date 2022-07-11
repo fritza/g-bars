@@ -35,6 +35,14 @@ enum AnswerState: String, Codable, Equatable, CustomStringConvertible {
         }
     }
 
+    var glyph: String {
+        switch self {
+        case .unknown: return "❓"
+        case .no: return "❌"  // return "❎"
+        case .yes: return "✅"
+        }
+    }
+
     /// Inverse of `description`. These must match case and content with  "•",  "Y", or "N". Otherwise initialization fails.
     init?(described: String) {
         switch described {

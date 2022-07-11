@@ -28,6 +28,8 @@ enum DASIReportErrors: Error {
 /// Provide content to DASI response views.
 ///
 /// Intended to be an `@EnvironmentObject` for those views.
+/// - note: `DASIResponseStatus` does not afford direct write access to its answer list. The `currentValue` property accepts values for the _current_ question (selected by `currentIndex`). This is deliberate.
+/// - bug: But `allAnswers` is published, presumably alterable.
 final class DASIResponseStatus: ObservableObject {
     @Published var allAnswers: [AnswerState]
 
@@ -73,21 +75,7 @@ final class DASIResponseStatus: ObservableObject {
     }
 
     var indexLimit: Int { allAnswers.count-1 }
-    /*
-    var canAdvance: Bool { currentIndex < indexLimit }
-    func advance() {
-        if canAdvance {
-            currentIndex += 1
-        }
-    }
 
-    var canRetreat: Bool { currentIndex > 0 }
-    func retreat() {
-        if canRetreat {
-            currentIndex -= 1
-        }
-    }
-*/
     var unknownIdentifiers: [Int] {
         let retval = allAnswers.enumerated()
             .filter { pair in pair.1 == .unknown }
@@ -108,11 +96,41 @@ extension DASIResponseStatus {
     }
 }
 
+extension DASIResponseStatus: RandomAccessCollection {
+    /// The subscript does not afford write access to the answers. Use `currentValue` for setting the current answer
+    subscript(index: Int) -> AnswerState {
+        allAnswers[index]
+    }
+
+    var startIndex: Int { 0 }
+    var endIndex: Int { allAnswers.count }
+    var count: Int { allAnswers.count }
+    func index(before i: Int) -> Int {
+        return Swift.max(startIndex, i-1)
+    }
+    func index(after i: Int) -> Int {
+        return Swift.min(endIndex, i+1)
+    }
+
+    func makeIterator() -> AnswerIterator {
+        return AnswerIterator(responses: allAnswers)
+    }
+
+    struct AnswerIterator: IteratorProtocol {
+        let responses: [AnswerState]
+        var index: Int = 0
+        mutating func next() -> AnswerState? {
+            defer { index += 1 }
+            return (index >= responses.count) ? nil : responses[index]
+        }
+    }
+}
+
 extension DASIResponseStatus: CSVRepresentable {
     func csvLine() throws -> String? {
-        guard firstUnknownIdentifier != nil else {
-            throw DASIReportErrors.dasiResponsesIncomplete
-        }
+//        guard firstUnknownIdentifier == nil else {
+//            throw DASIReportErrors.dasiResponsesIncomplete
+//        }
 
         guard let subjectID = SubjectID.shared.subjectID else {
             assertionFailure("No subject ID, shouldn't get to \(#function) in the first place.")
@@ -123,7 +141,7 @@ extension DASIResponseStatus: CSVRepresentable {
 
         let numberedResponses = allAnswers.enumerated()
             .map {
-                    String(describing: $0)
+                    String(describing: $0 + 1)
                     + ","
                     + String(describing: $1)
             }
