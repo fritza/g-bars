@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 protocol CSVRepresentable {
     func csvLine() throws -> String?
@@ -30,6 +31,7 @@ enum DASIReportErrors: Error {
 final class DASIResponseStatus: ObservableObject {
     @Published var allAnswers: [AnswerState]
 
+    /// **ZERO INDEXED** subscript of the current question.
     var currentIndex: Int
     /// The workflow progress through the questions. **ONE INDEXED**
     var currentPhase: DASIPhase {
@@ -45,20 +47,33 @@ final class DASIResponseStatus: ObservableObject {
         }
     }
 
+    var cancellables: Set<AnyCancellable> = []
+
     /// Cursor through the lists of questions and responses. **ZERO INDEXED**
-    static let dasiQuestions: [DASIQuestion] = DASIQuestion.questions
-    var currentQuestion: DASIQuestion { Self.dasiQuestions[currentIndex] }
+    var currentQuestion: DASIQuestion {
+        DASIQuestion.with(id: currentIndex+1)
+    }
 
     init(from existing: [AnswerState] = [], index: Int = 0) {
         let answerList = existing.isEmpty ?
         [AnswerState](repeating: .unknown, count: DASIQuestion.count) :
         existing
+
         allAnswers = answerList
         currentIndex = index
         currentValue = answerList[index]
+
+        DASIPages.pagingSubject
+            .sink { commpletion in
+
+            } receiveValue: { newPhase in
+                self.hardSetProgress(newPhase)
+            }
+            .store(in: &cancellables)
     }
 
     var indexLimit: Int { allAnswers.count-1 }
+    /*
     var canAdvance: Bool { currentIndex < indexLimit }
     func advance() {
         if canAdvance {
@@ -72,7 +87,7 @@ final class DASIResponseStatus: ObservableObject {
             currentIndex -= 1
         }
     }
-
+*/
     var unknownIdentifiers: [Int] {
         let retval = allAnswers.enumerated()
             .filter { pair in pair.1 == .unknown }
@@ -82,6 +97,14 @@ final class DASIResponseStatus: ObservableObject {
 
     var firstUnknownIdentifier: Int? {
         unknownIdentifiers.first
+    }
+}
+
+extension DASIResponseStatus {
+    func hardSetProgress(_ phase: DASIPhase) {
+        if case DASIPhase.responding(index: let index) = phase {
+            currentIndex = index-1
+        }
     }
 }
 

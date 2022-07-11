@@ -16,14 +16,24 @@ import SwiftUI
 struct YesNoStack: View {
     /// The currently-selected AnswerState; client code provides a binding to the value.
     @Binding var boundState: Int
-    init(boundState: Binding<Int>) {
+
+    let callback: (Int) -> Void
+
+    init(boundState: Binding<Int>, callback: @escaping (Int) -> Void) {
         self._boundState = boundState
+        self.callback = callback
     }
 
     static let bSize = CGSize(width: 320, height: 40)
 
+    func reset() {
+        boundState = 0
+        callback(0)
+    }
+
     func set(value: Int) {
         boundState = value
+        callback(value)
     }
 
     func yesNoButton(_ buttonTitle: String, identifier: Int,
@@ -72,7 +82,9 @@ struct YesNoStack_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .center) {
             Spacer()
-            YesNoStack(boundState: $ynuState)
+            YesNoStack(boundState: $ynuState) {
+                print($0)
+            }
             Spacer()
             Text("The setting is \(ynuState)")
         }
