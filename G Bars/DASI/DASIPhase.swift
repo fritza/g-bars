@@ -32,7 +32,7 @@ enum DASIPhase {
         switch self {
         case .intro:
             return .responding(index: 1)
-        case .responding(let index) where index < DASIResponseStatus.dasiQuestions.count:
+        case .responding(let index) where index < DASIQuestion.count:
             return .responding(index: index+1)
 #if G_BARS
         case .responding:
@@ -70,7 +70,7 @@ enum DASIPhase {
             return .responding(index: index - 1)
 #if G_BARS
         case .display:
-            return .responding(index: DASIResponseStatus.dasiQuestions.count)
+            return .responding(index: DASIQuestion.count)
         case .completion:
             return .display
 #else
@@ -113,12 +113,20 @@ extension DASIPhase {
     static let startQuestionID = 1
     static let endQuestionID   = DASIQuestion.questions.count
     static let indexRange = (startQuestionID ... endQuestionID)
+
     static func isALegalQuestionNumber(_ number: Int) -> Bool {
-        indexRange.contains(number)
-    }
+        indexRange.contains(number) }
+    static let maxResponsePhase = DASIPhase.responding(index: DASIQuestion.questions.count)
+    static let minResponsePhase = DASIPhase.responding(index: 1)
+
+    static let responsePhaseRange = (
+        DASIPhase.responding(index: startQuestionID)
+        ...
+        DASIPhase.responding(index: endQuestionID)
+    )
 }
 
-extension DASIPhase: Hashable {
+extension DASIPhase: Hashable, Comparable {
     static func == (lhs: DASIPhase, rhs: DASIPhase) -> Bool {
         switch (lhs, rhs) {
         case (.intro, .intro), (.completion, completion):
@@ -141,6 +149,33 @@ extension DASIPhase: Hashable {
         case .responding(index: let index):
             hasher.combine(4)
             hasher.combine(index)
+        }
+    }
+
+    static func < (lhs: DASIPhase, rhs: DASIPhase) -> Bool {
+        if lhs == rhs { return false }
+        // Eliminated == at all levels.
+
+        switch (lhs, rhs) {
+            // Responding/responding ranks by ID.
+        case (.responding(index: let lval), .responding(index: let rval)): return lval < rval
+
+            // .intro is less than any non-.intro
+        case (.intro, _): return true
+        case (_, .intro): return false
+
+            // .completion is greater than any non-.completion
+        case (.completion, _): return false
+        case (_, .completion): return true
+
+            // .display is greater than any surviving non-.display
+            // now that .completion is ruled out.
+        case (.display, _): return false
+        case (_, .display): return true
+
+        default:
+            print("Unexpected combination:", lhs, "and", rhs)
+            return false
         }
     }
 }
