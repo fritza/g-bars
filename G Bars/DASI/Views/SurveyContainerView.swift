@@ -21,68 +21,25 @@ struct SurveyContainerView: View {
 
     var body: some View {
 //        NavigationView {
-        VStack {
-
-
-             //                Text(
-             //                    "SHOULD NOT APPEAR(\(contentEnvt.selected.description))"
-             //                )
-             //                Button("RATS Next") {
-             //                    _ = contentEnvt.increment()
-             //                }
-
+        List {
              // MARK: Questions
 
-            NavigationLink(tag: true, selection: $contentEnvt.refersToQuestion, destination: {
+            NavigationLink(tag: SurveyProgress.questionProgress,
+                           selection: $contentEnvt.surveyProgress,
+                           destination: {
                 VStack {
                     DASIYNQuestionView()
                 }
             }, label: {
-                EmptyView()
+                Text("Question - \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.questionProgress == contentEnvt.surveyProgress))")
             }
             )
 //            .environmentObject(yesNoState)
 
-            /*
-            NavigationLink(
-                isActive: $contentEnvt.refersToQuestion,
-             destination: {
-             VStack {
-             DASIQuestionView()
-}   }
-             YesNoStack(boundState: $yesNoState)
-             Text("Integer state = \(yesNoState)")
-
-             // NOTE WELL:
-             // .onChange is executed _after_ the following
-             // Text accesses .currentValue.
-             Text("Transmitted state = \(rootResponseStatus.currentValue.description)")
-             }
-             .onChange(of: yesNoState) { newValue in
-             rootResponseStatus.currentValue =
-             (newValue == 1) ? .yes : .no
-             }
-             .toolbar {
-             ToolbarItem(placement: .navigationBarLeading) {
-             Button("← Back") {
-             _ = contentEnvt.decrement()
-             }
-             }
-             ToolbarItem(placement: .navigationBarLeading) {
-             Button("Next →") {
-             _ = contentEnvt.increment()
-             }
-             }
-             }
-             },
-             label: { EmptyView() }
-             )
-             */
-
             // MARK: .completion
             NavigationLink(
-                tag: DASIPhase.completion,
-                selection: $contentEnvt.selected,
+                tag: SurveyProgress.completionProgress,
+                selection: $contentEnvt.surveyProgress,
                 destination: {
                     DASIInterstitialView(
                         titleText: "Survey Completed",
@@ -91,23 +48,38 @@ struct SurveyContainerView: View {
                         continueTitle: "Continue (not in partial demo)",
                         phase: DASIPhase.completion)
                 },
-                label: {EmptyView()}
+                label: {
+                    Text("Completion -  \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.completionProgress == contentEnvt.surveyProgress))")
+                }
             )
 
             // MARK: Onboarding
             NavigationLink(
-                tag: DASIPhase.intro,
-                selection: $contentEnvt.selected,
-                destination: {
-                    DASIInterstitialView(
-                        titleText: "DASI Survey",
-                        bodyText: introPhaseText,
-                        systemImageName: "checkmark.square",
-                        continueTitle: "Continue",
-                        phase: DASIPhase.intro)
-                },
-                label: {EmptyView()}
+                tag: SurveyProgress.introProgress,
+                selection: {
+                    print("Progress =", contentEnvt.surveyProgress ?? "none")
+                    return $contentEnvt.surveyProgress
+                }()
+//                    $contentEnvt.surveyProgress
             )
+            {
+//                Text("Well?")
+                DASIInterstitialView(titleText: "Survey",
+                                     bodyText: introPhaseText,
+                                     systemImageName: "checkmark.square",
+                                     continueTitle: "Continue",
+                                     phase: .intro)
+            }
+        label: {
+            Text("Onboarding -  \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.introProgress == contentEnvt.surveyProgress))")
+        }
+
+            NavigationLink(tag: SurveyProgress.displayProgress,
+                           selection: $contentEnvt.surveyProgress) {
+                Text("Display View\nfor rent")
+            } label: {
+                Text("Display - \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.displayProgress == contentEnvt.surveyProgress))")
+            }
         }
         .navigationBarBackButtonHidden(true)
         // FIXME: This doesn't update global completion.
@@ -138,7 +110,7 @@ struct SurveyContainerView_Previews: PreviewProvider {
     static var previews: some View {
         SurveyContainerView()
             .environmentObject(DASIResponseStatus())
-            .environmentObject(DASIPages())
+            .environmentObject(DASIPages(.intro))
     }
 }
 

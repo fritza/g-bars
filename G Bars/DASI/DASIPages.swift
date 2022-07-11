@@ -19,15 +19,43 @@ import Combine
 /// - `SurveyContainerView`
 /// - `YesNoButton` (**Pull out as a dependency?**
 /// - `ApplicationOnboardView` (**Wrong Place**)
+
+
+enum SurveyProgress: Hashable {
+    case introProgress, questionProgress, displayProgress, completionProgress
+
+    init(_ phase: DASIPhase) {
+        switch phase {
+        case .intro:                self = .introProgress
+        case .display:              self = .displayProgress
+        case .completion:           self = .completionProgress
+        case .responding(index: _): self = .questionProgress
+        }
+    }
+}
+
 final class DASIPages: ObservableObject
-// , SubjectIDDependent
 {
+    static let pagingSubject = CurrentValueSubject<DASIPhase, Error>(.intro)
+
     @Published var selected: DASIPhase!
-    @Published var refersToQuestion: Bool!
+    @Published var refersToQuestion: Bool! {
+        didSet {
+            surveyProgress = SurveyProgress(selected)
+        }
+    }
+    @Published var surveyProgress: SurveyProgress! {
+        didSet {
+            print("Changed surveyProgress from", (oldValue ?? "NIL"),
+                  "to", (surveyProgress ?? "NIL"))
+        }
+    }
 
     init(_ selection: DASIPhase = .intro) {
         selected = selection
         refersToQuestion = selection.refersToQuestion
+        surveyProgress = SurveyProgress(selection)
+        assert(surveyProgress != nil)
     }
 
     /// Reflect the selection of the next page.
@@ -36,6 +64,7 @@ final class DASIPages: ObservableObject
     func increment() -> Bool {
         guard selected.advance() else { return false }
         refersToQuestion = selected.refersToQuestion
+        DASIPages.pagingSubject.send(selected!)
         return true
     }
 
@@ -45,6 +74,7 @@ final class DASIPages: ObservableObject
     func decrement() -> Bool {
         guard selected.decrement() else { return false }
         refersToQuestion = selected.refersToQuestion
+        DASIPages.pagingSubject.send(selected!)
         return true
     }
 

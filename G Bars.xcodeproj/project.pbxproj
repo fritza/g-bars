@@ -10,7 +10,6 @@
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
 		1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F26AFAC286E203300586654 /* DASIQuestions.json */; };
-		1F26AFAF286E205400586654 /* DASIUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFAE286E205400586654 /* DASIUserResponse.swift */; };
 		1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFB2286E20BF00586654 /* DASIQuestionView.swift */; };
 		1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFB4286E214A00586654 /* DASIQuestions.swift */; };
 		1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFB6286E217300586654 /* SurveyContainerView.swift */; };
@@ -404,7 +403,6 @@
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
 				1FCB95B8286CD37700DE9DD0 /* ContentView.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
-				1F26AFAF286E205400586654 /* DASIUserResponse.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
