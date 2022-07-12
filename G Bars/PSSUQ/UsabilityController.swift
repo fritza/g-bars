@@ -14,29 +14,30 @@ enum UsabilityPhase: CaseIterable, Comparable, Hashable {
 
 final class UsabilityController: ObservableObject {
 
-    @Published var currentPhase: UsabilityPhase! = .start
-//    {
-//        willSet {
-//            if currentPhase == .questions {
-//                results[questionID-1] = currentResponse
-//            }
-//        }
-//    }
+    /// DRY for moving the displayed choice to the persistent record.
+    func storeCurrentResponse() {
+        results[questionID-1] = currentResponse
+    }
+
+    /// The phase (start, questions, end) currently displayed.
+    @Published var currentPhase: UsabilityPhase! = .start {
+        willSet {
+            if newValue != currentPhase && currentPhase == .questions {
+                storeCurrentResponse()
+            }
+        }
+    }
+
     @Published var questionID = 1 {
         willSet {
-            results[questionID-1] = currentResponse
+            storeCurrentResponse()
         }
         didSet {
             currentResponse = results[questionID-1]
         }
     }
 
-    @Published var currentResponse = 0 {
-        didSet {
-            print("currentResponse went from", oldValue, "to", currentResponse)
-            print()
-        }
-    }
+    @Published var currentResponse = 0
 
     // TODO: Validate the question index.
 

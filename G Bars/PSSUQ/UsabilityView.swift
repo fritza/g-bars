@@ -17,6 +17,7 @@ let addedLabels = [
 
 struct UsabilityView: View {
     @Binding var resultingChoice: Int
+    @EnvironmentObject var controller: UsabilityController
 
     let arbitraryCheckmarkEdge: CGFloat =  32
     let arbitraryButtonWidth  : CGFloat = 240
@@ -89,8 +90,14 @@ struct UsabilityView: View {
                 }       // ForEach
                 .buttonStyle(.bordered)
                 .font(.title)
+                Button("Continue") {
+                    controller.increment()
+                }
             }           // VStack of buttons
             Spacer()
+        }
+        .onDisappear() {
+            controller.storeCurrentResponse()
         }
         .navigationTitle("Question \(questionID)")
         .navigationBarBackButtonHidden(true)
@@ -124,6 +131,7 @@ struct UsabilityView: View {
                 }
             }
             }
+            .environmentObject(UsabilityController())
 //            .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
             .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
         }
