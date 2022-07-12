@@ -19,12 +19,20 @@ struct G_BarsApp: App {
     @State var selectedTab: Int = 0
     @State var yesNoState: Int = 1
 
-//    @State var responseStatus = DASIResponseStatus(from: [ .yes, .yes, .no, .no, .yes, .no ])
-
-
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
+
+#if true
+            NavigationView {
+                //  SurveyContainerView()
+                UsabilityContainer()
+            }
+            .navigationBarBackButtonHidden(true)
+            .environmentObject(dasiPages)
+            .environmentObject(rootResponseStatus)
+            .environmentObject(UsabilityController())
+#elseif false
             TabView(selection: $selectedTab) {
                 NavigationView { AcccelerometryView() }
                     .tabItem { Label("Acceleration", systemImage: "arrow.up.arrow.down") }
@@ -34,30 +42,6 @@ struct G_BarsApp: App {
 
 
             }
-#if true
-            NavigationView {
-                SurveyContainerView()
-                /*
-                VStack {
-                    DASIQuestionView()
-                    YesNoStack(boundState: $yesNoState)
-                    Text("Integer state = \(yesNoState)")
-
-                    // NOTE WELL:
-                    // .onChange is executed _after_ the following
-                    // Text accesses .currentValue. This means the
-                    // displayed current value lags the most-recently-changed
-                    // value by one tap in the YesNoStack.
-                    Text("Transmitted state = \(rootResponseStatus.currentValue.description)")
-                }
-                .onChange(of: yesNoState) { newValue in
-                    rootResponseStatus.currentValue =
-                    (newValue == 1) ? .yes : .no
-                }
-                 */
-            }
-            .environmentObject(dasiPages)
-            .environmentObject(rootResponseStatus)
 #elseif false
             NavigationView {
                 DASIQuestionView()

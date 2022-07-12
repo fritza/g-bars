@@ -26,6 +26,10 @@
 		1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */; };
 		1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A86287CB06600490885 /* DASIDisplayView.swift */; };
 		1FB109FF287CCDF0007D7CDF /* USurveyQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */; };
+		1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */; };
+		1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A02287CD125007D7CDF /* UsabilityQuestions.swift */; };
+		1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A04287CD340007D7CDF /* UsabilityController.swift */; };
+		1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
@@ -81,6 +85,11 @@
 		1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIYNQuestionView.swift; sourceTree = "<group>"; };
 		1F9F2A86287CB06600490885 /* DASIDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIDisplayView.swift; sourceTree = "<group>"; };
 		1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = USurveyQuestions.json; sourceTree = "<group>"; };
+		1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityView.swift; sourceTree = "<group>"; };
+		1FB10A02287CD125007D7CDF /* UsabilityQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityQuestions.swift; sourceTree = "<group>"; };
+		1FB10A04287CD340007D7CDF /* UsabilityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityController.swift; sourceTree = "<group>"; };
+		1FB10A06287DC97A007D7CDF /* USurveyQuestions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = USurveyQuestions.json; sourceTree = "<group>"; };
+		1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityContainer.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
@@ -179,6 +188,10 @@
 			isa = PBXGroup;
 			children = (
 				1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */,
+				1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */,
+				1FB10A04287CD340007D7CDF /* UsabilityController.swift */,
+				1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */,
+				1FB10A02287CD125007D7CDF /* UsabilityQuestions.swift */,
 			);
 			path = PSSUQ;
 			sourceTree = "<group>";
@@ -225,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */,
+				1FB10A06287DC97A007D7CDF /* USurveyQuestions.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -414,6 +428,7 @@
 			files = (
 				1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */,
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
+				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
@@ -427,8 +442,11 @@
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,
 				1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */,
 				1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */,
+				1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */,
+				1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */,
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
+				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
