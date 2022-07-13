@@ -52,7 +52,7 @@ struct G_BarsApp: App {
             TabView(selection: $selectedTab) {
                 ContentView()
                     .tabItem {
-                        Label("Acceleration", systemImage: "arrow.up.arrow.down")
+                        Label("Acceleration", systemImage: "move.3d")
                     }
                 Text("For rent")
                     .tabItem {

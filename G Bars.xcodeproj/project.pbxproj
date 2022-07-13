@@ -20,6 +20,7 @@
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
+		1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE6287F4A730097868B /* 2DSeries.swift */; };
 		1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A7F287876A100490885 /* DASIPagesTests.swift */; };
 		1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */; };
 		1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */; };
@@ -81,6 +82,7 @@
 		1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialViews.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
+		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
 		1F9F2A7F287876A100490885 /* DASIPagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPagesTests.swift; sourceTree = "<group>"; };
 		1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhaseTests.swift; sourceTree = "<group>"; };
 		1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIYNQuestionView.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 			path = ValueController;
 			sourceTree = "<group>";
 		};
+		1F9C6AE5287F4A320097868B /* Graphing */ = {
+			isa = PBXGroup;
+			children = (
+				1F9C6AE6287F4A730097868B /* 2DSeries.swift */,
+			);
+			path = Graphing;
+			sourceTree = "<group>";
+		};
 		1FB109FD287CCDB4007D7CDF /* PSSUQ */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,7 +237,6 @@
 				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
-				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
 				1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */,
 				1F26AFA7286E049800586654 /* HorizontalBar.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
@@ -269,6 +278,8 @@
 		1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */ = {
 			isa = PBXGroup;
 			children = (
+				1F9C6AE5287F4A320097868B /* Graphing */,
+				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
 				1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */,
 				1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */,
 				1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */,
@@ -439,6 +450,7 @@
 				1F57E8132874CCE500FFB840 /* DASIInterstitialViews.swift in Sources */,
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
+				1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */,
 				1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */,
 				1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */,
 				1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */,
