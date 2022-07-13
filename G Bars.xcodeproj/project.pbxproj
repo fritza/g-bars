@@ -30,6 +30,7 @@
 		1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A02287CD125007D7CDF /* UsabilityQuestions.swift */; };
 		1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A04287CD340007D7CDF /* UsabilityController.swift */; };
 		1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */; };
+		1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
@@ -90,6 +91,7 @@
 		1FB10A04287CD340007D7CDF /* UsabilityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityController.swift; sourceTree = "<group>"; };
 		1FB10A06287DC97A007D7CDF /* USurveyQuestions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = USurveyQuestions.json; sourceTree = "<group>"; };
 		1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityContainer.swift; sourceTree = "<group>"; };
+		1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityInterstitialView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */,
 				1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */,
+				1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */,
 				1FB10A04287CD340007D7CDF /* UsabilityController.swift */,
 				1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */,
 				1FB10A02287CD125007D7CDF /* UsabilityQuestions.swift */,
@@ -442,6 +445,7 @@
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,
 				1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */,
 				1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */,
+				1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */,
 				1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */,
 				1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */,
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,

@@ -26,6 +26,7 @@ Tap "Confirm" to record your responses and end the survey.
 
 struct DASIInterstitialView: View {
     @EnvironmentObject var pages: DASIPages
+    @State var shouldShowLastScreenAlert: Bool = false
 
     let titleText: String
     let bodyText: String
@@ -59,12 +60,17 @@ struct DASIInterstitialView: View {
                         _ = pages.increment()
                     }
                     else if phase == .completion {
+                        shouldShowLastScreenAlert = true
                         // Accepting would bump you to
                         // the next grand phase of the workflow.
                     }
                 }
                 .accessibilityLabel("continuation button")
             }
+            .alert("No destination beyond DASI", isPresented: $shouldShowLastScreenAlert, actions: { },
+                   message: {
+                Text("The G Bars app doesn't integrate the phases of Step Test. You’ve gone as far as you can with the DASI survey.")
+            })
             .padding()
             .navigationBarBackButtonHidden(true)
             .navigationTitle(titleText)
@@ -89,21 +95,25 @@ struct DASIInterstitialView: View {
 struct DASIInterstitialView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DASIInterstitialView(titleText: "Finished",
-                                 bodyText: completionPhaseText,
-                                 systemImageName: "checkmark.square",
-                                 continueTitle: "Confirm",
-                                 phase: .completion)
-            .padding()
+            ZStack {
+                DASIInterstitialView(titleText: "Finished",
+                                     bodyText: completionPhaseText,
+                                     systemImageName: "checkmark.square",
+                                     continueTitle: "Confirm",
+                                     phase: .completion)
+                .padding()
+            }
         }
 
         NavigationView {
-            DASIInterstitialView(titleText: "Survey",
-                                 bodyText: introPhaseText,
-                                 systemImageName: "checkmark.square",
-                                 continueTitle: "Continue",
-                                 phase: .intro)
-            .padding()
+            ZStack {
+                DASIInterstitialView(titleText: "Survey",
+                                     bodyText: introPhaseText,
+                                     systemImageName: "checkmark.square",
+                                     continueTitle: "Continue",
+                                     phase: .intro)
+                .padding()
+            }
         }
     }
 }

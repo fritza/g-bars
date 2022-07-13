@@ -86,9 +86,9 @@ final class UsabilityController: ObservableObject {
 
 
     // Start without interstitials.
-    init() {
-        currentPhase = .start
-        questionID = 1
-        currentResponse = 0
+    init(phase: UsabilityPhase = .start, questionID: Int = 1) {
+        currentPhase = phase
+        self.questionID = questionID
+        currentResponse = results[questionID-1]
     }
 }
