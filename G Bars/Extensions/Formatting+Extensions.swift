@@ -30,6 +30,14 @@ private let _pointThree: NumberFormatter = {
     return retval
 }()
 
+private let _pointFive: NumberFormatter = {
+    let retval = NumberFormatter()
+    retval.minimumIntegerDigits = 1
+    retval .minimumFractionDigits = 5
+    retval.maximumFractionDigits  = 5
+    return retval
+}()
+
 private let _rounded: NumberFormatter = {
     let retval = NumberFormatter()
     retval.minimumIntegerDigits = 1
@@ -43,7 +51,11 @@ extension BinaryFloatingPoint {
         _pointThree.string(from: self as! NSNumber)!
     }
 
-    /// Render a `BinaryFloatingPoint` (_e.g._`Double`) as a spelled-out `String`
+    var pointFive: String {
+        _pointFive.string(from: self as! NSNumber)!
+    }
+
+   /// Render a `BinaryFloatingPoint` (_e.g._`Double`) as a spelled-out `String`
     var spelled: String {
         let asSeconds = Int(Double(self).rounded())
         return asSeconds.spelled
