@@ -45,6 +45,7 @@ struct UsabilityView: View {
             HStack(alignment: .center, spacing: 16) {
                 if index == resultingChoice {
                     Image(systemName: "checkmark.circle")
+                        .symbolRenderingMode(.hierarchical)
                 }
                 else {
                     Rectangle()
@@ -90,19 +91,17 @@ struct UsabilityView: View {
                 }       // ForEach
                 .buttonStyle(.bordered)
                 .font(.title)
-                Button("Continue") {
-                    controller.increment()
-                }
             }           // VStack of buttons
             Spacer()
+            Button("Continue") {
+                controller.increment()
+            }
         }
         .onDisappear() {
             controller.storeCurrentResponse()
         }
         .navigationTitle("Question \(questionID)")
         .navigationBarBackButtonHidden(true)
-
-        // FIXME: Something has to happen onDisappear, right?
     }
 }
 

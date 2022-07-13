@@ -45,6 +45,7 @@ struct DASIInterstitialView: View {
                         .scaledToFit()
                         .foregroundColor(.accentColor)
                         .frame(width: 0.5*proxy.size.width)
+                        .symbolRenderingMode(.hierarchical)
                     Spacer()
                 }
                 .accessibilityLabel("icon")

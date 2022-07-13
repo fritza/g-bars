@@ -39,6 +39,7 @@ struct YesNoButton: View, Identifiable {
         if isSelected {
             HStack(alignment: .center) {
                 Image(systemName: "checkmark.circle")
+                    .symbolRenderingMode(.hierarchical)
                 Text(text)
                     .font(.title2)
                     .fontWeight(.semibold)
