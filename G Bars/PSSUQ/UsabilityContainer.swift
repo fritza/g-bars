@@ -10,73 +10,82 @@ import SwiftUI
 struct UsabilityContainer: View {
     @EnvironmentObject var controller: UsabilityController
 
-    init() {
-//        controller.currentPhase = .start
-    }
-
     var body: some View {
         List {
-            NavigationLink(
-                tag: UsabilityPhase.questions,
-                selection: $controller.currentPhase) {
-                    UsabilityView(
-                        questionID: controller.questionID,
-                        selectedAnswer: $controller.currentResponse)
-                    { newAnswer in
-                        print("Here there's a new answer:", newAnswer)
-                        print("duplicative?")
+            questionPresentationView()
+            openingInterstitialView()
+            closingInterstitialView()
+        }
+    }
 
-                       // controller.receive(answer: newAnswer)
-                    }   // Questions destination
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("← Back") { controller.decrement() }
-                        }
-
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Next →") { controller.increment() }
-                        }
-                    }
-
-                    .navigationBarBackButtonHidden(true)
-                } label: {
-                    Text("Should not appear.")
-                } // Questions label
-                  // NavigationLink for UsabilityPhase.questions
-
-            NavigationLink(tag: UsabilityPhase.start, selection: $controller.currentPhase) {
-                Text("Opening interstitial")
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Next →") { controller.increment() }
-                        }
-                    }
-            } label: {
-                Text("Opening: should not appear")
+    // MARK: - Links to phase views
+    // MARK: Question
+    func questionPresentationView() -> some View {
+        NavigationLink("",
+                       tag: UsabilityPhase.questions,
+                       selection: $controller.currentPhase) {
+            UsabilityView(
+                questionID: controller.questionID,
+                selectedAnswer: $controller.currentResponse)
+            { newAnswer in
+                controller.increment()
+            }   // Questions destination
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("← Back") { controller.decrement() }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Next →") { controller.increment() }
+                }
             }
 
-            NavigationLink(tag: UsabilityPhase.end, selection: $controller.currentPhase) {
-                Text("Ending interstitial")
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("← Back") { controller.decrement() }
-                        }
-                    }
+            .navigationBarBackButtonHidden(true)
+        }
+    }
 
-            } label: {
-                Text("Ending: should not appear")
+    // TODO: Re-entry; incomplete answers.
+    //       Shouldn't dump into the opening again, should it?
+    // It's probably good-enough, one of the purposes of G-Bars is to be pre-integration.
+
+    // MARK: Opening
+    func openingInterstitialView() -> some View {
+        NavigationLink("", tag: UsabilityPhase.start, selection: $controller.currentPhase) {
+            UsabilityInterstitialView(
+                titleText: "Usability",
+                bodyText: usabilityInCopy, //"This space for rent",
+                systemImageName: "checkmark.circle",
+                continueTitle: "Continue")
+            .navigationBarBackButtonHidden(true)
+        }
+    }
+
+    // MARK: Closing
+    func closingInterstitialView() -> some View {
+        NavigationLink("", tag: UsabilityPhase.end, selection: $controller.currentPhase) {
+            UsabilityInterstitialView(
+                titleText: "Completed",
+                bodyText: usabilityOutCopy,
+                systemImageName: "checkmark.circle",
+                continueTitle: "Continue")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("← Back") { controller.decrement() }
+                }
             }
-        }   // List
+        }
     }
 }
 
+// MARK: - Previews
 struct UsabilityContainer_Previews: PreviewProvider {
     static var previews: some View {
-        UsabilityContainer()
-            .environmentObject(UsabilityController())
-            .previewDevice(.init(stringLiteral: "iPhone 12"))
-            .previewDevice(.init(stringLiteral: "iPhone SE (3rd generation)"))
+        NavigationView {
+            UsabilityContainer()
+        }
+        .environmentObject(UsabilityController(phase: .start, questionID: 1))
+        .environmentObject(DASIPages())
+        .previewDevice(.init(stringLiteral: "iPhone 12"))
+        .previewDevice(.init(stringLiteral: "iPhone SE (3rd generation)"))
     }
 }
