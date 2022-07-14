@@ -67,7 +67,6 @@ struct UsabilityView: View {
 
     var body: some View {
         VStack {
-//            Spacer().frame(height: 20)
             HStack(alignment: .top, spacing: 16) {
                 Text("\(questionID)")
                     .font(.largeTitle)
@@ -97,10 +96,11 @@ struct UsabilityView: View {
                 controller.increment()
             }
         }
+        .animation(.easeInOut, value: questionID)
         .onDisappear() {
             controller.storeCurrentResponse()
         }
-        .navigationTitle("Question \(questionID)")
+        .navigationTitle("Usability")
         .navigationBarBackButtonHidden(true)
     }
 }

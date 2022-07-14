@@ -46,7 +46,7 @@ struct DASIDisplayView: View {
             }   // Back button
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Next →") {
-                    _ = pages.decrement()
+                    _ = pages.increment()
                 }
             }   // Next button
         }   // toolbar
