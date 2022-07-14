@@ -112,6 +112,7 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     // TODO: Can't Accelerate do all of this, simultaneously?
 }
 
+/// Ingest, normalize, and plot a 1-D time series of data.
 final class Store2D {
     private var content: [Datum2D] = []
 
@@ -135,15 +136,8 @@ final class Store2D {
 extension Store2D {
     // MARK: Time range
     // FIXME: Time-range properties assume content is time-sorted.
-    @inlinable
-    var tMin: Double? {
-        return content.first?.t
-    }
-
-    @inlinable    var tMax: Double? {
-        return content.last?.t
-    }
-
+    @inlinable var tMin: Double? { return content.first?.t }
+    @inlinable var tMax: Double? { return content.last? .t }
     @inlinable
     var tSpan: ClosedRange<Double>? {
         guard let min = tMin, let max = tMax else { return nil }
@@ -164,29 +158,20 @@ extension Store2D {
 
     func normalizeByTime() {
         guard let timeSpan = tSpan else { return }
-        let newValues = content.map { $0.unsafeTimeNormalized(within: timeSpan)
-        }
+        let newValues = content.map { $0.unsafeTimeNormalized(within: timeSpan) }
         content = newValues
-//        return Store2D(newValues)
     }
 
     func normalizeByValue() {
         guard let span = xSpan else { return }
-        let newValues = content.map {
-            $0.unsafeDatumNormalized(within: span)
-        }
+        let newValues = content.map { $0.unsafeDatumNormalized(within: span) }
         content = newValues
-//        return Store2D(newValues)
     }
 
     func normalize(by axis: Datum2D.Normalization) {
         guard !self.isEmpty else { return }
-        if axis.contains(.byTime) {
-            normalizeByTime()
-        }
-        if axis.contains(.byValue) {
-            normalizeByValue()
-        }
+        if axis.contains(.byTime ) { normalizeByTime()  }
+        if axis.contains(.byValue) { normalizeByValue() }
     }
 
     func fitTo(_ dimensions: CGSize) {
