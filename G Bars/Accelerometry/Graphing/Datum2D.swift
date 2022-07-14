@@ -59,6 +59,7 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
         lhs.t < rhs.t
     }
 
+    /// Simple cast to `CGPoint`
     var asPoint: CGPoint {
         CGPoint(x: t, y: x)
     }
@@ -104,6 +105,11 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
                        x: x.unsafeScaledTo(span: valueRange))
     }
 
+    /// A new `Datum2D` with the same time (`t`) value, but value (`x`) normalized; or `nil` if the value range is empty.
+    ///
+    /// Use `unsafeDatumNormalized(within:)` if you are confident that `valueRange` will not be empty.
+    /// - Parameter valueRange: The span of values to map the `x` property to `(0...1)`.
+    /// - Returns: A `Datum2D` with the `x`-value scaled.
     func datumNormalized(within valueRange: ClosedRange<Double>) -> Datum2D? {
         guard !valueRange.isEmpty else { return nil }
         return unsafeDatumNormalized(within: valueRange)
