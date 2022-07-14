@@ -96,7 +96,7 @@ struct DASIInterstitialView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ZStack {
-                DASIInterstitialView(titleText: "Finished",
+                DASIInterstitialView(titleText: "DASI Survey — Finished",
                                      bodyText: completionPhaseText,
                                      systemImageName: "checkmark.square",
                                      continueTitle: "Confirm",
@@ -107,7 +107,7 @@ struct DASIInterstitialView_Previews: PreviewProvider {
 
         NavigationView {
             ZStack {
-                DASIInterstitialView(titleText: "Survey",
+                DASIInterstitialView(titleText: "DASI Survey",
                                      bodyText: introPhaseText,
                                      systemImageName: "checkmark.square",
                                      continueTitle: "Continue",
