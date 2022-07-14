@@ -70,36 +70,6 @@ extension Store2D {
         guard let min = xMin, let max = xMax else { return nil }
         return min...max
     }
-
-    /// Replace the `t` values in the `content` by mapping the span to `(0...1)`
-    func normalizeByTime() {
-        guard let timeSpan = tSpan else { return }
-        let newValues = content.map { $0.unsafeTimeNormalized(within: timeSpan) }
-        content = newValues
-    }
-
-    /// Replace the `x` values in the `content` by mapping the span to `(0...1)`
-    func normalizeByValue() {
-        guard let span = xSpan else { return }
-        let newValues = content.map { $0.unsafeDatumNormalized(within: span) }
-        content = newValues
-    }
-
-    /// Replace the `t` or `x` values in the `content` by mapping the spans to `(0...1)`
-    /// - parameter axis: Options for selecting `t`-normalization, or `x`, or both.
-    func normalize(by axis: Datum2D.Normalization) {
-        guard !self.isEmpty else { return }
-        if axis.contains(.byTime ) { normalizeByTime()  }
-        if axis.contains(.byValue) { normalizeByValue() }
-    }
-
-    /// Scale the `t` and `x` values in `content` to span the axes of a `CGSize`.
-    /// - Parameter dimensions: A `CGSize` representing the upper limit of the scale on each axis.
-    func fitTo(_ dimensions: CGSize) {
-        guard !content.isEmpty else { return }
-        let newContents = content.map { dimensions * $0 }
-        content = newContents
-    }
 }
 
 extension Store2D: CustomStringConvertible, RandomAccessCollection {
@@ -135,13 +105,93 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
 import SwiftUI
 extension Store2D {
     /// `SwiftUI` `Path` `Shape` representing the values in `content`.
-    func path() -> Path {
-        Path() {
+    func path(within size: CGSize) -> Path {
+        return content.path(within: size)
+    }
+}
+
+extension Array where Element == Datum2D {
+    @inlinable var tMin: Double? { return self.first?.t }
+    /// The maximum `t` value in the store
+    /// - warning: Assumes the `content` array is already ordered by time.
+    @inlinable var tMax: Double? { return self.last?.t }
+    /// The `ClosedRange` encompassing the minimum and maximum `t` values.
+    /// - warning: Assumes the `content` array is already ordered by time.
+    @inlinable
+    var tSpan: ClosedRange<Double>? {
+        guard let min = tMin, let max = tMax else { return nil }
+        return min...max
+    }
+
+    /// The minimum `x` value in the store
+    var xMin: Double? { self.map(\.x).min() }
+    /// The maximum `x` value in the store
+    var xMax: Double? { self.map(\.x).max() }
+    /// The `ClosedRange` encompassing the minimum and maximum `x` values.
+    var xSpan: ClosedRange<Double>? {
+        guard let min = xMin, let max = xMax else { return nil }
+        return min...max
+    }
+
+
+    @discardableResult
+    func normalizedByTime() -> [Datum2D] {
+        guard let timeSpan = tSpan else { return self }
+        var retval = self
+        for index in 0..<count {
+            retval[index] = retval[index]
+                .unsafeTimeNormalized(within: timeSpan)
+        }
+        return retval
+    }
+
+    /// Replace the `x` values in the `content` by mapping the span to `(0...1)`
+    func normalizedByValue() -> [Datum2D] {
+        guard let span = xSpan else { return self }
+        var retval = self
+        for index in 0..<count {
+            retval[index] = retval[index]
+                .unsafeDatumNormalized(within: span)
+        }
+        return retval
+    }
+
+    func normalized() -> [Datum2D] {
+        guard let xes = xSpan, let ts = tSpan else { return self }
+        var retval = self
+        for index in 0..<count {
+            let nextValue = Datum2D(
+                t: retval[index].t.unsafeScaledTo(span: ts ),
+                x: retval[index].x.unsafeScaledTo(span: xes)
+            )
+            retval[index] = nextValue
+        }
+        return retval
+    }
+
+    func normalized(by axis: Datum2D.Normalization) -> [Datum2D] {
+        guard !self.isEmpty && !axis.isEmpty else   { return self }
+        if axis == .both           { return self.normalized()        }
+        if axis.contains(.byTime ) { return self.normalizedByTime()  }
+        if axis.contains(.byValue) { return self.normalizedByValue() }
+        return self
+    }
+
+    func fittedTo(_ dimensions: CGSize) -> [Datum2D] {
+        guard !self.isEmpty else { return self }
+        let retval = self.normalized(by: .both)
+            .map { dimensions * $0 }
+        return retval
+    }
+
+    func path(within size: CGSize) -> Path {
+        let copy = self.fittedTo(size)
+        return Path() {
             ioPath in
-            guard !self.content.isEmpty else { return }
-            ioPath.move(to: content[0].asPoint)
+            guard let initialPoint = copy.first?.asPoint else { return }
+            ioPath.move(to: initialPoint)
             if self.count == 1 { return }
-            for datum in content[1...] {
+            for datum in copy[1...] {
                 ioPath.addLine(to: datum.asPoint)
             }
         }

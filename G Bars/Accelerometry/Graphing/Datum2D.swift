@@ -14,7 +14,7 @@ extension BinaryFloatingPoint {
     /// Use `unsafeScaledTo` if you are confident `span` will never be empty (and present a zero divisor). Otherwise, use ```scaledTo(span:)```.
     /// - Parameter span: The range of unscaled values
     /// - Returns: The value mapped within `span` to `(0...1)`
-    func unsafeScaledTo(span: ClosedRange<Self>) -> Self {
+    public func unsafeScaledTo(span: ClosedRange<Self>) -> Self {
       return (self - span.lowerBound)
         / (span.upperBound - span.lowerBound)
     }
@@ -24,7 +24,7 @@ extension BinaryFloatingPoint {
     /// Use `scaledTo` if you cannot guarantee `span`is non-empty. Otherwise, use ```unsafeScaledTo(span:)```.
     /// - Parameter span: The range of unscaled values
     /// - Returns: The value mapped within `span` to `(0...1)`; or `nil` if `span` is empty.
-    func scaledTo(span: ClosedRange<Self>) -> Self? {
+    public func scaledTo(span: ClosedRange<Self>) -> Self? {
         guard !span.isEmpty else { return nil }
       return unsafeScaledTo(span: span)
     }
@@ -33,7 +33,7 @@ extension BinaryFloatingPoint {
 /// A value type describing a pair of `Double` values.
 ///
 /// The expectation is that this will represent an element of a time series; hence the stored properties are `t` and `x`.
-struct Datum2D: CustomStringConvertible, Comparable, Hashable {
+public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// `OptionSet` to specify whether to apply normalization to times, values, or both.
     struct Normalization: RawRepresentable, OptionSet {
         let rawValue: Int
@@ -47,24 +47,28 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     }
 
     /// The first (notionally time) component
-    let t: Double
+    public let t: Double
     /// The second (notionally data-at-time) component
-    let x: Double
+    public let x: Double
 
-    var description: String {
+    public init(t: Double, x: Double) {
+        (self.t, self.x) = (t, x)
+    }
+
+    public var description: String {
         "(t: \(t.pointFive), x: \(x.pointFive))"
     }
 
-    static func < (lhs: Datum2D, rhs: Datum2D) -> Bool {
+    public static func < (lhs: Datum2D, rhs: Datum2D) -> Bool {
         lhs.t < rhs.t
     }
 
     /// Simple cast to `CGPoint`
-    var asPoint: CGPoint {
+    public var asPoint: CGPoint {
         CGPoint(x: t, y: x)
     }
 
-    static func * (size: CGSize, multiplicand: Datum2D) -> Datum2D {
+    public static func * (size: CGSize, multiplicand: Datum2D) -> Datum2D {
         Datum2D(t: multiplicand.t * size.width,
                 x: multiplicand.x * size.height)
     }
@@ -79,7 +83,7 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// See ```BinaryFloatingPoint.unsafeScaledTo(span:)````
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
-    func unsafeTimeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D {
+    public func unsafeTimeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D {
         return Datum2D(t: t.unsafeScaledTo(span: timeRange),
                        x: self.x)
     }
@@ -89,7 +93,7 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// Use `unsafeTimeNormalized(within:)` if you are confident that `span` will not be empty.
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
-    func timeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D? {
+    public func timeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D? {
         guard !timeRange.isEmpty else { return nil }
         return unsafeTimeNormalized(within: timeRange)
     }
@@ -100,7 +104,7 @@ struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// - Parameter timeRange: The span of time to map the `x` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `x`-value scaled.
     @inlinable
-    func unsafeDatumNormalized(within valueRange: ClosedRange<Double>) -> Datum2D {
+    public func unsafeDatumNormalized(within valueRange: ClosedRange<Double>) -> Datum2D {
         return Datum2D(t: t,
                        x: x.unsafeScaledTo(span: valueRange))
     }
