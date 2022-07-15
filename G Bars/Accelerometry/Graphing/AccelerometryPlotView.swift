@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct AccelerometryPlotView: View {
+    @Environment(\.colorScheme) static private var colorScheme: ColorScheme
     let series: Store2D
     let lineColor: Color
     let lineWidth: CGFloat
 
+    static func preferredColor(versus other: Color?) -> Color {
+        return other ?? (colorScheme == .light ? .black : .white)
+    }
+
     init(_ series: Store2D,
-         lineColor: Color = .black,
+         lineColor color: Color? = nil,
          lineWidth: CGFloat = 1.0) {
-        (self.series, self.lineColor, self.lineWidth) =
-        (series, lineColor, lineWidth)
+
+        self.series = series
+        self.lineWidth = lineWidth
+        self.lineColor = Self.preferredColor(versus: color)
     }
 
     var body: some View {
@@ -67,13 +74,13 @@ struct AccelerometryPlotView_Previews: PreviewProvider {
 
                     AccelerometryPlotView(
                         Store2D(unfilteredData),
-                        lineColor: .black,
+//                        lineColor: .black,
                         lineWidth: 2.0)
 
 
                     AccelerometryPlotView(
                         Store2D(logData),
-                        lineColor: .blue,
+                        lineColor: .red,
                         lineWidth: 2.0)
                 }
                 .frame(width: 400, height: 200)
