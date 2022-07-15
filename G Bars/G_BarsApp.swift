@@ -34,7 +34,7 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if true
+#if false
             NavigationView {
                 AccelerometryPlotView(accelerometerTestData())
             }

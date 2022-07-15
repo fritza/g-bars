@@ -39,7 +39,7 @@ final class Store2D {
     }
 }
 
-extension Store2D {
+extension Store2D: ObservableObject {
     // MARK: - Time range
     // FIXME: Time-range properties assume content is time-sorted.
     /// The minimum `t` value in the store
@@ -69,6 +69,16 @@ extension Store2D {
     var xSpan: ClosedRange<Double>? {
         guard let min = xMin, let max = xMax else { return nil }
         return min...max
+    }
+
+    /// Create a **new** instance of Store2D with a filter function applied to its `x` values.
+    ///
+    /// The instance called-upon will be unchanged.
+    /// - Parameter filter: A closure mapping `Double` to `Double`, to be applied to this `Store2D`’s `x` values.
+    /// - Returns: A new, distinct `Store2D` with the transformed `x` values.
+    func applying(_ filter: (Double) -> Double) -> Store2D {
+        let newData = content.applying(filter)
+        return Store2D(newData)
     }
 }
 
@@ -105,7 +115,7 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
 import SwiftUI
 extension Store2D {
     /// `SwiftUI` `Path` `Shape` representing the values in `content`.
-    func path(within size: CGSize) -> Path {
+    func path(within size: CGSize) -> some Shape {
         return content.path(within: size)
     }
 }
@@ -133,6 +143,16 @@ extension Array where Element == Datum2D {
         return min...max
     }
 
+    func applying(_ filter: (Double) -> Double) -> [Datum2D] {
+        guard !self.isEmpty else { return self }
+        var retval = self
+        for index in 0..<count {
+            retval[index] = Datum2D(
+                t: retval[index].t,
+                x: filter(retval[index].x))
+        }
+        return retval
+    }
 
     @discardableResult
     func normalizedByTime() -> [Datum2D] {
@@ -179,21 +199,27 @@ extension Array where Element == Datum2D {
 
     func fittedTo(_ dimensions: CGSize) -> [Datum2D] {
         guard !self.isEmpty else { return self }
-        let retval = self.normalized(by: .both)
+        let retval = self
+            .normalized(by: .both)
             .map { dimensions * $0 }
         return retval
     }
 
-    func path(within size: CGSize) -> Path {
-        let copy = self.fittedTo(size)
+    func path(within size: CGSize) -> some Shape {
+        let transform: CGAffineTransform = .identity
+            .translatedBy(x: 0.0, y: size.height)
+            .scaledBy(x: 1.0, y: -1.0)
+
+        let fittedCopy = self.fittedTo(size)
         return Path() {
             ioPath in
-            guard let initialPoint = copy.first?.asPoint else { return }
+            guard let initialPoint = fittedCopy.first?.asPoint else { return }
             ioPath.move(to: initialPoint)
             if self.count == 1 { return }
-            for datum in copy[1...] {
+            for datum in fittedCopy[1...] {
                 ioPath.addLine(to: datum.asPoint)
             }
         }
+        .transform(transform)
     }
 }

@@ -12,7 +12,8 @@ import SwiftUI
 
 // MARK: Time intervals
 
-private let hz                : UInt64 = 120
+// FIXME: The collection rate should be settable.
+private let hz                : UInt64 = 60
 private let hzInterval        : Double = 1.0/Double(hz)
 private let nanoSleep         : UInt64 = UInt64(hzInterval * Double(NSEC_PER_SEC))
 // TODO: Put the interval in a UserDefault.

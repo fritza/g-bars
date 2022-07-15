@@ -33,7 +33,7 @@ struct AccelerometryPlotView: View {
 import Accelerate
 struct AccelerometryPlotView_Previews: PreviewProvider {
     static let timePerTick = 1.0 / 60.0
-    static let testData: [Datum2D] = {
+    static let unfilteredData: [Datum2D] = {
         let ts = vDSP.ramp(withInitialValue: 0.0, increment: timePerTick, count: 1000)
         let vs = vDSP.ramp(withInitialValue: 3.22, increment: 0.02, count: 1000)
         let sines = vForce.sin(vs)
@@ -42,19 +42,39 @@ struct AccelerometryPlotView_Previews: PreviewProvider {
         return data
     }()
 
-    static let store = Store2D(testData)
+    static let absData: [Datum2D] = {
+        return unfilteredData
+            .applying(abs)
+    }()
+
+    static let logData: [Datum2D] = {
+        return unfilteredData.applying { log10(abs($0)) }
+    }()
+
+    static let store = Store2D(absData)
 
     static var previews: some View {
         NavigationView {
             VStack {
                 ZStack {
-                    Rectangle()
-                        .foregroundColor(.gray)
+//                    Rectangle()
+//                        .foregroundColor(.gray)
+
+//                    AccelerometryPlotView(
+//                        Store2D(absData),
+//                        lineColor: .red,
+//                        lineWidth: 2.0)
+
                     AccelerometryPlotView(
-                        Store2D(testData),
-                        lineColor: .white,
+                        Store2D(unfilteredData),
+                        lineColor: .black,
                         lineWidth: 2.0)
 
+
+                    AccelerometryPlotView(
+                        Store2D(logData),
+                        lineColor: .blue,
+                        lineWidth: 2.0)
                 }
                 .frame(width: 400, height: 200)
             }
