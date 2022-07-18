@@ -7,18 +7,32 @@
 
 import Foundation
 import Combine
+import SwiftUI
+
+enum CancellationReasons {
+    case notCancelled, cancelled, ranOut
+}
 
 final class CountdownController: ObservableObject {
-    var durationInMinutes: Int
-    var isRunning: Bool
-    private var timePublisher: MinutePublisher!
+    @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInMinutes: Int = 2
+    @Published var isRunning: Bool = false
+//    @Published var durationInMinutes: Int = dur
+
+    @Published var timePublisher: MinutePublisher!
+//    @Published var mmss: String
+//    @Published var seconds: Int
+//    @Published var minutes: Int
+//    @Published var fraction: TimeInterval
+//    @Published var halted: CancellationReasons
+
     private var cancellables: Set<AnyCancellable> = []
 
-    internal init(durationInMinutes: Int) {
-        self.durationInMinutes = durationInMinutes
+    init() {
         self.isRunning = false
+        let publisher = MinutePublisher(
+            after: TimeInterval(durationInMinutes * 60))
+        timePublisher = publisher
     }
-
 
     func prepareSubscribers(for deadline: Int) {
         timePublisher = MinutePublisher(
@@ -30,16 +44,16 @@ final class CountdownController: ObservableObject {
             .store(in: &cancellables)
     }
 
-    private func startCounting(minutes: Int) {
+    func startCounting() {
         timePublisher.start()
         isRunning = true
     }
 
-    private func stopCounting() {
+    func stopCounting(timeRanOut: Bool = true) {
         guard timePublisher != nil else {
             assertionFailure("\(#function) - Attempt to stop a counter that does not exist")
             return
         }
-        timePublisher.stop(exhausted: false)
+        timePublisher.stop(exhausted: timeRanOut)
     }
 }

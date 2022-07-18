@@ -36,7 +36,7 @@ struct G_BarsApp: App {
         WindowGroup {
 #if false
             NavigationView {
-                AccelerometryPlotView(accelerometerTestData())
+                CountdownContainerView()
             }
 #else
             TabView(selection: $selectedTab) {

@@ -12,14 +12,20 @@ enum CountdownUnit: String {
 }
 
 struct CountdownSetupView: View {
+    @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInMinutes: Int = 2
+    @EnvironmentObject private var controller: CountdownController
+
     private let units: CountdownUnit
-    @State private var deadlineInMinutes: Int
+//    @State private var deadlineInMinutes: Int
     private let callback:   (Int) -> Void
     private let testing: Bool
-    init(_ deadline: Int, unit: CountdownUnit,
+
+//    init(_ deadline: Int,
+    init(
+         unit: CountdownUnit,
          testing: Bool = false, callback: @escaping (Int) -> Void) {
         self.units = unit
-        self.deadlineInMinutes = deadline
+//        self.deadlineInMinutes = deadline
         self.testing = testing
         self.callback = callback
     }
@@ -32,20 +38,23 @@ struct CountdownSetupView: View {
                     Spacer()
                     TextField(
                         "Minutes to Deadline",
-                        value: $deadlineInMinutes,
+                        value: $durationInMinutes,
                         format: .number.precision(.fractionLength(0)))
                     .textFieldStyle(.roundedBorder)
                     .frame(width: proxy.size.width * 0.25)
                 }
                 .frame(width: proxy.size.width, alignment: .leading)
                 Button("Start") {
-                    callback(deadlineInMinutes)
+
+// FIXME: what's the callback used for, again?
+
+                    callback(durationInMinutes)
                 }
 //                Text("Value is \(deadlineInMinutes)")
                 Divider()
 
                 if testing {
-                    Text("\(deadlineInMinutes) \(units.rawValue)")
+                    Text("\(durationInMinutes) \(units.rawValue)")
                 }
             }
         }
@@ -58,12 +67,14 @@ struct CountdownSetupView_Previews: PreviewProvider {
         NavigationView {
             ZStack {
                 CountdownSetupView(
-                    numberSelected, unit: .seconds,
+//                    numberSelected,
+                    unit: .seconds,
                 testing: true) { units in
                     numberSelected = units
                 }
             }
             .padding()
         }
+        .environmentObject(CountdownController())
     }
 }

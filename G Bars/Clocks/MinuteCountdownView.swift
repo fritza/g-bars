@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MinuteCountdownView: View {
-    @EnvironmentObject private var timer: MinutePublisher
+    @EnvironmentObject private var controller: CountdownController
+
+//    @EnvironmentObject private var timer: MinutePublisher
     @State private var hasCompleted: Bool = false
     private let durationInMinutes: Int
     @State private var numeralColor: Color = .black
@@ -20,16 +22,16 @@ struct MinuteCountdownView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text(timer.minuteColonSecond)
+            Text(controller.timePublisher.minuteColonSecond)
                 .font(.system(size: 120, weight: .ultraLight))
                 .monospacedDigit()
                 .foregroundColor(numeralColor)
             Spacer()
             Button("Cancel") {
-                timer.stop(exhausted: false)
+                controller.stopCounting(timeRanOut: false)
             }
         }
-        .onReceive(timer.completedSubject, perform: { why in
+        .onReceive(controller.timePublisher.completedSubject, perform: { why in
             hasCompleted = true
             // FIXME: Why doesn't this turn green?
             //        upon exhaustion
