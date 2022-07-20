@@ -46,10 +46,9 @@ struct SweepSecondView: View {
                 .navigationTitle("Seconds")
 
                 // TODO: Track a published Bool for completion.
-                .onReceive(controller.timePublisher
-                    .completedSubject, perform: { normally in
+                .onReceive(controller.$isRunning) { stillRunning in
                     hasCompleted = true
-                })
+                }
                 .frame(width: proxy.size.short * 0.95,
                        height: proxy.size.short * 0.95,
                    alignment: .center)

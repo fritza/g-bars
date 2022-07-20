@@ -23,20 +23,11 @@ import Combine
 final class MinutePublisher: ObservableObject {
     var cancellables: Set<AnyCancellable> = []
 
-    var isRunning = false
 
     // MARK: Subjects
     /// Subscribers get a `Bool` input when the deadline arrives (`true`) or the client calls `.stop()` (`false`). The `Bool` is true iff the clock ran out and nit cancalled.
-    public var completedSubject = PassthroughSubject<Bool, Never>()
-    // TODO: Replace with a @Published Bool, isRunning?
 
-    /// The root time publisher for a `Timer` signaling every `0.01 ± 0.03` seconds.
-    ///
-    /// Clients do not see this publisher; they should subscribe to the `@Published` time components instead.
-    private let timePublisher = Timer.publish(
-        every: 0.01, tolerance: 0.03,
-        on: .current, in: .common)
-
+    @Published var isRunning = false
     // MARK: @Published
     /// Minutes until deadline
     @Published public var minutes: Int = 0
@@ -71,66 +62,74 @@ final class MinutePublisher: ObservableObject {
 
     /// The `Date` at which `start()` commenced the count. Used only as a reference point for counting up.
     private var dateStarted: Date!
-    /// The time publisher, converted to emitting a `TimeInterval` between now and the deadline.
-    private var commonPublisher: AnyPublisher<TimeInterval, Never>!
+}
 
-    // MARK: start
-    /// Set up internal subscriptions to (ultimately) the `Timer.Publisher`, and start counting down to the deadline.
-    public func start() {
-        dateStarted = Date()
 
-        // Subscribe to the timer, correct to count-down or -up, and check for deadlines.
-        commonPublisher = timePublisher
+// MARK: - Combine
+extension MinutePublisher {
+    // MARK: Root publisher
+    /// The root time publisher for a `Timer` signaling every `0.01 ± 0.03` seconds.
+    ///
+    /// `TimePublisher.Output` is `Date`. This is translated to time interval before `countdownTo`. It is `autoconnect`, `share`, and erased to `AnyPublisher<TimeInterval, Never>`.
+    ///
+    /// - note: This publisher does not escape `setUpCombine`. Clients should subscribe to the `@Published` time components instead.
+    private func setUpSecondsPublisher() -> AnyPublisher<TimeInterval, Never> {
+        let timeToSeconds = Timer.publish(
+            every: 0.01, tolerance: 0.03,
+            on: .current, in: .common)
             .autoconnect()
+
+        // Debugging: Intercept cancellations
             .handleEvents(receiveCancel: {
-                print("Cancel on the common publisher.")
-            }
-            )
-//            .print("common publisher")
+                print(#function, "Main publisher was cancelled.")
+                print()
+            })
+
+        // Date → downward TimeInterval
             .map {
                 currentDate -> TimeInterval in
                 if let remote = self.countdownTo {
                     if currentDate >= remote { self.stop() }
-                    return -currentDate.timeIntervalSince(remote)
+                    return -currentDate
+                        .timeIntervalSince(remote)
                 }
                 else {
-                    return currentDate.timeIntervalSince(self.dateStarted)
+                    return currentDate
+                        .timeIntervalSince(self.dateStarted)
                 }
             }
             .share()
             .eraseToAnyPublisher()
+        return timeToSeconds
+    }
+
+    // MARK: Derived publishers
+    /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
+    func setUpCombine() {
+        let timeToSeconds = setUpSecondsPublisher()
 
         // Emit fractions
-        commonPublisher
-            .map {
-                $0 - Double( Int($0) )
-            }
-        // Known to get downstream from the publisher
-            .sink { fraction in
-                self.fraction = fraction
-            }
+        timeToSeconds
+            .map { $0 - Double(Int($0)) }
+            .assign(to: \.fraction, on: self)
             .store(in: &cancellables)
 
         // Emit seconds
-        commonPublisher
+        timeToSeconds
             .map { Int($0) % 60 }
             .removeDuplicates()
-            .sink { seconds in
-                self.seconds = seconds
-            }
+            .assign(to: \.seconds, on: self)
             .store(in: &cancellables)
 
         // Emit minutes
-        commonPublisher
+        timeToSeconds
             .map { Int($0) / 60 }
             .removeDuplicates()
-            .sink { minutes in
-                self.minutes = minutes
-            }
+            .assign(to: \.minutes, on: self)
             .store(in: &cancellables)
 
         // Emit "mm:ss"
-        commonPublisher
+        timeToSeconds
             .map { (commonSeconds: TimeInterval) -> (m: Int, s: Int) in
                 let dblMin = (commonSeconds / 60.0).rounded(.towardZero)
                 let dblSec = (commonSeconds.rounded(.towardZero)).truncatingRemainder(dividingBy: 60.0)
@@ -145,10 +144,15 @@ final class MinutePublisher: ObservableObject {
                 return "\(mString):\(sString)"
             }
             .removeDuplicates()
-            .sink {
-                self.minuteColonSecond = $0
-            }
+            .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
+    }
+
+    // MARK: - start
+    /// Set up internal subscriptions to (ultimately) the `Timer.Publisher`, and start counting down to the deadline.
+    public func start() {
+        dateStarted = Date()
+        setUpCombine()
         isRunning = true
     }
 
@@ -158,13 +162,13 @@ final class MinutePublisher: ObservableObject {
     /// - parameter exhausted: `true` iff `stop()` was called because the clock ran out. This is passed along through `completedSubject` to inform clients the clock is finished.
     public func stop(exhausted: Bool = true) {
         guard isRunning else {
+            assert(isRunning, "\(#function) got a repeated stop message.")
             print(#function, "- double stop")
             return
         }
         for c in cancellables {
             c.cancel()
         }
-        completedSubject.send(exhausted)
+        isRunning = false
     }
 }
-
