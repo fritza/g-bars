@@ -74,6 +74,6 @@ struct CountdownSetupView_Previews: PreviewProvider {
             }
             .padding()
         }
-        .environmentObject(CountdownController(forCountdown: false))
+        .environmentObject(CountdownController(duration: 45))
     }
 }

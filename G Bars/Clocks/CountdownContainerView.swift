@@ -55,15 +55,9 @@ struct CountdownContainerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CountdownContainerView(
-//                seconds: 5
             )
                 .environmentObject(
-                    MinutePublisher(after: 5)
-                )
-                .environmentObject(
-                    CountdownController(
-                        forCountdown: true
-                    )
+                    CountdownController(duration: 10)
                 )
         }
     }

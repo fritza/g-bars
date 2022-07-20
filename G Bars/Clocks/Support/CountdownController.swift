@@ -75,9 +75,9 @@ final class CountdownController: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
 
 
-    init(forCountdown: Bool) {
+    init(duration _duration: Int, forCountdown: Bool = true) {
         self.isRunning = false
-        self.durationInSeconds = Self.fixedDurationInSeconds
+        self.durationInSeconds = _duration // Self.fixedDurationInSeconds
 
         /*
          WARNING: DO NOT MUTATE durationInSecons FOR THE PURPOSE OF MINIMAL-EXAMPLE.
@@ -143,7 +143,8 @@ final class CountdownController: ObservableObject {
 
     func stopCounting(timeRanOut: Bool = true) {
         // Should this nil-out timePublisher?
-        assert(isRunning, "\(#function) - attempt to halt a tracker that isn't running.")
+        guard isRunning else { return }
+//        assert(isRunning, "\(#function) - attempt to halt a tracker that isn't running.")
         timePublisher.stop(exhausted: timeRanOut)
     }
 }

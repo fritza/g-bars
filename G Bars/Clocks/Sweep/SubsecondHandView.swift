@@ -30,20 +30,16 @@ struct SubsecondHandView: View {
         GeometryReader { proxy in
             Rectangle()
                 .rotation(
-                    Angle(
-                        degrees:
+                    Angle(degrees:
                             180.0 +
-                        (
-                            controller.fraction
-                            * 360.0
-//                            fractionOf360()
-                        )
-                    ),
+                          ( controller.fraction * 360.0 )
+                         ),
                     anchor: UnitPoint(x: 0.5, y: 0.05))
                 .offset(midpoint(within: proxy))
                 .frame(width: 2.0, height: proxy.size.short/2.0, alignment: .center)
         }
         .onAppear {
+            controller.reassemble(newDuration: 5)
             if !controller.isRunning {
                 controller.startCounting()
             }
@@ -58,7 +54,7 @@ struct SubsecondHandView_Previews: PreviewProvider {
             .frame(width: 100, height: 100, alignment: .center)
             .border(.green, width: 0.5)
             .environmentObject(
-                CountdownController(forCountdown: true)
+                CountdownController(duration: 10)
             )
     }
 }

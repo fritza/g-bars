@@ -73,7 +73,7 @@ extension MinutePublisher {
     /// `TimePublisher.Output` is `Date`. This is translated to time interval before `countdownTo`. It is `autoconnect`, `share`, and erased to `AnyPublisher<TimeInterval, Never>`.
     ///
     /// - note: This publisher does not escape `setUpCombine`. Clients should subscribe to the `@Published` time components instead.
-    private func setUpSecondsPublisher() -> AnyPublisher<TimeInterval, Never> {
+    private func setUpTimerPublisher() -> AnyPublisher<TimeInterval, Never> {
         let timeToSeconds = Timer.publish(
             every: 0.01, tolerance: 0.03,
             on: .current, in: .common)
@@ -106,7 +106,7 @@ extension MinutePublisher {
     // MARK: Derived publishers
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     func setUpCombine() {
-        let timeToSeconds = setUpSecondsPublisher()
+        let timeToSeconds = setUpTimerPublisher()
 
         // Emit fractions
         timeToSeconds

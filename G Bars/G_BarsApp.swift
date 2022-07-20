@@ -25,11 +25,12 @@ struct G_BarsApp: App {
     let countdownController: CountdownController
 
     init() {
-        countdownController = CountdownController(forCountdown: true)
+        #warning("initialization of CountdownController belongs elsewhere")
+        countdownController = CountdownController(duration: 10)
     }
 
-    var selectedTab = 0
-//    @State var selectedTab: Int = 0
+//    var selectedTab = 0
+    @State var selectedTab: Int = 0
 
     func accelerometerTestData() -> Store2D {
         let timePerTick = 1.0 / 60.0
@@ -44,11 +45,9 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if true
+#if false
             NavigationView {
                 VStack {
-                    // TODO: Make the MinutePublisher reset
-                    //       To the walking time.
                     Text("DigitalTimerView goes here")
                 }
                 .navigationTitle("Digital Countdown")
@@ -58,7 +57,6 @@ struct G_BarsApp: App {
             NavigationView {
                 VStack {
                     SweepSecondView()
-//                    SubsecondHandView()
                 }
                 .environmentObject(
                     countdownController
@@ -68,20 +66,37 @@ struct G_BarsApp: App {
             TabView(selection: $selectedTab) {
                 // MARK: Acceleration Bars
                 NavigationView { AcccelerometryView() }
-                    .tabItem { Label("Acceleration", systemImage: "move.3d") }
+                    .tabItem { Label("Acceleration",
+                                     systemImage: "move.3d") }
 
                 // MARK: DASI Survey
                 NavigationView { SurveyContainerView() }
-                    .tabItem { Label("DASI", systemImage: "checkmark.square") }
+                    .tabItem { Label("DASI",
+                                     systemImage: "checkmark.square") }
 
                 // MARK: Usability Survey
                 NavigationView { UsabilityContainer() }
                     .tabItem { Label("Usability",
                                      systemImage: "checkmark.circle")
-                    .symbolRenderingMode(.hierarchical)
+                    }
+
+                // MARK: Sweep-second disk
+                NavigationView { SweepSecondView() }
+                    .tabItem { Label("Sweep",
+                                     systemImage: "timer")
+                    }
+
+                // MARK: Digital countdown
+                NavigationView {
+                    Text("MinuteCountdownView goes here")
+                }
+                    .tabItem { Label("Digital",
+                                     systemImage: "clock")
                     }
             }
+            .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)
+
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
