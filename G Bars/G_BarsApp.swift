@@ -54,7 +54,7 @@ struct G_BarsApp: App {
                 .navigationTitle("Digital Countdown")
                 .environmentObject(countdownController)
             }
-#else
+#elseif false
             NavigationView {
                 VStack {
                     SweepSecondView()
