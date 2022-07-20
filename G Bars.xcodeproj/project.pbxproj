@@ -34,6 +34,7 @@
 		1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A04287CD340007D7CDF /* UsabilityController.swift */; };
 		1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */; };
 		1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */; };
+		1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB324C02888B16600A2F351 /* DigitalTimerView.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
@@ -105,6 +106,7 @@
 		1FB10A06287DC97A007D7CDF /* USurveyQuestions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = USurveyQuestions.json; sourceTree = "<group>"; };
 		1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityContainer.swift; sourceTree = "<group>"; };
 		1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityInterstitialView.swift; sourceTree = "<group>"; };
+		1FB324C02888B16600A2F351 /* DigitalTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalTimerView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
@@ -132,7 +134,6 @@
 		1FD7EE882881D94600D194B4 /* CountdownController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownController.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
-		1FD7EE8E2881ECF700D194B4 /* MinuteCountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinuteCountdownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,7 +253,6 @@
 		1FB324BF2888949700A2F351 /* Digital */ = {
 			isa = PBXGroup;
 			children = (
-				1FD7EE8E2881ECF700D194B4 /* MinuteCountdownView.swift */,
 			);
 			path = Digital;
 			sourceTree = "<group>";
@@ -353,6 +353,7 @@
 			children = (
 				1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */,
 				1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */,
+				1FB324C02888B16600A2F351 /* DigitalTimerView.swift */,
 				1FB324BF2888949700A2F351 /* Digital */,
 				1FB324BE2888946900A2F351 /* Support */,
 				1FB324BD2888943100A2F351 /* Sweep */,
@@ -520,6 +521,7 @@
 				1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */,
 				1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */,
 				1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */,
+				1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */,
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,
 				1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */,
 				1FD7EE872881D83D00D194B4 /* CountdownContainerView.swift in Sources */,

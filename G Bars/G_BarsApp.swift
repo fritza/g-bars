@@ -88,7 +88,8 @@ struct G_BarsApp: App {
 
                 // MARK: Digital countdown
                 NavigationView {
-                    Text("MinuteCountdownView goes here")
+                    DigitalTimerView()
+//                    Text("MinuteCountdownView goes here")
                 }
                     .tabItem { Label("Digital",
                                      systemImage: "clock")
