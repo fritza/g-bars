@@ -12,46 +12,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-
-
-func spokenInterval(minutes: Int, seconds: Int) -> String {
-    // Assume mins are div-60 and secs are mod-60
-    assert(minutes >= 0)
-    assert(seconds >= 0)
-    assert(seconds < 60)
-    if minutes == 0 && seconds == 0 {
-        return "zero"
-    }
-
-    func pluralRule(for unit: Int, singular: String, plural _plural: String? = nil) -> String {
-        let plural = _plural ?? singular + "s"
-
-        let retval: String
-        if unit == 0 {
-            retval = ""
-        }
-        else if unit == 1 {
-            retval = String(unit) + " " + singular
-        }
-        else {
-            retval = String(unit) + " " + plural
-        }
-        return retval
-    }
-
-    let minsString = pluralRule(for: minutes, singular: "minute")
-    let secsString = pluralRule(for: seconds, singular: "second")
-    let retval = [minsString, secsString].filter { !$0.isEmpty }.joined(separator: ", ")
-
-    return retval
-}
-
-
-// WAIT.
-// How do I simultaneously maintain sweep-seconds and mm:ss?
-// A single controller can't easily switch between the time
-// scales, right?
-
 enum CancellationReasons {
     case notCancelled, cancelled, ranOut
 }
