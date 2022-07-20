@@ -12,14 +12,24 @@ import SwiftUI
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
 
+//let countdownController = CountdownController(forCountdown: true)
+
 //@AppStorage(AppStorageKeys.subjectID.rawValue) var subjectID = "Subject ID not for publication."
+
+
 
 import Accelerate
 // MARK: - App
 @main
 struct G_BarsApp: App {
-    @State var selectedTab: Int = 0
-//    @State var yesNoState: Int = 1
+    let countdownController: CountdownController
+
+    init() {
+        countdownController = CountdownController(forCountdown: true)
+    }
+
+    var selectedTab = 0
+//    @State var selectedTab: Int = 0
 
     func accelerometerTestData() -> Store2D {
         let timePerTick = 1.0 / 60.0
@@ -34,9 +44,25 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if false
+#if true
             NavigationView {
-                CountdownContainerView()
+                VStack {
+                    // TODO: Make the MinutePublisher reset
+                    //       To the walking time.
+                    Text("DigitalTimerView goes here")
+                }
+                .navigationTitle("Digital Countdown")
+                .environmentObject(countdownController)
+            }
+#else
+            NavigationView {
+                VStack {
+                    SweepSecondView()
+//                    SubsecondHandView()
+                }
+                .environmentObject(
+                    countdownController
+                )
             }
 #else
             TabView(selection: $selectedTab) {
@@ -59,6 +85,8 @@ struct G_BarsApp: App {
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
+
+            .environmentObject(countdownController)
             .environmentObject(SubjectID.shared)
 #endif
         }

@@ -23,9 +23,12 @@ import Combine
 final class MinutePublisher: ObservableObject {
     var cancellables: Set<AnyCancellable> = []
 
+    var isRunning = false
+
     // MARK: Subjects
     /// Subscribers get a `Bool` input when the deadline arrives (`true`) or the client calls `.stop()` (`false`). The `Bool` is true iff the clock ran out and nit cancalled.
     public var completedSubject = PassthroughSubject<Bool, Never>()
+    // TODO: Replace with a @Published Bool, isRunning?
 
     /// The root time publisher for a `Timer` signaling every `0.01 ± 0.03` seconds.
     ///
@@ -52,6 +55,11 @@ final class MinutePublisher: ObservableObject {
     /// - parameter date: The deadline as `Date` to count down to. If `nil` (the default), the clock counts up indefinitely from the current date.
     init(to date: Date? = nil) {
         countdownTo = date
+        isRunning = false
+    }
+
+    deinit {
+        print("MinutePublisher deallocated.")
     }
 
     /// Initialize a count**down** to a future time that is a certain interval from now.
@@ -62,18 +70,23 @@ final class MinutePublisher: ObservableObject {
     }
 
     /// The `Date` at which `start()` commenced the count. Used only as a reference point for counting up.
-    private var started: Date!
+    private var dateStarted: Date!
     /// The time publisher, converted to emitting a `TimeInterval` between now and the deadline.
     private var commonPublisher: AnyPublisher<TimeInterval, Never>!
 
     // MARK: start
     /// Set up internal subscriptions to (ultimately) the `Timer.Publisher`, and start counting down to the deadline.
     public func start() {
-        started = Date()
+        dateStarted = Date()
 
         // Subscribe to the timer, correct to count-down or -up, and check for deadlines.
         commonPublisher = timePublisher
             .autoconnect()
+            .handleEvents(receiveCancel: {
+                print("Cancel on the common publisher.")
+            }
+            )
+//            .print("common publisher")
             .map {
                 currentDate -> TimeInterval in
                 if let remote = self.countdownTo {
@@ -81,7 +94,7 @@ final class MinutePublisher: ObservableObject {
                     return -currentDate.timeIntervalSince(remote)
                 }
                 else {
-                    return currentDate.timeIntervalSince(self.started)
+                    return currentDate.timeIntervalSince(self.dateStarted)
                 }
             }
             .share()
@@ -89,7 +102,10 @@ final class MinutePublisher: ObservableObject {
 
         // Emit fractions
         commonPublisher
-            .map { $0 - Double( Int($0) ) }
+            .map {
+                $0 - Double( Int($0) )
+            }
+        // Known to get downstream from the publisher
             .sink { fraction in
                 self.fraction = fraction
             }
@@ -133,6 +149,7 @@ final class MinutePublisher: ObservableObject {
                 self.minuteColonSecond = $0
             }
             .store(in: &cancellables)
+        isRunning = true
     }
 
     // MARK: Stop
@@ -140,6 +157,10 @@ final class MinutePublisher: ObservableObject {
     ///
     /// - parameter exhausted: `true` iff `stop()` was called because the clock ran out. This is passed along through `completedSubject` to inform clients the clock is finished.
     public func stop(exhausted: Bool = true) {
+        guard isRunning else {
+            print(#function, "- double stop")
+            return
+        }
         for c in cancellables {
             c.cancel()
         }

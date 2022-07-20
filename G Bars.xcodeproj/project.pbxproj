@@ -58,7 +58,6 @@
 		1FD7EE892881D94600D194B4 /* CountdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE882881D94600D194B4 /* CountdownController.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
-		1FD7EE8F2881ECF700D194B4 /* MinuteCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8E2881ECF700D194B4 /* MinuteCountdownView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -480,7 +479,6 @@
 			files = (
 				1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */,
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
-				1FD7EE8F2881ECF700D194B4 /* MinuteCountdownView.swift in Sources */,
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
 				1FD7EE892881D94600D194B4 /* CountdownController.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,

@@ -12,17 +12,18 @@ struct MinuteCountdownView: View {
 
 //    @EnvironmentObject private var timer: MinutePublisher
     @State private var hasCompleted: Bool = false
-    private let durationInMinutes: Int
     @State private var numeralColor: Color = .black
-
-    internal init(durationInMinutes: Int) {
-        self.durationInMinutes = durationInMinutes
-    }
 
     var body: some View {
         VStack {
+            #if true
+            Button("Start") {
+                controller.startCounting()
+            }
+            #endif
             Spacer()
-            Text(controller.timePublisher.minuteColonSecond)
+            Text("Hello? Anything?")
+//            Text(controller.timePublisher.minuteColonSecond)
                 .font(.system(size: 120, weight: .ultraLight))
                 .monospacedDigit()
                 .foregroundColor(numeralColor)
@@ -37,24 +38,19 @@ struct MinuteCountdownView: View {
             //        upon exhaustion
             numeralColor = why ? .green : .red
         })
-        .navigationTitle(("\(durationInMinutes.spelled.capitalized) Minute Walk"))
+        .navigationTitle(("\((controller.durationInSeconds / 60).spelled.capitalized) Minute Walk"))
     }
 }
 
 struct MinuteCountdownView_Previews: PreviewProvider {
     static let duration = 2.0 * 60.0
-    static func mTimer() -> MinutePublisher {
-        let retval = MinutePublisher(after: duration)
-        retval.start()
-        return retval
-    }
-
+    static let countdownController = CountdownController(forCountdown: false)
     static var previews: some View {
         NavigationView {
-            MinuteCountdownView(durationInMinutes: Int(duration)/60)
-                .environmentObject(
-                    //    previewWrappedTimer()
-                    mTimer())
+            VStack {
+                MinuteCountdownView()
+            }
+            .environmentObject(countdownController)
         }
     }
 }

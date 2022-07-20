@@ -18,7 +18,6 @@ import SwiftUI
  */
 
 struct CountdownContainerView: View {
-//    @EnvironmentObject private var timer: MinutePublisher
     @EnvironmentObject private var controller: CountdownController
 
 //    @State private var secondsToDeadline: Int
@@ -63,7 +62,7 @@ struct CountdownContainerView_Previews: PreviewProvider {
                 )
                 .environmentObject(
                     CountdownController(
-//                        durationInMinutes: 2
+                        forCountdown: true
                     )
                 )
         }

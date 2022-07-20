@@ -9,38 +9,75 @@ import Foundation
 import Combine
 import SwiftUI
 
+// WAIT.
+// How do I simultaneously maintain sweep-seconds and mm:ss?
+// A single controller can't easily switch between the time
+// scales, right?
+
 enum CancellationReasons {
     case notCancelled, cancelled, ranOut
 }
 
 final class CountdownController: ObservableObject {
-    @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInMinutes: Int = 2
-    @Published var isRunning: Bool = false
-//    @Published var durationInMinutes: Int = dur
+    deinit {
+        print("well, here we are.")
+    }
 
-    @Published var timePublisher: MinutePublisher!
-//    @Published var mmss: String
-//    @Published var seconds: Int
-//    @Published var minutes: Int
-//    @Published var fraction: TimeInterval
-//    @Published var halted: CancellationReasons
+
+    @Published var isRunning: Bool = false
+//    @Published var durationInSeconds: Int = dur
+
+    // Making this non-optional did not make controller.timePublisher.fraction (e.g.) carry through
+    @Published var timePublisher: MinutePublisher
+
+    @Published var mmss: String = ""
+    @Published var seconds: Int = 5
+    @Published var minutes: Int = 2
+    @Published var fraction: TimeInterval = 0.0
 
     private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-        self.isRunning = false
-        let publisher = MinutePublisher(
-            after: TimeInterval(durationInMinutes * 60))
-        timePublisher = publisher
+//    @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInSeconds: Int = 2
+
+    @Published var durationInSeconds: Int
+
+    static func walkDuration() -> Int {
+        let defaults = UserDefaults.standard
+        var candidateSeconds = defaults.integer(
+            forKey: AppStorageKeys.walkInMinutes.rawValue)
+        * 60
+        if candidateSeconds < 60 {
+            defaults.set(1, forKey: AppStorageKeys.walkInMinutes.rawValue)
+            candidateSeconds = 60
+        }
+        return candidateSeconds
     }
 
-    func prepareSubscribers(for deadline: Int) {
-        timePublisher = MinutePublisher(
-            after: TimeInterval(deadline * 60))
-        timePublisher.completedSubject
-            .sink { didRunOut in
-                // Now do whatever is needed by the views.
-            }
+    static func countdownDuration() -> Int { return 5 }
+
+    init(forCountdown: Bool) {
+        self.isRunning = false
+
+        // FIXME: Allow for walk durations.
+        let prefsSeconds = forCountdown ? Self.countdownDuration() : Self.walkDuration()
+        self.durationInSeconds = prefsSeconds
+
+        let publisher = MinutePublisher(
+            after: TimeInterval(prefsSeconds)
+        )
+
+        timePublisher = publisher
+        timePublisher.$fraction
+            .assign(to: \.fraction, on: self)
+            .store(in: &cancellables)
+        timePublisher.$minutes
+            .assign(to: \.minutes,  on: self)
+            .store(in: &cancellables)
+        timePublisher.$seconds
+            .assign(to: \.seconds,  on: self)
+            .store(in: &cancellables)
+        timePublisher.$minuteColonSecond
+            .assign(to: \.mmss,     on: self)
             .store(in: &cancellables)
     }
 
@@ -50,10 +87,10 @@ final class CountdownController: ObservableObject {
     }
 
     func stopCounting(timeRanOut: Bool = true) {
-        guard timePublisher != nil else {
-            assertionFailure("\(#function) - Attempt to stop a counter that does not exist")
-            return
-        }
+//        guard timePublisher != nil else {
+//            assertionFailure("\(#function) - Attempt to stop a counter that does not exist")
+//            return
+//        }
         timePublisher.stop(exhausted: timeRanOut)
     }
 }

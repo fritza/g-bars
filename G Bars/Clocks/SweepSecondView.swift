@@ -10,9 +10,18 @@ import Combine
 
 /// A `View` that displays a circle containing a sweep-second hand and a digit, representing a countdown in seconds.
 struct SweepSecondView: View {
-//    @EnvironmentObject var timer: WrappedTimer
-    @EnvironmentObject var timer: MinutePublisher
+    @EnvironmentObject /*private*/ var controller: CountdownController
+
     @State private var hasCompleted: Bool = false
+    @State private var seconds: Int
+
+    private var cancellables: Set<AnyCancellable> = []
+
+    init() {
+        hasCompleted = false
+        seconds = 0
+        controller.$seconds.assign(to: \.seconds, on: self).store(in: &cancellables)
+    }
 
     func numericOverlay(representing: Int, edge: CGFloat) -> some View {
         Text("\(representing)")
@@ -29,11 +38,16 @@ struct SweepSecondView: View {
                     SubsecondHandView()
 
                     numericOverlay(
-                        representing: hasCompleted ? 0 : timer.seconds+1,
+                        representing: hasCompleted ?
+                        0 :
+                            controller.seconds+1,
                         edge: proxy.size.short * 0.6)
                 }
                 .navigationTitle("Seconds")
-                .onReceive(timer.completedSubject, perform: { normally in
+
+                // TODO: Track a published Bool for completion.
+                .onReceive(controller.timePublisher
+                    .completedSubject, perform: { normally in
                     hasCompleted = true
                 })
                 .frame(width: proxy.size.short * 0.95,
@@ -41,32 +55,24 @@ struct SweepSecondView: View {
                    alignment: .center)
                 Spacer()
                 Button("Cancel") {
-                    timer.stop(exhausted: false)
+                    controller.stopCounting(timeRanOut: false)
                 }
+            }
+            .onAppear {
+                controller.startCounting()
             }
         }
     }
 }
 
 struct SweepSecondView_Previews: PreviewProvider {
-//    static func previewWrappedTimer() -> WrappedTimer {
-//        return WrappedTimer(5)
-//    }
-
-    static func mTimer() -> MinutePublisher {
-        let retval = MinutePublisher(after: 5.0)
-        retval.start()
-        return retval
-    }
-
     static var previews: some View {
         NavigationView {
             SweepSecondView()
                 .frame(width: 300)
-                .environmentObject(
-                    //    previewWrappedTimer()
-                    mTimer()
-                )
         }
+        .environmentObject(
+            CountdownController(forCountdown: true)
+        )
     }
 }

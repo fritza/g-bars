@@ -13,7 +13,6 @@ enum CountdownUnit: String {
 
 struct CountdownSetupView: View {
     @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInMinutes: Int = 2
-    @EnvironmentObject private var controller: CountdownController
 
     private let units: CountdownUnit
 //    @State private var deadlineInMinutes: Int
@@ -75,6 +74,6 @@ struct CountdownSetupView_Previews: PreviewProvider {
             }
             .padding()
         }
-        .environmentObject(CountdownController())
+        .environmentObject(CountdownController(forCountdown: false))
     }
 }

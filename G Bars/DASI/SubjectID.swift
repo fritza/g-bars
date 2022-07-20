@@ -10,6 +10,8 @@ import SwiftUI
 import Combine
 
 enum AppStorageKeys: String {
+    // FIXME: Big mess.
+    //        MinutePublisher sometimes wants seconds, sometimes minutes.
     /// How long the timed walk is to last, in _minutes,_ e.g. 6.
     case walkInMinutes
     /// The frequency in Hertz (e.g. 120) for sampling the accelerometer.
