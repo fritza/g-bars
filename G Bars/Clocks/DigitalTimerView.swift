@@ -19,6 +19,8 @@ final class DigitSpeaker {
         self.controller = controller
     }
 
+    private var currentSpeechTask: Task<ReasonStoppedSpeaking, Never>?
+
     /// Client code has to
     func setUpCombine() {
         // Needed?
@@ -26,12 +28,21 @@ final class DigitSpeaker {
 
         controller?.$speakableTime
             .sink { str in
+                assert(self.currentSpeechTask == nil)
+                self.currentSpeechTask = Task {
+                    await TimeSpeaker.shared.say(str)
+                }
                 // say something: Put it in the queue for the voice
                 // remember to use @MainActor if necessary
             }
             .store(in: &cancellables)
     }
 
+    func stopSpeaking() {
+        // TODO: Can TimeSpeaker cancel or interrupt?
+        currentSpeechTask?.cancel()
+
+    }
 }
 
 private let digitalNarrative = """
@@ -64,7 +75,12 @@ struct DigitalTimerView: View {
                     Spacer()
                     Toggle("Speech", isOn: $wantsSpeech)
                                             .frame(width: proxy.size.width * 0.4)
-                }.minimumScaleFactor(0.5)
+                }
+                .background {
+                    Color(.sRGB, white: 0.95, opacity: 1)
+                }
+                .padding()
+                .minimumScaleFactor(0.5)
                     .frame(height: proxy.size.height * 0.1)
                 Spacer()
                 // Start/stop

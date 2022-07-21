@@ -35,6 +35,8 @@
 		1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */; };
 		1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */; };
 		1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB324C02888B16600A2F351 /* DigitalTimerView.swift */; };
+		1FB324C52888BDE700A2F351 /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB324C42888BDE700A2F351 /* Voice.swift */; };
+		1FB324C72888BDF500A2F351 /* TimeSpeaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */; };
 		1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */; };
 		1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */; };
 		1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */; };
@@ -107,6 +109,8 @@
 		1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityContainer.swift; sourceTree = "<group>"; };
 		1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityInterstitialView.swift; sourceTree = "<group>"; };
 		1FB324C02888B16600A2F351 /* DigitalTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalTimerView.swift; sourceTree = "<group>"; };
+		1FB324C42888BDE700A2F351 /* Voice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
+		1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSpeaker.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
@@ -257,6 +261,15 @@
 			path = Digital;
 			sourceTree = "<group>";
 		};
+		1FB324C32888BD8D00A2F351 /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+				1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */,
+				1FB324C42888BDE700A2F351 /* Voice.swift */,
+			);
+			path = Voice;
+			sourceTree = "<group>";
+		};
 		1FCB95A9286CD37700DE9DD0 = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +293,7 @@
 		1FCB95B4286CD37700DE9DD0 /* G Bars */ = {
 			isa = PBXGroup;
 			children = (
+				1FB324C32888BD8D00A2F351 /* Voice */,
 				1FD7EE7F2881CAA400D194B4 /* Clocks */,
 				1FB109FD287CCDB4007D7CDF /* PSSUQ */,
 				1F26AFAB286E201B00586654 /* DASI */,
@@ -518,6 +532,7 @@
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
 				1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */,
 				1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */,
+				1FB324C72888BDF500A2F351 /* TimeSpeaker.swift in Sources */,
 				1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */,
 				1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */,
 				1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */,
@@ -534,6 +549,7 @@
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FD7EE852881CBCB00D194B4 /* CountdownSetupView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
+				1FB324C52888BDE700A2F351 /* Voice.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
