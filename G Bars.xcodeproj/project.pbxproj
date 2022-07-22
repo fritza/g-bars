@@ -54,6 +54,7 @@
 		1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */; };
 		1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */; };
 		1FCB95FC286CF0F500DE9DD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */; };
+		1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */; };
 		1FD7EE822881CAEF00D194B4 /* MinSecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */; };
 		1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */; };
 		1FD7EE852881CBCB00D194B4 /* CountdownSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */; };
@@ -131,6 +132,7 @@
 		1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerItemTests.swift; sourceTree = "<group>"; };
 		1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYZ.swift; sourceTree = "<group>"; };
 		1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilitySummaryView.swift; sourceTree = "<group>"; };
 		1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinSecFormatter.swift; sourceTree = "<group>"; };
 		1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinutePublisher.swift; sourceTree = "<group>"; };
 		1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownSetupView.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			children = (
 				1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */,
 				1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */,
+				1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */,
 				1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */,
 				1FB10A04287CD340007D7CDF /* UsabilityController.swift */,
 				1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */,
@@ -556,6 +559,7 @@
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
+				1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */,
 				1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */,
 				1F9C6AEB28809A220097868B /* AccelerometryPlotView.swift in Sources */,
 			);

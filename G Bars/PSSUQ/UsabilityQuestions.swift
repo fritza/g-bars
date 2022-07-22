@@ -49,4 +49,8 @@ struct UsabilityQuestion: Decodable, Identifiable {
     let text: String
 }
 
-
+extension UsabilityQuestion: CustomStringConvertible {
+    var description: String {
+        "UC(\(String(id))): \(text)"
+    }
+}

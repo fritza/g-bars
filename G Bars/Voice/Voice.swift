@@ -52,6 +52,7 @@ enum Voice {
     /// Implemented in terms of `TimeSpeaker.say(_:with:)`
     /// - Parameter str: The text to pronounce
     /// - Returns: The reason (finished or cancelled) the speech stopped.
+    @discardableResult
     func say(_ str: String) async -> ReasonStoppedSpeaking {
         await TimeSpeaker.shared.say(str, with: self)
     }

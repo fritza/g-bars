@@ -8,9 +8,26 @@
 import SwiftUI
 import Combine
 
-final class DigitSpeaker {
+/*
+ Back off and consider what you want to do.
+
+ If the user wants speech, speak. If not, don't.
+ Transition to does-want -> Don't speak immediately, you don't want "one minute, ten seconds" to pop in arbitrarily.
+ Transition to doesn't-want -> Halt current speech. Do not respond to further ∆spoken-time.
+
+ I have a dependency cycle among controller, speaker, and view.
+
+ */
+
+
+/*
+// MARK: - DigitSpeaker
+final class DigitSpeaker: ObservableObject {
+
     private var cancellables: Set<AnyCancellable> = []
     private weak var controller: CountdownController?
+
+    var shouldSpeak = false
 
     // Add whatever is needed for the speaker class
     // to operate.
@@ -26,14 +43,20 @@ final class DigitSpeaker {
         // Needed?
         cancellables.forEach { $0.cancel() }
 
+        // TODO: shouldn't ∆ speakableTime be observed by controller?
         controller?.$speakableTime
-            .sink { str in
-                assert(self.currentSpeechTask == nil)
+            .print("speakable time")
+            .filter { [weak self] _ in
+
+                self?.controller?.shouldSpeak ?? false
+                // prevent speaking if the controller
+                // is paused.
+            }
+            .sink { [weak self] str in
+                guard let self = self else { return }
                 self.currentSpeechTask = Task {
-                    await TimeSpeaker.shared.say(str)
+                    await controller?.digitSpeaker.
                 }
-                // say something: Put it in the queue for the voice
-                // remember to use @MainActor if necessary
             }
             .store(in: &cancellables)
     }
@@ -41,10 +64,11 @@ final class DigitSpeaker {
     func stopSpeaking() {
         // TODO: Can TimeSpeaker cancel or interrupt?
         currentSpeechTask?.cancel()
-
     }
 }
+*/
 
+// MARK: - DigitalTimerView
 private let digitalNarrative = """
 What the digital (walking) clock would show, and what would be spoken.
 
@@ -54,6 +78,15 @@ There's still a bug in picking up the initial value in the spoken version of the
 struct DigitalTimerView: View {
     @EnvironmentObject var controller: CountdownController
     @State private var wantsSpeech = false
+
+//    @State var speaker: DigitSpeaker
+
+    // HOW DO I DO THIS?
+    // I think making speaker a @StateObject variable is
+//    = {
+//        let retval = DigitSpeaker(controller: controller)
+//        return retval
+//    }()
 
     var body: some View {
         GeometryReader { proxy in
@@ -66,6 +99,7 @@ struct DigitalTimerView: View {
                 Text("\(controller.minuteColonSecond.description)").font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
+                #if false
                 // Speech: text to speak and whether to speak
                 // TODO: Consider making this section a separate view.
                 HStack {
@@ -73,15 +107,19 @@ struct DigitalTimerView: View {
                     Spacer()
                     Divider()
                     Spacer()
-                    Toggle("Speech", isOn: $wantsSpeech)
-                                            .frame(width: proxy.size.width * 0.4)
+                    Toggle("Speech", isOn: $controller.shouldSpeak)
+                        .frame(width: proxy.size.width * 0.4)
                 }
-                .background {
-                    Color(.sRGB, white: 0.95, opacity: 1)
-                }
-                .padding()
-                .minimumScaleFactor(0.5)
-                    .frame(height: proxy.size.height * 0.1)
+                #endif
+//                .padding()
+//                .background {
+//                    Rectangle()
+//                        .frame(width: proxy.size.width, height: proxy.size.height)
+//                        .foregroundColor(Color(.sRGB, white: 0.95, opacity: 1))
+//                }
+//                .padding()
+//                .minimumScaleFactor(0.5)
+//                    .frame(height: proxy.size.height * 0.1)
                 Spacer()
                 // Start/stop
                 Button(controller.isRunning ? "Stop" : "Start") {
@@ -94,16 +132,22 @@ struct DigitalTimerView: View {
                     }
                 }
                 Spacer()
-            }
+            }.padding()
         }
         .onAppear {
+//            speaker = DigitSpeaker(controller: controller)
+//            speaker.setUpCombine()
+//
             controller.reassemble(newDuration: 120)
             controller.startCounting()
+        }
+        .onChange(of: wantsSpeech) { nowWants in
         }
         .navigationTitle("Digital")
     }
 }
 
+// MARK: - Preview
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
