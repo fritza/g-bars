@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 enum UsabilityPhase: CaseIterable, Comparable, Hashable {
-    case start, questions, end
+    case start, questions, end, summary
 }
 
 final class UsabilityController: ObservableObject {
