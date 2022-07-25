@@ -30,8 +30,15 @@ final class CountdownController: ObservableObject {
     @Published var fraction: TimeInterval = 0.0
 
     @Published public var minuteColonSecond: String = ""
-    @Published public var speakableTime: String = "Start walking"
-    @Published public var shouldSpeak = false
+//    @Published public var speakableTime: String = "Start walking"
+
+
+
+    // TEMPORARY
+    @Published public var shouldSpeak = true
+
+
+
 
     static let fixedDurationInSeconds = 135
     @Published var durationInSeconds: Int
@@ -44,7 +51,7 @@ final class CountdownController: ObservableObject {
         self.durationInSeconds = _duration // Self.fixedDurationInSeconds
 
         /*
-         WARNING: DO NOT MUTATE durationInSecons FOR THE PURPOSE OF MINIMAL-EXAMPLE.
+         WARNING: DO NOT MUTATE durationInSeconds FOR THE PURPOSE OF MINIMAL-EXAMPLE.
          */
     }
 
@@ -69,54 +76,25 @@ final class CountdownController: ObservableObject {
             .assign(to: \.isRunning, on: self)
             .store(in: &cancellables)
 
-        // TODO: Does "speakableTime" belong in MinutePublisher?
-        //       Specializing what's published is an uncomfortable dependency.
-        //       Is there a way to pass an array of closures or filters
-        //       to MinutePublishers? Not obvious how to handle that.
-
-        let msZip = timePublisher.$minutes
+        let minsAndSecs = timePublisher.$minutes
             .combineLatest(timePublisher.$seconds)
 
-        msZip
-            .filter { ($0.1 % 10) == 0 }
+        minsAndSecs
+            .filter { mmss in
+                self.shouldSpeak &&
+                (mmss.1 % 10) == 0
+            }
             .map {
                 (mins: Int, secs: Int) -> String in
                 let retval = spokenInterval(minutes: mins, seconds: secs)
                 return retval
             }
-            .assign(to: \.speakableTime, on: self)
-            .store(in: &cancellables)
-
-        // If shouldSpeak is false, stop any utterance in progress
-
-        $speakableTime
-            .filter { _ in self.shouldSpeak }
             .removeDuplicates()
-            .throttle(for: 5.0, scheduler: DispatchQueue.main, latest: true)
             .sink { str in
-                Task {
-                   await TimeSpeaker.shared.say(str)
-                }
+                let utterance = CallbackUtterance(string: str)
+                utterance.speak()
             }
             .store(in: &cancellables)
-        /*
-        $shouldSpeak // .removeDuplicates()
-            .filter { shouldOrShouldnt in
-                !shouldOrShouldnt
-            }
-        // By here, we're responding only to -> false
-            .sink { should in
-                Task {
-                    TimeSpeaker.shared.
-                }
-                guard let speaker = self.digitSpeaker else {
-                    print(#function, "- should digitSpeaker ever be nil?")
-                    return
-                }
-                speaker.stopSpeaking()
-            }
-            .store(in: &cancellables)
-         */
     }
 
     // MARK: Halt/restart
@@ -138,14 +116,25 @@ final class CountdownController: ObservableObject {
     // Work with whatever timePublisher you have.
     // This won't handle a restart, will it.
     // Do I care, in this application?
-    func startCounting() {
+    func startCounting(reassembling: Bool,
+                       duration: TimeInterval) {
+        if reassembling { reassemble(newDuration: duration) }
+
+        let roundedDuration = Int(round(countdown_TMP_Duration))
+        let minutes = roundedDuration/60
+        let seconds = roundedDuration%60
+        let string = spokenInterval(minutes: minutes, seconds: seconds)
+        CallbackUtterance(string: string)
+            .speak()
+
         timePublisher.start()
     }
 
     func stopCounting(timeRanOut: Bool = true) {
         // Should this nil-out timePublisher?
         guard isRunning else { return }
-//        assert(isRunning, "\(#function) - attempt to halt a tracker that isn't running.")
         timePublisher.stop(exhausted: timeRanOut)
+        CallbackUtterance.synthesizer.stopSpeaking(at: .immediate)
+        reassemble(newDuration: countdown_TMP_Duration)
     }
 }

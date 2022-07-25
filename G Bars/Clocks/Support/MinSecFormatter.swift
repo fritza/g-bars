@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // MARK: - MinSecFormatter
 public struct MinSecFormatter {
@@ -105,21 +106,18 @@ func spokenInterval(minutes: Int, seconds: Int) -> String {
      assert(seconds >= 0)
      assert(seconds < 60)
      if minutes == 0 && seconds == 0 {
-         return "zero"
+         return ""
+//         return "zero"
      }
 
      // ----------------------
      func pluralRule(for unit: Int, singular: String, plural _plural: String? = nil) -> String {
-         let plural = _plural ?? singular + "s"
-
          let retval: String
-         if unit == 0 {
-             retval = ""
-         }
-         else if unit == 1 {
-             retval = String(unit) + " " + singular
-         }
-         else {
+         switch unit {
+         case 0: retval = ""
+         case 1: retval = String(unit) + " " + singular
+         default:
+             let plural = _plural ?? singular + "s"
              retval = String(unit) + " " + plural
          }
          return retval

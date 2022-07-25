@@ -11,62 +11,63 @@ import Combine
 /// A `View` that displays a circle containing a sweep-second hand and a digit, representing a countdown in seconds.
 struct SweepSecondView: View {
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
-    @EnvironmentObject /*private*/ var controller: CountdownController
+    @EnvironmentObject private var controller: CountdownController
 
-    @State private var seconds: Int
-
+    /// Whether the clock is running, as set by ``TimerStartStopButton``.
+    /// - note: Stopping the countdown does not pause it.  When `isRunning` changes to `true`, its controller is completely restarted.
+    @State var isRunning: Bool = false
     private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-//        hasCompleted = false
-        seconds = 0
-//        controller.$seconds.assign(to: \.seconds, on: self).store(in: &cancellables)
-    }
-
-    func numericOverlay(representing: Int, edge: CGFloat) -> some View {
-        Text("\(representing)")
+    /// A digit to be overlaid on the clock face, intended to indicate seconds remaining.
+    private func numericOverlay(edge: CGFloat) -> some View {
+        let rep = isRunning ? controller.seconds + 1 :
+        0
+       return Text("\(rep)")
             .font(.system(size: edge, weight: .semibold))
             .monospacedDigit()
+    }
+
+    @ViewBuilder func clockFace(fitting size: CGSize) -> some View {
+        ZStack(alignment: .center) {
+            Circle()
+                .stroke(lineWidth: 1.0)
+                .foregroundColor(.gray)
+
+            SubsecondHandView(fractionalSecond: controller.fraction)
+                .foregroundColor((Self.colorScheme == .light) ? .black : .gray)
+
+            numericOverlay(
+                edge: size.short * 0.6
+            )
+        }
     }
 
     var body: some View {
         GeometryReader { proxy in
             VStack {
-                // A circle/bezel, under a sweep hand, under numeral seconds.
-                ZStack(alignment: .center) {
-                    // TODO: Should clock face → its own view?
-                    Circle()
-                        .stroke(lineWidth: 1.0)
-                        .foregroundColor(.gray)
-
-                    SubsecondHandView()
-                        .foregroundColor((Self.colorScheme == .light) ? .black : .gray)
-                    
-                    numericOverlay(
-                        representing: controller.isRunning ?
-                        controller.seconds+1 :
-                            0,
-                        edge: proxy.size.short * 0.6
-                    )
-                }
-                .navigationTitle("Seconds")
+                clockFace(fitting: proxy.size)
                 .frame(width:  proxy.size.short * 0.95,
                        height: proxy.size.short * 0.95,
-                   alignment: .center)
+                       alignment: .center)
                 Spacer()
-                Button(controller.isRunning ? "Cancel" : "Start") {
-                    if controller.isRunning {
-                        controller.stopCounting(timeRanOut: false)
+                TimerStartStopButton(running: $isRunning) {
+                    (nowRunning: Bool) in
+                    if nowRunning {
+                        controller.startCounting(
+                            reassembling: true,
+                            duration: sweep_TMP_Duration)
                     }
                     else {
-                        controller.reassemble(newDuration: 5.0)
-                        controller.startCounting()
+                        controller.stopCounting()
                     }
                 }
             }
+            .navigationTitle("Seconds")
         }
     }
 }
+
+
 
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {

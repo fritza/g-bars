@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F133273288F34D500A24C26 /* TimerStartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F133272288F34D500A24C26 /* TimerStartStopButton.swift */; };
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
 		1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F26AFAC286E203300586654 /* DASIQuestions.json */; };
@@ -83,6 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F133272288F34D500A24C26 /* TimerStartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerStartStopButton.swift; sourceTree = "<group>"; };
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1F26AFAC286E203300586654 /* DASIQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DASIQuestions.json; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */,
 				1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */,
+				1F133272288F34D500A24C26 /* TimerStartStopButton.swift */,
 			);
 			path = Sweep;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F133273288F34D500A24C26 /* TimerStartStopButton.swift in Sources */,
 				1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */,
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,

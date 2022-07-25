@@ -31,6 +31,7 @@ struct G_BarsApp: App {
 
 //    var selectedTab = 0
     @State var selectedTab: Int = 0
+    @State var timerRunning = false
 
     func accelerometerTestData() -> Store2D {
         let timePerTick = 1.0 / 60.0
@@ -45,7 +46,15 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if false
+            #if true
+            NavigationView {
+                VStack {
+                    DigitalTimerView()
+                }
+                .navigationTitle("Digital Countdown")
+                .environmentObject(countdownController)
+            }
+#elseif false
             NavigationView {
                 VStack {
                     Text("DigitalTimerView goes here")
@@ -62,7 +71,7 @@ struct G_BarsApp: App {
                     countdownController
                 )
             }
-#else
+#elseif false
             TabView(selection: $selectedTab) {
                 // MARK: Acceleration Bars
                 NavigationView { AcccelerometryView() }

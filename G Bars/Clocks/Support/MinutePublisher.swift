@@ -104,6 +104,7 @@ extension MinutePublisher {
     }
 
     // MARK: Derived publishers
+
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     func setUpCombine() {
         let timeToSeconds = setUpTimerPublisher()

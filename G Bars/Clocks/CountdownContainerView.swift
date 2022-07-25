@@ -20,14 +20,6 @@ import SwiftUI
 struct CountdownContainerView: View {
     @EnvironmentObject private var controller: CountdownController
 
-//    @State private var secondsToDeadline: Int
-//    @State private var running: Bool
-
-//    init(seconds: Int) {
-//        secondsToDeadline = seconds
-//        running = false
-//    }
-
     var body: some View {
         VStack {
             // Countdown setup belongs in the container view.
@@ -36,9 +28,9 @@ struct CountdownContainerView: View {
             // etc.)
             // the controller.
             CountdownSetupView(// secondsToDeadline,
-                unit:  .seconds) { mins in
+                unit: .seconds) { mins in
 //                    secondsToDeadline = mins
-                    controller.startCounting()
+//                    controller.startCounting()
 //                    running = true
                 }
                 .padding()

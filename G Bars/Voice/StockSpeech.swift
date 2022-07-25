@@ -8,18 +8,19 @@
 import Foundation
 import AVFoundation
 
-// TODO: A Bool "still speaking" status flag.
-
+/*
+ QUESTION: Will CallbackUtterance be released when the client code lets it get out of scope?
+ */
 final class CallbackUtterance: AVSpeechUtterance {
     typealias CVUCallback = (CallbackUtterance) -> Void
 
     static let speechDelegate = SpeechDelegate()
     static let synthesizer: AVSpeechSynthesizer = {
         let retval = AVSpeechSynthesizer()
-        retval.delegate = speechDelegate
+        // retval.delegate = speechDelegate
         return retval
     }()
-    
+
     static var isSpeaking: Bool { synthesizer.isSpeaking }
     // true iff speech is in progress or any utterance is in the queue.
     // There's also an isPaused flag, but we don't intend to pause.
@@ -37,6 +38,10 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     func speak() {
         Self.synthesizer.speak(self)
+    }
+
+    deinit {
+        print("CallbackUtterance for \(speechString)")
     }
 }
 
