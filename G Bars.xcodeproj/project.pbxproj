@@ -62,6 +62,7 @@
 		1FD7EE892881D94600D194B4 /* CountdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE882881D94600D194B4 /* CountdownController.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
+		1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* StockSpeech.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 		1FD7EE882881D94600D194B4 /* CountdownController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownController.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
+		1FEEA765288F008C00B60409 /* StockSpeech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSpeech.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */,
+				1FEEA765288F008C00B60409 /* StockSpeech.swift */,
 				1FB324C42888BDE700A2F351 /* Voice.swift */,
 			);
 			path = Voice;
@@ -555,6 +558,7 @@
 				1FB324C52888BDE700A2F351 /* Voice.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
+				1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
