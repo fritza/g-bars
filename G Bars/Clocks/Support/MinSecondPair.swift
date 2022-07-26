@@ -17,6 +17,10 @@ struct MinSecondPair: Comparable, Codable, CustomStringConvertible, Hashable {
         self.seconds = seconds
     }
 
+    internal init(seconds: Int) {
+        self.init(minutes: seconds/60, seconds: seconds%60)
+    }
+
     internal init(interval: TimeInterval) {
         assert(interval < 3600.0)
         let intInterval = Int(trunc(interval))
@@ -44,5 +48,9 @@ struct MinSecondPair: Comparable, Codable, CustomStringConvertible, Hashable {
     var speakableDescription: String {
         if self == .zero { return "zero" }
         return spokenInterval(minutes: minutes, seconds: seconds)
+    }
+
+    var asSeconds: Int {
+        minutes*60 + seconds
     }
 }

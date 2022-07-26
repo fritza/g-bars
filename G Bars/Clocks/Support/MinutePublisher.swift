@@ -54,7 +54,7 @@ final class MinutePublisher: ObservableObject {
     }
 
     /// Initialize a count**down** to a future time that is a certain interval from now.
-    /// - parameter interval: The interval between now and the time to which the clock will count down.
+    /// - parameter interval: The **TimeInterval** between now and the time to which the clock will count down.
     convenience init(after interval: TimeInterval) {
         let date = Date(timeIntervalSinceNow: interval)
         self.init(to: date)
