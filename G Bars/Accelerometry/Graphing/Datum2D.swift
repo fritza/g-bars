@@ -11,7 +11,7 @@ import CoreGraphics
 extension BinaryFloatingPoint {
     /// Map the value to `(0...1)` from a given span of “real-world” values.
     ///
-    /// Use `unsafeScaledTo` if you are confident `span` will never be empty (and present a zero divisor). Otherwise, use ```scaledTo(span:)```.
+    /// Use `unsafeScaledTo` if you are confident `span` will never be empty (and present a zero divisor). Otherwise, use ``scaledTo(span:)``.
     /// - Parameter span: The range of unscaled values
     /// - Returns: The value mapped within `span` to `(0...1)`
     public func unsafeScaledTo(span: ClosedRange<Self>) -> Self {
@@ -21,7 +21,7 @@ extension BinaryFloatingPoint {
 
     /// Map the value to `(0...1)` from a given span of “real-world” values (if any).
     ///
-    /// Use `scaledTo` if you cannot guarantee `span`is non-empty. Otherwise, use ```unsafeScaledTo(span:)```.
+    /// Use `scaledTo` if you cannot guarantee `span`is non-empty. Otherwise, use ``unsafeScaledTo(span:)``.
     /// - Parameter span: The range of unscaled values
     /// - Returns: The value mapped within `span` to `(0...1)`; or `nil` if `span` is empty.
     public func scaledTo(span: ClosedRange<Self>) -> Self? {
@@ -78,9 +78,9 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     @inlinable
     /// A new `Datum2D` with the same value (`x`), but time (`t`) normalized.
     ///
-    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ```timeNormalized(within:)```.
+    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``.
     ///
-    /// See ```BinaryFloatingPoint.unsafeScaledTo(span:)````
+    /// See ``BinaryFloatingPoint/unsafeScaledTo(span:)``
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
     public func unsafeTimeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D {
@@ -100,7 +100,7 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
 
     /// A new `Datum2D` with the same time (`t`), but data (`x`) normalized.
     ///
-    ///Use `unsafeDatumNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ```datumNormalized(within:)```.
+    ///Use `unsafeDatumNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``datumNormalized(within:)``.
     /// - Parameter timeRange: The span of time to map the `x` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `x`-value scaled.
     @inlinable

@@ -9,8 +9,12 @@ import Foundation
 import SwiftUI
 
 // MARK: - MinSecFormatter
+
+/// Package of utilities for converting `{minutes:}seconds:` to a mm:ss `String`.
+///
+/// - note See ``MinSecondPair/description`` and ``MinSecondPair/speakableDescription`` for conversions from that to `String`
 public struct MinSecFormatter {
-    /// _Global_ flag: If `true`, passing seconds >= 60 to a formatter taking minutes and seconds will throw ``MinSecErrors.secondsOverflow``
+    /// _Global_ flag: If `true`, passing seconds >= 60 to a formatter taking minutes and seconds will throw ``MinSecErrors/secondsOverflow`
     static private let throwSecondsOverflow = false
     // MARK: Errors
     public enum MinSecErrors: Error {
@@ -20,7 +24,7 @@ public struct MinSecFormatter {
         case negativeMinutes
         /// Caller passed seconds >= 60 to a formatter taking minutes and seconds.
         ///
-        /// May be overridden if ``Self.throwSecondsOverflow`` is `false` (the default).
+        /// May be overridden if ``MinSecFormatter.throwSecondsOverflow`` is `false` (the default).
         case secondsOverflow
     }
 
@@ -100,6 +104,11 @@ public struct MinSecFormatter {
     }
 }
 
+/// Convert minutes and seconds into a string suitable for TTS (“One minute, thirty seconds”).
+/// - Parameters:
+///   - minutes: The minute part to be spoken
+///   - seconds: The second part to be spoken
+/// - Returns: The machine-speakable rendering of `minutes` and `seconds`.
 func spokenInterval(minutes: Int, seconds: Int) -> String {
      // Assume mins are div-60 and secs are mod-60
      assert(minutes >= 0)

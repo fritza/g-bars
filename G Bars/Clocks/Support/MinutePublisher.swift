@@ -111,6 +111,7 @@ extension MinutePublisher {
     // MARK: Derived publishers
 
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
+    /// - warning: do not confuse with ``CountdownController/setUpCombine()``.
     func setUpCombine() {
         // Input is Timer, Output is is TimeInterval to deadline.
         let timeToSeconds = setUpTimerPublisher()
