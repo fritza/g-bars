@@ -37,7 +37,11 @@ final class MinutePublisher: ObservableObject {
     @Published public var fraction: Double = 0.0
     /// Formatted `mm:ss` until deadline
     @Published public var minuteColonSecond: String = ""
-    @Published public var speakableInterval: String = ""
+
+    /*
+     It appears no clients use speakableInterval.
+     @Published public var speakableInterval: String = ""
+     */
 
     // MARK: Initialization
 
@@ -143,16 +147,20 @@ extension MinutePublisher {
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
 
-        timeToSeconds
-            .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
-                return MinSecondPair(interval: commonSeconds)
-            }
-            .map { minSec -> String in
-                minSec.speakableDescription
-            }
-            .removeDuplicates()
-            .assign(to: \.speakableInterval, on: self)
-            .store(in: &cancellables)
+        /*
+         No callers use speakableInterval.
+
+         timeToSeconds
+         .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
+         return MinSecondPair(interval: commonSeconds)
+         }
+         .map { minSec -> String in
+         minSec.speakableDescription
+         }
+         .removeDuplicates()
+         .assign(to: \.speakableInterval, on: self)
+         .store(in: &cancellables)
+         */
 
     }
 
