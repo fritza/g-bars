@@ -17,7 +17,7 @@ final class CallbackUtterance: AVSpeechUtterance {
     static let speechDelegate = SpeechDelegate()
     static let synthesizer: AVSpeechSynthesizer = {
         let retval = AVSpeechSynthesizer()
-        // retval.delegate = speechDelegate
+        retval.delegate = speechDelegate
         return retval
     }()
 
@@ -36,13 +36,42 @@ final class CallbackUtterance: AVSpeechUtterance {
         fatalError("Does not implement NSCodable")
     }
 
+    convenience init(minutesAndSeconds: MinSecondPair, callback: CVUCallback? = nil) {
+        let speech = minutesAndSeconds.speakableDescription
+        self.init(string: speech, callback: callback)
+    }
+
+    static var currentCallbackUtterance: CallbackUtterance?
+    /// Utter a speakable description of a `MinSecondPair`.
+    ///
+    /// The utterance is stored in a `static` reference until it calls back to say it's done.
+    static func sayCountdown(minutesAndSeconds: MinSecondPair) {
+        guard currentCallbackUtterance == nil else {
+            return
+        }
+
+
+        precondition(currentCallbackUtterance == nil,
+                     "\(#function): Attempt to enqueue an utterance while another is in progress.")
+        currentCallbackUtterance = CallbackUtterance(minutesAndSeconds: minutesAndSeconds) {
+            cbu in
+            currentCallbackUtterance = nil
+        }
+        currentCallbackUtterance!.speak()
+    }
+
     func speak() {
         Self.synthesizer.speak(self)
     }
 
-    deinit {
-        print("CallbackUtterance for \(speechString)")
+    static func stop() {
+        Self.synthesizer.stopSpeaking(at: .immediate)
+        Self.currentCallbackUtterance = nil
     }
+}
+
+extension CallbackUtterance {
+
 }
 
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
