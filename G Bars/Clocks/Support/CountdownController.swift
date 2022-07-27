@@ -29,14 +29,16 @@ final class CountdownController: ObservableObject {
     @Published var minutes: Int = 2
     @Published var fraction: TimeInterval = 0.0
 
+    #warning("initialize minuteColonSecond with nonblank mm:ss")
     @Published public var minuteColonSecond: String = ""
-//    @Published public var speakableTime: String = "Start walking"
+
+    //    @Published public var speakableTime: String = "Start walking"
 
 
 
     // TEMPORARY
     @Published public var shouldSpeak = true
-
+    @Published public var currentSpeakable = ""
 
 
 
@@ -44,22 +46,40 @@ final class CountdownController: ObservableObject {
     @Published var durationInSeconds: Int
     private var cancellables: Set<AnyCancellable> = []
 
-    // MARK: Initialization
-    init(duration _duration: Int, forCountdown: Bool = true) {
-        // digitSpeaker is initalized in setUpCombine()
-        self.isRunning = false
-        self.durationInSeconds = _duration // Self.fixedDurationInSeconds
+//    @Published
+//    var mmssToSpeak: String = ""
+//    @Published
+    var mmssToDisplay: String = ""
 
-        /*
-         WARNING: DO NOT MUTATE durationInSeconds FOR THE PURPOSE OF MINIMAL-EXAMPLE.
-         */
+    // MARK: Initialization
+    /// Initialize from the length of the countdown
+    /// - Parameter \_duration: : Integer length of the countdown **in seconds**
+    init(duration _duration: Int, forCountdown: Bool = true) {
+        self.isRunning = false
+        self.durationInSeconds = _duration
+        // Self.fixedDurationInSeconds
     }
 
     /// Update `self` to match the time components published by `MinutePublisher`.
     ///
     /// This should probably be the last action in `reassamble(newDuration:)`.  `DigitSpeaker` may depend on complete (re)initialization of the controller.
     func setUpCombine() {
-        // NOTE: passing self into assign retains self until its upstream is cancelled.
+/*
+ setUpCombine is getting to be a problem.
+
+ You really do have to regenerate the time publisher after it either exhausts or is cancelled.
+
+ So you call this function.
+
+ All formatting — mm:ss, nn minutes, ss seconds — now comes through MinutePublisher. It has the Truth.
+ */
+
+
+        guard timePublisher == nil else { return }
+        timePublisher = MinutePublisher(
+                after: TimeInterval(durationInSeconds))
+
+
         timePublisher.$fraction
             .assign(to: \.fraction, on: self)
             .store(in: &cancellables)
@@ -76,24 +96,35 @@ final class CountdownController: ObservableObject {
             .assign(to: \.isRunning, on: self)
             .store(in: &cancellables)
 
-        let minsAndSecs = timePublisher.$minutes
+        let mmssPublisher = timePublisher.$minutes
             .combineLatest(timePublisher.$seconds)
+            .map { (mins: Int, secs: Int) -> MinSecondPair in
+                return MinSecondPair(minutes: mins, seconds: secs)
+            }
+            .filter { _ in return self.shouldSpeak }
 
-        minsAndSecs
-            .filter { mmss in
-                self.shouldSpeak &&
-                (mmss.1 % 10) == 0
+        // Spoken description: "one minute, twenty-three seconds"
+        mmssPublisher
+            .filter { (minsec: MinSecondPair) -> Bool in
+//                return shouldSpeak &&
+                // shouldSpeak is filtered upstream.
+                minsec.seconds % 10 == 0
             }
-            .map {
-                (mins: Int, secs: Int) -> String in
-                let retval = spokenInterval(minutes: mins, seconds: secs)
-                return retval
+//            .map(\.speakableDescription)
+
+            .receive(on: DispatchQueue.main)
+            .sink { minsec in
+                CallbackUtterance
+                    .sayCountdown(minutesAndSeconds: minsec)
             }
+            .store(in: &cancellables)
+
+        // Written description: 1:23
+        mmssPublisher
+            .map(\.description)
             .removeDuplicates()
-            .sink { str in
-                let utterance = CallbackUtterance(string: str)
-                utterance.speak()
-            }
+            .print("written time:")
+            .assign(to: \.mmssToDisplay, on: self)
             .store(in: &cancellables)
     }
 
@@ -105,11 +136,8 @@ final class CountdownController: ObservableObject {
         durationInSeconds = Int(round(newDuration))
         // Don't claim to be running.
         isRunning = false
-        // New timePublisher
-        // (Assignment frees the MP's incumbent publisher.)
-        timePublisher = MinutePublisher(after: TimeInterval(newDuration))
-        // Wire up the outlets.
         setUpCombine()
+        // FIXME: Where do I put initial time announcement
     }
 
     // Reassembly should already be done by here.
@@ -120,12 +148,13 @@ final class CountdownController: ObservableObject {
                        duration: TimeInterval) {
         if reassembling { reassemble(newDuration: duration) }
 
-        let roundedDuration = Int(round(countdown_TMP_Duration))
-        let minutes = roundedDuration/60
-        let seconds = roundedDuration%60
-        let string = spokenInterval(minutes: minutes, seconds: seconds)
-        CallbackUtterance(string: string)
-            .speak()
+        let roundedDuration = Int(round(duration))
+        // Int(round(countdown_TMP_Duration))
+        let minsec = MinSecondPair(seconds: roundedDuration)
+        if shouldSpeak && (minsec.seconds % 10 == 0) {
+            CallbackUtterance
+                .sayCountdown(minutesAndSeconds: minsec)
+        }
 
         timePublisher.start()
     }
@@ -134,7 +163,8 @@ final class CountdownController: ObservableObject {
         // Should this nil-out timePublisher?
         guard isRunning else { return }
         timePublisher.stop(exhausted: timeRanOut)
-        CallbackUtterance.synthesizer.stopSpeaking(at: .immediate)
+        CallbackUtterance.stop()
+//        CallbackUtterance.synthesizer.stopSpeaking(at: .immediate)
         reassemble(newDuration: countdown_TMP_Duration)
     }
 }
