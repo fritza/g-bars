@@ -26,7 +26,11 @@ struct G_BarsApp: App {
 
     init() {
         #warning("initialization of CountdownController belongs elsewhere")
-        countdownController = CountdownController(duration: 10)
+        countdownController =
+        CountdownController(
+            duration:
+                Int (trunc(countdown_TMP_Duration))
+        )
     }
 
 //    var selectedTab = 0
@@ -46,7 +50,7 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-            #if true
+#if true
             NavigationView {
                 VStack {
                     DigitalTimerView()

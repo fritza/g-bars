@@ -34,10 +34,38 @@ What the digital (walking) clock would show, and what would be spoken.
 There's still a bug in picking up the initial value in the spoken version of the timer. The ten-second interval is for demonstration purposes.
 """
 
+struct SpeechOnOffView: View {
+    let text: String?
+    @Binding var shouldSpeak: Bool
+    let size: CGSize
+
+    init(toggling: Binding<Bool>, size: CGSize, label: String? = nil) {
+        self.text = label
+        self._shouldSpeak = toggling
+        self.size = size
+    }
+
+    var body: some View {
+        if text != nil {
+            Text("“\(text!)”")
+            Spacer()
+            Divider()
+        }
+        Spacer()
+        Toggle("Speech", isOn: $shouldSpeak)
+            .frame(width: size.width * 0.4)
+    }
+}
+
 struct DigitalTimerView: View {
     @EnvironmentObject var controller: CountdownController
     @State private var wantsSpeech = false
     @State private var amRunning: Bool = false
+    @State private var minSeconds = MinSecondPair(seconds: Int(countdown_TMP_Duration))
+
+
+    #warning("A way to initialize the display!")
+    @State private var mmssToDisplay: String = ""
 
     var body: some View {
         GeometryReader { proxy in
@@ -45,23 +73,22 @@ struct DigitalTimerView: View {
                 // Instructions
                 Text(digitalNarrative)
                 Spacer()
-
+                //
+                // mCS STARTS at ""
+                // Where is it initialized?
+                //
                 // Numerical time
-                Text("\(controller.minuteColonSecond.description)").font(.system(size: 120, weight: .ultraLight))
+                Text("\(controller.mmssToDisplay)")
+                    .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
-                #if false
-                // Speech: text to speak and whether to speak
-                // TODO: Consider making this section a separate view.
-                HStack {
-//                    Text("“\(controller.speakableTime.description)”")
-                    Spacer()
-                    Divider()
-                    Spacer()
-                    Toggle("Speech", isOn: $controller.shouldSpeak)
-                        .frame(width: proxy.size.width * 0.4)
-                }
+#warning("Visibility of speech toggle should not depend on whether to speak")
+#if false
+                SpeechOnOffView(toggling: $controller.shouldSpeak,
+                                size: proxy.size,
+                                label: "“\(controller.currentSpeakable.description)”")
 #endif
+
                 Spacer()
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
