@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct MinSecondPair: Comparable, Codable, CustomStringConvertible, Hashable {
+/// Time interval expressed as integer minutes and seconds.
+struct MinSecondPair: Codable, Hashable {
     let minutes, seconds: Int
 
     static let zero = MinSecondPair(minutes: 0, seconds: 0)
@@ -28,6 +29,13 @@ struct MinSecondPair: Comparable, Codable, CustomStringConvertible, Hashable {
                   seconds: intInterval%60)
     }
 
+    /// The interval in seconds without carrying into `minutes`.
+    var asSeconds: Int {
+        return 60 * minutes + seconds
+    }
+}
+
+extension MinSecondPair: Comparable {   // And Hashable
     static func == (lhs: MinSecondPair, rhs: MinSecondPair) -> Bool {
         lhs.minutes == rhs.minutes && lhs.seconds == rhs.seconds
     }
@@ -40,17 +48,69 @@ struct MinSecondPair: Comparable, Codable, CustomStringConvertible, Hashable {
         return false
     }
 
+    var isZero: Bool {
+        return minutes == 0 && seconds == 0
+    }
+}
+
+extension MinSecondPair: CustomStringConvertible {
     var description: String {
-       try! MinSecFormatter.withMinutesStrategy(
+        try! MinSecFormatter.withMinutesStrategy(
             minutes: minutes, seconds: seconds)
     }
 
     var speakableDescription: String {
-        if self == .zero { return "zero" }
+        if self.isZero { return "zero" }
         return spokenInterval(minutes: minutes, seconds: seconds)
     }
+}
 
-    var asSeconds: Int {
-        minutes*60 + seconds
+// MARK: - Arithmetic
+extension MinSecondPair {
+    // TODO: (Exciting Future Direction): AdditiveArithmetic.
+
+    static func + <I: SignedInteger>(addend: MinSecondPair, rhs: I) -> MinSecondPair {
+        if rhs == 0 { return addend }
+
+        var newMinutes = addend.minutes
+        var newSeconds = addend.seconds + numericCast(rhs)
+        if newSeconds >=  60 {
+            newSeconds -= 60; newMinutes += 1
+        }
+        else if newSeconds < 0 {
+            newSeconds += 60; newMinutes -= 1
+        }
+        return MinSecondPair(minutes: newMinutes, seconds: newSeconds)
+    }
+
+    static func += <I: SignedInteger>(addend: inout MinSecondPair, rhs: I) {
+        addend = addend + rhs
+    }
+
+    static func - <I: SignedInteger>(minuend: MinSecondPair, subtrahend: I) -> MinSecondPair {
+        return minuend + -(subtrahend)
+    }
+
+    static func -= <I: SignedInteger>(minuend: inout MinSecondPair, subtrahend: I) {
+        minuend = minuend - subtrahend
     }
 }
+
+extension MinSecondPair: Sequence {
+    func makeIterator() -> some IteratorProtocol {
+        return MinSecIterator(self)
+    }
+
+    struct MinSecIterator: IteratorProtocol {
+        var currentMinSec: MinSecondPair
+        init(_ current: MinSecondPair) {
+            currentMinSec = current
+        }
+
+        mutating func next() -> MinSecondPair? {
+            currentMinSec += 1
+            return currentMinSec
+        }
+    }
+}
+

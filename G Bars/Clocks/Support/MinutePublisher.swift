@@ -37,6 +37,7 @@ final class MinutePublisher: ObservableObject {
     @Published public var fraction: Double = 0.0
     /// Formatted `mm:ss` until deadline
     @Published public var minuteColonSecond: String = ""
+    @Published public var speakableInterval: String = ""
 
     // MARK: Initialization
 
@@ -107,6 +108,7 @@ extension MinutePublisher {
 
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     func setUpCombine() {
+        // Input is Timer, Output is is TimeInterval to deadline.
         let timeToSeconds = setUpTimerPublisher()
 
         // Emit fractions
@@ -131,22 +133,27 @@ extension MinutePublisher {
 
         // Emit "mm:ss"
         timeToSeconds
-            .map { (commonSeconds: TimeInterval) -> (m: Int, s: Int) in
-                let dblMin = (commonSeconds / 60.0).rounded(.towardZero)
-                let dblSec = (commonSeconds.rounded(.towardZero)).truncatingRemainder(dividingBy: 60.0)
-                return (m: Int(dblMin), s: Int(dblSec))
+            .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
+                return MinSecondPair(interval: commonSeconds)
             }
-            .map { msPair -> String in
-                let (m, s) = msPair
-                let mString = String(m)
-                var sString = String(s)
-                if sString.count < 2 { sString = "0" + sString }
-
-                return "\(mString):\(sString)"
+            .map { minSec -> String in
+                minSec.description
             }
             .removeDuplicates()
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
+
+        timeToSeconds
+            .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
+                return MinSecondPair(interval: commonSeconds)
+            }
+            .map { minSec -> String in
+                minSec.speakableDescription
+            }
+            .removeDuplicates()
+            .assign(to: \.speakableInterval, on: self)
+            .store(in: &cancellables)
+
     }
 
     // MARK: - start
