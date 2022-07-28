@@ -15,16 +15,13 @@ struct CountdownSetupView: View {
     @AppStorage(AppStorageKeys.walkInMinutes.rawValue) private var durationInMinutes: Int = 2
 
     private let units: CountdownUnit
-//    @State private var deadlineInMinutes: Int
     private let callback:   (Int) -> Void
     private let testing: Bool
 
-//    init(_ deadline: Int,
     init(
          unit: CountdownUnit,
          testing: Bool = false, callback: @escaping (Int) -> Void) {
         self.units = unit
-//        self.deadlineInMinutes = deadline
         self.testing = testing
         self.callback = callback
     }
@@ -44,12 +41,8 @@ struct CountdownSetupView: View {
                 }
                 .frame(width: proxy.size.width, alignment: .leading)
                 Button("Start") {
-
-// FIXME: what's the callback used for, again?
-
                     callback(durationInMinutes)
                 }
-//                Text("Value is \(deadlineInMinutes)")
                 Divider()
 
                 if testing {
@@ -74,6 +67,6 @@ struct CountdownSetupView_Previews: PreviewProvider {
             }
             .padding()
         }
-        .environmentObject(CountdownController(duration: 45))
+        .environmentObject(CountdownController(duration: Int(countdown_TMP_Duration)))
     }
 }

@@ -56,7 +56,7 @@ struct CountdownContainerView_Previews: PreviewProvider {
             CountdownContainerView(
             )
                 .environmentObject(
-                    CountdownController(duration: 10)
+                    CountdownController(duration: 75)
                 )
         }
     }

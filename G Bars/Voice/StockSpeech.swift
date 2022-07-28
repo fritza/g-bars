@@ -12,10 +12,14 @@ import AVFoundation
  QUESTION: Will CallbackUtterance be released when the client code lets it get out of scope?
  */
 final class CallbackUtterance: AVSpeechUtterance {
+    deinit {
+        print("CallbackUtterance deinit.")
+    }
+
     typealias CVUCallback = (CallbackUtterance) -> Void
 
-    static let speechDelegate = SpeechDelegate()
-    static let synthesizer: AVSpeechSynthesizer = {
+    static private let speechDelegate = SpeechDelegate()
+    static private let synthesizer: AVSpeechSynthesizer = {
         let retval = AVSpeechSynthesizer()
         retval.delegate = speechDelegate
         return retval
@@ -41,23 +45,49 @@ final class CallbackUtterance: AVSpeechUtterance {
         self.init(string: speech, callback: callback)
     }
 
-    static var currentCallbackUtterance: CallbackUtterance?
+    // MARK: Current Utterance
+    static private var currentCallbackUtterance: CallbackUtterance?
+    static private var utteranceCount = 0
+    static private func setCurrentUtterance(new: CallbackUtterance) {
+        currentCallbackUtterance = new
+    }
+
+    static private func clearCurrentUtterance() {
+        currentCallbackUtterance = nil
+    }
+
+    static private var currentUtteranceIsClear: Bool {
+        currentCallbackUtterance == nil
+    }
+
+    static fileprivate func utteranceIsSameAsCached(_ utterance: CallbackUtterance?) -> Bool {
+        return currentCallbackUtterance === utterance
+    }
+
+
     /// Utter a speakable description of a `MinSecondPair`.
     ///
     /// The utterance is stored in a `static` reference until it calls back to say it's done.
     static func sayCountdown(minutesAndSeconds: MinSecondPair) {
-        guard currentCallbackUtterance == nil else {
+        guard (currentUtteranceIsClear) && CountdownController.shouldSpeak else  {
             return
         }
 
+        precondition(
+            currentUtteranceIsClear,
+            "\(#function): Attempt to enqueue an utterance while another is in progress.")
+        let newUtterance =
+        CallbackUtterance(
+            minutesAndSeconds: minutesAndSeconds) {
+                _ in clearCurrentUtterance()
+            }
 
-        precondition(currentCallbackUtterance == nil,
-                     "\(#function): Attempt to enqueue an utterance while another is in progress.")
-        currentCallbackUtterance = CallbackUtterance(minutesAndSeconds: minutesAndSeconds) {
-            cbu in
-            currentCallbackUtterance = nil
-        }
-        currentCallbackUtterance!.speak()
+        setCurrentUtterance(new: newUtterance)
+        newUtterance.speak()
+
+        // NOTE: All the get/set utterance shouldn't
+        //       be necessary: if you send more than
+        //       one utterance, it'll be queued.
     }
 
     func speak() {
@@ -66,23 +96,38 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     static func stop() {
         Self.synthesizer.stopSpeaking(at: .immediate)
-        Self.currentCallbackUtterance = nil
+//        clearCurrentUtterance()
+//        Self.currentCallbackUtterance = nil
     }
 }
 
-extension CallbackUtterance {
-
-}
-
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
+    deinit {
+        print("SpeechDelegate deinit")
+    }
+
     // REMEMBER! AVSpeechSynthesizer keeps a queue of its own.
     func speechSynthesizer(
         _ synthesizer: AVSpeechSynthesizer,
         didFinish utterance: AVSpeechUtterance) {
             if let callbackUtterance = utterance as? CallbackUtterance {
+                assert(CallbackUtterance.utteranceIsSameAsCached(callbackUtterance))
                 callbackUtterance.callback?(callbackUtterance)
             }
+            else {
+                preconditionFailure("\(#function) got a strange utterance from callback.")
+            }
         }
+
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        print(#function, "Hit.")
+        print()
+    }
+
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
+        print(#function, "Hit.")
+        print()
+    }
 }
     /*
      The only event (if any) we care about is didFinish.

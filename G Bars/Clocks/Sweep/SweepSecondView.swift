@@ -66,8 +66,8 @@ struct SweepSecondView: View {
                     (nowRunning: Bool) in
                     if nowRunning {
                         controller.startCounting(
-                            reassembling: true,
-                            duration: sweep_TMP_Duration)
+//                            duration: sweep_TMP_Duration
+                        )
                     }
                     else {
                         controller.stopCounting()
@@ -79,8 +79,6 @@ struct SweepSecondView: View {
     }
 }
 
-
-
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -88,7 +86,7 @@ struct SweepSecondView_Previews: PreviewProvider {
                 .frame(width: 300)
         }
         .environmentObject(
-            CountdownController(duration: 10)
+            CountdownController(duration: Int(sweep_TMP_Duration))
         )
     }
 }

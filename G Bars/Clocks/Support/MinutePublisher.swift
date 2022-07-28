@@ -50,7 +50,6 @@ final class MinutePublisher: ObservableObject {
     /// Subscribers get a `Bool` input when the deadline arrives (`true`) or the client calls `.stop()` (`false`). The `Bool` is true iff the clock ran out and nit cancalled.
 
     @Published var isRunning = false
-    // MARK: @Published
     /// Minutes until deadline
     @Published public var minutes: Int = 0
     /// Seconds-in-minute until deadline
@@ -165,22 +164,6 @@ extension MinutePublisher {
             .removeDuplicates()
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
-
-        /*
-         No callers use speakableInterval.
-
-         timeToSeconds
-         .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
-         return MinSecondPair(interval: commonSeconds)
-         }
-         .map { minSec -> String in
-         minSec.speakableDescription
-         }
-         .removeDuplicates()
-         .assign(to: \.speakableInterval, on: self)
-         .store(in: &cancellables)
-         */
-
     }
 
     // MARK: - start

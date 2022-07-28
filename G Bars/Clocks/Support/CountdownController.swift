@@ -19,7 +19,7 @@ import SwiftUI
  - ``init(duration:forCountdown:)``
 
  ### Operation
- - ``startCounting(reassembling:duration:)``
+ - ``startCounting()``
  - ``stopCounting(timeRanOut:)``
 
  ### Observable Properties
@@ -67,7 +67,6 @@ final class CountdownController: ObservableObject {
     init(duration _duration: Int, forCountdown: Bool = true) {
         self.isRunning = false
         self.durationInSeconds = _duration
-        // Self.fixedDurationInSeconds
     }
 
     // MARK: - Combine
@@ -76,12 +75,10 @@ final class CountdownController: ObservableObject {
     ///
     /// This function should be run _only once_ per `MinutePublisher`.  If `self.timePublisher` is non-nil, the function returns immediately.
     /// - warning: I _think_ `timePublisher` should be nilled-out before starting a new countdown.
-    /// - note: do not confuse with ``MinutePublisher/setUpCombine``.
+    /// - note: do not confuse with ``MinutePublisher/refreshPublisher()``.
     ///
     private func setUpCombine() {
         // MARK: Publisher
-#warning("SHOULD TIMEPUBLISHER BE NILLED FOR EACH COUNTDOWN?")
-
         guard timePublisher == nil else { return }
         timePublisher = MinutePublisher(
                 after: TimeInterval(durationInSeconds))
@@ -135,30 +132,14 @@ final class CountdownController: ObservableObject {
     }
 
     // MARK: - Halt/restart
-    // TODO: do we need durationInSeconds at all?
-    //       It's subject to change at all times.
-    //       Can a MinutePublisher property do better?
-
-    /// Regenerate the Combine chains from the `MinutePublisher`.
-    private func reassemble(newDuration: TimeInterval) {
-        durationInSeconds = Int(round(newDuration))
-        // Don't claim to be running.
-        isRunning = false
+    func startCounting(
+        //duration newDuration: TimeInterval
+    ) {
+        // Creates the MinutePublisher, sets
+        // and starts the intervals chain
         setUpCombine()
-    }
-
-    func startCounting(reassembling: Bool,
-                       duration: TimeInterval) {
-        if reassembling { reassemble(newDuration: duration) }
-
-        let roundedDuration = Int(round(duration))
-        // Int(round(countdown_TMP_Duration))
-        let minsec = MinSecondPair(seconds: roundedDuration)
-        if shouldSpeak && (minsec.seconds % 10 == 0) {
-            CallbackUtterance
-                .sayCountdown(minutesAndSeconds: minsec)
-        }
-
+        // Resets the publisher's start date,
+        // effectively starting the clock.
         timePublisher.start()
     }
 
@@ -166,19 +147,9 @@ final class CountdownController: ObservableObject {
     ///
     /// - warning: I think `timePublisher` ought to be nilled-out.
     func stopCounting(timeRanOut: Bool = true) {
-
-
-        // Should this nil-out timePublisher?
-        #warning("SHOULD THIS NIL-OUT TIMEPUBLISHER?")
-
-
         guard isRunning else { return }
+        //    isRunning = false - observes isRunning from the publisher.
         timePublisher.stop(exhausted: timeRanOut)
         CallbackUtterance.stop()
-
-        // Here is where timePublisher should go to nil.
-        // TODO: Does anyone else create a MinutePublisher?
-        // TODO: Does anyone else call reassemble(newDuration:)?
-        reassemble(newDuration: countdown_TMP_Duration)
     }
 }

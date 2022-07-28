@@ -83,10 +83,6 @@ struct DigitalTimerView: View {
     @State private var      amRunning   :  Bool = false
     @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
 
-
-    #warning("A way to initialize the display!")
-    @State private var mmssToDisplay: String = ""
-
     var body: some View {
         GeometryReader { proxy in
             VStack {
@@ -102,18 +98,13 @@ struct DigitalTimerView: View {
                     .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
-#warning("Visibility of speech toggle should not depend on whether to speak")
-#if false
                 SpeechOnOffView(toggling: $controller.shouldSpeak,
                                 size: proxy.size,
-                                label: "“\(controller.currentSpeakable.description)”")
-#endif
+                                label: controller.currentSpeakable)
 
                 Spacer()
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
-                    print(newRunning ? "RUNNING" : "STOPPED")
-                    print()
                     if newRunning {
                         controller.startCounting(
                             reassembling: true, duration: countdown_TMP_Duration)
@@ -135,7 +126,7 @@ struct DigitalTimerView_Previews: PreviewProvider {
         NavigationView {
             DigitalTimerView()
                 .padding()
-                .environmentObject(CountdownController(duration: 120))
+                .environmentObject(CountdownController(duration: Int(countdown_TMP_Duration)))
         }
     }
 }
