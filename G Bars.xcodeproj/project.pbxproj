@@ -113,8 +113,6 @@
 		1FB10A07287DEC00007D7CDF /* UsabilityContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityContainer.swift; sourceTree = "<group>"; };
 		1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilityInterstitialView.swift; sourceTree = "<group>"; };
 		1FB324C02888B16600A2F351 /* DigitalTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalTimerView.swift; sourceTree = "<group>"; };
-		1FB324C42888BDE700A2F351 /* Voice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
-		1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSpeaker.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
 		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
@@ -273,9 +271,7 @@
 		1FB324C32888BD8D00A2F351 /* Voice */ = {
 			isa = PBXGroup;
 			children = (
-				1FB324C62888BDF500A2F351 /* TimeSpeaker.swift */,
 				1FEEA765288F008C00B60409 /* StockSpeech.swift */,
-				1FB324C42888BDE700A2F351 /* Voice.swift */,
 			);
 			path = Voice;
 			sourceTree = "<group>";
