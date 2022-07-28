@@ -7,11 +7,25 @@
 
 import SwiftUI
 
+/**
+ ## Topics
+
+ ### Initialization
+ - ``init(running:callback:)``
+
+ ### Properties
+ - ``isRunning``
+ - ``body``
+ */
+
+/// A **Start**/**Cancel** button that triggers a callback closure when tapped.
+///
+/// Used by ``DigitalTimerView`` and ``SweepSecondView``. A ``CountdownController`` is used as an `@EnvironmentObject`
 struct TimerStartStopButton: View {
-    @EnvironmentObject var controller: CountdownController
+    @EnvironmentObject private var controller: CountdownController
 
     @Binding var isRunning: Bool
-    let callback: ((Bool) -> Void)?
+    private let callback: ((Bool) -> Void)?
 
     init(running: Binding<Bool>, callback: ((Bool) -> Void)? = nil) {
         _isRunning = running

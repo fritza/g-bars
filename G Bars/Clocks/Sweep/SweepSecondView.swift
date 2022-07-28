@@ -8,7 +8,18 @@
 import SwiftUI
 import Combine
 
+/**
+ ## Topics
+
+ ### Properties
+ - ``isRunning``
+ - ``body``
+ */
+
+
 /// A `View` that displays a circle containing a sweep-second hand and a digit, representing a countdown in seconds.
+///
+/// Uses a  `CountdownController` as an `@EnvironmentObject`.
 struct SweepSecondView: View {
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
     @EnvironmentObject private var controller: CountdownController
@@ -16,6 +27,7 @@ struct SweepSecondView: View {
     /// Whether the clock is running, as set by ``TimerStartStopButton``.
     /// - note: Stopping the countdown does not pause it.  When `isRunning` changes to `true`, its controller is completely restarted.
     @State var isRunning: Bool = false
+
     private var cancellables: Set<AnyCancellable> = []
 
     /// A digit to be overlaid on the clock face, intended to indicate seconds remaining.
@@ -27,7 +39,7 @@ struct SweepSecondView: View {
             .monospacedDigit()
     }
 
-    @ViewBuilder func clockFace(fitting size: CGSize) -> some View {
+    @ViewBuilder private func clockFace(fitting size: CGSize) -> some View {
         ZStack(alignment: .center) {
             Circle()
                 .stroke(lineWidth: 1.0)

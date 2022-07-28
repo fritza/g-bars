@@ -12,6 +12,28 @@ import Foundation
 import Combine
 import SwiftUI
 
+/**
+ ## Topics
+
+ ### Initialization
+ - ``init(duration:forCountdown:)``
+
+ ### Operation
+ - ``startCounting(reassembling:duration:)``
+ - ``stopCounting(timeRanOut:)``
+
+ ### Observable Properties
+ - ``isRunning``
+ - ``seconds``
+ - ``minutes``
+ - ``fraction``
+ - ``minuteColonSecond``
+ - ``shouldSpeak``
+ - ``currentSpeakable``
+ - ``durationInSeconds``
+ */
+
+
 // MARK: - CountdownController
 /// Bridge between countdown figures from a `MinutePublisher` and the SwiftUI display.
 final class CountdownController: ObservableObject {
@@ -32,9 +54,12 @@ final class CountdownController: ObservableObject {
 
 
     static let fixedDurationInSeconds = 135 // _TMP_
+
     @Published var durationInSeconds: Int
-    private var cancellables: Set<AnyCancellable> = []
+    // TODO: Why do views get this value without @Published?
     var mmssToDisplay: String = ""
+
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Initialization
     /// Initialize from the length of the countdown
@@ -52,7 +77,8 @@ final class CountdownController: ObservableObject {
     /// This function should be run _only once_ per `MinutePublisher`.  If `self.timePublisher` is non-nil, the function returns immediately.
     /// - warning: I _think_ `timePublisher` should be nilled-out before starting a new countdown.
     /// - note: do not confuse with ``MinutePublisher/setUpCombine``.
-    func setUpCombine() {
+    ///
+    private func setUpCombine() {
         // MARK: Publisher
 #warning("SHOULD TIMEPUBLISHER BE NILLED FOR EACH COUNTDOWN?")
 
@@ -114,7 +140,7 @@ final class CountdownController: ObservableObject {
     //       Can a MinutePublisher property do better?
 
     /// Regenerate the Combine chains from the `MinutePublisher`.
-    func reassemble(newDuration: TimeInterval) {
+    private func reassemble(newDuration: TimeInterval) {
         durationInSeconds = Int(round(newDuration))
         // Don't claim to be running.
         isRunning = false

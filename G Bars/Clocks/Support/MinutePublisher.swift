@@ -13,6 +13,29 @@ import Combine
 //       Otherwise, the subscriber need not be created,
 //       and maybe the Timer can be given a looser interval and tolerance.
 
+/**
+ ## Topics
+
+ ### Initialization
+
+ - ``init(to:)``
+ - ``init(after:)``
+
+ ### Published Properties
+
+ - ``isRunning``
+ - ``minutes``
+ - ``seconds``
+ - ``fraction``
+ - ``minuteColonSecond``
+
+### Operation
+ - ``setUpCombine()``
+ - ``start()``
+ - ``stop(exhausted:)``
+
+ */
+
 // MARK: - MinutePublisher
 /// Publisher of components of `Timer` ticks in integer minutes and seconds; and `Double` subseconds, counting up or down.
 ///
@@ -21,10 +44,9 @@ import Combine
 /// `MinutePublisher` broadcasts a `Bool` through `completedSubject` when the deadline is reached (`true`) or the client called `stop()` (`false`).
 /// - bug: The count-up should also stop the clock when a deadline is reached.
 final class MinutePublisher: ObservableObject {
-    var cancellables: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
 
-
-    // MARK: Subjects
+    // MARK: Publishers
     /// Subscribers get a `Bool` input when the deadline arrives (`true`) or the client calls `.stop()` (`false`). The `Bool` is true iff the clock ran out and nit cancalled.
 
     @Published var isRunning = false
@@ -52,10 +74,6 @@ final class MinutePublisher: ObservableObject {
     init(to date: Date? = nil) {
         countdownTo = date
         isRunning = false
-    }
-
-    deinit {
-        print("MinutePublisher deallocated.")
     }
 
     /// Initialize a count**down** to a future time that is a certain interval from now.

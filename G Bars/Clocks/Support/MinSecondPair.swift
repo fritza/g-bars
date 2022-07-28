@@ -8,6 +8,51 @@
 import Foundation
 
 /// Time interval expressed as integer minutes and seconds.
+///
+/// ## Topics
+///
+/// ### Initialization
+///
+/// - ``minutes``
+/// - ``seconds``
+/// - ``init(minutes:seconds:)``
+/// - ``init(seconds:)``
+/// - ``init(minutes:seconds:)``
+/// - ``init(interval:)``
+///
+/// ### String Conversion
+///
+/// - ``description``
+/// - ``speakableDescription``
+///
+///### Null Value
+///
+/// - ``zero``
+/// - ``isZero``
+///
+/// ### Comparable
+///
+/// - ``==(lhs:rhs:)``
+/// - ``<(lhs:rhs:)``
+///
+/// ### Arithmetic
+///
+/// - ``negate()``
+/// - ``abs``
+/// - ``-(operand:)``
+/// - ``-(operand:)``
+/// - ``-(minuend:subtrahend:)``
+/// - ``-=(minuend:subtrahend:)``
+///
+/// ### Sequence
+///
+///``makeIterator()``
+///``MinSecIterator``
+///``MinSecIterator/init(_:)``
+///``MinSecIterator/currentMinSec``
+///``MinSecIterator/next()``
+///
+
 struct MinSecondPair: Codable, Hashable, Sendable {
     // QUERY: negate() is a mutating function. Does that make MinSecondPair non-Sendable?
     /// Number of minutes represented
@@ -70,6 +115,7 @@ extension MinSecondPair: Comparable {   // And Hashable
 }
 
 // MARK: String Convertible
+/// ### String Conversion
 extension MinSecondPair: CustomStringConvertible {
     /// `CustomStringConvertible`: A string rendering of `mm:ss`
     var description: String {
@@ -85,6 +131,7 @@ extension MinSecondPair: CustomStringConvertible {
 }
 
 // MARK: - Arithmetic
+/// ### Arithmetic
 extension MinSecondPair {
     // TODO: (Exciting Future Direction): AdditiveArithmetic.
 

@@ -9,14 +9,26 @@ import SwiftUI
 import Combine
 import CoreGraphics
 
+/**
+ ## Topics
+
+ ### Properties
+ - ``fractionalSecond``
+ - ``body``
+ */
+
 /// A thin rectangle that can be rotated through a circle, given fractions of 360º.
 ///
 /// The expected use is as a clock hand indicating fractions of a second.
+///
+/// Uses ``CountdownController`` as an `@EnvironmentObject`.
 struct SubsecondHandView: View {
     @EnvironmentObject private var controller: CountdownController
+
+    /// The desired position of the hand , _counterclockwise,_ in `0.0..<1.0`
     let fractionalSecond: TimeInterval
 
-    func midpoint(within proxy: GeometryProxy) -> CGPoint {
+    private func midpoint(within proxy: GeometryProxy) -> CGPoint {
         let middle = proxy.size.short / 2.0
         return CGPoint(x: middle, y: middle)
     }

@@ -17,6 +17,13 @@ import SwiftUI
  The view accepts the controller as an EnvironmentObject. It has no responsibility for initializing it or taking direct notice of the responses. The controller is a shell for what the UI elements reflect. The view is a shell for how the state is reflected.
  */
 
+/**
+ ## Topics
+
+ ### Properties
+ - ``body``
+ */
+
 struct CountdownContainerView: View {
     @EnvironmentObject private var controller: CountdownController
 

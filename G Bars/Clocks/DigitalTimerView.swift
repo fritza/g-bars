@@ -34,6 +34,18 @@ What the digital (walking) clock would show, and what would be spoken.
 There's still a bug in picking up the initial value in the spoken version of the timer. The ten-second interval is for demonstration purposes.
 """
 
+/**
+ ## Topics
+ 
+ ### Properties
+ - ``text``
+ -  ``size``
+ - ``shouldSpeak``
+
+ ### Initializer
+ - ``init(toggling:size:label:)``
+ */
+
 struct SpeechOnOffView: View {
     let text: String?
     @Binding var shouldSpeak: Bool
@@ -57,11 +69,19 @@ struct SpeechOnOffView: View {
     }
 }
 
+/**
+ ## Topics
+
+ ### Properties
+ - ``controller``
+ - ``body``
+ */
+
 struct DigitalTimerView: View {
-    @EnvironmentObject var controller: CountdownController
-    @State private var wantsSpeech = false
-    @State private var amRunning: Bool = false
-    @State private var minSeconds = MinSecondPair(seconds: Int(countdown_TMP_Duration))
+    @EnvironmentObject var  controller  : CountdownController
+    @State private var      wantsSpeech = false
+    @State private var      amRunning   :  Bool = false
+    @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
 
 
     #warning("A way to initialize the display!")
