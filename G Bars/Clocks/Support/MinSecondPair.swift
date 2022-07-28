@@ -8,9 +8,14 @@
 import Foundation
 
 /// Time interval expressed as integer minutes and seconds.
-struct MinSecondPair: Codable, Hashable {
-    var minutes, seconds: Int
+struct MinSecondPair: Codable, Hashable, Sendable {
+    // QUERY: negate() is a mutating function. Does that make MinSecondPair non-Sendable?
+    /// Number of minutes represented
+    var minutes: Int
+    /// Number of seconds within a minute represented
+    var seconds: Int
 
+    /// `AdditiveArithmetic`: An empty time interval, no minutes, no seconds.
     static let zero = MinSecondPair(minutes: 0, seconds: 0)
 
     /// Initialize from minutes and seconds
@@ -56,6 +61,9 @@ extension MinSecondPair: Comparable {   // And Hashable
         return false
     }
 
+    /// Whether `minutes` and `seconds` are both zero.
+    ///
+    /// Use this in preference to comparison to ``MinSecondPair/zero``, to prevent initialization overhead for the zero side of the `==`.
     var isZero: Bool {
         return minutes == 0 && seconds == 0
     }
@@ -81,10 +89,15 @@ extension MinSecondPair {
     // TODO: (Exciting Future Direction): AdditiveArithmetic.
 
     // MARK: Signed Numeric
+    /// `SignedNumeric`: negate both minutes and seconds.
     mutating func negate() {
-        minutes = -minutes; seconds = -seconds
+        let secondInterval = asSeconds
+        let otherPair = MinSecondPair(seconds: -secondInterval)
+        seconds = otherPair.seconds
+        minutes = otherPair.minutes
     }
 
+    /// `SignedNumeric`: the leading negated-value operator.
     prefix static func - (operand: MinSecondPair) -> MinSecondPair {
         var copy = operand
         copy.negate()
@@ -121,6 +134,14 @@ extension MinSecondPair {
     /// Decrement a `MinSecondPair` by an integral number of seconds.
     static func -= <I: SignedInteger>(minuend: inout MinSecondPair, subtrahend: I) {
         minuend = minuend - subtrahend
+    }
+
+    /// The absolute magnitude of the pair.
+    ///
+    /// - note: This is not guaranteed to format well into `String` atw.
+    var abs: MinSecondPair {
+        let absSeconds = asSeconds
+        return MinSecondPair(seconds: (absSeconds < 0) ? -absSeconds: absSeconds)
     }
 }
 
