@@ -30,7 +30,7 @@ import Combine
  - ``minuteColonSecond``
 
 ### Operation
- - ``setUpCombine()``
+ - ``refreshPublisher()``
  - ``start()``
  - ``stop(exhausted:)``
 
@@ -51,9 +51,12 @@ final class MinutePublisher: ObservableObject {
 
     @Published var isRunning = false
     /// Minutes until deadline
-    @Published public var minutes: Int = 0
+//    @Published public var minutes: Int = 0
     /// Seconds-in-minute until deadline
-    @Published public var seconds: Int = 0
+//    @Published public var seconds: Int = 0
+
+    @Published public var minsSecs: MinSecondPair
+
     /// Fractions-in-second until deadline
     @Published public var fraction: Double = 0.0
     /// Formatted `mm:ss` until deadline
@@ -67,58 +70,60 @@ final class MinutePublisher: ObservableObject {
     // MARK: Initialization
 
     /// The deadline for ending the countdown
-    private let countdownTo: Date?
+    private var countdownTo: Date?
     /// Initialize a countdown toward a future date, or a count-up from the present.
     /// - parameter date: The deadline as `Date` to count down to. If `nil` (the default), the clock counts up indefinitely from the current date.
-    init(to date: Date? = nil) {
-        countdownTo = date
-        isRunning = false
-    }
 
+    private var countdownDuration: TimeInterval
     /// Initialize a count**down** to a future time that is a certain interval from now.
     /// - parameter interval: The **TimeInterval** between now and the time to which the clock will count down.
-    convenience init(after interval: TimeInterval) {
-        let date = Date(timeIntervalSinceNow: interval)
-        self.init(to: date)
+    init(interval: TimeInterval) {
+        countdownDuration = interval
+        minsSecs = MinSecondPair(interval: interval)
+        isRunning = false
+        countdownTo = nil
     }
 
-    /// The `Date` at which `start()` commenced the count. Used only as a reference point for counting up.
-    private var dateStarted: Date!
+    private var timerPublisher: TIPublisher!
 }
 
 
 // MARK: - Combine
 extension MinutePublisher {
     // MARK: Root publisher
+
+    typealias TIPublisher = AnyPublisher<TimeInterval, Never>
+
     /// The root time publisher for a `Timer` signaling every `0.01 ± 0.03` seconds.
     ///
     /// `TimePublisher.Output` is `Date`. This is translated to time interval before `countdownTo`. It is `autoconnect`, `share`, and erased to `AnyPublisher<TimeInterval, Never>`.
     ///
-    /// - note: This publisher does not escape `setUpCombine`. Clients should subscribe to the `@Published` time components instead.
-    private func setUpTimerPublisher() -> AnyPublisher<TimeInterval, Never> {
+    /// - note: This publisher does not escape `refreshPublisher`. Clients should subscribe to the `@Published` time components instead.
+    private func setUpTimerPublisher() -> TIPublisher {
         let timeToSeconds = Timer.publish(
             every: 0.01, tolerance: 0.03,
             on: .current, in: .common)
             .autoconnect()
 
         // Debugging: Intercept cancellations
-            .handleEvents(receiveCancel: {
-                print(#function, "Main publisher was cancelled.")
-                print()
-            })
-
-        // Date → downward TimeInterval
+//            .handleEvents(receiveCancel: {
+//                print(#function, "Main publisher was cancelled.")
+//            })
+            .compactMap { currentDate -> (current: Date, future: Date)? in
+                guard let countdown = self.countdownTo else { return nil }
+                return (current: currentDate, future: countdown)
+            }
             .map {
-                currentDate -> TimeInterval in
-                if let remote = self.countdownTo {
-                    if currentDate >= remote { self.stop() }
-                    return -currentDate
-                        .timeIntervalSince(remote)
+                // TODO: A tryMap?
+                // Date → downward TimeInterval
+                (current: Date, future: Date) -> TimeInterval in
+                guard current <= future else {
+                    self.stop(exhausted: true)
+                    return 0.0
                 }
-                else {
-                    return currentDate
-                        .timeIntervalSince(self.dateStarted)
-                }
+                let retval = -current
+                    .timeIntervalSince(future)
+                return retval
             }
             .share()
             .eraseToAnyPublisher()
@@ -127,40 +132,33 @@ extension MinutePublisher {
 
     // MARK: Derived publishers
 
+//    private var timerPublisher: MinutePublisher!
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     /// - warning: do not confuse with ``CountdownController/setUpCombine()``.
-    func setUpCombine() {
+    func refreshPublisher() {
         // Input is Timer, Output is is TimeInterval to deadline.
-        let timeToSeconds = setUpTimerPublisher()
+        timerPublisher = setUpTimerPublisher()
 
-        // Emit fractions
-        timeToSeconds
-            .map { $0 - Double(Int($0)) }
-            .assign(to: \.fraction, on: self)
-            .store(in: &cancellables)
+        timerPublisher.map {
+           return MinSecondPair(interval: $0)
+        }
+        .removeDuplicates()
+        .assign(to: \.minsSecs , on: self)
+        .store(in: &cancellables)
 
-        // Emit seconds
-        timeToSeconds
-            .map { Int($0) % 60 }
-            .removeDuplicates()
-            .assign(to: \.seconds, on: self)
-            .store(in: &cancellables)
-
-        // Emit minutes
-        timeToSeconds
-            .map { Int($0) / 60 }
-            .removeDuplicates()
-            .assign(to: \.minutes, on: self)
-            .store(in: &cancellables)
+        timerPublisher.map {
+            interval in
+            return interval - Darwin.trunc(interval)
+        }
+        .assign(to: \.fraction, on: self)
+        .store(in: &cancellables)
 
         // Emit "mm:ss"
-        timeToSeconds
-            .map { (commonSeconds: TimeInterval) -> MinSecondPair in // (m: Int, s: Int) in
+        timerPublisher
+            .map { (commonSeconds: TimeInterval) -> MinSecondPair in
                 return MinSecondPair(interval: commonSeconds)
             }
-            .map { minSec -> String in
-                minSec.description
-            }
+            .map { $0.description }
             .removeDuplicates()
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
@@ -169,8 +167,9 @@ extension MinutePublisher {
     // MARK: - start
     /// Set up internal subscriptions to (ultimately) the `Timer.Publisher`, and start counting down to the deadline.
     public func start() {
-        dateStarted = Date()
-        setUpCombine()
+        let deadline = Date(timeIntervalSinceNow: countdownDuration)
+        countdownTo = deadline
+        refreshPublisher()
         isRunning = true
     }
 

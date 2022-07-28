@@ -37,7 +37,6 @@ import SwiftUI
 // MARK: - CountdownController
 /// Bridge between countdown figures from a `MinutePublisher` and the SwiftUI display.
 final class CountdownController: ObservableObject {
-//    @Published var timePublisher: MinutePublisher!
     private var timePublisher: MinutePublisher!
 
     // MARK: Published properties
@@ -47,15 +46,15 @@ final class CountdownController: ObservableObject {
     @Published var minutes: Int = 2
     @Published var fraction: TimeInterval = 0.0
 
-    #warning("initialize minuteColonSecond with nonblank mm:ss")
     @Published public var minuteColonSecond: String = ""
-    @Published public var shouldSpeak = true
+    @Published public var shouldSpeak = true {
+        didSet { Self.shouldSpeak = shouldSpeak }
+    }
     @Published public var currentSpeakable = ""
 
-
-    static let fixedDurationInSeconds = 135 // _TMP_
-
+    static var shouldSpeak = true
     @Published var durationInSeconds: Int
+
     // TODO: Why do views get this value without @Published?
     var mmssToDisplay: String = ""
 
@@ -81,17 +80,18 @@ final class CountdownController: ObservableObject {
         // MARK: Publisher
         guard timePublisher == nil else { return }
         timePublisher = MinutePublisher(
-                after: TimeInterval(durationInSeconds))
+            interval: TimeInterval(durationInSeconds))
+        timePublisher.refreshPublisher()
 
         // MARK: Time components
         timePublisher.$fraction
             .assign(to: \.fraction, on: self)
             .store(in: &cancellables)
-        timePublisher.$minutes
-            .assign(to: \.minutes,  on: self)
-            .store(in: &cancellables)
-        timePublisher.$seconds
-            .assign(to: \.seconds,  on: self)
+        timePublisher.$minsSecs
+            .sink { minsec in
+                self.minutes = minsec.minutes
+                self.seconds = minsec.seconds
+            }
             .store(in: &cancellables)
         timePublisher.$minuteColonSecond
             .assign(to: \.minuteColonSecond, on: self)
@@ -102,30 +102,33 @@ final class CountdownController: ObservableObject {
 
         // MARK: MinSecondPair
         // Publisher that assembles current minutes and seconds into `MinSecondPair`
-        let mmssPublisher = timePublisher.$minutes
-            .combineLatest(timePublisher.$seconds)
-            .map { (mins: Int, secs: Int) -> MinSecondPair in
-                return MinSecondPair(minutes: mins, seconds: secs)
-            }
-            .filter { _ in return self.shouldSpeak }
+
+        let mmssPublisher = timePublisher.$minsSecs
+        //            .dropFirst()
+
+        // -------------------------------------
+        func doSay(minsec: MinSecondPair) {
+            currentSpeakable = minsec.speakableDescription
+            CallbackUtterance
+                .sayCountdown(
+                    minutesAndSeconds: minsec)
+        }
+        // -------------------------------------
 
         // MARK: MinSecondPair -> speech
         mmssPublisher
             .filter { (minsec: MinSecondPair) -> Bool in
+                self.shouldSpeak &&
                 minsec.seconds % 10 == 0
             }
             .receive(on: DispatchQueue.main)
-            .sink { minsec in
-                CallbackUtterance
-                    .sayCountdown(minutesAndSeconds: minsec)
-            }
+            .sink { doSay(minsec: $0) }
             .store(in: &cancellables)
 
         // MARK: MinSecondPair -> display time
         // Written description: 1:23
         mmssPublisher
             .map(\.description)
-            .removeDuplicates()
             .print("written time:")
             .assign(to: \.mmssToDisplay, on: self)
             .store(in: &cancellables)

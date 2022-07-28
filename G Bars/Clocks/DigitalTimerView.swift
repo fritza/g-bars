@@ -58,14 +58,17 @@ struct SpeechOnOffView: View {
     }
 
     var body: some View {
-        if text != nil {
-            Text("“\(text!)”")
+        HStack(alignment: .center) {
+            if let text = text {
+                Text("\(text)")
+//                Text("Many minutes many seconds. Too much time to account for really.")
+                    .minimumScaleFactor(0.5)
+                Spacer(); Divider()
+            }
             Spacer()
-            Divider()
-        }
-        Spacer()
-        Toggle("Speech", isOn: $shouldSpeak)
-            .frame(width: size.width * 0.4)
+            Toggle("Speech", isOn: $shouldSpeak)
+                .frame(width: size.width * 0.4)
+        }.frame(height: 50)
     }
 }
 
@@ -106,11 +109,11 @@ struct DigitalTimerView: View {
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
                     if newRunning {
-                        controller.startCounting(
-                            reassembling: true, duration: countdown_TMP_Duration)
+                        controller.startCounting()
                     }
                     else {
-                        controller.stopCounting(timeRanOut: false)
+                        controller.stopCounting(
+                                timeRanOut: false)
                     }
                 }
                 Spacer()
