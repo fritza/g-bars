@@ -77,9 +77,9 @@ final class MinutePublisher: ObservableObject {
     private var countdownDuration: TimeInterval
     /// Initialize a count**down** to a future time that is a certain interval from now.
     /// - parameter interval: The **TimeInterval** between now and the time to which the clock will count down.
-    init(interval: TimeInterval) {
-        countdownDuration = interval
-        minsSecs = MinSecondPair(interval: interval)
+    init(duration: TimeInterval) {
+        countdownDuration = duration
+        minsSecs = MinSecondPair(interval: duration)
         isRunning = false
         countdownTo = nil
     }

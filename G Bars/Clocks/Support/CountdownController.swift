@@ -80,7 +80,7 @@ final class CountdownController: ObservableObject {
         // MARK: Publisher
         guard timePublisher == nil else { return }
         timePublisher = MinutePublisher(
-            interval: TimeInterval(durationInSeconds))
+            duration: TimeInterval(durationInSeconds))
         timePublisher.refreshPublisher()
 
         // MARK: Time components
