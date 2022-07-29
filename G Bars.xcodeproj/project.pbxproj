@@ -263,6 +263,7 @@
 		1FB324BF2888949700A2F351 /* Digital */ = {
 			isa = PBXGroup;
 			children = (
+				1FB324C02888B16600A2F351 /* DigitalTimerView.swift */,
 			);
 			path = Digital;
 			sourceTree = "<group>";
@@ -372,7 +373,6 @@
 			children = (
 				1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */,
 				1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */,
-				1FB324C02888B16600A2F351 /* DigitalTimerView.swift */,
 				1FB324BF2888949700A2F351 /* Digital */,
 				1FB324BE2888946900A2F351 /* Support */,
 				1FB324BD2888943100A2F351 /* Sweep */,
