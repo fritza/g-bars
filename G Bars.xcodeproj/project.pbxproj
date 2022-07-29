@@ -58,7 +58,6 @@
 		1FD7EE822881CAEF00D194B4 /* MinSecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */; };
 		1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */; };
 		1FD7EE852881CBCB00D194B4 /* CountdownSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */; };
-		1FD7EE872881D83D00D194B4 /* CountdownContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */; };
 		1FD7EE892881D94600D194B4 /* CountdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE882881D94600D194B4 /* CountdownController.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
@@ -545,7 +544,6 @@
 				1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */,
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,
 				1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */,
-				1FD7EE872881D83D00D194B4 /* CountdownContainerView.swift in Sources */,
 				1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */,
 				1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */,
 				1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */,
