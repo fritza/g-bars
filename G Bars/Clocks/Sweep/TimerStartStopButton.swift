@@ -53,7 +53,7 @@ struct TimerStartStopButton_Previews: PreviewProvider {
             Text("is \(ssState.running ? "" : "NOT") running")
         }
         .environmentObject(
-            CountdownController(duration: 5, forCountdown: true)
+            CountdownController(duration: 5)
         )
     }
 }

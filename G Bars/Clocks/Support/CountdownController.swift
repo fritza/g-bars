@@ -63,7 +63,8 @@ final class CountdownController: ObservableObject {
     // MARK: - Initialization
     /// Initialize from the length of the countdown
     /// - Parameter \_duration: : Integer length of the countdown **in seconds**
-    init(duration _duration: Int, forCountdown: Bool = true) {
+    init(duration _duration: Int)
+    {
         self.isRunning = false
         self.durationInSeconds = _duration
     }
