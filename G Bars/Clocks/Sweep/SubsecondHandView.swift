@@ -23,8 +23,6 @@ import CoreGraphics
 ///
 /// Uses ``CountdownController`` as an `@EnvironmentObject`.
 struct SubsecondHandView: View {
-    @EnvironmentObject private var controller: CountdownController
-
     /// The desired position of the hand , _counterclockwise,_ in `0.0..<1.0`
     let fractionalSecond: TimeInterval
 
@@ -35,6 +33,9 @@ struct SubsecondHandView: View {
 
     var body: some View {
         GeometryReader { proxy in
+            // The "hand" is a narrow rectangle
+            // rotating near one end on the center
+            // of the superview.
             Rectangle()
                 .rotation(
                     Angle(degrees:
