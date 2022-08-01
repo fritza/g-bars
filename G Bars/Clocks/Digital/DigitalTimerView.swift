@@ -47,13 +47,15 @@ There's still a bug in picking up the initial value in the spoken version of the
  */
 
 struct SpeechOnOffView: View {
+    // Don't use AppStorage for this,
+    // it obscures the dependency up through DigitalTimerView..
     let text: String?
-    @Binding var shouldSpeak: Bool
+    @Binding var speechValue: Bool
     let size: CGSize
 
     init(toggling: Binding<Bool>, size: CGSize, label: String? = nil) {
         self.text = label
-        self._shouldSpeak = toggling
+        self._speechValue = toggling
         self.size = size
     }
 
@@ -66,7 +68,7 @@ struct SpeechOnOffView: View {
                 Spacer(); Divider()
             }
             Spacer()
-            Toggle("Speech", isOn: $shouldSpeak)
+            Toggle("Speech", isOn: $speechValue)
                 .frame(width: size.width * 0.4)
         }.frame(height: 50)
     }
@@ -81,8 +83,11 @@ struct SpeechOnOffView: View {
  */
 
 struct DigitalTimerView: View {
+    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = false
+
     @EnvironmentObject var  controller  : CountdownController
-    @State private var      wantsSpeech = false
+//    @Binding var wantsSpeech: Bool
+//    @State private var      wantsSpeech = false
     @State private var      amRunning   :  Bool = false
     @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
 
@@ -92,31 +97,33 @@ struct DigitalTimerView: View {
                 // Instructions
                 Text(digitalNarrative)
                 Spacer()
-                //
-                // mCS STARTS at ""
-                // Where is it initialized?
-                //
-                // Numerical time
+                // MM:SS to screen
                 Text("\(controller.mmssToDisplay)")
                     .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
-                SpeechOnOffView(toggling: $controller.shouldSpeak,
+                // Speech toggle
+                SpeechOnOffView(toggling:
+                                    $wantsSpeech,
                                 size: proxy.size,
                                 label: controller.currentSpeakable)
-
                 Spacer()
+
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
                     if newRunning {
                         controller.startCounting()
+                        assert(amRunning)
                     }
                     else {
                         controller.stopCounting(
                                 timeRanOut: false)
+                        assert(!amRunning)
                     }
                 }
                 Spacer()
+//
+//                Text("wants speech is \(wantsSpeech.description)")
             }.padding()
         }
         .navigationTitle("Digital")

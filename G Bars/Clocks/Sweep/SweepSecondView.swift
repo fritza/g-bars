@@ -32,9 +32,11 @@ struct SweepSecondView: View {
 
     /// A digit to be overlaid on the clock face, intended to indicate seconds remaining.
     private func numericOverlay(edge: CGFloat) -> some View {
-        let rep = isRunning ? controller.seconds + 1 :
-        0
-       return Text("\(rep)")
+        // plus-one because I think people want to
+        // see a "1" in the final go-round when
+        // the app just said "one."
+        let rep = controller.seconds+1
+        return Text("\(rep)")
             .font(.system(size: edge, weight: .semibold))
             .monospacedDigit()
     }
@@ -62,18 +64,16 @@ struct SweepSecondView: View {
                        height: proxy.size.short * 0.95,
                        alignment: .center)
                 Spacer()
-                TimerStartStopButton(running: $isRunning) {
-                    (nowRunning: Bool) in
-                    if nowRunning {
-                        controller.startCounting(
-//                            duration: sweep_TMP_Duration
-                        )
-                    }
-                    else {
-                        controller.stopCounting()
-                    }
-                }
+                TimerStartStopButton(running: $isRunning)
             }
+            .onChange(of: isRunning, perform: { newValue in
+                if isRunning {
+                    controller.startCounting()
+                }
+                else {
+                    controller.stopCounting(timeRanOut: false) // AND reset cancel button
+                }
+            })
             .navigationTitle("Seconds")
         }
     }

@@ -13,10 +13,7 @@ let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
 
 //let countdownController = CountdownController(forCountdown: true)
-
-//@AppStorage(AppStorageKeys.subjectID.rawValue) var subjectID = "Subject ID not for publication."
-
-
+    // And now propagate it.
 
 import Accelerate
 // MARK: - App
@@ -25,12 +22,6 @@ struct G_BarsApp: App {
     let countdownController: CountdownController
 
     init() {
-        #warning("initialization of CountdownController belongs elsewhere")
-        countdownController =
-        CountdownController(
-            duration:
-                Int (trunc(countdown_TMP_Duration))
-        )
     }
 
 //    var selectedTab = 0
@@ -50,29 +41,28 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if true
-            NavigationView {
-                VStack {
-                    DigitalTimerView()
-                }
-                .navigationTitle("Digital Countdown")
-                .environmentObject(countdownController)
-            }
-#elseif false
-            NavigationView {
-                VStack {
-                    Text("DigitalTimerView goes here")
-                }
-                .navigationTitle("Digital Countdown")
-                .environmentObject(countdownController)
-            }
-#elseif false
+#if false
             NavigationView {
                 VStack {
                     SweepSecondView()
                 }
-                .environmentObject(
-                    countdownController
+                .navigationTitle("Sweep Second")
+                .environmentObject(CountdownController(
+                    duration:
+                        Int (trunc(sweep_TMP_Duration))
+                )
+                )
+            }
+#elseif true
+            NavigationView {
+                VStack {
+                    DigitalTimerView(duration: countdown_TMP_Duration)
+                }
+                .navigationTitle("Digital Countdown")
+                .environmentObject(CountdownController(
+                    duration:
+                        Int (trunc(countdown_TMP_Duration))
+                )
                 )
             }
 #elseif false
@@ -115,6 +105,7 @@ struct G_BarsApp: App {
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
 
+            #warning("Putting a single countdown controller in an app-wide Environment.")
             .environmentObject(countdownController)
             .environmentObject(SubjectID.shared)
 #endif

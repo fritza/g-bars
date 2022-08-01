@@ -8,9 +8,6 @@
 import Foundation
 import AVFoundation
 
-/*
- QUESTION: Will CallbackUtterance be released when the client code lets it get out of scope?
- */
 final class CallbackUtterance: AVSpeechUtterance {
     deinit {
         print("CallbackUtterance deinit.")
@@ -96,8 +93,6 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     static func stop() {
         Self.synthesizer.stopSpeaking(at: .immediate)
-//        clearCurrentUtterance()
-//        Self.currentCallbackUtterance = nil
     }
 }
 

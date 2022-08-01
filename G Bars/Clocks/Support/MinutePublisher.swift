@@ -84,7 +84,7 @@ final class MinutePublisher: ObservableObject {
         countdownTo = nil
     }
 
-    private var timerPublisher: TIPublisher!
+    private var secondsPublisher: TIPublisher!
 }
 
 
@@ -92,14 +92,15 @@ final class MinutePublisher: ObservableObject {
 extension MinutePublisher {
     // MARK: Root publisher
 
-    typealias TIPublisher = AnyPublisher<TimeInterval, Never>
+    typealias TIPublisher  = AnyPublisher<TimeInterval, Never>
+//    typealias CTIPublisher = Publishers.MakeConnectable<TIPublisher>
 
     /// The root time publisher for a `Timer` signaling every `0.01 ± 0.03` seconds.
     ///
     /// `TimePublisher.Output` is `Date`. This is translated to time interval before `countdownTo`. It is `autoconnect`, `share`, and erased to `AnyPublisher<TimeInterval, Never>`.
     ///
     /// - note: This publisher does not escape `refreshPublisher`. Clients should subscribe to the `@Published` time components instead.
-    private func setUpTimerPublisher() -> TIPublisher {
+    private func setUpSecondsPublisher() -> TIPublisher {
         let timeToSeconds = Timer.publish(
             every: 0.01, tolerance: 0.03,
             on: .current, in: .common)
@@ -132,21 +133,21 @@ extension MinutePublisher {
 
     // MARK: Derived publishers
 
-//    private var timerPublisher: MinutePublisher!
+//    private var secondsPublisher: MinutePublisher!
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     /// - warning: do not confuse with ``CountdownController/setUpCombine()``.
     func refreshPublisher() {
         // Input is Timer, Output is is TimeInterval to deadline.
-        timerPublisher = setUpTimerPublisher()
+        secondsPublisher = setUpSecondsPublisher()
 
-        timerPublisher.map {
+        secondsPublisher.map {
            return MinSecondPair(interval: $0)
         }
         .removeDuplicates()
         .assign(to: \.minsSecs , on: self)
         .store(in: &cancellables)
 
-        timerPublisher.map {
+        secondsPublisher.map {
             interval in
             return interval - Darwin.trunc(interval)
         }
@@ -154,7 +155,7 @@ extension MinutePublisher {
         .store(in: &cancellables)
 
         // Emit "mm:ss"
-        timerPublisher
+        secondsPublisher
             .map { (commonSeconds: TimeInterval) -> MinSecondPair in
                 return MinSecondPair(interval: commonSeconds)
             }
@@ -170,6 +171,7 @@ extension MinutePublisher {
         let deadline = Date(timeIntervalSinceNow: countdownDuration)
         countdownTo = deadline
         refreshPublisher()
+
         isRunning = true
     }
 

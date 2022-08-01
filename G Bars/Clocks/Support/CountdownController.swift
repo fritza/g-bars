@@ -37,7 +37,7 @@ import SwiftUI
 // MARK: - CountdownController
 /// Bridge between countdown figures from a `MinutePublisher` and the SwiftUI display.
 final class CountdownController: ObservableObject {
-    private var timePublisher: MinutePublisher!
+    private var clockPublisher: MinutePublisher!
 
     // MARK: Published properties
     @Published var isRunning: Bool = false
@@ -79,72 +79,66 @@ final class CountdownController: ObservableObject {
     ///
     private func setUpCombine() {
         // MARK: Publisher
-        guard timePublisher == nil else { return }
-        timePublisher = MinutePublisher(
+        guard clockPublisher == nil else { return }
+        clockPublisher = MinutePublisher(
             duration: TimeInterval(durationInSeconds))
-        timePublisher.refreshPublisher()
+        clockPublisher.refreshPublisher()
 
         // MARK: Time components
-        timePublisher.$fraction
+        clockPublisher.$fraction
             .assign(to: \.fraction, on: self)
             .store(in: &cancellables)
-        timePublisher.$minsSecs
+        clockPublisher.$minsSecs
             .sink { minsec in
                 self.minutes = minsec.minutes
                 self.seconds = minsec.seconds
             }
             .store(in: &cancellables)
-        timePublisher.$minuteColonSecond
+        clockPublisher.$minuteColonSecond
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
-        timePublisher.$isRunning
+        clockPublisher.$isRunning
             .assign(to: \.isRunning, on: self)
             .store(in: &cancellables)
 
         // MARK: MinSecondPair
         // Publisher that assembles current minutes and seconds into `MinSecondPair`
 
-        let mmssPublisher = timePublisher.$minsSecs
+        let mmssPublisher = clockPublisher.$minsSecs
         //            .dropFirst()
-
-        // -------------------------------------
-        func doSay(minsec: MinSecondPair) {
-            currentSpeakable = minsec.speakableDescription
-            CallbackUtterance
-                .sayCountdown(
-                    minutesAndSeconds: minsec)
-        }
-        // -------------------------------------
 
         // MARK: MinSecondPair -> speech
         mmssPublisher
             .filter { (minsec: MinSecondPair) -> Bool in
-                self.shouldSpeak &&
-                minsec.seconds % 10 == 0
+                return self.shouldSpeak && minsec.seconds % 10 == 0
             }
             .receive(on: DispatchQueue.main)
-            .sink { doSay(minsec: $0) }
+            .removeDuplicates()
+            .print("spoken time:")
+            .sink { pair in
+                let saystring = pair.doSay()
+                self.currentSpeakable = saystring
+            }
             .store(in: &cancellables)
 
         // MARK: MinSecondPair -> display time
         // Written description: 1:23
         mmssPublisher
             .map(\.description)
-            .print("written time:")
             .assign(to: \.mmssToDisplay, on: self)
             .store(in: &cancellables)
     }
 
     // MARK: - Halt/restart
-    func startCounting(
-        //duration newDuration: TimeInterval
-    ) {
+    func startCounting() {
         // Creates the MinutePublisher, sets
         // and starts the intervals chain
+
         setUpCombine()
+
         // Resets the publisher's start date,
         // effectively starting the clock.
-        timePublisher.start()
+        clockPublisher.start()
     }
 
     /// Halt the the “`timePublisher`” `MinutePublisher`, and the `CallbackUtterance` speaker.
@@ -153,7 +147,7 @@ final class CountdownController: ObservableObject {
     func stopCounting(timeRanOut: Bool = true) {
         guard isRunning else { return }
         //    isRunning = false - observes isRunning from the publisher.
-        timePublisher.stop(exhausted: timeRanOut)
+        clockPublisher.stop(exhausted: timeRanOut)
         CallbackUtterance.stop()
     }
 }
