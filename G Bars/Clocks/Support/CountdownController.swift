@@ -47,16 +47,13 @@ final class CountdownController: ObservableObject {
     @Published var fraction: TimeInterval = 0.0
 
     @Published public var minuteColonSecond: String = ""
-    @Published public var shouldSpeak = true {
-        didSet { Self.shouldSpeak = shouldSpeak }
-    }
+    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var shouldSpeak = true
     @Published public var currentSpeakable = ""
 
-    static var shouldSpeak = true
     @Published var durationInSeconds: Int
 
     // TODO: Why do views get this value without @Published?
-    var mmssToDisplay: String = ""
+    @Published var mmssToDisplay: String = ""
 
     private var cancellables: Set<AnyCancellable> = []
 

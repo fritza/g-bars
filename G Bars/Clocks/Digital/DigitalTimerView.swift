@@ -91,6 +91,14 @@ struct DigitalTimerView: View {
     @State private var      amRunning   :  Bool = false
     @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
 
+    init(duration: TimeInterval) {
+        minSeconds = MinSecondPair(interval: duration)
+
+        CallbackUtterance(string: "HELLO?")
+            .speak()
+
+    }
+
     var body: some View {
         GeometryReader { proxy in
             VStack {
@@ -134,7 +142,7 @@ struct DigitalTimerView: View {
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DigitalTimerView()
+            DigitalTimerView(duration: 150)
                 .padding()
                 .environmentObject(CountdownController(duration: Int(countdown_TMP_Duration)))
         }

@@ -19,7 +19,10 @@ import Accelerate
 // MARK: - App
 @main
 struct G_BarsApp: App {
-    let countdownController: CountdownController
+    // TODO: Remove?
+    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var app_speech = false
+
+    let countdownController: CountdownController! = nil
 
     init() {
     }

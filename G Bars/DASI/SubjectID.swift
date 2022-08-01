@@ -27,6 +27,8 @@ enum AppStorageKeys: String {
     /// The last known subject ID.
     case subjectID
 
+    case wantsSpeech
+
     static let dasiWalkRange = (1...10)
 }
 
