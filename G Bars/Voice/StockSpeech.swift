@@ -9,6 +9,26 @@ import Foundation
 import AVFoundation
 
 final class CallbackUtterance: AVSpeechUtterance {
+    var shouldSpeak: Bool {
+        get {
+            let defaults = UserDefaults.standard
+            let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
+            Self.shouldSpeak = retval
+            return retval
+        }
+        set {
+            let defaults = UserDefaults.standard
+            defaults.set(newValue, forKey: AppStorageKeys.wantsSpeech.rawValue)
+            Self.shouldSpeak = newValue
+        }
+    }
+    static var shouldSpeak: Bool = {
+        let defaults = UserDefaults.standard
+        let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
+        return retval
+    }()
+
+
     deinit {
         print("CallbackUtterance deinit.")
     }
@@ -42,51 +62,6 @@ final class CallbackUtterance: AVSpeechUtterance {
         self.init(string: speech, callback: callback)
     }
 
-    // MARK: Current Utterance
-    static private var currentCallbackUtterance: CallbackUtterance?
-    static private var utteranceCount = 0
-    static private func setCurrentUtterance(new: CallbackUtterance) {
-        currentCallbackUtterance = new
-    }
-
-    static private func clearCurrentUtterance() {
-        currentCallbackUtterance = nil
-    }
-
-    static private var currentUtteranceIsClear: Bool {
-        currentCallbackUtterance == nil
-    }
-
-    static fileprivate func utteranceIsSameAsCached(_ utterance: CallbackUtterance?) -> Bool {
-        return currentCallbackUtterance === utterance
-    }
-
-
-    /// Utter a speakable description of a `MinSecondPair`.
-    ///
-    /// The utterance is stored in a `static` reference until it calls back to say it's done.
-    static func sayCountdown(minutesAndSeconds: MinSecondPair) {
-        guard (currentUtteranceIsClear) && CountdownController.shouldSpeak else  {
-            return
-        }
-
-        precondition(
-            currentUtteranceIsClear,
-            "\(#function): Attempt to enqueue an utterance while another is in progress.")
-        let newUtterance =
-        CallbackUtterance(
-            minutesAndSeconds: minutesAndSeconds) {
-                _ in clearCurrentUtterance()
-            }
-
-        setCurrentUtterance(new: newUtterance)
-        newUtterance.speak()
-
-        // NOTE: All the get/set utterance shouldn't
-        //       be necessary: if you send more than
-        //       one utterance, it'll be queued.
-    }
-
     func speak() {
         Self.synthesizer.speak(self)
     }
@@ -106,7 +81,6 @@ final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
         _ synthesizer: AVSpeechSynthesizer,
         didFinish utterance: AVSpeechUtterance) {
             if let callbackUtterance = utterance as? CallbackUtterance {
-                assert(CallbackUtterance.utteranceIsSameAsCached(callbackUtterance))
                 callbackUtterance.callback?(callbackUtterance)
             }
             else {
@@ -124,6 +98,37 @@ final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
         print()
     }
 }
+
+extension CallbackUtterance {
+    /// Utter a speakable description of a `MinSecondPair`.
+    ///
+    /// The utterance is stored in a `static` reference until it calls back to say it's done.
+    static func sayCountdown(minutesAndSeconds: MinSecondPair) {
+        guard shouldSpeak else { return }
+        let newUtterance =
+        CallbackUtterance(
+            minutesAndSeconds: minutesAndSeconds) {
+                back in
+                print(#function, "Callback for", back.speechString)
+            }
+        newUtterance.speak()
+
+        // NOTE: All the get/set utterance shouldn't
+        //       be necessary: if you send more than
+        //       one utterance, it'll be queued.
+    }
+}
+
+extension MinSecondPair {
+    func doSay() -> String {
+        let retval = speakableDescription
+        CallbackUtterance
+            .sayCountdown(
+                minutesAndSeconds: self)
+        return retval
+    }
+}
+
     /*
      The only event (if any) we care about is didFinish.
 
