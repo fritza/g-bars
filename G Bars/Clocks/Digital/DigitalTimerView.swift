@@ -129,7 +129,11 @@ struct DigitalTimerView: View {
                 Spacer()
 //
 //                Text("wants speech is \(wantsSpeech.description)")
-            }.padding()
+            }
+            .onChange(of: controller.currentSpeakable, perform: { newValue in
+                CallbackUtterance(string: newValue).speak()
+            })
+            .padding()
         }
         .navigationTitle("Digital")
     }

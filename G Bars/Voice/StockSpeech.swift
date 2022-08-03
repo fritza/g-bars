@@ -71,6 +71,19 @@ final class CallbackUtterance: AVSpeechUtterance {
     }
 }
 
+
+/*
+ CallbackUtterance.speak()
+    DigitalTimerView.init   <---- init is a bad time to do anything, right?
+        preview             <---- so don't worry.
+    CallbackUtterance.sayCountdown
+        MinSecondPair.doSay()
+            CountdownController.setUpCombine()
+                CountdownController.startCounting()
+                    DigitalTimerView.body
+                    SweepSecondView.body
+ */
+
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
     deinit {
         print("SpeechDelegate deinit")
@@ -87,16 +100,6 @@ final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
                 preconditionFailure("\(#function) got a strange utterance from callback.")
             }
         }
-
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        print(#function, "Hit.")
-        print()
-    }
-
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
-        print(#function, "Hit.")
-        print()
-    }
 }
 
 extension CallbackUtterance {
