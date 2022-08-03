@@ -29,10 +29,6 @@ final class CallbackUtterance: AVSpeechUtterance {
     }()
 
 
-    deinit {
-        print("CallbackUtterance deinit.")
-    }
-
     typealias CVUCallback = (CallbackUtterance) -> Void
 
     static private let speechDelegate = SpeechDelegate()
@@ -85,10 +81,6 @@ final class CallbackUtterance: AVSpeechUtterance {
  */
 
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
-    deinit {
-        print("SpeechDelegate deinit")
-    }
-
     // REMEMBER! AVSpeechSynthesizer keeps a queue of its own.
     func speechSynthesizer(
         _ synthesizer: AVSpeechSynthesizer,
