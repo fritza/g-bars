@@ -85,6 +85,15 @@ final class CountdownController: ObservableObject {
         clockPublisher.$fraction
             .assign(to: \.fraction, on: self)
             .store(in: &cancellables)
+
+        clockPublisher.$minutes
+            .assign(to: \.minutes, on: self)
+            .store(in: &cancellables)
+
+        clockPublisher.$seconds
+            .assign(to: \.seconds, on: self)
+            .store(in: &cancellables)
+
         clockPublisher.$minsSecs
             .sink { minsec in
                 self.minutes = minsec.minutes
@@ -99,23 +108,44 @@ final class CountdownController: ObservableObject {
             .store(in: &cancellables)
 
         // MARK: MinSecondPair
+
+
+        /*
+         Okay, so I've been watching the mm:ss counter.
+         In point of fact, there is no publisher:
+         It counts off "one minute, twenty seconds" without
+         giving access to the upstream publisher.
+
+         HOWEVER: CONSIDER SETTING CURRENTSPEAKABLE
+         IN AN ASSIGN(), AND HAVE THE DOSAY() RUN DOWNSTREAM
+         OF THAT, NOT IN A SINK.
+
+         Also, in the case of sweep-second, the
+         mmss loop does hit zero, so it gets pronounced
+         no matter what.
+
+         SweepSecondView watches controller.seconds
+         and controller.fraction.
+
+         We have no problem with controller.fraction.
+
+         What about seconds?
+         */
+
+
+
         // Publisher that assembles current minutes and seconds into `MinSecondPair`
 
-        let mmssPublisher = clockPublisher.$minsSecs
-        //            .dropFirst()
-
         // MARK: MinSecondPair -> speech
+        let mmssPublisher = clockPublisher.$minsSecs
         mmssPublisher
             .filter { (minsec: MinSecondPair) -> Bool in
                 return self.shouldSpeak && minsec.seconds % 10 == 0
             }
-            .receive(on: DispatchQueue.main)
             .removeDuplicates()
-            .print("spoken time:")
-            .sink { pair in
-                let saystring = pair.doSay()
-                self.currentSpeakable = saystring
-            }
+            .print("MinSec for speech")
+            .map(\.speakableDescription)
+            .assign(to: \.currentSpeakable, on: self)
             .store(in: &cancellables)
 
         // MARK: MinSecondPair -> display time

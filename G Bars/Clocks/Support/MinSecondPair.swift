@@ -125,8 +125,13 @@ extension MinSecondPair: CustomStringConvertible {
 
     /// The value of self in a form suitable for TTS: "one minute, thirty-five seconds".
     var speakableDescription: String {
-        if self.isZero { return "zero" }
-        return spokenInterval(minutes: minutes, seconds: seconds)
+        if self.isZero {
+            return "zero"
+        }
+        else {
+            let retval = spokenInterval(minutes: minutes, seconds: seconds)
+            return retval
+        }
     }
 }
 

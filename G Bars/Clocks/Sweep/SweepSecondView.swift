@@ -64,8 +64,15 @@ struct SweepSecondView: View {
                        height: proxy.size.short * 0.95,
                        alignment: .center)
                 Spacer()
+                Text("""
+On a 5-second countdown, the first sweep should be labeled “4” and the last “0” (4.9 and 0.9 seconds remaining). This might be confusing, because when the voice says “1,” the display shows “0.” This clock adds 1 to the overlay.
+""")
+                .font(.callout)
+                .minimumScaleFactor(0.5)
+                Spacer()
                 TimerStartStopButton(running: $isRunning)
             }
+            .padding()
             .onChange(of: isRunning, perform: { newValue in
                 if isRunning {
                     controller.startCounting()
@@ -73,6 +80,13 @@ struct SweepSecondView: View {
                 else {
                     controller.stopCounting(timeRanOut: false) // AND reset cancel button
                 }
+            })
+            .onChange(of: controller.seconds, perform: { newSecs in
+                guard CallbackUtterance.shouldSpeak else {
+                    return
+                }
+                CallbackUtterance(string: "\(newSecs)")
+                    .speak()
             })
             .navigationTitle("Seconds")
         }

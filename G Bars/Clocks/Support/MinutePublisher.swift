@@ -51,9 +51,9 @@ final class MinutePublisher: ObservableObject {
 
     @Published var isRunning = false
     /// Minutes until deadline
-//    @Published public var minutes: Int = 0
+    @Published public var minutes: Int = 0
     /// Seconds-in-minute until deadline
-//    @Published public var seconds: Int = 0
+    @Published public var seconds: Int = 0
 
     @Published public var minsSecs: MinSecondPair
 
@@ -152,6 +152,24 @@ extension MinutePublisher {
             return interval - Darwin.trunc(interval)
         }
         .assign(to: \.fraction, on: self)
+        .store(in: &cancellables)
+
+        // Emit integer seconds within minute
+        secondsPublisher.map { (commonSeconds: TimeInterval) -> Int in
+            let minimumSeconds = Int(trunc(commonSeconds))
+            return minimumSeconds % 60
+        }
+        .removeDuplicates()
+        .assign(to: \.seconds, on: self)
+        .store(in: &cancellables)
+
+        // Emit integer minutes
+        secondsPublisher.map { (commonSeconds: TimeInterval) -> Int in
+            let minimumSeconds = Int(trunc(commonSeconds))
+            return minimumSeconds / 60
+        }
+        .removeDuplicates()
+        .assign(to: \.minutes, on: self)
         .store(in: &cancellables)
 
         // Emit "mm:ss"

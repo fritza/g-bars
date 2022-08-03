@@ -20,11 +20,12 @@ import Accelerate
 @main
 struct G_BarsApp: App {
     // TODO: Remove?
-    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var app_speech = false
+    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var app_speech = true
 
     let countdownController: CountdownController! = nil
 
     init() {
+        app_speech = true
     }
 
 //    var selectedTab = 0
@@ -44,7 +45,7 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if false
+#if true
             NavigationView {
                 VStack {
                     SweepSecondView()
@@ -56,7 +57,7 @@ struct G_BarsApp: App {
                 )
                 )
             }
-#elseif true
+#elseif false
             NavigationView {
                 VStack {
                     DigitalTimerView(duration: countdown_TMP_Duration)

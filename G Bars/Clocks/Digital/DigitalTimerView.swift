@@ -83,20 +83,14 @@ struct SpeechOnOffView: View {
  */
 
 struct DigitalTimerView: View {
-    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = false
+    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
 
     @EnvironmentObject var  controller  : CountdownController
-//    @Binding var wantsSpeech: Bool
-//    @State private var      wantsSpeech = false
     @State private var      amRunning   :  Bool = false
     @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
 
     init(duration: TimeInterval) {
         minSeconds = MinSecondPair(interval: duration)
-
-        CallbackUtterance(string: "HELLO?")
-            .speak()
-
     }
 
     var body: some View {
@@ -111,19 +105,22 @@ struct DigitalTimerView: View {
                     .monospacedDigit()
 
                 // Speech toggle
-                SpeechOnOffView(toggling:
-                                    $wantsSpeech,
-                                size: proxy.size,
-                                label: controller.currentSpeakable)
+                SpeechOnOffView(
+                    toggling:
+                        $wantsSpeech,
+                    size: proxy.size,
+                    label: controller.currentSpeakable)
                 Spacer()
 
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
                     if newRunning {
+                        // "Start"
                         controller.startCounting()
                         assert(amRunning)
                     }
                     else {
+                        // "Cancel"
                         controller.stopCounting(
                                 timeRanOut: false)
                         assert(!amRunning)
