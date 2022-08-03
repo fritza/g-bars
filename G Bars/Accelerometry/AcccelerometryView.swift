@@ -52,6 +52,13 @@ final class CMWatcher: ObservableObject {
 }
 
 struct AcccelerometryView: View {
+
+    init() {
+        print("entry to AcccelerometryView()")
+        print("(debug only)")
+    }
+
+
     static let hzOverride: TimeInterval = 1.0/60.0
     // FIXME: Respond to color scheme in the other views.
     @Environment(\.colorScheme) private var colorScheme

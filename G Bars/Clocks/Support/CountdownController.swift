@@ -91,6 +91,7 @@ final class CountdownController: ObservableObject {
             .store(in: &cancellables)
 
         clockPublisher.$seconds
+            .removeDuplicates()
             .assign(to: \.seconds, on: self)
             .store(in: &cancellables)
 
@@ -143,7 +144,6 @@ final class CountdownController: ObservableObject {
                 return self.shouldSpeak && minsec.seconds % 10 == 0
             }
             .removeDuplicates()
-            .print("MinSec for speech")
             .map(\.speakableDescription)
             .assign(to: \.currentSpeakable, on: self)
             .store(in: &cancellables)

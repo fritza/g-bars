@@ -85,7 +85,7 @@ On a 5-second countdown, the first sweep should be labeled “4” and the last 
                 guard CallbackUtterance.shouldSpeak else {
                     return
                 }
-                CallbackUtterance(string: "\(newSecs)")
+                CallbackUtterance(string: "\(newSecs+1)")
                     .speak()
             })
             .navigationTitle("Seconds")
