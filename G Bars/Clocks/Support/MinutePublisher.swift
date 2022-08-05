@@ -5,8 +5,44 @@
 //  Created by Fritz Anderson on 1/6/22.
 //
 
+
+/*
+
+=======       Revised the publishers in CountdownController so they'll probably emit the intended numbers.
+=======       (The Simulator doesn't quite keep up)
+=======
+=======       Sweep second:
+=======
+=======       We have to keep the publisher from beginning with "1" (was zero), then "6" (want to say 5), and only then "5"
+=======
+=======
+=======       The overlaid numeral isn't responding.
+=======       The sweep-second hand is not turning.
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import Foundation
 import Combine
+#if LOGGER
+import os.log
+#endif
 
 // TODO: The count-up should also stop the clock when a deadline is reached.
 // TODO: set up for fractions only if they will be used.
@@ -105,11 +141,6 @@ extension MinutePublisher {
             every: 0.01, tolerance: 0.03,
             on: .current, in: .common)
             .autoconnect()
-
-        // Debugging: Intercept cancellations
-//            .handleEvents(receiveCancel: {
-//                print(#function, "Main publisher was cancelled.")
-//            })
             .compactMap { currentDate -> (current: Date, future: Date)? in
                 guard let countdown = self.countdownTo else { return nil }
                 return (current: currentDate, future: countdown)
@@ -126,6 +157,7 @@ extension MinutePublisher {
                     .timeIntervalSince(future)
                 return retval
             }
+//            .print("setUpSecondsPublisher")
             .share()
             .eraseToAnyPublisher()
         return timeToSeconds
@@ -133,7 +165,6 @@ extension MinutePublisher {
 
     // MARK: Derived publishers
 
-//    private var secondsPublisher: MinutePublisher!
     /// Builds on the basic countdown interval from ``setUpSecondsPublisher()`` to publish time components and a `mm:ss` string.
     /// - warning: do not confuse with ``CountdownController/setUpCombine()``.
     func refreshPublisher() {
@@ -160,6 +191,7 @@ extension MinutePublisher {
             return minimumSeconds % 60
         }
         .removeDuplicates()
+        .print("pub for seconds")
         .assign(to: \.seconds, on: self)
         .store(in: &cancellables)
 
@@ -177,7 +209,9 @@ extension MinutePublisher {
             .map { (commonSeconds: TimeInterval) -> MinSecondPair in
                 return MinSecondPair(interval: commonSeconds)
             }
-            .map { $0.description }
+            .map { pair in
+                return pair.description
+            }
             .removeDuplicates()
             .assign(to: \.minuteColonSecond, on: self)
             .store(in: &cancellables)
@@ -186,11 +220,17 @@ extension MinutePublisher {
     // MARK: - start
     /// Set up internal subscriptions to (ultimately) the `Timer.Publisher`, and start counting down to the deadline.
     public func start() {
+#if LOGGER
+        gLogger.log("\(#function, privacy: .public) entry")
+#endif
         let deadline = Date(timeIntervalSinceNow: countdownDuration)
         countdownTo = deadline
         refreshPublisher()
 
         isRunning = true
+#if LOGGER
+        gLogger.log("\(#function, privacy: .public) exit")
+#endif
     }
 
     // MARK: Stop
@@ -198,6 +238,10 @@ extension MinutePublisher {
     ///
     /// - parameter exhausted: `true` iff `stop()` was called because the clock ran out. This is passed along through `completedSubject` to inform clients the clock is finished.
     public func stop(exhausted: Bool = true) {
+#if LOGGER
+        gLogger.log("\(#function, privacy: .public) entry")
+#endif
+
         guard isRunning else {
             assert(isRunning, "\(#function) got a repeated stop message.")
             print(#function, "- double stop")
@@ -207,5 +251,9 @@ extension MinutePublisher {
             c.cancel()
         }
         isRunning = false
+
+#if LOGGER
+        gLogger.log("\(#function, privacy: .public) exit")
+#endif
     }
 }

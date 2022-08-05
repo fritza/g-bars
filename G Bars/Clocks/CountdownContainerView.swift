@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-/*
- Chicken-and-egg
-
- You need a view, a controller, and a timer.
- The timer belongs in the controller.
-
- Usability:
- The view accepts the controller as an EnvironmentObject. It has no responsibility for initializing it or taking direct notice of the responses. The controller is a shell for what the UI elements reflect. The view is a shell for how the state is reflected.
- */
-
 /**
  ## Topics
 
@@ -25,6 +15,8 @@ import SwiftUI
  */
 
 struct CountdownContainerView: View {
+    // FIXME: Detach the controller from the wrapper view
+    //        (assuming the wrapper will ever be used).
     @EnvironmentObject private var controller: CountdownController
 
     var body: some View {
@@ -55,9 +47,7 @@ struct CountdownContainerView_Previews: PreviewProvider {
         NavigationView {
             CountdownContainerView(
             )
-                .environmentObject(
-                    CountdownController(duration: 75)
-                )
+            .environmentObject(CountdownController(duration: 10))
         }
     }
 }
