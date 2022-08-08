@@ -71,6 +71,10 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
         CGPoint(x: t, y: x)
     }
 
+    public init(point: CGPoint) {
+        self.init(t: point.x, x: point.y)
+    }
+
     public static func * (size: CGSize, multiplicand: Datum2D) -> Datum2D {
         Datum2D(t: multiplicand.t * size.width,
                 x: multiplicand.x * size.height)

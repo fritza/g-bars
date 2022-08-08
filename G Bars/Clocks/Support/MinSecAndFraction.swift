@@ -26,7 +26,7 @@ public struct MinSecAndFraction: Hashable {
     }
 
     public init(interval: TimeInterval) {
-        let intInterval = Int(round(interval))
+        let intInterval = Int(trunc(interval))
         self.init(minute: intInterval / 60,
                   second: intInterval % 60,
                   fraction: interval - trunc(interval))
@@ -35,6 +35,10 @@ public struct MinSecAndFraction: Hashable {
     /// Whether all components are zero. Prefer this to comparison to `.zero`.
     public var isZero: Bool {
         minute == 0 && second == 0 && fraction == 0.0
+    }
+
+    public var isPositive: Bool {
+        minute >=  0 && second >= 0 && fraction > 0.0
     }
 
     /// A copy of this struct with the `fraction` component set to a new value
