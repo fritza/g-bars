@@ -53,8 +53,8 @@ final class CallbackUtterance: AVSpeechUtterance {
         fatalError("Does not implement NSCodable")
     }
 
-    convenience init(minutesAndSeconds: MinSecondPair, callback: CVUCallback? = nil) {
-        let speech = minutesAndSeconds.speakableDescription
+    convenience init(minutesAndSeconds: MinSecAndFraction, callback: CVUCallback? = nil) {
+        let speech = minutesAndSeconds.spoken
         self.init(string: speech, callback: callback)
     }
 
@@ -66,19 +66,6 @@ final class CallbackUtterance: AVSpeechUtterance {
         Self.synthesizer.stopSpeaking(at: .immediate)
     }
 }
-
-
-/*
- CallbackUtterance.speak()
-    DigitalTimerView.init   <---- init is a bad time to do anything, right?
-        preview             <---- so don't worry.
-    CallbackUtterance.sayCountdown
-        MinSecondPair.doSay()
-            CountdownController.setUpCombine()
-                CountdownController.startCounting()
-                    DigitalTimerView.body
-                    SweepSecondView.body
- */
 
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
     // REMEMBER! AVSpeechSynthesizer keeps a queue of its own.
@@ -98,7 +85,7 @@ extension CallbackUtterance {
     /// Utter a speakable description of a `MinSecondPair`.
     ///
     /// The utterance is stored in a `static` reference until it calls back to say it's done.
-    static func sayCountdown(minutesAndSeconds: MinSecondPair) {
+    static func sayCountdown(minutesAndSeconds: MinSecAndFraction) {
         guard shouldSpeak else { return }
         let newUtterance =
         CallbackUtterance(
@@ -114,9 +101,11 @@ extension CallbackUtterance {
     }
 }
 
-extension MinSecondPair {
+extension MinSecAndFraction {
+    @available(*, deprecated,
+                message: "Audit use of this method.")
     func doSay() -> String {
-        let retval = speakableDescription
+        let retval = spoken
         CallbackUtterance
             .sayCountdown(
                 minutesAndSeconds: self)

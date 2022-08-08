@@ -7,18 +7,27 @@
 
 import Foundation
 
-private let spelledOutFormat: NumberFormatter = {
+let _leadingZeroFmt: NumberFormatter = {
     let retval = NumberFormatter()
-    retval.numberStyle = .spellOut
+    retval.minimumIntegerDigits = 2
+    retval.maximumFractionDigits = 0
     return retval
 }()
 
-// MARK: - Spelled-out numbers
+let _spelledFmt: NumberFormatter = {
+    let retval = NumberFormatter()
+    return retval
+}()
+
 extension BinaryInteger {
-    /// Render a `BinaryInteger` (_e.g._`Int`) as a spelled-out `String`
-    var spelled: String {
-        let myself: Int = numericCast(self)
-        return spelledOutFormat.string(from: myself as NSNumber)!
+    /// The integer formatted to be at least two digits long, with leading zeros if necessary.
+    public var twoZeros: String {
+        _leadingZeroFmt.string(from: self as! NSNumber)!
+    }
+
+    /// The integer formatted into natural language.
+    public var spelled: String {
+        _spelledFmt.string(from: self as! NSNumber)!
     }
 }
 
