@@ -36,7 +36,7 @@ There's still a bug in picking up the initial value in the spoken version of the
 
 /**
  ## Topics
- 
+
  ### Properties
  - ``text``
  -  ``size``
@@ -46,6 +46,8 @@ There's still a bug in picking up the initial value in the spoken version of the
  - ``init(toggling:size:label:)``
  */
 
+@available(*, unavailable,
+            message: "Do not use, no replacement")
 struct SpeechOnOffView: View {
     // Don't use AppStorage for this,
     // it obscures the dependency up through DigitalTimerView..
@@ -102,13 +104,13 @@ struct DigitalTimerView: View {
                     .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
-                // Speech toggle
-                SpeechOnOffView(
-                    toggling:
-                        $wantsSpeech,
-                    size: proxy.size,
-                    label: minSecfrac?.spoken)
-                Spacer()
+//                // Speech toggle
+//                SpeechOnOffView(
+//                    toggling:
+//                        $wantsSpeech,
+//                    size: proxy.size,
+//                    label: minSecfrac?.spoken)
+//                Spacer()
 
                 // Start/stop
                 TimerStartStopButton(
