@@ -11,7 +11,7 @@ import CoreGraphics
 extension BinaryFloatingPoint {
     /// Map the value to `(0...1)` from a given span of “real-world” values.
     ///
-    /// Use `unsafeScaledTo` if you are confident `span` will never be empty (and present a zero divisor). Otherwise, use ``scaledTo(span:)``.
+    /// Use `unsafeScaledTo(span:)` if you are confident `span` will never be empty (and present a zero divisor). Otherwise, use ``scaledTo(span:)``.
     /// - Parameter span: The range of unscaled values
     /// - Returns: The value mapped within `span` to `(0...1)`
     public func unsafeScaledTo(span: ClosedRange<Self>) -> Self {
@@ -21,8 +21,8 @@ extension BinaryFloatingPoint {
 
     /// Map the value to `(0...1)` from a given span of “real-world” values (if any).
     ///
-    /// Use `scaledTo` if you cannot guarantee `span`is non-empty. Otherwise, use ``unsafeScaledTo(span:)``.
-    /// - Parameter span: The range of unscaled values
+    /// Use `scaledTo(span:)` if you cannot guarantee `span`is non-empty. Otherwise, consider ``unsafeScaledTo(span:)``.
+    /// - Parameter span: The range of unscaled values.
     /// - Returns: The value mapped within `span` to `(0...1)`; or `nil` if `span` is empty.
     public func scaledTo(span: ClosedRange<Self>) -> Self? {
         guard !span.isEmpty else { return nil }
@@ -33,6 +33,9 @@ extension BinaryFloatingPoint {
 /// A value type describing a pair of `Double` values.
 ///
 /// The expectation is that this will represent an element of a time series; hence the stored properties are `t` and `x`.
+///
+/// Because a time series is ordered, `Datum2D` can be `Comparable`,
+/// _caveat_ that the default `==` isn't very useful between floaring-point valies. Comparison against an ε interval is not yet implemented,
 public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// `OptionSet` to specify whether to apply normalization to times, values, or both.
     struct Normalization: RawRepresentable, OptionSet {
@@ -42,7 +45,7 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
         static let byTime  = Normalization(rawValue: 1)
         /// Normalization is to be by value only.
         static let byValue = Normalization(rawValue: 2)
-        /// Normalization is to be by time and valye both.
+        /// Normalization is to be by time and value both.
         static let both: Normalization = [.byValue, .byTime]
     }
 
@@ -75,14 +78,12 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
 
     // MARK: Scaling
     // FIXME: Why am I doing all this with scalars instead of affine transforms?
-    @inlinable
     /// A new `Datum2D` with the same value (`x`), but time (`t`) normalized.
     ///
-    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``.
-    ///
-    /// See ``BinaryFloatingPoint/unsafeScaledTo(span:)``
+    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``. See ``Swift/BinaryFloatingPoint/unsafeScaledTo(span:)``
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
+    @inlinable
     public func unsafeTimeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D {
         return Datum2D(t: t.unsafeScaledTo(span: timeRange),
                        x: self.x)
@@ -90,9 +91,9 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
 
     /// A new `Datum2D` with the same value (`x`), but time (`t`) normalized; or `nil` if the time range is empty.
     ///
-    /// Use `unsafeTimeNormalized(within:)` if you are confident that `span` will not be empty.
+    /// Use ``unsafeTimeNormalized(within:)`` if you are confident that `span` will not be empty.
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
-    /// - Returns: A `Datum2D` with the `t`-value scaled.
+    /// - Returns: A `Datum2D` with the `t`-value scaled; or `nil` if `timeRange` is empty.
     public func timeNormalized(within timeRange: ClosedRange<Double>) -> Datum2D? {
         guard !timeRange.isEmpty else { return nil }
         return unsafeTimeNormalized(within: timeRange)
@@ -111,9 +112,9 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
 
     /// A new `Datum2D` with the same time (`t`) value, but value (`x`) normalized; or `nil` if the value range is empty.
     ///
-    /// Use `unsafeDatumNormalized(within:)` if you are confident that `valueRange` will not be empty.
+    /// Use ``unsafeDatumNormalized(within:)`` if you are confident that `valueRange` will not be empty.
     /// - Parameter valueRange: The span of values to map the `x` property to `(0...1)`.
-    /// - Returns: A `Datum2D` with the `x`-value scaled.
+    /// - Returns: A `Datum2D` with the `x`-value scaled; or `nil` if `valueRange` is empty.
     func datumNormalized(within valueRange: ClosedRange<Double>) -> Datum2D? {
         guard !valueRange.isEmpty else { return nil }
         return unsafeDatumNormalized(within: valueRange)

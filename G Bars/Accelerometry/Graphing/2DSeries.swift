@@ -45,7 +45,11 @@ final class Store2D {
 
 extension Store2D: ObservableObject {
     // MARK: - Time range
+
+    // ***
     // FIXME: Time-range properties assume content is time-sorted.
+    // ***
+
     /// The minimum `t` value in the store
     /// - warning: Assumes the `content` array is already ordered by time.
     @inlinable var tMin: Double? { return content.first?.t }
@@ -54,8 +58,7 @@ extension Store2D: ObservableObject {
     @inlinable var tMax: Double? { return content.last? .t }
     /// The `ClosedRange` encompassing the minimum and maximum `t` values.
     /// - warning: Assumes the `content` array is already ordered by time.
-    @inlinable
-    var tSpan: ClosedRange<Double>? {
+    @inlinable var tSpan: ClosedRange<Double>? {
         guard let min = tMin, let max = tMax else { return nil }
         return min...max
     }
@@ -66,11 +69,11 @@ extension Store2D: ObservableObject {
     //       It is unpleasant to think of a comprehensive
     //       O(N) operation thousands of times per second.
     /// The minimum `x` value in the store
-    var xMin: Double? { content.map(\.x).min() }
+    @inlinable var xMin: Double? { content.map(\.x).min() }
     /// The maximum `x` value in the store
-    var xMax: Double? { content.map(\.x).max() }
+    @inlinable var xMax: Double? { content.map(\.x).max() }
     /// The `ClosedRange` encompassing the minimum and maximum `x` values.
-    var xSpan: ClosedRange<Double>? {
+    @inlinable var xSpan: ClosedRange<Double>? {
         guard let min = xMin, let max = xMax else { return nil }
         return min...max
     }
@@ -145,6 +148,12 @@ extension Array where Element == Datum2D {
     }
 
     // MARK: Element arithmetic
+    /// Make a new `Datum2D` series with  the `x` component of the contents replaced by the result of a `Double`-to-`Double` closure.
+    ///
+    /// Think of rescaling the data axis to fit graphical point bounds, or to a logarithmic scale.
+    /// - warning: Succeeding generations of  `applying(_:)`, if lossy (as all nontrivial transforms are), will erode the precision of the result.
+    /// - Parameter filter: A `Double`-to-`Double` closure to apply the the `x` components of all elements.
+    /// - Returns: A new array of `Datum2D` with the `x` components replaced by the result of applying the closure to the original.
     func applying(_ filter: (Double) -> Double) -> [Datum2D] {
         guard !self.isEmpty else { return self }
         var retval = self
@@ -230,7 +239,7 @@ extension Array where Element == Datum2D {
     }
 }
 
-// TODO: Consider whether rendering should be a part of a data abstraction.
+// TODO: Should rendering be part of a data abstraction?
 
 extension Store2D {
     /// `SwiftUI` `Path` `Shape` representing the values in `content`.
