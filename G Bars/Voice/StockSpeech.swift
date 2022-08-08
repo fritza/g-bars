@@ -8,8 +8,14 @@
 import Foundation
 import AVFoundation
 
+/// A subclass of `AVSpeechUtterance` that passes a callback for completion of an utterance when the synthesizer hits `didFinish`.
+///
+/// This represents a _single_ string to be pronounced and should not be re-used.
 final class CallbackUtterance: AVSpeechUtterance {
+    /// Trampoline for the `wantsSpeech` user default.
     var shouldSpeak: Bool {
+        // Implemented in terms of UserDefaults rather
+        // than import all of SwiftUI just for @AppStorage.
         get {
             let defaults = UserDefaults.standard
             let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
@@ -22,13 +28,15 @@ final class CallbackUtterance: AVSpeechUtterance {
             Self.shouldSpeak = newValue
         }
     }
+    
+    /// Class-static trampoline (read only) for the `wantsSpeech` user default.
     static var shouldSpeak: Bool = {
         let defaults = UserDefaults.standard
         let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
         return retval
     }()
 
-
+    ///  Signature for the `CallbackUtterance` callback closure.
     typealias CVUCallback = (CallbackUtterance) -> Void
 
     static private let speechDelegate = SpeechDelegate()
@@ -38,30 +46,42 @@ final class CallbackUtterance: AVSpeechUtterance {
         return retval
     }()
 
+    /// Read-only trampoline for the synthesizer's `isSpeaking`.
     static var isSpeaking: Bool { synthesizer.isSpeaking }
     // true iff speech is in progress or any utterance is in the queue.
     // There's also an isPaused flag, but we don't intend to pause.
 
-    let callback: CVUCallback?
+    fileprivate let callback: CVUCallback?
 
+    /// Initialize a new utterance, corresponding to a single spoken phrase.
+    /// - Parameters:
+    ///   - string: The `String` whose contents are to be pronounced
+    ///   - callback: The `CVUCallback` closure to be called upon completing the phrase. Default `nil`, in which case no completion callback is to be performed.
     init(string: String, callback: CVUCallback? = nil) {
         self.callback = callback
         super.init(string: string)
     }
 
+    /// Required for `NSCoding`. Fatal.
     required init?(coder: NSCoder) {
         fatalError("Does not implement NSCodable")
     }
 
+    /// Initializes a new utterance to pronounce the `minute` and `second` components of  a ``MinSecAndFraction``.
+    /// - Parameters:
+    ///   - minutesAndSeconds: The minute/second interval to be pronounced.
+    ///   - callback: The `CVUCallback` closure to be called upon completing the phrase. Default `nil`, in which case no completion callback is to be performed.
     convenience init(minutesAndSeconds: MinSecAndFraction, callback: CVUCallback? = nil) {
         let speech = minutesAndSeconds.spoken
         self.init(string: speech, callback: callback)
     }
 
+    /// Present the utterance to the synthesizer for speaking.
     func speak() {
         Self.synthesizer.speak(self)
     }
 
+    /// Stop the shared `AVSpeechSynthesizer`. Tha'ts global, so this interrupts all pending `CallbackUtterance`s
     static func stop() {
         Self.synthesizer.stopSpeaking(at: .immediate)
     }
@@ -69,6 +89,7 @@ final class CallbackUtterance: AVSpeechUtterance {
 
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
     // REMEMBER! AVSpeechSynthesizer keeps a queue of its own.
+    /// `AVSpeechSynthesizerDelegate` adoption for the end of an utterance.
     func speechSynthesizer(
         _ synthesizer: AVSpeechSynthesizer,
         didFinish utterance: AVSpeechUtterance) {
@@ -102,8 +123,9 @@ extension CallbackUtterance {
 }
 
 extension MinSecAndFraction {
+    /// Cause a `MinSecAndFraction` to be uttered by the speech synthesizer.
     @available(*, deprecated,
-                message: "Audit use of this method.")
+                message: "Use CallbackUtterance/init(minutesAndSeconds:callback:) instead.")
     func doSay() -> String {
         let retval = spoken
         CallbackUtterance
