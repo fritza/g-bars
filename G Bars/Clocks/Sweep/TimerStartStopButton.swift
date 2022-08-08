@@ -23,15 +23,19 @@ import SwiftUI
 /// Used by ``DigitalTimerView`` and ``SweepSecondView``. A ``CountdownController`` is used as an `@EnvironmentObject`
 struct TimerStartStopButton: View {
     @Binding var isRunning: Bool
+    @State var label: String
     private let callback: ((Bool) -> Void)?
 
-    init(running: Binding<Bool>, callback: ((Bool) -> Void)? = nil) {
+    init(label: String, running: Binding<Bool>, callback: ((Bool) -> Void)? = nil) {
         _isRunning = running
         self.callback = callback
+        self.label    = label
     }
 
     var body: some View {
-        Button(isRunning ? "Cancel" : "Start") {
+//        Button(isRunning ? "Cancel" : "Start")
+        Button(label)
+        {
             isRunning.toggle()
             callback?(isRunning)
         }
@@ -46,7 +50,7 @@ struct TimerStartStopButton_Previews: PreviewProvider {
     static let ssState = StartStopWatch()
     static var previews: some View {
         VStack {
-            TimerStartStopButton(
+            TimerStartStopButton(label: "filler",
                 running: ssState.$running)
             Text("is \(ssState.running ? "" : "NOT") running")
         }

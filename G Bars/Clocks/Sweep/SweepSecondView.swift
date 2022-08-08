@@ -76,12 +76,16 @@ struct SweepSecondView: View {
                        alignment: .center)
                 Spacer()
                 Text("""
-On a 5-second countdown, the first sweep should be labeled “4” and the last “0” (4.9 and 0.9 seconds remaining). This might be confusing, because when the voice says “1,” the display shows “0.” This clock adds 1 to the overlay.
+Countdown only. You can repeat the countdown by tapping "Start" twice.
+
+In production, there would be only a Cancel button.
 """)
                 .font(.callout)
                 .minimumScaleFactor(0.5)
                 Spacer()
-                TimerStartStopButton(running: $isRunning)
+                TimerStartStopButton(
+                    label: (isRunning) ? "Reset" : "Start",
+                    running: $isRunning)
             }
             .padding()
             .onChange(of: isRunning, perform: { newValue in
@@ -92,9 +96,12 @@ On a 5-second countdown, the first sweep should be labeled “4” and the last 
                     timer.cancel() // AND reset cancel button
                 }
             })
+
+            // Change of mm:ss.fff - sweep angle
             .onReceive(timer.timeSubject) { mmssff in
                 self.minSecFrac = mmssff
             }
+            // Change of :ss. (speak seconds)
             .onReceive(timer.secondsSubject) {
                 secs in
                 self.wholeSeconds = secs

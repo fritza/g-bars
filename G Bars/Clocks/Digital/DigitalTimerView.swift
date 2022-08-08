@@ -111,7 +111,10 @@ struct DigitalTimerView: View {
                 Spacer()
 
                 // Start/stop
-                TimerStartStopButton(running: $amRunning) { newRunning in
+                TimerStartStopButton(
+                    label: amRunning ? "Reset" : "Start",
+                    running: $amRunning) { newRunning in
+
                     if newRunning {
                         // "Start"
                         timer.start()
