@@ -88,6 +88,20 @@ final class CallbackUtterance: AVSpeechUtterance {
         Self.synthesizer.speak(self)
     }
 
+
+
+    func asyncSpeak() async {
+        self.speak()
+        do {
+            repeat {
+                try await Task.sleep(nanoseconds: 100 * NSEC_PER_MSEC)
+            } while Self.synthesizer.isSpeaking
+        }
+        catch {
+            print("Don't care:", error.localizedDescription)
+        }
+    }
+
     /// Stop the shared `AVSpeechSynthesizer`. Tha'ts global, so this interrupts all pending `CallbackUtterance`s
     static func stop() {
         Self.synthesizer.stopSpeaking(at: .immediate)
