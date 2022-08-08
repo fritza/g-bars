@@ -98,7 +98,7 @@ final class TimeReader: ObservableObject {
             .sink { completion in
                 switch completion {
                 case .finished: print("Tell the world it worked.")
-                    self.status = .expired
+//                    self.status = .expired
                 case .failure(let error):
                     guard let err = error as? TerminationErrors else {
                         print("other error: \(error).")
@@ -138,8 +138,14 @@ final class TimeReader: ObservableObject {
                     switch completion {
                     case .finished: break
                     case .failure(let error):
-                        self.status = .expired
-                        print("Seconds countdown failed:", error)
+                        if let error = error as? TerminationErrors {
+                            if error == .expired {
+                                self.status = .expired
+                            }
+                            else {
+                                self.status = .cancelled
+                            }
+                        }
                     }
                 }, receiveValue: {
                     secInteger in
@@ -161,7 +167,7 @@ final class TimeReader: ObservableObject {
                 (date: Date) -> TimeInterval in
                 let retval = self.endingDate.timeIntervalSince(date)
                 guard retval >= 0 else {
-                    self.status = .expired
+//                    self.status = .expired
                     throw TerminationErrors.expired
                 }
                 return retval
