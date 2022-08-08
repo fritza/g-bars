@@ -22,8 +22,6 @@ struct G_BarsApp: App {
     // TODO: Remove?
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var app_speech = true
 
-    let countdownController: CountdownController! = nil
-
     init() {
         app_speech = true
     }
@@ -48,14 +46,9 @@ struct G_BarsApp: App {
 #if true
             NavigationView {
                 VStack {
-                    SweepSecondView()
+                    SweepSecondView(duration: sweep_TMP_Duration)
                 }
                 .navigationTitle("Sweep Second")
-                .environmentObject(CountdownController(
-                    duration:
-                        Int (trunc(sweep_TMP_Duration))
-                )
-                )
             }
 #elseif false
             NavigationView {

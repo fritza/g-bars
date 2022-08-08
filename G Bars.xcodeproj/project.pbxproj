@@ -57,8 +57,6 @@
 		1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */; };
 		1FCB95FC286CF0F500DE9DD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */; };
 		1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */; };
-		1FD7EE822881CAEF00D194B4 /* MinSecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */; };
-		1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
 		1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* StockSpeech.swift */; };
@@ -96,7 +94,6 @@
 		1F57E8112874B69300FFB840 /* DASIInterstitialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialViews.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
-		1F88052E28905598004D9C36 /* MinSecondPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSecondPair.swift; sourceTree = "<group>"; };
 		1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSecAndFraction.swift; sourceTree = "<group>"; };
 		1F8DFF52289DC1070063C28C /* TimeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeReader.swift; sourceTree = "<group>"; };
 		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
@@ -136,7 +133,6 @@
 		1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYZ.swift; sourceTree = "<group>"; };
 		1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilitySummaryView.swift; sourceTree = "<group>"; };
-		1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinSecFormatter.swift; sourceTree = "<group>"; };
 		1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinutePublisher.swift; sourceTree = "<group>"; };
 		1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownSetupView.swift; sourceTree = "<group>"; };
 		1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownContainerView.swift; sourceTree = "<group>"; };
@@ -256,10 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				1FD7EE882881D94600D194B4 /* CountdownController.swift */,
-				1F88052E28905598004D9C36 /* MinSecondPair.swift */,
 				1F8DFF52289DC1070063C28C /* TimeReader.swift */,
 				1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */,
-				1FD7EE802881CAEE00D194B4 /* MinSecFormatter.swift */,
 				1FD7EE812881CAEF00D194B4 /* MinutePublisher.swift */,
 			);
 			path = Support;
@@ -533,7 +527,6 @@
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */,
-				1FD7EE822881CAEF00D194B4 /* MinSecFormatter.swift in Sources */,
 				1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
@@ -545,7 +538,6 @@
 				1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */,
 				1F8DFF53289DC1070063C28C /* TimeReader.swift in Sources */,
 				1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */,
-				1FD7EE832881CAEF00D194B4 /* MinutePublisher.swift in Sources */,
 				1FCB95F3286CD80B00DE9DD0 /* Formatting+Extensions.swift in Sources */,
 				1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */,
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,

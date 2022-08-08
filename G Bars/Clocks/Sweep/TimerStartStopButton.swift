@@ -22,8 +22,6 @@ import SwiftUI
 ///
 /// Used by ``DigitalTimerView`` and ``SweepSecondView``. A ``CountdownController`` is used as an `@EnvironmentObject`
 struct TimerStartStopButton: View {
-    @EnvironmentObject private var controller: CountdownController
-
     @Binding var isRunning: Bool
     private let callback: ((Bool) -> Void)?
 
@@ -52,8 +50,5 @@ struct TimerStartStopButton_Previews: PreviewProvider {
                 running: ssState.$running)
             Text("is \(ssState.running ? "" : "NOT") running")
         }
-        .environmentObject(
-            CountdownController(duration: 5)
-        )
     }
 }
