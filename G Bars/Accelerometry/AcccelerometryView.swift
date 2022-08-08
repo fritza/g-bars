@@ -51,16 +51,9 @@ final class CMWatcher: ObservableObject {
     }
 }
 
-#if LOGGER
-import os.log
-#endif
-
 struct AcccelerometryView: View {
 
     init() {
-#if LOGGER
-        gLogger.log("Initializing AccelerometryView?!")
-#endif
         print("entry to AcccelerometryView()")
         print("(debug only)")
     }

@@ -8,6 +8,12 @@
 import Foundation
 import Combine
 
+#if LOGGER
+import os.log
+let logger = Logger()
+let signposter = OSSignposter(subsystem: "com.wt9t.G-Bars",
+                              category: .pointsOfInterest)
+#endif
 
 
 final class TimeReader: ObservableObject {
@@ -39,7 +45,12 @@ final class TimeReader: ObservableObject {
     var timeSubject = PassthroughSubject<MinSecAndFraction, Never>()
     var secondsSubject = PassthroughSubject<Int, Never>()
 
+    var intervalState: OSSignpostIntervalState
+
     init(interval: TimeInterval, by tickSize: TimeInterval = 0.01) {
+        let spIS = signposter.beginInterval("TimeReader init")
+        intervalState = spIS
+
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
 
@@ -47,6 +58,7 @@ final class TimeReader: ObservableObject {
         totalInterval = interval
         startingDate = currentDate
         endingDate = Date().addingTimeInterval(interval)
+        signposter.endInterval("TimeReader init", spIS)
     }
 
 
