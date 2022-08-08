@@ -130,6 +130,12 @@ struct DigitalTimerView: View {
             }
             .padding()
         }
+        .onReceive(timer.$status, perform: { stat in
+            if stat == .expired {
+                playSound(named: "Klaxon",
+                          thenSay: "Stop walking.")
+            }
+        })
         .onReceive(timer.timeSubject, perform: { newTime in
             self.minSecfrac = newTime
         })

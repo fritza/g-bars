@@ -29,8 +29,9 @@ final class TimeReader: ObservableObject {
         }
     }
 
-    enum TimerStatus: String {
+    enum TimerStatus: String, CustomStringConvertible {
         case ready, running, cancelled, expired
+        var description: String { self.rawValue }
     }
 
 
@@ -124,7 +125,6 @@ final class TimeReader: ObservableObject {
                  == 0
             }
             .removeDuplicates()
-            .print("mmss publisher")
             .sink { mmssfff in
                 self.mmssSubject.send(mmssfff)
             }
