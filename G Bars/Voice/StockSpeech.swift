@@ -8,10 +8,14 @@
 import Foundation
 import AVFoundation
 
+// MARK: - CallbackUtterance
 /// A subclass of `AVSpeechUtterance` that passes a callback for completion of an utterance when the synthesizer hits `didFinish`.
 ///
 /// This represents a _single_ string to be pronounced and should not be re-used.
 final class CallbackUtterance: AVSpeechUtterance {
+
+    // MARK: Properties
+
     /// Trampoline for the `wantsSpeech` user default.
     var shouldSpeak: Bool {
         // Implemented in terms of UserDefaults rather
@@ -28,7 +32,7 @@ final class CallbackUtterance: AVSpeechUtterance {
             Self.shouldSpeak = newValue
         }
     }
-    
+
     /// Class-static trampoline (read only) for the `wantsSpeech` user default.
     static var shouldSpeak: Bool = {
         let defaults = UserDefaults.standard
@@ -53,6 +57,8 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     fileprivate let callback: CVUCallback?
 
+    // MARK: Initialization
+
     /// Initialize a new utterance, corresponding to a single spoken phrase.
     /// - Parameters:
     ///   - string: The `String` whose contents are to be pronounced
@@ -76,6 +82,7 @@ final class CallbackUtterance: AVSpeechUtterance {
         self.init(string: speech, callback: callback)
     }
 
+    // MARK: Speech
     /// Present the utterance to the synthesizer for speaking.
     func speak() {
         Self.synthesizer.speak(self)
@@ -87,6 +94,7 @@ final class CallbackUtterance: AVSpeechUtterance {
     }
 }
 
+// MARK: - SpeechDelegate
 final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
     // REMEMBER! AVSpeechSynthesizer keeps a queue of its own.
     /// `AVSpeechSynthesizerDelegate` adoption for the end of an utterance.
@@ -102,10 +110,14 @@ final class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
         }
 }
 
+// MARK: - Deprecations
+// MARK: CallbackUtterance
 extension CallbackUtterance {
     /// Utter a speakable description of a `MinSecondPair`.
     ///
     /// The utterance is stored in a `static` reference until it calls back to say it's done.
+    @available(*, deprecated,
+                message: "Use CallbackUtterance/init(minutesAndSeconds:callback:) instead.")
     static func sayCountdown(minutesAndSeconds: MinSecAndFraction) {
         guard shouldSpeak else { return }
         let newUtterance =
@@ -122,6 +134,7 @@ extension CallbackUtterance {
     }
 }
 
+// MARK: MinSecAndFraction
 extension MinSecAndFraction {
     /// Cause a `MinSecAndFraction` to be uttered by the speech synthesizer.
     @available(*, deprecated,
