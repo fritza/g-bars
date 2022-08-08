@@ -19,10 +19,19 @@ import Combine
 
 /// A `View` that displays a circle containing a sweep-second hand and a digit, representing a countdown in seconds.
 ///
-/// Uses a  `CountdownController` as an `@EnvironmentObject`.
+/// Note that the timer can't be paused, only canceled. After cancellation, the only thing to be done is to create a new timer, and assign it the full duration.
 struct SweepSecondView: View {
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
-    @EnvironmentObject private var controller: CountdownController
+    @ObservedObject var timer: TimeReader
+    /// The current minute/second/fraction value of the countdown.
+    @State private  var minSecFrac: MinSecAndFraction?
+
+    @State private  var wholeSeconds: Int
+
+    init(duration: TimeInterval) {
+        timer = TimeReader(interval: sweep_TMP_Duration, by: 0.075)
+        wholeSeconds = Int(duration)
+    }
 
     /// Whether the clock is running, as set by ``TimerStartStopButton``.
     /// - note: Stopping the countdown does not pause it.  When `isRunning` changes to `true`, its controller is completely restarted.
@@ -35,8 +44,10 @@ struct SweepSecondView: View {
         // plus-one because I think people want to
         // see a "1" in the final go-round when
         // the app just said "one."
-        let rep = controller.seconds+1
-        return Text("\(rep)")
+
+        // TODO: Why use this instead of the .seconds component of .minSecFrac?
+        let rep = "\(wholeSeconds.description)"
+        return Text(rep)
             .font(.system(size: edge, weight: .semibold))
             .monospacedDigit()
     }
@@ -47,7 +58,7 @@ struct SweepSecondView: View {
                 .stroke(lineWidth: 1.0)
                 .foregroundColor(.gray)
 
-            SubsecondHandView(fractionalSecond: controller.fraction)
+            SubsecondHandView(fractionalSecond: minSecFrac?.fraction ?? 0.0)
                 .foregroundColor((Self.colorScheme == .light) ? .black : .gray)
 
             numericOverlay(
@@ -75,19 +86,23 @@ On a 5-second countdown, the first sweep should be labeled “4” and the last 
             .padding()
             .onChange(of: isRunning, perform: { newValue in
                 if isRunning {
-                    controller.startCounting()
+                    timer.start()
                 }
                 else {
-                    controller.stopCounting(timeRanOut: false) // AND reset cancel button
+                    timer.cancel() // AND reset cancel button
                 }
             })
-            .onChange(of: controller.seconds, perform: { newSecs in
-                guard CallbackUtterance.shouldSpeak else {
-                    return
+            .onReceive(timer.timeSubject) { mmssff in
+                self.minSecFrac = mmssff
+            }
+            .onReceive(timer.secondsSubject) {
+                secs in
+                self.wholeSeconds = secs
+                if CallbackUtterance.shouldSpeak {
+                    CallbackUtterance(string: "\(secs+1)")
+                        .speak()
                 }
-                CallbackUtterance(string: "\(newSecs+1)")
-                    .speak()
-            })
+            }
             .navigationTitle("Seconds")
         }
     }
@@ -96,11 +111,8 @@ On a 5-second countdown, the first sweep should be labeled “4” and the last 
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SweepSecondView()
+            SweepSecondView(duration: sweep_TMP_Duration)
                 .frame(width: 300)
         }
-        .environmentObject(
-            CountdownController(duration: Int(sweep_TMP_Duration))
-        )
     }
 }

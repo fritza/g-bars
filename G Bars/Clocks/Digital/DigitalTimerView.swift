@@ -63,7 +63,6 @@ struct SpeechOnOffView: View {
         HStack(alignment: .center) {
             if let text = text {
                 Text("\(text)")
-//                Text("Many minutes many seconds. Too much time to account for really.")
                     .minimumScaleFactor(0.5)
                 Spacer(); Divider()
             }
@@ -84,13 +83,12 @@ struct SpeechOnOffView: View {
 
 struct DigitalTimerView: View {
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
-
-    @EnvironmentObject var  controller  : CountdownController
-    @State private var      amRunning   :  Bool = false
-    @State private var      minSeconds  = MinSecondPair(seconds: Int(countdown_TMP_Duration))
+    @ObservedObject var timer: TimeReader
+    @State private var amRunning  :  Bool = false
+    @State private var minSecfrac : MinSecAndFraction?
 
     init(duration: TimeInterval) {
-        minSeconds = MinSecondPair(interval: duration)
+        self.timer = TimeReader(interval: duration)
     }
 
     var body: some View {
@@ -100,7 +98,7 @@ struct DigitalTimerView: View {
                 Text(digitalNarrative)
                 Spacer()
                 // MM:SS to screen
-                Text("\(controller.mmssToDisplay)")
+                Text(minSecfrac?.clocked ?? "--:--" )
                     .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
 
@@ -109,31 +107,31 @@ struct DigitalTimerView: View {
                     toggling:
                         $wantsSpeech,
                     size: proxy.size,
-                    label: controller.currentSpeakable)
+                    label: minSecfrac?.spoken)
                 Spacer()
 
                 // Start/stop
                 TimerStartStopButton(running: $amRunning) { newRunning in
                     if newRunning {
                         // "Start"
-                        controller.startCounting()
+                        timer.start()
                         assert(amRunning)
                     }
                     else {
                         // "Cancel"
-                        controller.stopCounting(
-                                timeRanOut: false)
+                        timer.cancel()
                         assert(!amRunning)
                     }
                 }
                 Spacer()
-//
-//                Text("wants speech is \(wantsSpeech.description)")
             }
-            .onChange(of: controller.currentSpeakable, perform: { newValue in
-                CallbackUtterance(string: newValue).speak()
-            })
             .padding()
+        }
+        .onReceive(timer.timeSubject) { newTime in
+            self.minSecfrac = newTime
+            CallbackUtterance(
+                string: newTime.spoken)
+            .speak()
         }
         .navigationTitle("Digital")
     }
@@ -143,9 +141,8 @@ struct DigitalTimerView: View {
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DigitalTimerView(duration: 150)
+            DigitalTimerView(duration: countdown_TMP_Duration)
                 .padding()
-                .environmentObject(CountdownController(duration: Int(countdown_TMP_Duration)))
         }
     }
 }
