@@ -46,23 +46,11 @@ struct G_BarsApp: App {
 #if true
             NavigationView {
                 VStack {
-                    SweepSecondView(duration: sweep_TMP_Duration)
-                }
-                .navigationTitle("Sweep Second")
-            }
-#elseif false
-            NavigationView {
-                VStack {
                     DigitalTimerView(duration: countdown_TMP_Duration)
                 }
                 .navigationTitle("Digital Countdown")
-                .environmentObject(CountdownController(
-                    duration:
-                        Int (trunc(countdown_TMP_Duration))
-                )
-                )
             }
-#elseif false
+#else
             TabView(selection: $selectedTab) {
                 // MARK: Acceleration Bars
                 NavigationView { AcccelerometryView() }
@@ -81,10 +69,14 @@ struct G_BarsApp: App {
                     }
 
                 // MARK: Sweep-second disk
-                NavigationView { SweepSecondView() }
-                    .tabItem { Label("Sweep",
-                                     systemImage: "timer")
-                    }
+                NavigationView {
+                    SweepSecondView(duration: sweep_TMP_Duration)
+                        .navigationTitle("Sweep Second")
+                        .tabItem {
+                            Label("Sweep",
+                                  systemImage: "timer")
+                        }
+                }
 
                 // MARK: Digital countdown
                 NavigationView {
