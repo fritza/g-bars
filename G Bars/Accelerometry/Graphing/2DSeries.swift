@@ -34,6 +34,13 @@ final class Store2D {
     func append<S:Sequence>(contentsOf newElements: S) where S.Element == Datum2D {
         content.append(contentsOf: newElements)
     }
+
+    /// A new `Store2D` object duplicating the `content` array.
+    ///
+    /// Necessary when client code wants to do a value-style replication of the value of a `Store2D`. Subsequent changes to the original will not affect the clone.
+    func cloned() -> Store2D {
+        return Store2D(content)
+    }
 }
 
 extension Store2D: ObservableObject {
@@ -86,13 +93,14 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
     /// Enumerate `content`’s elements, render them as `String`s (`Datum2D.description`) joined by commas.
     /// - Parameter length: The limit to the number of elements to display. Defaults to 5. If greater than the number of elements, only that number are rendered.
     /// - Returns: The comma-delimited representations of the `Datum2D` elements.
-    func describingData(first length: Int = 5) -> String {
+    private func describingData(first length: Int = 5) -> String {
         guard let clippedLength = [length, content.count].min() else { return "" }
         let slice = content[...clippedLength]
         return slice.map { "\($0)" }
             .joined(separator: ", ")
     }
-    var description: String {
+
+    public var description: String {
         "\(type(of: self)): \(describingData())"
     }
 
@@ -109,17 +117,7 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
     var count: Int { content.count }
 }
 
-// MARK: - SwiftUI
 import SwiftUI
-
-// TODO: Consider whether rendering should be a part of a data abstraction.
-
-extension Store2D {
-    /// `SwiftUI` `Path` `Shape` representing the values in `content`.
-    func path(within size: CGSize) -> some Shape {
-        return content.path(within: size)
-    }
-}
 
 // MARK: - Array<Datum2D>
 extension Array where Element == Datum2D {
@@ -229,5 +227,14 @@ extension Array where Element == Datum2D {
             }
         }
         .transform(transform)
+    }
+}
+
+// TODO: Consider whether rendering should be a part of a data abstraction.
+
+extension Store2D {
+    /// `SwiftUI` `Path` `Shape` representing the values in `content`.
+    func path(within size: CGSize) -> some Shape {
+        return content.path(within: size)
     }
 }
