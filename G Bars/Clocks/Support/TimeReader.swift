@@ -43,6 +43,7 @@ final class TimeReader: ObservableObject {
     let tickTolerance: TimeInterval
 
     var timeSubject = PassthroughSubject<MinSecAndFraction, Never>()
+    var mmssSubject = PassthroughSubject<MinSecAndFraction, Never>()
     var secondsSubject = PassthroughSubject<Int, Never>()
 
 #if LOGGER
@@ -70,11 +71,13 @@ final class TimeReader: ObservableObject {
 
     var sharedTimer: AnyPublisher<MinSecAndFraction, Error>!
     var timeCancellable: AnyCancellable!
+    var mmssCancellable: AnyCancellable!
     var secondsCancellable: AnyCancellable!
     func cancel() {
         status = (status == .running) ?
             .cancelled : .expired
         timeCancellable = nil
+        mmssCancellable = nil
         secondsCancellable = nil
         sharedTimer = nil
     }
@@ -108,6 +111,22 @@ final class TimeReader: ObservableObject {
                 }
             } receiveValue: { msf in
                 self.timeSubject.send(msf)
+            }
+
+        mmssCancellable = sharedTimer
+            .map { time in
+                return time.with(fraction: 0.0)
+            }
+            .replaceError(with: .zero)
+            .filter {
+                // FIXME: use of global
+                $0.second % countdown_TMP_Interval
+                 == 0
+            }
+            .removeDuplicates()
+            .print("mmss publisher")
+            .sink { mmssfff in
+                self.mmssSubject.send(mmssfff)
             }
 
         secondsCancellable = sharedTimer
