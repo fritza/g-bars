@@ -38,7 +38,7 @@ public struct MinSecAndFraction: Hashable {
     }
 
     public var isPositive: Bool {
-        minute >=  0 && second >= 0 && fraction > 0.0
+        minute >=  0 || second >= 0 || fraction > 0.0
     }
 
     /// A copy of this struct with the `fraction` component set to a new value
