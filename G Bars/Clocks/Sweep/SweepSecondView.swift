@@ -39,15 +39,16 @@ struct SweepSecondView: View {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    /// A digit to be overlaid on the clock face, intended to indicate seconds remaining.
-    private func numericOverlay(edge: CGFloat) -> some View {
-        // plus-one because I think people want to
-        // see a "1" in the final go-round when
-        // the app just said "one."
+    var stringForSeconds: String {
+        if let seconds = self.minSecFrac?.second, seconds >= 0 {
+            return String(describing: seconds+1)
+        }
+        else { return "*" }
+    }
 
-        // TODO: Why use this instead of the .seconds component of .minSecFrac?
-        let rep = "\(wholeSeconds.description)"
-        return Text(rep)
+    /// A digit to be overlaid on the clock face, intended to indicate seconds remaining.
+    @ViewBuilder private func numericOverlay(edge: CGFloat) -> some View {
+        Text(stringForSeconds)
             .font(.system(size: edge, weight: .semibold))
             .monospacedDigit()
     }
@@ -71,9 +72,9 @@ struct SweepSecondView: View {
         GeometryReader { proxy in
             VStack {
                 clockFace(fitting: proxy.size)
-                .frame(width:  proxy.size.short * 0.95,
-                       height: proxy.size.short * 0.95,
-                       alignment: .center)
+                    .frame(width:  proxy.size.short * 0.95,
+                           height: proxy.size.short * 0.95,
+                           alignment: .center)
                 Spacer()
                 Text("""
 Countdown only. You can repeat the countdown by tapping "Start" twice.
