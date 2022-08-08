@@ -23,6 +23,8 @@
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
 		1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */; };
 		1F8DFF53289DC1070063C28C /* TimeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF52289DC1070063C28C /* TimeReader.swift */; };
+		1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5428A1A8740063C28C /* EndpointSound.swift */; };
+		1F8DFF5728A1A8FC0063C28C /* Klaxon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5628A1A8FC0063C28C /* Klaxon.mp3 */; };
 		1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE6287F4A730097868B /* 2DSeries.swift */; };
 		1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE8288093DC0097868B /* Datum2D.swift */; };
 		1F9C6AEB28809A220097868B /* AccelerometryPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */; };
@@ -96,6 +98,8 @@
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
 		1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSecAndFraction.swift; sourceTree = "<group>"; };
 		1F8DFF52289DC1070063C28C /* TimeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeReader.swift; sourceTree = "<group>"; };
+		1F8DFF5428A1A8740063C28C /* EndpointSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointSound.swift; sourceTree = "<group>"; };
+		1F8DFF5628A1A8FC0063C28C /* Klaxon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Klaxon.mp3; sourceTree = "<group>"; };
 		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
 		1F9C6AE8288093DC0097868B /* Datum2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum2D.swift; sourceTree = "<group>"; };
 		1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerometryPlotView.swift; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 		1FB324BE2888946900A2F351 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				1F8DFF5628A1A8FC0063C28C /* Klaxon.mp3 */,
 				1F8DFF52289DC1070063C28C /* TimeReader.swift */,
 				1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */,
 			);
@@ -259,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				1FB324C02888B16600A2F351 /* DigitalTimerView.swift */,
+				1F8DFF5428A1A8740063C28C /* EndpointSound.swift */,
 			);
 			path = Digital;
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FCB95FC286CF0F500DE9DD0 /* LaunchScreen.storyboard in Resources */,
+				1F8DFF5728A1A8FC0063C28C /* Klaxon.mp3 in Resources */,
 				1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */,
 				1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */,
 				1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */,
@@ -551,6 +558,7 @@
 				1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
+				1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
 				1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
