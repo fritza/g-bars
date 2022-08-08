@@ -70,7 +70,7 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     /// Required for `NSCoding`. Fatal.
     required init?(coder: NSCoder) {
-        fatalError("Does not implement NSCodable")
+        fatalError("Does not implement NSCoding")
     }
 
     /// Initializes a new utterance to pronounce the `minute` and `second` components of  a ``MinSecAndFraction``.

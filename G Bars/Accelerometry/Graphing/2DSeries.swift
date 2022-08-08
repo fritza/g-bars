@@ -8,11 +8,13 @@
 import Foundation
 import Accelerate
 
+// MARK: - Store2D
 /// Ingest, normalize, and plot a 1-D time series of data.
 final class Store2D {
     /// Array of `Datum2D` constituting the values in the store.
     private var content: [Datum2D] = []
 
+    // MARK: Initialization and storage
     /// Create a `Store2D`, optionally wrapping an existing array of `Datum2D`.
     /// - Parameter existingContent: The `[Datum2D]` to represent. Defaults to `[]`.
     init(_ existingContent: [Datum2D] = []) {
@@ -31,11 +33,6 @@ final class Store2D {
     /// - warning: The  `Store2D` _appends_ the elements as-is, without merging them by time.
     func append<S:Sequence>(contentsOf newElements: S) where S.Element == Datum2D {
         content.append(contentsOf: newElements)
-    }
-
-    /// A new `Store2D` object duplicating the `content` array.
-    func cloned() -> Store2D {
-        return Store2D(content)
     }
 }
 
@@ -82,7 +79,10 @@ extension Store2D: ObservableObject {
     }
 }
 
+// MARK: - Display and iteration
 extension Store2D: CustomStringConvertible, RandomAccessCollection {
+
+    // MARK: CustomStringConvertible
     /// Enumerate `content`’s elements, render them as `String`s (`Datum2D.description`) joined by commas.
     /// - Parameter length: The limit to the number of elements to display. Defaults to 5. If greater than the number of elements, only that number are rendered.
     /// - Returns: The comma-delimited representations of the `Datum2D` elements.
@@ -92,13 +92,11 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
         return slice.map { "\($0)" }
             .joined(separator: ", ")
     }
-
-    // MARK: - CustomStringConvertible
     var description: String {
         "\(type(of: self)): \(describingData())"
     }
 
-    // MARK: - RandomAccessCollection
+    // MARK: RandomAccessCollection
     // These are probably not all necessary; Standard Library can infer some implementations.
     var startIndex: Int { 0             }
     var endIndex: Int   { content.count }
@@ -113,6 +111,9 @@ extension Store2D: CustomStringConvertible, RandomAccessCollection {
 
 // MARK: - SwiftUI
 import SwiftUI
+
+// TODO: Consider whether rendering should be a part of a data abstraction.
+
 extension Store2D {
     /// `SwiftUI` `Path` `Shape` representing the values in `content`.
     func path(within size: CGSize) -> some Shape {
@@ -120,7 +121,9 @@ extension Store2D {
     }
 }
 
+// MARK: - Array<Datum2D>
 extension Array where Element == Datum2D {
+    // MARK: Span
     @inlinable var tMin: Double? { return self.first?.t }
     /// The maximum `t` value in the store
     /// - warning: Assumes the `content` array is already ordered by time.
@@ -143,6 +146,7 @@ extension Array where Element == Datum2D {
         return min...max
     }
 
+    // MARK: Element arithmetic
     func applying(_ filter: (Double) -> Double) -> [Datum2D] {
         guard !self.isEmpty else { return self }
         var retval = self
@@ -153,6 +157,8 @@ extension Array where Element == Datum2D {
         }
         return retval
     }
+
+    // MARK: Normalization
 
     @discardableResult
     func normalizedByTime() -> [Datum2D] {
@@ -196,6 +202,8 @@ extension Array where Element == Datum2D {
         if axis.contains(.byValue) { return self.normalizedByValue() }
         return self
     }
+
+    // MARK: SwiftUI Path
 
     func fittedTo(_ dimensions: CGSize) -> [Datum2D] {
         guard !self.isEmpty else { return self }
