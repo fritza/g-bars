@@ -45,11 +45,15 @@ final class TimeReader: ObservableObject {
     var timeSubject = PassthroughSubject<MinSecAndFraction, Never>()
     var secondsSubject = PassthroughSubject<Int, Never>()
 
+#if LOGGER
     var intervalState: OSSignpostIntervalState
+#endif
 
     init(interval: TimeInterval, by tickSize: TimeInterval = 0.01) {
+#if LOGGER
         let spIS = signposter.beginInterval("TimeReader init")
         intervalState = spIS
+#endif
 
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
@@ -58,7 +62,9 @@ final class TimeReader: ObservableObject {
         totalInterval = interval
         startingDate = currentDate
         endingDate = Date().addingTimeInterval(interval)
+#if LOGGER
         signposter.endInterval("TimeReader init", spIS)
+#endif
     }
 
 
@@ -66,16 +72,17 @@ final class TimeReader: ObservableObject {
     var timeCancellable: AnyCancellable!
     var secondsCancellable: AnyCancellable!
     func cancel() {
-        assert(status == .running)
-        status = .cancelled
-
+        status = (status == .running) ?
+            .cancelled : .expired
         timeCancellable = nil
         secondsCancellable = nil
         sharedTimer = nil
     }
 
     func start() {
-        assert(status == .ready,
+        // FIXME: timer status versus expected
+        // like ".ready" is getting seriously into misalignment.
+        assert(status != .running,
         "attempt to restart a timer")
 
         startingDate = Date()
@@ -105,11 +112,21 @@ final class TimeReader: ObservableObject {
 
         secondsCancellable = sharedTimer
             .map { $0.second }
+            .filter { $0 >= 0 }
             .removeDuplicates()
-            .assertNoFailure()
-            .sink { secInteger in
-                self.secondsSubject.send(secInteger)
-            }
+            .sink(
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished: break
+                    case .failure(let error):
+                        self.status = .expired
+                        print("Seconds countdown failed:", error)
+                    }
+                }, receiveValue: {
+                    secInteger in
+                    self.secondsSubject.send(secInteger)
+                }
+            )
     }
 
     static let roundingScale = 100.0
@@ -121,22 +138,26 @@ final class TimeReader: ObservableObject {
                                    on: .main, in: .common)
             .autoconnect()
             .tryMap {
+                // Timer's date to seconds until expiry
                 (date: Date) -> TimeInterval in
-                guard date <= self.endingDate else {
+                let retval = self.endingDate.timeIntervalSince(date)
+                guard retval >= 0 else {
                     self.status = .expired
                     throw TerminationErrors.expired
                 }
-                return self.endingDate.timeIntervalSince(date)
+                return retval
             }
             .map { rawInterval in
+                // Seconds to expiry rounded by roundingScale
                 let scaled = Self.roundingScale * rawInterval
                 let trimmed = round(scaled)
                 let rescaled = trimmed / Self.roundingScale
                 return rescaled
             }
             .map {
+                // Rounded seconds to expiry to MinSecAndFraction
                 (tInterval: TimeInterval) -> MinSecAndFraction in
-                let intInterval = Int(round(tInterval))
+                let intInterval = Int(trunc(tInterval))
                 return MinSecAndFraction(
                     minute: intInterval / 60,
                     second: intInterval % 60,
