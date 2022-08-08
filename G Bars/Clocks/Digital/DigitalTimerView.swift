@@ -21,7 +21,7 @@ import Combine
 
 
 // FIXME: For demonstration purposes only
-let countdown_TMP_Duration = 70.0
+let countdown_TMP_Duration = 80.0
 let countdown_TMP_Interval = 10
 let sweep_TMP_Duration = 5.0
 
@@ -29,9 +29,7 @@ let sweep_TMP_Duration = 5.0
 
 // MARK: - DigitalTimerView
 private let digitalNarrative = """
-What the digital (walking) clock would show, and what would be spoken.
-
-There's still a bug in picking up the initial value in the spoken version of the timer. The ten-second interval is for demonstration purposes.
+What the digital (walking) clock would show, and what would be spoken. The interval will be spoken at \(countdown_TMP_Interval)-second intervals, the better to demonstrate the feature.
 """
 
 /**
@@ -132,8 +130,10 @@ struct DigitalTimerView: View {
             }
             .padding()
         }
-        .onReceive(timer.timeSubject) { newTime in
+        .onReceive(timer.timeSubject, perform: { newTime in
             self.minSecfrac = newTime
+        })
+        .onReceive(timer.mmssSubject) { newTime in
             CallbackUtterance(
                 string: newTime.spoken)
             .speak()
