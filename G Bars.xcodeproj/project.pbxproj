@@ -29,6 +29,7 @@
 		1F8DFF5D28A2EC650063C28C /* second-walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */; };
 		1F8DFF5E28A2EC650063C28C /* walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5C28A2EC650063C28C /* walk-intro.json */; };
 		1F8DFF6028A2F17E0063C28C /* WalkInfoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5F28A2F17E0063C28C /* WalkInfoForm.swift */; };
+		1F8DFF6228A2FA960063C28C /* usability-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF6128A2FA960063C28C /* usability-intro.json */; };
 		1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE6287F4A730097868B /* 2DSeries.swift */; };
 		1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE8288093DC0097868B /* Datum2D.swift */; };
 		1F9C6AEB28809A220097868B /* AccelerometryPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */; };
@@ -108,6 +109,7 @@
 		1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "second-walk-intro.json"; sourceTree = "<group>"; };
 		1F8DFF5C28A2EC650063C28C /* walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "walk-intro.json"; sourceTree = "<group>"; };
 		1F8DFF5F28A2F17E0063C28C /* WalkInfoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkInfoForm.swift; sourceTree = "<group>"; };
+		1F8DFF6128A2FA960063C28C /* usability-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "usability-intro.json"; sourceTree = "<group>"; };
 		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
 		1F9C6AE8288093DC0097868B /* Datum2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum2D.swift; sourceTree = "<group>"; };
 		1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerometryPlotView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			children = (
 				1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */,
 				1F8DFF5C28A2EC650063C28C /* walk-intro.json */,
+				1F8DFF6128A2FA960063C28C /* usability-intro.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				1F8DFF5D28A2EC650063C28C /* second-walk-intro.json in Resources */,
 				1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */,
 				1FB109FF287CCDF0007D7CDF /* USurveyQuestions.json in Resources */,
+				1F8DFF6228A2FA960063C28C /* usability-intro.json in Resources */,
 				1F8DFF5E28A2EC650063C28C /* walk-intro.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
