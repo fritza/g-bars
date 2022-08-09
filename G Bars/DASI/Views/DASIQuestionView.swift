@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// A View that presents a ``DASIQuestion`` (text, id). It does not have any active (e.g. button) content.
+/// A View that presents a ``DASIQuestion`` (text, id). It does not have any interactive (e.g. button) content.
 struct DASIQuestionView: View {
     @EnvironmentObject var responseStatus: DASIResponseStatus
     @EnvironmentObject var pages: DASIPages

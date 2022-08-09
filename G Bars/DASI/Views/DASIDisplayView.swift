@@ -7,10 +7,14 @@
 
 import SwiftUI
 
+/**
+ Demo-only `View` that displays responses to each DASI question.
+ */
 struct DASIDisplayView: View {
     @EnvironmentObject var pages: DASIPages
     @EnvironmentObject var responses: DASIResponseStatus
 
+    /// All responses as represented by a single line of CSV
     var csvLine: String {
         if let content = try? responses.csvLine() {
             return content
@@ -22,11 +26,12 @@ struct DASIDisplayView: View {
 
     var body: some View {
         VStack {
+            // Text for whether all questions are complete
             Text("The user would \(responses.unknownIdentifiers.isEmpty ? "" : "not") be permitted to submit.\n" )
             + Text(self.csvLine)
                 .font(.custom("Courier", size: 9,
                               relativeTo: .caption))
-//                .monospacedDigit()
+            // Responses to each question
             List(DASIQuestion.questions){ question in
                 HStack {
                     Text(responses.allAnswers[question.id - 1].glyph)

@@ -11,7 +11,8 @@ import SwiftUI
 // TODO: Put `DASIResponseStatus` into the environment
 //       originating at the App level.
 // TODO: Put DASIPages into the environment
-/// Host to `NavigationLink`s that display interstitials and DASI questions.
+
+/// Host to `NavigationLink`s that selects interstitials and DASI questions for presentation.
 struct SurveyContainerView: View {
     @EnvironmentObject var dasiResponses: DASIResponseStatus
     @EnvironmentObject var contentEnvt: DASIPages
@@ -113,20 +114,3 @@ struct SurveyContainerView_Previews: PreviewProvider {
             .environmentObject(DASIPages(.intro))
     }
 }
-
-/*
- WORKS: Observing the environment to select self's content.
- Next, how to select the next contained view.
- var body: some View {
- NavigationView {
- VStack {
- Text(contentEnvt.selected.rawValue)
- Button("Next") {
- contentEnvt.selected = contentEnvt.selected.next
- }
- }
- .navigationTitle("Containment")
- }
- }
-
- */

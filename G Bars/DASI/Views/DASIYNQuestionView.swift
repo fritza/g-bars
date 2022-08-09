@@ -7,13 +7,21 @@
 
 import SwiftUI
 
+/**
+ `View` that presents the text of the question content and Yes/No buttons for a response.
+
+ The user's response updates the corresponding `DASIResponseStatus` for the displayed question.
+ */
 struct DASIYNQuestionView: View {
     @State var yesNoState: Int = 0
     @EnvironmentObject var pages: DASIPages
     @EnvironmentObject var responseStatus: DASIResponseStatus
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            // FIXME: .leading doesn't really help
+            // with the responses being skewed to one side.
+            // TODO: Compare the Preview to the in-app.
             DASIQuestionView()
             Spacer()
             YesNoStack(boundState: $yesNoState) {
@@ -32,8 +40,6 @@ struct DASIYNQuestionView: View {
                 yesNoState = responseStatus.currentValue.ynButtonNumber
                 print()
             }
-            // FIXME: Can't align the questions! s
-            .frame(alignment: .center)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
