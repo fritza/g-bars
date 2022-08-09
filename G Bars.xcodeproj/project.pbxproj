@@ -28,6 +28,7 @@
 		1F8DFF5928A2CA060063C28C /* InterstitialInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */; };
 		1F8DFF5D28A2EC650063C28C /* second-walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */; };
 		1F8DFF5E28A2EC650063C28C /* walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5C28A2EC650063C28C /* walk-intro.json */; };
+		1F8DFF6028A2F17E0063C28C /* WalkInfoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5F28A2F17E0063C28C /* WalkInfoForm.swift */; };
 		1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE6287F4A730097868B /* 2DSeries.swift */; };
 		1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE8288093DC0097868B /* Datum2D.swift */; };
 		1F9C6AEB28809A220097868B /* AccelerometryPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */; };
@@ -106,6 +107,7 @@
 		1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialInfo.swift; sourceTree = "<group>"; };
 		1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "second-walk-intro.json"; sourceTree = "<group>"; };
 		1F8DFF5C28A2EC650063C28C /* walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "walk-intro.json"; sourceTree = "<group>"; };
+		1F8DFF5F28A2F17E0063C28C /* WalkInfoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkInfoForm.swift; sourceTree = "<group>"; };
 		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
 		1F9C6AE8288093DC0097868B /* Datum2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum2D.swift; sourceTree = "<group>"; };
 		1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerometryPlotView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			children = (
 				1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */,
 				1FB10A00287CD0A3007D7CDF /* UsabilityView.swift */,
+				1F8DFF5F28A2F17E0063C28C /* WalkInfoForm.swift */,
 				1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */,
 				1FB10A09287E2BB4007D7CDF /* UsabilityInterstitialView.swift */,
 				1FB10A04287CD340007D7CDF /* UsabilityController.swift */,
@@ -555,6 +558,7 @@
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
 				1F57E8132874CCE500FFB840 /* DASIInterstitialView.swift in Sources */,
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
+				1F8DFF6028A2F17E0063C28C /* WalkInfoForm.swift in Sources */,
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
 				1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */,
 				1F8DFF5928A2CA060063C28C /* InterstitialInfo.swift in Sources */,

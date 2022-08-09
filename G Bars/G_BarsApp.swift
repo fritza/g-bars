@@ -43,12 +43,13 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if false
+#if true
             NavigationView {
-                VStack {
-                    DigitalTimerView(duration: countdown_TMP_Duration)
-                }
-                .navigationTitle("Digital Countdown")
+                //                VStack {
+                WalkInfoForm()
+                //                }
+                    .padding()
+                    .navigationTitle("Walking Info")
             }
 #else
             TabView(selection: $selectedTab) {
