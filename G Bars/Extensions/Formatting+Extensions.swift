@@ -102,3 +102,16 @@ extension Date {
         return Date().timeIntervalSince(Self.y1960)
     }
 }
+
+extension String {
+    public var addControlCharacters: String {
+        // first, newlines
+        let nlLines = self.split(separator: "|", omittingEmptySubsequences: false)
+        let nlJoined = nlLines.joined(separator: "\n")
+
+        let tabLines = nlJoined.split(separator: "^", omittingEmptySubsequences: false)
+        let tabJoined = tabLines.joined(separator: "\t")
+
+        return tabJoined
+    }
+}
