@@ -51,6 +51,7 @@ struct WalkInfoForm: View {
                            .pickerStyle(.segmented)
                 }
             }  // Home/away section
+            /*
             Section {
                 VStack(alignment: .leading) {
                     Text("About how long was the area you walked in, in feet?").lineLimit(2)
@@ -65,6 +66,31 @@ struct WalkInfoForm: View {
                     }
                 }
             }  // length of runway section
+             */
+
+/*
+ NOT HAPPY with no longer having room for an invalid/empty length flag (⚠️). Nor that while the field format rejects non-numerics, it doesn't show the rejection.
+ */
+
+
+            Section {
+                TextField("feet", value: $lengthOfCourse, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+//                    .frame(width: 80)
+                    .safeAreaInset(edge: .leading,
+                                   spacing: 12.0
+                    ) {
+                        Text("In feet, about how long was the area you walked in?")
+                            .foregroundColor(
+                                (lengthOfCourse == nil) ?
+                                    .red : .primary
+                            )
+                            .frame(maxWidth: 240)
+                    }
+            }
+            // Length of runway
+
             Section {
                 VStack {
                     Text("Did you walk back-and-forth, or in a straight line?")
@@ -73,7 +99,7 @@ struct WalkInfoForm: View {
                            selection: $howWalked) {
                         Text("Back and Forth")
                             .tag(HowWalked.backAndForth)
-                        Text("In a Straight line")
+                        Text("In a Straight Line")
                             .tag(HowWalked.straightLine)
                     }
                     .pickerStyle(.segmented)                }
@@ -105,7 +131,7 @@ struct WalkInfoForm: View {
             }  // falling section
         }
         .safeAreaInset(edge: .top, content: {
-            Text("Tell us about your walking conditions — the place you chose, and how you felt.")
+            Text("Tell us about your walking conditions — Where you chose for your walk, and how you felt while performing it.")
                 .padding()
         })
         .toolbar {
