@@ -25,7 +25,9 @@
 		1F8DFF53289DC1070063C28C /* TimeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF52289DC1070063C28C /* TimeReader.swift */; };
 		1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5428A1A8740063C28C /* EndpointSound.swift */; };
 		1F8DFF5728A1A8FC0063C28C /* Klaxon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5628A1A8FC0063C28C /* Klaxon.mp3 */; };
-		1F8DFF5928A2CA060063C28C /* TaskInterstitialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5828A2CA060063C28C /* TaskInterstitialText.swift */; };
+		1F8DFF5928A2CA060063C28C /* InterstitialInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */; };
+		1F8DFF5D28A2EC650063C28C /* second-walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */; };
+		1F8DFF5E28A2EC650063C28C /* walk-intro.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8DFF5C28A2EC650063C28C /* walk-intro.json */; };
 		1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE6287F4A730097868B /* 2DSeries.swift */; };
 		1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AE8288093DC0097868B /* Datum2D.swift */; };
 		1F9C6AEB28809A220097868B /* AccelerometryPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */; };
@@ -101,7 +103,9 @@
 		1F8DFF52289DC1070063C28C /* TimeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeReader.swift; sourceTree = "<group>"; };
 		1F8DFF5428A1A8740063C28C /* EndpointSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointSound.swift; sourceTree = "<group>"; };
 		1F8DFF5628A1A8FC0063C28C /* Klaxon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Klaxon.mp3; sourceTree = "<group>"; };
-		1F8DFF5828A2CA060063C28C /* TaskInterstitialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInterstitialText.swift; sourceTree = "<group>"; };
+		1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialInfo.swift; sourceTree = "<group>"; };
+		1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "second-walk-intro.json"; sourceTree = "<group>"; };
+		1F8DFF5C28A2EC650063C28C /* walk-intro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "walk-intro.json"; sourceTree = "<group>"; };
 		1F9C6AE6287F4A730097868B /* 2DSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DSeries.swift; sourceTree = "<group>"; };
 		1F9C6AE8288093DC0097868B /* Datum2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum2D.swift; sourceTree = "<group>"; };
 		1F9C6AEA28809A220097868B /* AccelerometryPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerometryPlotView.swift; sourceTree = "<group>"; };
@@ -218,6 +222,15 @@
 			path = ValueController;
 			sourceTree = "<group>";
 		};
+		1F8DFF5A28A2EC650063C28C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F8DFF5B28A2EC650063C28C /* second-walk-intro.json */,
+				1F8DFF5C28A2EC650063C28C /* walk-intro.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		1F9C6AE5287F4A320097868B /* Graphing */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,7 +322,8 @@
 				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
-				1F8DFF5828A2CA060063C28C /* TaskInterstitialText.swift */,
+				1F8DFF5A28A2EC650063C28C /* Resources */,
+				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
 				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
 				1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */,
@@ -501,8 +515,10 @@
 				1F8DFF5728A1A8FC0063C28C /* Klaxon.mp3 in Resources */,
 				1FCB95BD286CD37700DE9DD0 /* Preview Assets.xcassets in Resources */,
 				1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */,
+				1F8DFF5D28A2EC650063C28C /* second-walk-intro.json in Resources */,
 				1FCB95BA286CD37700DE9DD0 /* Assets.xcassets in Resources */,
 				1FB109FF287CCDF0007D7CDF /* USurveyQuestions.json in Resources */,
+				1F8DFF5E28A2EC650063C28C /* walk-intro.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,7 +557,7 @@
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
 				1F9C6AE7287F4A730097868B /* 2DSeries.swift in Sources */,
-				1F8DFF5928A2CA060063C28C /* TaskInterstitialText.swift in Sources */,
+				1F8DFF5928A2CA060063C28C /* InterstitialInfo.swift in Sources */,
 				1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */,
 				1F8DFF53289DC1070063C28C /* TimeReader.swift in Sources */,
 				1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */,
