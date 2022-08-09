@@ -1,5 +1,5 @@
 //
-//  DASIInterstitialViews.swift
+//  DASIInterstitialView.swift
 //  G Bars
 //
 //  Created by Fritz Anderson on 7/5/22.
