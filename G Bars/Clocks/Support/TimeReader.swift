@@ -98,7 +98,6 @@ final class TimeReader: ObservableObject {
             .sink { completion in
                 switch completion {
                 case .finished: print("Tell the world it worked.")
-//                    self.status = .expired
                 case .failure(let error):
                     guard let err = error as? TerminationErrors else {
                         print("other error: \(error).")
@@ -167,7 +166,6 @@ final class TimeReader: ObservableObject {
                 (date: Date) -> TimeInterval in
                 let retval = self.endingDate.timeIntervalSince(date)
                 guard retval >= 0 else {
-//                    self.status = .expired
                     throw TerminationErrors.expired
                 }
                 return retval

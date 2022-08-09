@@ -13,7 +13,7 @@ let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
 
 //let countdownController = CountdownController(forCountdown: true)
-    // And now propagate it.
+// And now propagate it.
 
 import Accelerate
 // MARK: - App
@@ -26,7 +26,7 @@ struct G_BarsApp: App {
         app_speech = true
     }
 
-//    var selectedTab = 0
+    //    var selectedTab = 0
     @State var selectedTab: Int = 0
     @State var timerRunning = false
 
@@ -43,7 +43,7 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if true
+#if false
             NavigationView {
                 VStack {
                     DigitalTimerView(duration: countdown_TMP_Duration)
@@ -69,20 +69,14 @@ struct G_BarsApp: App {
                     }
 
                 // MARK: Sweep-second disk
-                NavigationView {
-                    SweepSecondView(duration: sweep_TMP_Duration)
-                        .navigationTitle("Sweep Second")
-                        .tabItem {
-                            Label("Sweep",
-                                  systemImage: "timer")
-                        }
-                }
+                NavigationView { SweepSecondView(duration: sweep_TMP_Duration) }
+                    .tabItem {
+                        Label("Sweep",
+                              systemImage: "timer")
+                    }
 
                 // MARK: Digital countdown
-                NavigationView {
-                    DigitalTimerView()
-//                    Text("MinuteCountdownView goes here")
-                }
+                NavigationView { DigitalTimerView(duration: countdown_TMP_Duration )}
                     .tabItem { Label("Digital",
                                      systemImage: "clock")
                     }
@@ -93,11 +87,8 @@ struct G_BarsApp: App {
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
-
-            #warning("Putting a single countdown controller in an app-wide Environment.")
-            .environmentObject(countdownController)
             .environmentObject(SubjectID.shared)
 #endif
         }
-    }
+        }
 }

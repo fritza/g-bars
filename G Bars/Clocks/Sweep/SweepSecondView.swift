@@ -80,6 +80,8 @@ struct SweepSecondView: View {
 Countdown only. You can repeat the countdown by tapping "Start" twice.
 
 In production, there would be only a Cancel button.
+
+Remember to unmute your phone and turn up the audio!
 """)
                 .font(.callout)
                 .minimumScaleFactor(0.5)
@@ -106,10 +108,8 @@ In production, there would be only a Cancel button.
             .onReceive(timer.secondsSubject) {
                 secs in
                 self.wholeSeconds = secs
-                if CallbackUtterance.shouldSpeak {
-                    CallbackUtterance(string: "\(secs+1)")
-                        .speak()
-                }
+                CallbackUtterance(string: "\(secs+1)")
+                    .speak()
             }
             .navigationTitle("Seconds")
         }

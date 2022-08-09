@@ -16,10 +16,9 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     // MARK: Properties
 
+    /*
     /// Trampoline for the `wantsSpeech` user default.
     var shouldSpeak: Bool {
-        // Implemented in terms of UserDefaults rather
-        // than import all of SwiftUI just for @AppStorage.
         get {
             let defaults = UserDefaults.standard
             let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
@@ -39,6 +38,7 @@ final class CallbackUtterance: AVSpeechUtterance {
         let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
         return retval
     }()
+     */
 
     ///  Signature for the `CallbackUtterance` callback closure.
     typealias CVUCallback = (CallbackUtterance) -> Void
@@ -133,7 +133,7 @@ extension CallbackUtterance {
     @available(*, deprecated,
                 message: "Use CallbackUtterance/init(minutesAndSeconds:callback:) instead.")
     static func sayCountdown(minutesAndSeconds: MinSecAndFraction) {
-        guard shouldSpeak else { return }
+//        guard shouldSpeak else { return }
         let newUtterance =
         CallbackUtterance(
             minutesAndSeconds: minutesAndSeconds) {

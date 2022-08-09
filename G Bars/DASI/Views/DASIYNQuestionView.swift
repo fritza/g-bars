@@ -32,6 +32,8 @@ struct DASIYNQuestionView: View {
                 yesNoState = responseStatus.currentValue.ynButtonNumber
                 print()
             }
+            // FIXME: Can't align the questions! s
+            .frame(alignment: .center)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
