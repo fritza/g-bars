@@ -47,9 +47,7 @@ struct G_BarsApp: App {
         WindowGroup {
 #if true
             NavigationView {
-                InterstitialPageView(info: instruction_TEMP_list[2], proceedCallback: {
-                    print("Foo")
-                })
+                WalkingContainerView()
                 .padding()
                 .navigationTitle("Walking Info")
             }

@@ -87,8 +87,13 @@ struct DigitalTimerView: View {
     @State private var amRunning  :  Bool = false
     @State private var minSecfrac : MinSecAndFraction?
 
-    init(duration: TimeInterval) {
-        self.timer = TimeReader(interval: duration)
+    private let expirationCallback: (() -> Void)?
+
+    init(duration: TimeInterval, immediately doStart: Bool = true, completion: (() -> Void)? = nil) {
+        let tr =  TimeReader(interval: duration)
+        if doStart { tr.start() }
+        self.timer = tr
+        expirationCallback = completion
     }
 
     var body: some View {
@@ -96,19 +101,12 @@ struct DigitalTimerView: View {
             VStack {
                 // Instructions
                 Text(digitalNarrative)
+                    .foregroundColor(.red)
                 Spacer()
                 // MM:SS to screen
                 Text(minSecfrac?.clocked ?? "--:--" )
                     .font(.system(size: 120, weight: .ultraLight))
                     .monospacedDigit()
-
-//                // Speech toggle
-//                SpeechOnOffView(
-//                    toggling:
-//                        $wantsSpeech,
-//                    size: proxy.size,
-//                    label: minSecfrac?.spoken)
-//                Spacer()
 
                 // Start/stop
                 TimerStartStopButton(
@@ -134,6 +132,11 @@ struct DigitalTimerView: View {
             if stat == .expired {
                 playSound(named: "Klaxon",
                           thenSay: "Stop walking.")
+                expirationCallback?()
+            }
+            else if stat == .running {
+                playSound(named: "Klaxon",
+                          thenSay: "Start walking.")
             }
         })
         .onReceive(timer.timeSubject, perform: { newTime in
@@ -145,6 +148,10 @@ struct DigitalTimerView: View {
             .speak()
         }
         .navigationTitle("Digital")
+    }
+
+    func start() {
+        timer.start()
     }
 }
 

@@ -13,15 +13,18 @@ struct InterstitalPageTabView: View {
     @State private var showEndOfList = false
     @State private var selectedPage: Int
 
+    private let callback: (() -> Void)?
+
     private let listing: InterstitialList
 
     /// Initialize a ``InterstitialPageView``with a list of ``InterstitialInfo`` and an initial page selection.
     /// - Parameters:
     ///   - listing: An ``InterstitialList`` containing the details of the page sequence
     ///   - selection: The **ID** (one-based) of the initially-selected page.
-    init(listing: InterstitialList, selection: Int) {
+    init(listing: InterstitialList, selection: Int, callback: (() -> Void)? = nil) {
         self.listing = listing
         selectedPage = selection
+        self.callback = callback
     }
 
     // MARK: - Body
@@ -43,7 +46,11 @@ struct InterstitalPageTabView: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .alert("End of Instructions",
-               isPresented: $showEndOfList) {}
+               isPresented: $showEndOfList) {
+            Button("OK") {
+                self.callback?()
+            }
+        }
     message: {
         Text("There are no further instructions, and the walk sequence that follows “Start” hasn't been completed.")
     }

@@ -41,7 +41,7 @@ struct InterstitialPageView: View {
             Spacer()
             // MARK: Disclaimer
             // FIXME: Remove once the issues are resolved.
-            Text("Button navigation not complete. swipe across the screen to change the page.\n\nThe size and layout of the instructions need work.").font(.caption).minimumScaleFactor(0.5).foregroundColor(.red)
+            Text("No “Back” button, should that be wanted. A possibly unwanted feature: swipe across the screen to change the page.").font(.caption).minimumScaleFactor(0.5).foregroundColor(.red)
             // MARK: The action button
             Button(item.proceedTitle, action: proceedCallback)
         }
