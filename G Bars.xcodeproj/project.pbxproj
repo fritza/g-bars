@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F133273288F34D500A24C26 /* TimerStartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F133272288F34D500A24C26 /* TimerStartStopButton.swift */; };
+		1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B8F28A451F100D8681E /* WalkingContainerView.swift */; };
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
 		1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F26AFAC286E203300586654 /* DASIQuestions.json */; };
@@ -90,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		1F133272288F34D500A24C26 /* TimerStartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerStartStopButton.swift; sourceTree = "<group>"; };
+		1F185B8F28A451F100D8681E /* WalkingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingContainerView.swift; sourceTree = "<group>"; };
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1F26AFAC286E203300586654 /* DASIQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DASIQuestions.json; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
+				1F185B8F28A451F100D8681E /* WalkingContainerView.swift */,
 				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
 				1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */,
 			);
@@ -573,6 +576,7 @@
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1F35080928A43FE400C3F846 /* InterstitalPageTabView.swift in Sources */,
 				1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */,
+				1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */,
 				1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
