@@ -10,7 +10,7 @@ import Foundation
 /// An element of ``InterstitialList``, providing common types of content for an interstitial view.
 ///
 /// The expected use decodes `InterstitialInfo` from a JSON file. It is _not_ possible to initialize one directly.
-struct InterstitialInfo: Codable, Hashable, Identifiable {
+struct InterstitialInfo: Codable, Hashable, Identifiable, CustomStringConvertible {
     /// Ths ID for this page, automatically assigned, and **one-based**.
     public let id: Int
     /// The introductory text for the page
@@ -24,8 +24,8 @@ struct InterstitialInfo: Codable, Hashable, Identifiable {
 
     /// Element-wise initialization.
     ///
-    /// `InterstitialInfo` has no public initializers.
-    private init(id: Int, intro: String, proceedTitle: String, pageTitle: String, systemImage: String?) {
+    /// `InterstitialInfo` should have no public initializers, but this one has to be exposed for previewing.
+    internal init(id: Int, intro: String, proceedTitle: String, pageTitle: String, systemImage: String?) {
         self.id = id
         self.intro = intro
         self.proceedTitle = proceedTitle
@@ -46,6 +46,10 @@ struct InterstitialInfo: Codable, Hashable, Identifiable {
                   proceedTitle: stub.proceedTitle,
                   pageTitle: stub.pageTitle,
                   systemImage: stub.systemImage)
+    }
+
+    var description: String {
+        "IntersitialInfo id \(id) “\(pageTitle)”"
     }
 }
 
@@ -74,7 +78,7 @@ fileprivate struct TaskInterstitialDecodable: Codable {
 ///
 /// `InterstitialList` is initialized from a JSON file, given the file's basename. The JSON must not attempt to specify IDs; this will be done at init time.
 /// - note: All methods expect a 1-based index.
-struct InterstitialList: Codable {
+struct InterstitialList: Codable, CustomStringConvertible {
     typealias Element = InterstitialInfo
     typealias Index   = Int
 
@@ -84,6 +88,13 @@ struct InterstitialList: Codable {
     }
     static let decoder = JSONDecoder()
 
+
+    public var description: String {
+        let base = "InterstitialList (\(interstitials.count)) from \(baseName).json:\n"
+        let list = interstitials.map(\.description)
+            .joined(separator: "\n\t")
+        return base + list
+    }
 
     let baseName: String
     let interstitials: [InterstitialInfo]
@@ -103,6 +114,8 @@ struct InterstitialList: Codable {
     /// Elements in the file will not specify IDs; they identify by their order in the `json` file. This initializer assigns each an `id`  of file order + 1.
     /// - Parameter baseName: The base name of the file to decode, e.g. `mumble` for `mumble.json`.  The source file must have the `json` extension.
     init(baseName: String) {
+        // TODO: init should throw, probably.
+        //       Actually no, failing to get a content file should be fatal.
         self.baseName = baseName
         // Fill in the interstital list, if any
         if let url = Bundle.main.url(forResource: baseName, withExtension: "json"),

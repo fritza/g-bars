@@ -12,6 +12,8 @@ import SwiftUI
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
 
+let instruction_TEMP_list = InterstitialList(baseName: "walk-intro")
+
 //let countdownController = CountdownController(forCountdown: true)
 // And now propagate it.
 
@@ -45,18 +47,18 @@ struct G_BarsApp: App {
         WindowGroup {
 #if true
             NavigationView {
-                //                VStack {
-                WalkInfoForm()
-                //                }
-                    .padding()
-                    .navigationTitle("Walking Info")
+                InterstitialPageView(info: instruction_TEMP_list[2], proceedCallback: {
+                    print("Foo")
+                })
+                .padding()
+                .navigationTitle("Walking Info")
             }
 #else
             TabView(selection: $selectedTab) {
                 // MARK: Acceleration Bars
                 NavigationView { AcccelerometryView() }
-                    .tabItem { Label("Acceleration",
-                                     systemImage: "move.3d") }
+                        .tabItem { Label("Acceleration",
+                                         systemImage: "move.3d") }
 
                 // MARK: DASI Survey
                 NavigationView { SurveyContainerView() }
