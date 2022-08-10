@@ -7,16 +7,26 @@
 
 import SwiftUI
 
+// MARK: - InterstitalPageTabView
+/// A view that flips through ``InterstitialPageView``s using `TabView`’s `page` style.
 struct InterstitalPageTabView: View {
     @State private var showEndOfList = false
-
     @State private var selectedPage: Int
-    let listing: InterstitialList
+
+    private let listing: InterstitialList
+
+    /// Initialize a ``InterstitialPageView``with a list of ``InterstitialInfo`` and an initial page selection.
+    /// - Parameters:
+    ///   - listing: An ``InterstitialList`` containing the details of the page sequence
+    ///   - selection: The **ID** (one-based) of the initially-selected page.
     init(listing: InterstitialList, selection: Int) {
         self.listing = listing
         selectedPage = selection
     }
 
+    // MARK: - Body
+
+    /// Use a `ForEach` to prepare and display the page sequence.
     var body: some View {
         TabView(selection: $selectedPage) {
             ForEach(listing) {
@@ -30,8 +40,6 @@ struct InterstitalPageTabView: View {
                     }
                 }
             }
-            .animation(.easeInOut,
-                       value: selectedPage)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .alert("End of Instructions",
@@ -44,8 +52,6 @@ struct InterstitalPageTabView: View {
 
 
 struct InterstitalPageTabView_Previews: PreviewProvider {
-//    static let instruction_TEMP_list = InterstitialList(baseName: "walk-intro")
-
     static var previews: some View {
         NavigationView {
             InterstitalPageTabView(listing: instruction_TEMP_list, selection: 1)

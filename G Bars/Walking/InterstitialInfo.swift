@@ -86,18 +86,10 @@ struct InterstitialList: Codable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case baseName, interstitials
     }
-    static let decoder = JSONDecoder()
+    private static let decoder = JSONDecoder()
 
-
-    public var description: String {
-        let base = "InterstitialList (\(interstitials.count)) from \(baseName).json:\n"
-        let list = interstitials.map(\.description)
-            .joined(separator: "\n\t")
-        return base + list
-    }
-
-    let baseName: String
-    let interstitials: [InterstitialInfo]
+    private let baseName: String
+    private let interstitials: [InterstitialInfo]
 
     /// The `InterstitialInfo`, if any, having the supplied ID.
     /// - note: This is an _ID,_ not the collection index used for subscripting.
@@ -132,6 +124,14 @@ struct InterstitialList: Codable, CustomStringConvertible {
         else {
             interstitials = []
         }
+    }
+
+    // MARK: CustomStringConvertible adoption
+    public var description: String {
+        let base = "InterstitialList (\(interstitials.count)) from \(baseName).json:\n"
+        let list = interstitials.map(\.description)
+            .joined(separator: "\n\t")
+        return base + list
     }
 }
 

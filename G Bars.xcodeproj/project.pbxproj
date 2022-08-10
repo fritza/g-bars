@@ -187,6 +187,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F185B8E28A44D5800D8681E /* Walking */ = {
+			isa = PBXGroup;
+			children = (
+				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
+				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
+				1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */,
+			);
+			path = Walking;
+			sourceTree = "<group>";
+		};
 		1F26AFAB286E201B00586654 /* DASI */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,12 +341,10 @@
 				1FB109FD287CCDB4007D7CDF /* PSSUQ */,
 				1F26AFAB286E201B00586654 /* DASI */,
 				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
+				1F185B8E28A44D5800D8681E /* Walking */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
 				1F8DFF5A28A2EC650063C28C /* Resources */,
-				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
-				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
-				1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */,
 				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
 				1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */,
