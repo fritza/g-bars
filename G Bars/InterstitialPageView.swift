@@ -21,19 +21,17 @@ struct InterstitialPageView: View {
         VStack {
             Text(item.intro)
                 .font(.body)
-                .minimumScaleFactor(0.75).padding()
+                .minimumScaleFactor(0.75)
+            Spacer(minLength: 30)
             Image(systemName: item.systemImage ?? "circle")
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.accentColor)
-                .frame(width: 180)
+                .frame(height: 200)
                 .symbolRenderingMode(.hierarchical)
             Spacer()
             Text("Button navigation not complete. swipe across the screen to change the page.\n\nThe size and layout of the instructions need work.").font(.caption).minimumScaleFactor(0.5).foregroundColor(.red)
             Button(item.proceedTitle, action: proceedCallback)
-//            Button(item.proceedTitle) {
-//                // Do something with selectedPage.
-//            }
         }
         .navigationTitle(item.pageTitle)
     }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct InterstitalPageTabView: View {
+    @State private var showEndOfList = false
+
     @State private var selectedPage: Int
     let listing: InterstitialList
     init(listing: InterstitialList, selection: Int) {
@@ -16,39 +18,39 @@ struct InterstitalPageTabView: View {
     }
 
     var body: some View {
-        VStack {
-            TabView(selection: $selectedPage) {
-                ForEach(listing) {
-                    item in
-                    VStack {
-                        Text(item.intro)
-                            .font(.caption)
-                            .minimumScaleFactor(0.5).padding()
-                        Image(systemName: item.systemImage ?? "circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.accentColor)
-                            .frame(width: 200)
-                            .symbolRenderingMode(.hierarchical)
-
-                        Button(item.proceedTitle) {
-                            // Do something with selectedPage.
-                        }
+        TabView(selection: $selectedPage) {
+            ForEach(listing) {
+                item in
+                InterstitialPageView(info: item) {
+                    if item.id < listing.count {
+                        selectedPage += 1
                     }
-                    .navigationTitle(item.pageTitle)
+                    else {
+                        showEndOfList = true
+                    }
                 }
-            }.tabViewStyle(.page(indexDisplayMode: .never))
-            Spacer()
+            }
+            .animation(.easeInOut,
+                       value: selectedPage)
         }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .alert("End of Instructions",
+               isPresented: $showEndOfList) {}
+    message: {
+        Text("There are no further instructions, and the walk sequence that follows “Start” hasn't been completed.")
+    }
     }
 }
 
 
 struct InterstitalPageTabView_Previews: PreviewProvider {
-    static let instruction_TEMP_list = InterstitialList(baseName: "walk-intro")
+//    static let instruction_TEMP_list = InterstitialList(baseName: "walk-intro")
 
     static var previews: some View {
-        InterstitalPageTabView()
+        NavigationView {
+            InterstitalPageTabView(listing: instruction_TEMP_list, selection: 1)
+                .padding()
+        }
     }
 }
 

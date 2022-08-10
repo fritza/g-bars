@@ -39,10 +39,5 @@
 		"intro": "When you are ready, tap Continue. You will hear a countdown and a starting horn.||Put the phone in your front pants pocket, or carry it in your hand.||Walk at your usual pace for 2 minutes; the phone will alert you when time is up.",
 		"systemImage": "chevron.forward.2",
 		"proceedTitle": "Start"
-	},{
-		"pageTitle": "!!! BETWEEN WALKS !!!",
-		"intro": "This page should never be visible to the user.",
-		"systemImage": "exclamationmark.circle",
-		"proceedTitle": "Next"
 	}
 ]

@@ -138,6 +138,6 @@ struct InterstitialList: Codable, CustomStringConvertible {
 // - MARK: RandomAccessCollection adoption
 extension InterstitialList: RandomAccessCollection {
     var startIndex: Int { 1 }
-    var endIndex: Int { interstitials.count-1 }
+    var endIndex: Int { interstitials.count + 1 }
     subscript(index: Int) -> Element { interstitials[index-1] }
 }
