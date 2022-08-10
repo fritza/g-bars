@@ -18,6 +18,7 @@
 		1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFBE286E22CF00586654 /* DASIPages.swift */; };
 		1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC5286E27FB00586654 /* YesNoButton.swift */; };
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
+		1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080628A4318400C3F846 /* InterstitialPageView.swift */; };
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
@@ -98,6 +99,7 @@
 		1F26AFBE286E22CF00586654 /* DASIPages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIPages.swift; sourceTree = "<group>"; };
 		1F26AFC5286E27FB00586654 /* YesNoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoButton.swift; sourceTree = "<group>"; };
 		1F26AFC6286E27FB00586654 /* YesNoStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoStack.swift; sourceTree = "<group>"; };
+		1F35080628A4318400C3F846 /* InterstitialPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialPageView.swift; sourceTree = "<group>"; };
 		1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialView.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
 				1F8DFF5A28A2EC650063C28C /* Resources */,
 				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
+				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
 				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
 				1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */,
@@ -578,6 +581,7 @@
 				1FB10A08287DEC00007D7CDF /* UsabilityContainer.swift in Sources */,
 				1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */,
 				1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */,
+				1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */,
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
