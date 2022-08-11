@@ -155,7 +155,6 @@
 		1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilitySummaryView.swift; sourceTree = "<group>"; };
 		1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownSetupView.swift; sourceTree = "<group>"; };
-		1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownContainerView.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
@@ -415,7 +414,6 @@
 		1FD7EE7F2881CAA400D194B4 /* Clocks */ = {
 			isa = PBXGroup;
 			children = (
-				1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */,
 				1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */,
 				1FB324BF2888949700A2F351 /* Digital */,
 				1FB324BE2888946900A2F351 /* Support */,
