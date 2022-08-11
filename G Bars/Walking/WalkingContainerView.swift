@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+
+private let instructionList     = InterstitialList(baseName: "walk-intro"       )
+private let mid_instructionList = InterstitialList(baseName: "second-walk-intro")
+private let end_walkingList     = InterstitialList(baseName: "usability-intro"  )
+
+
 private struct ContainedView: View {
     let systemName: String
     let text: String
@@ -44,7 +50,10 @@ struct WalkingContainerView: View {
 
     var body: some View {
         NavigationView {
-            LazyVStack {
+            // LazyVStack did not prevent double-initialization of the target views (and thereby creation of multiple timers, some of which expire (second walk) while the first walk is run.
+            // Removing VStack didn't display countdown_1 when the intro was completed: nav title appeared, content did not.
+            // removing .hidden() from interstitial_1 and countdown_1 cases had no effect (maybe fewer initailizations?)
+            VStack {
                 // MARK: Intro
                 NavigationLink(
                     "SHOULDN'T SEE (interstitial_1)"
@@ -57,7 +66,7 @@ struct WalkingContainerView: View {
                     selection: $state
 
                 ) {
-                    InterstitalPageTabView(listing: instruction_TEMP_list, selection: 1) {
+                    InterstitalPageTabView(listing: instructionList, selection: 1) {
 
                         self.state = .countdown_1
 
@@ -65,7 +74,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
                 // MARK: countdown (1)
                 NavigationLink(
@@ -85,7 +94,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
                 // MARK: Walk (1)
                 NavigationLink(
@@ -97,9 +106,7 @@ struct WalkingContainerView: View {
 
                     selection: $state
                 ) {
-                    DigitalTimerView(duration: countdown_TMP_Duration,
-                                     immediately: true) {
-
+                    DigitalTimerView(duration: countdown_TMP_Duration) {
                         // TODO: Should not rely on Next at end of walk to get here.
                         state = .interstitial_2
 
@@ -107,7 +114,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
 
                 // MARK: Mid
@@ -120,7 +127,7 @@ struct WalkingContainerView: View {
 
                     selection: $state
                 ) {
-                    InterstitalPageTabView(listing: mid_instruction_TMP_list, selection: 1) {
+                    InterstitalPageTabView(listing: mid_instructionList, selection: 1) {
 
                         self.state = .countdown_2
 
@@ -128,7 +135,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
                 // MARK: Countdown (2)
                 NavigationLink(
@@ -148,7 +155,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
 
                 // MARK: Walking (2)
@@ -169,7 +176,7 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
 
 
                 // MARK: End
@@ -182,7 +189,7 @@ struct WalkingContainerView: View {
 
                     selection: $state
                 ) {
-                    InterstitalPageTabView(listing: end_walking_List, selection: 1) {
+                    InterstitalPageTabView(listing: end_walkingList, selection: 1) {
 
                         self.state = .interstitial_1
 
@@ -190,9 +197,8 @@ struct WalkingContainerView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
-                .hidden()
+//                .hidden()
             }
-
         }
     }
 }

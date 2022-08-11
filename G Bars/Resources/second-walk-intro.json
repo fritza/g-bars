@@ -11,16 +11,4 @@
 		"systemImage": "chevron.forward",
 		"proceedTitle": "Start"
 	},
-	{
-		"pageTitle": "Fast Walk Complete!",
-		"intro": "If you need to rest, take a break.||When you're ready to continue, tab the button labeled “Continue.”",
-		"systemImage": "pause.circle",
-		"proceedTitle": "Continue"
-	},
-	{
-		"pageTitle": "End of Sequence",
-		"intro": "If this is the first run of the app, show a Continue buttton and present the usability survey.||Otherwise display some sort of farewell, what to expect or the like, and a Done button",
-		"systemImage": "ellipsis.rectangle",
-		"proceedTitle": "Done/Continue"
-	}
 ]
