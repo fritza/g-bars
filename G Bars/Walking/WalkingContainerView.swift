@@ -35,8 +35,8 @@ private struct ContainedView: View {
 
 struct WalkingContainerView: View {
     enum WalkingState: String, Hashable, CaseIterable {
-        case interstitial_1, walk_1
-        case interstitial_2, walk_2
+        case interstitial_1, countdown_1, walk_1
+        case interstitial_2, countdown_2, walk_2
         case end_interstitial
     }
 
@@ -44,41 +44,151 @@ struct WalkingContainerView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                // MARK: Intro interstitial
+            LazyVStack {
+                // MARK: Intro
                 NavigationLink(
-                    "one??"
-                    , tag: WalkingState.interstitial_1, selection: $state
+                    "SHOULDN'T SEE (interstitial_1)"
+                    , tag:
+
+
+                        WalkingState.interstitial_1,
+
+
+                    selection: $state
+
                 ) {
                     InterstitalPageTabView(listing: instruction_TEMP_list, selection: 1) {
-                        self.state = .walk_1
+
+                        self.state = .countdown_1
+
                     }
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
                 .hidden()
 
-                // MARK: Walking (1)
-                NavigationLink("two??", tag: WalkingState.walk_1,
+                // MARK: countdown (1)
+                NavigationLink(
+                    "SHOULDN'T SEE (countdown_1)", tag:
+
+
+                        WalkingState.countdown_1,
+
+
+                    selection: $state
+                ) {
+                    SweepSecondView(duration: 5.0) {
+
+                        state = .walk_1
+
+                    }
+                    .padding()
+                    .navigationBarBackButtonHidden(true)
+                }
+                .hidden()
+
+                // MARK: Walk (1)
+                NavigationLink(
+                    "SHOULDN'T SEE (walk_1)", tag:
+
+
+                        WalkingState.walk_1,
+
+
+                    selection: $state
+                ) {
+                    DigitalTimerView(duration: countdown_TMP_Duration,
+                                     immediately: true) {
+
+                        // TODO: Should not rely on Next at end of walk to get here.
+                        state = .interstitial_2
+
+                    }
+                    .padding()
+                    .navigationBarBackButtonHidden(true)
+                }
+                .hidden()
+
+
+                // MARK: Mid
+                NavigationLink(
+                    "SHOULDN'T SEE (interstitial_2)", tag:
+
+
+                        WalkingState.interstitial_2,
+
+
+                    selection: $state
+                ) {
+                    InterstitalPageTabView(listing: mid_instruction_TMP_list, selection: 1) {
+
+                        self.state = .countdown_2
+
+                    }
+                    .padding()
+                    .navigationBarBackButtonHidden(true)
+                }
+                .hidden()
+
+                // MARK: Countdown (2)
+                NavigationLink(
+                    "SHOULDN'T SEE (countdown_2)", tag:
+
+
+                        WalkingState.countdown_2,
+
+
+                    selection: $state
+                ) {
+                    SweepSecondView(duration: 5.0) {
+
+                        state = .walk_2
+
+                    }
+                    .padding()
+                    .navigationBarBackButtonHidden(true)
+                }
+                .hidden()
+
+
+                // MARK: Walking (2)
+                NavigationLink(
+                    "SHOULDN'T SEE (walk_2)", tag:
+
+
+                        WalkingState.walk_2,
+
+
                                selection: $state
                 ) {
                     DigitalTimerView(duration: 71.0) {
+
                         state = .end_interstitial
+
                     }
                     .padding()
                     .navigationBarBackButtonHidden(true)
                 }
                 .hidden()
 
-                // MARK: --
-                NavigationLink("three?",
-                               tag: WalkingState.end_interstitial,
-                               selection: $state
+
+                // MARK: End
+                NavigationLink(
+                    "SHOULDN'T SEE (end_interstitial)", tag:
+
+
+                        WalkingState.end_interstitial,
+
+
+                    selection: $state
                 ) {
-                    ContainedView(imageName: "arrow.triangle.capsulepath",
-                                  text: "No progress.") {
+                    InterstitalPageTabView(listing: end_walking_List, selection: 1) {
+
                         self.state = .interstitial_1
+
                     }
+                    .padding()
+                    .navigationBarBackButtonHidden(true)
                 }
                 .hidden()
             }
