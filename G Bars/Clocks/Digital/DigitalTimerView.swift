@@ -21,7 +21,7 @@ import Combine
 
 
 // FIXME: For demonstration purposes only
-let countdown_TMP_Duration = 80.0
+let countdown_TMP_Duration = 30.0
 let countdown_TMP_Interval = 10
 let sweep_TMP_Duration = 5.0
 
@@ -87,24 +87,24 @@ struct DigitalTimerView: View {
 
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
     @ObservedObject var timer: TimeReader
-    @State private var amRunning  :  Bool = false
     @State private var minSecfrac : MinSecAndFraction?
 
     private let expirationCallback: (() -> Void)?
 
     init(duration: TimeInterval, immediately
-         doStart: Bool = true,
-         completion: (() -> Void)? = nil) {
+         completion: (() -> Void)? = nil,
+         function: String = #function,
+         fileID: String = #file,
+         line: Int = #line) {
         serialNumber = Self.dtvSerial
         Self.dtvSerial += 1
-        print("initializing DigitalTimerView", serialNumber)
+
+        print("DigitalTimerView.init", serialNumber,
+              "called from", function, "\(fileID):\(line)")
 
         let tr =  TimeReader(interval: duration)
         self.timer = tr
         expirationCallback = completion
-
-        // FIXME: No way to start the timer if doStart is false.
-        if doStart { tr.start() }
     }
 
     var body: some View {
@@ -126,6 +126,9 @@ struct DigitalTimerView: View {
                 Spacer()
             }
             .padding()
+        }
+        .onAppear {
+            timer.start()
         }
         .onReceive(timer.$status, perform: { stat in
             if stat == .expired {

@@ -53,7 +53,8 @@ struct InterstitalPageTabView: View {
 struct InterstitalPageTabView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            InterstitalPageTabView(listing: instruction_TEMP_list, selection: 1)
+            InterstitalPageTabView(listing: InterstitialList(baseName: "walk-intro"),
+                                   selection: 1)
                 .padding()
         }
     }

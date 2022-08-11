@@ -54,13 +54,19 @@ final class TimeReader: ObservableObject {
     let serial: Int
     static var timerSerial = 0
 
-    init(interval: TimeInterval, by tickSize: TimeInterval = 0.01) {
+    init(interval: TimeInterval,
+         by tickSize: TimeInterval = 0.01,
+         function: String = #function,
+         fileID: String = #file,
+         line: Int = #line) {
 #if LOGGER
         let spIS = signposter.beginInterval("TimeReader init")
         intervalState = spIS
 #endif
         serial = Self.timerSerial
         Self.timerSerial += 1
+
+        print("TimeReader.init", serial, "called from", function, "\(fileID):\(line)")
 
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
@@ -88,7 +94,12 @@ final class TimeReader: ObservableObject {
         sharedTimer = nil
     }
 
-    func start() {
+    func start(function: String = #function,
+               fileID: String = #file,
+               line: Int = #line) {
+        print("TimeReader.START called from", function, "\(fileID):\(line)")
+
+
         // FIXME: timer status versus expected
         // like ".ready" is getting seriously into misalignment.
         assert(status != .running,
@@ -102,7 +113,7 @@ final class TimeReader: ObservableObject {
         timeCancellable = sharedTimer
             .sink { completion in
                 switch completion {
-                case .finished: print("Tell the world timer", self.serial, "worked.")
+                case .finished: break
                 case .failure(let error):
                     guard let err = error as? TerminationErrors else {
                         print("Timer serial", self.serial, ": other error: \(error).")
