@@ -89,7 +89,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F133272288F34D500A24C26 /* TimerStartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerStartStopButton.swift; sourceTree = "<group>"; };
 		1F185B8F28A451F100D8681E /* WalkingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingContainerView.swift; sourceTree = "<group>"; };
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
@@ -282,7 +281,6 @@
 			children = (
 				1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */,
 				1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */,
-				1F133272288F34D500A24C26 /* TimerStartStopButton.swift */,
 			);
 			path = Sweep;
 			sourceTree = "<group>";
