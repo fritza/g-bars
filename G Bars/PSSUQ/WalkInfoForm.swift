@@ -23,7 +23,6 @@ enum EffortWalked: String, Hashable, CaseIterable {
 struct WalkInfoForm: View {
     var summary: String {
         var content = "Info: "
-        //        print(walkedAtHome ? "Home" : "Away",
         print((whereWalked == .atHome) ? "Home" : "Away",
               terminator: " ", to: &content)
         print("Length:", lengthOfCourse ?? -1, terminator: " ", to: &content)

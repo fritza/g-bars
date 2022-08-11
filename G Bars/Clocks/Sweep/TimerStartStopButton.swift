@@ -21,6 +21,7 @@ import SwiftUI
 /// A **Start**/**Cancel** button that triggers a callback closure when tapped.
 ///
 /// Used by ``DigitalTimerView`` and ``SweepSecondView``. A ``CountdownController`` is used as an `@EnvironmentObject`
+@available(*, unavailable, message: "Bad or obsolete idea.")
 struct TimerStartStopButton: View {
     @Binding var isRunning: Bool
     @State var label: String
@@ -42,6 +43,7 @@ struct TimerStartStopButton: View {
     }
 }
 
+@available(*, unavailable, message: "Bad or obsolete idea.")
 struct TimerStartStopButton_Previews: PreviewProvider {
     final class StartStopWatch: ObservableObject {
         @State var running: Bool = false
