@@ -120,20 +120,8 @@ struct DigitalTimerView: View {
                     .monospacedDigit()
 
                 // Start/stop
-                TimerStartStopButton(
-                    label: amRunning ? "Reset" : "Start",
-                    running: $amRunning) { newRunning in
-
-                    if newRunning {
-                        // "Start"
-                        timer.start()
-                        assert(amRunning)
-                    }
-                    else {
-                        // "Cancel"
-                        timer.cancel()
-                        assert(!amRunning)
-                    }
+                Button("Cancel") {
+                    timer.cancel()
                 }
                 Spacer()
             }

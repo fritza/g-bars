@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F133273288F34D500A24C26 /* TimerStartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F133272288F34D500A24C26 /* TimerStartStopButton.swift */; };
 		1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B8F28A451F100D8681E /* WalkingContainerView.swift */; };
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
@@ -567,7 +566,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F133273288F34D500A24C26 /* TimerStartStopButton.swift in Sources */,
 				1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */,
 				1FCB95F2286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift in Sources */,
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
