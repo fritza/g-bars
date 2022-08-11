@@ -14,6 +14,7 @@ let dasiPages = DASIPages()
 
 let instruction_TEMP_list    = InterstitialList(baseName: "walk-intro")
 let mid_instruction_TMP_list = InterstitialList(baseName: "second-walk-intro")
+let end_walking_List         = InterstitialList(baseName: "usability-intro")
 
 //let countdownController = CountdownController(forCountdown: true)
 // And now propagate it.

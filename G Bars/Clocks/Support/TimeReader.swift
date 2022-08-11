@@ -29,7 +29,7 @@ final class TimeReader: ObservableObject {
         }
     }
 
-    enum TimerStatus: String, CustomStringConvertible {
+    enum TimerStatus: String, Hashable, CustomStringConvertible {
         case ready, running, cancelled, expired
         var description: String { self.rawValue }
     }
@@ -51,11 +51,16 @@ final class TimeReader: ObservableObject {
     var intervalState: OSSignpostIntervalState
 #endif
 
+    let serial: Int
+    static var timerSerial = 0
+
     init(interval: TimeInterval, by tickSize: TimeInterval = 0.01) {
 #if LOGGER
         let spIS = signposter.beginInterval("TimeReader init")
         intervalState = spIS
 #endif
+        serial = Self.timerSerial
+        Self.timerSerial += 1
 
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
@@ -97,15 +102,15 @@ final class TimeReader: ObservableObject {
         timeCancellable = sharedTimer
             .sink { completion in
                 switch completion {
-                case .finished: print("Tell the world it worked.")
+                case .finished: print("Tell the world timer", self.serial, "worked.")
                 case .failure(let error):
                     guard let err = error as? TerminationErrors else {
-                        print("other error: \(error).")
+                        print("Timer serial", self.serial, ": other error: \(error).")
                         return
                     }
                     switch err {
-                    case .expired:   print("Clock ran out")
-                    case .cancelled: print("was cancelled")
+                    case .expired:   print("Timer serial", self.serial, "ran out")
+                    case .cancelled: print("Timer serial", self.serial, "was cancelled")
                         self.status = .cancelled
                     }
                 }
@@ -151,6 +156,7 @@ final class TimeReader: ObservableObject {
                     self.secondsSubject.send(secInteger)
                 }
             )
+        print("Timer serial", serial, "was started.")
     }
 
     static let roundingScale = 100.0

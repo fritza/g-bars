@@ -21,21 +21,33 @@ import Combine
 ///
 /// Note that the timer can't be paused, only canceled. After cancellation, the only thing to be done is to create a new timer, and assign it the full duration.
 struct SweepSecondView: View {
+    enum SpeakWalkSpeak: String, CaseIterable {
+        // On appearance, "begin walking in n seconds"
+        case sayOpening
+        // that speech ends. (There's a callback for the utterance) the countdown runs.
+        case perform
+        // transition to the next WalkingContainerView subject
+        // presumably this is just a callback. to the container.
+    }
+
+
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
     @ObservedObject var timer: TimeReader
     /// The current minute/second/fraction value of the countdown.
     @State private  var minSecFrac: MinSecAndFraction?
-
     @State private  var wholeSeconds: Int
 
-    init(duration: TimeInterval) {
+    private let completionCallback: (() -> Void)
+
+    init(duration: TimeInterval, onCompletion: @escaping (()->Void)) {
         timer = TimeReader(interval: sweep_TMP_Duration, by: 0.075)
         wholeSeconds = Int(duration)
+        completionCallback = onCompletion
     }
 
     /// Whether the clock is running, as set by ``TimerStartStopButton``.
     /// - note: Stopping the countdown does not pause it.  When `isRunning` changes to `true`, its controller is completely restarted.
-    @State var isRunning: Bool = false
+//    @State var isRunning: Bool = false
 
     private var cancellables: Set<AnyCancellable> = []
 
@@ -85,31 +97,48 @@ Remember to unmute your phone and turn up the audio!
 """)
                 .font(.callout)
                 .minimumScaleFactor(0.5)
-                Spacer()
-                TimerStartStopButton(
-                    label: (isRunning) ? "Reset" : "Start",
-                    running: $isRunning)
+//                Spacer()
+//                TimerStartStopButton(
+//                    label: (isRunning) ? "Reset" : "Start",
+//                    running: $isRunning)
             }
             .padding()
-            .onChange(of: isRunning, perform: { newValue in
-                if isRunning {
-                    timer.start()
-                }
-                else {
-                    timer.cancel() // AND reset cancel button
+
+            // MARK: Change isRunning
+//            .onChange(of: isRunning, perform:
+            .onChange(of: timer.status, perform:
+                        { newValue in
+                switch newValue {
+//                case .ready:
+//                    timer.start()
+                case .cancelled, .expired:
+                    // Timer's already completed, hence status
+                    completionCallback()
+                default: break
                 }
             })
 
+            // MARK: Time subscription -> sweep second
             // Change of mm:ss.fff - sweep angle
             .onReceive(timer.timeSubject) { mmssff in
                 self.minSecFrac = mmssff
             }
+
+            // MARK: Seconds -> Overlay + speech
             // Change of :ss. (speak seconds)
             .onReceive(timer.secondsSubject) {
                 secs in
                 self.wholeSeconds = secs
                 CallbackUtterance(string: "\(secs+1)")
                     .speak()
+            }
+
+            .onAppear() {
+                CallbackUtterance(string: "Start walking in \(wholeSeconds.spelled) seconds") { utterance in
+                    timer.start()
+//                    isRunning = true
+                }
+                .speak()
             }
             .navigationTitle("Seconds")
         }
@@ -119,7 +148,9 @@ Remember to unmute your phone and turn up the audio!
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SweepSecondView(duration: sweep_TMP_Duration)
+            SweepSecondView(duration: sweep_TMP_Duration) {
+
+            }
                 .frame(width: 300)
         }
     }

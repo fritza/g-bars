@@ -39,21 +39,13 @@ struct InterstitalPageTabView: View {
                         selectedPage += 1
                     }
                     else {
-                        showEndOfList = true
+                        self.callback?()
+//                        showEndOfList = true
                     }
                 }
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        .alert("End of Instructions",
-               isPresented: $showEndOfList) {
-            Button("OK") {
-                self.callback?()
-            }
-        }
-    message: {
-        Text("There are no further instructions, and the walk sequence that follows “Start” hasn't been completed.")
-    }
     }
 }
 

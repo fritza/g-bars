@@ -63,8 +63,6 @@ final class CallbackUtterance: AVSpeechUtterance {
         Self.synthesizer.speak(self)
     }
 
-
-
     func asyncSpeak() async {
         self.speak()
         do {
@@ -122,28 +120,3 @@ extension CallbackUtterance {
         //       one utterance, it'll be queued.
     }
 }
-
-// MARK: MinSecAndFraction
-extension MinSecAndFraction {
-    /// Cause a `MinSecAndFraction` to be uttered by the speech synthesizer.
-    @available(*, deprecated,
-                message: "Use CallbackUtterance/init(minutesAndSeconds:callback:) instead.")
-    func doSay() -> String {
-        let retval = spoken
-        CallbackUtterance
-            .sayCountdown(
-                minutesAndSeconds: self)
-        return retval
-    }
-}
-
-    /*
-     The only event (if any) we care about is didFinish.
-
-     Not necessary:
-     didCancel, didContinue, didPause, didStart, willSpeakRangeOfSpeechString
-
-     NOTE: Cancellation comes after the synth has already been told to stop. All pending utterances are also stopped. There's nothing more to do.
-     */
-
-

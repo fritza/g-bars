@@ -82,6 +82,9 @@ struct SpeechOnOffView: View {
  */
 
 struct DigitalTimerView: View {
+    static var dtvSerial = 100
+    let serialNumber: Int
+
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
     @ObservedObject var timer: TimeReader
     @State private var amRunning  :  Bool = false
@@ -89,11 +92,19 @@ struct DigitalTimerView: View {
 
     private let expirationCallback: (() -> Void)?
 
-    init(duration: TimeInterval, immediately doStart: Bool = true, completion: (() -> Void)? = nil) {
+    init(duration: TimeInterval, immediately
+         doStart: Bool = true,
+         completion: (() -> Void)? = nil) {
+        serialNumber = Self.dtvSerial
+        Self.dtvSerial += 1
+        print("initializing DigitalTimerView", serialNumber)
+
         let tr =  TimeReader(interval: duration)
-        if doStart { tr.start() }
         self.timer = tr
         expirationCallback = completion
+
+        // FIXME: No way to start the timer if doStart is false.
+        if doStart { tr.start() }
     }
 
     var body: some View {
@@ -150,9 +161,9 @@ struct DigitalTimerView: View {
         .navigationTitle("Digital")
     }
 
-    func start() {
-        timer.start()
-    }
+//    func start() {
+//        timer.start()
+//    }
 }
 
 // MARK: - Preview
