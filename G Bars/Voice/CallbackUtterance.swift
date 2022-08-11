@@ -1,5 +1,5 @@
 //
-//  StockSpeech.swift
+//  CallbackUtterance.swift
 //  G Bars
 //
 //  Created by Fritz Anderson on 7/25/22.
@@ -15,31 +15,6 @@ import AVFoundation
 final class CallbackUtterance: AVSpeechUtterance {
 
     // MARK: Properties
-
-    /*
-    /// Trampoline for the `wantsSpeech` user default.
-    var shouldSpeak: Bool {
-        get {
-            let defaults = UserDefaults.standard
-            let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
-            Self.shouldSpeak = retval
-            return retval
-        }
-        set {
-            let defaults = UserDefaults.standard
-            defaults.set(newValue, forKey: AppStorageKeys.wantsSpeech.rawValue)
-            Self.shouldSpeak = newValue
-        }
-    }
-
-    /// Class-static trampoline (read only) for the `wantsSpeech` user default.
-    static var shouldSpeak: Bool = {
-        let defaults = UserDefaults.standard
-        let retval = defaults.bool(forKey: AppStorageKeys.wantsSpeech.rawValue)
-        return retval
-    }()
-     */
-
     ///  Signature for the `CallbackUtterance` callback closure.
     typealias CVUCallback = (CallbackUtterance) -> Void
 

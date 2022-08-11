@@ -69,7 +69,7 @@
 		1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
-		1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* StockSpeech.swift */; };
+		1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* CallbackUtterance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,7 +158,7 @@
 		1FD7EE862881D83D00D194B4 /* CountdownContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownContainerView.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
-		1FEEA765288F008C00B60409 /* StockSpeech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSpeech.swift; sourceTree = "<group>"; };
+		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,7 +311,7 @@
 		1FB324C32888BD8D00A2F351 /* Voice */ = {
 			isa = PBXGroup;
 			children = (
-				1FEEA765288F008C00B60409 /* StockSpeech.swift */,
+				1FEEA765288F008C00B60409 /* CallbackUtterance.swift */,
 			);
 			path = Voice;
 			sourceTree = "<group>";
@@ -605,7 +605,7 @@
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
-				1FEEA766288F008C00B60409 /* StockSpeech.swift in Sources */,
+				1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */,
