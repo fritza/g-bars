@@ -43,7 +43,7 @@ struct G_BarsApp: App {
     var body: some Scene {
         // Create a WindowGroup depicting the single view
         WindowGroup {
-#if true
+#if false
             NavigationView {
                 WalkingContainerView()
                 .padding()
@@ -51,10 +51,25 @@ struct G_BarsApp: App {
             }
 #else
             TabView(selection: $selectedTab) {
-                // MARK: Acceleration Bars
-                NavigationView { AcccelerometryView() }
-                        .tabItem { Label("Acceleration",
-                                         systemImage: "move.3d") }
+                /* Was acceleration bars/
+                 // MARK: Acceleration Bars
+                 NavigationView { AcccelerometryView() }
+                 .tabItem { Label("Acceleration",
+                 systemImage: "move.3d") }
+                 */
+
+                // MARK: Walking workflow
+                NavigationView {
+                    WalkingContainerView()
+                    // FIXME: Move padding to container view
+                        .padding()
+                        .navigationTitle("Walking Info")
+                }
+                .tabItem {
+                    Label("Walking",
+                          systemImage: "figure.walk")
+                }
+
 
                 // MARK: DASI Survey
                 NavigationView { SurveyContainerView() }
@@ -66,19 +81,22 @@ struct G_BarsApp: App {
                     .tabItem { Label("Usability",
                                      systemImage: "checkmark.circle")
                     }
-
-                // MARK: Sweep-second disk
-                NavigationView { SweepSecondView(duration: sweep_TMP_Duration) }
-                    .tabItem {
-                        Label("Sweep",
-                              systemImage: "timer")
-                    }
-
-                // MARK: Digital countdown
-                NavigationView { DigitalTimerView(duration: countdown_TMP_Duration )}
-                    .tabItem { Label("Digital",
-                                     systemImage: "clock")
-                    }
+                
+//                // MARK: Sweep-second disk
+//                NavigationView {
+//                    SweepSecondView(
+//                        duration: sweep_TMP_Duration,
+//                        onCompletion: {}) }
+//                .tabItem {
+//                    Label("Sweep",
+//                          systemImage: "timer")
+//                }
+//
+//                // MARK: Digital countdown
+//                NavigationView { DigitalTimerView(duration: countdown_TMP_Duration )}
+//                    .tabItem { Label("Digital",
+//                                     systemImage: "clock")
+//                    }
             }
             .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)

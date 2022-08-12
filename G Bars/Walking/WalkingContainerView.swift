@@ -143,6 +143,7 @@ struct WalkingContainerView: View {
                 // MARK: Usability
                 
             }
+            .navigationTitle("Walking (beta)")
         }
     }
 }
