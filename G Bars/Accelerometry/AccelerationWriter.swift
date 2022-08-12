@@ -8,6 +8,7 @@
 import Foundation
 import CoreMotion
 
+/// Appends elements of an `AsyncStream` of `CMAccelerometerData` direct from Core Motion to a file.
 final class AccelerationWriter {
     typealias InputStream = AsyncStream<CMAccelerometerData>
     let stream: InputStream
@@ -35,8 +36,11 @@ final class AccelerationWriter {
      I know we need to write data into a url.
      I _think_ we can count on the file's having no useful content (or not existing) upon call.
 
-
      */
+
+    /// Await data from `InputStream` (`AsyncStream<CMAccelerometerData> and write it to the file.`
+    ///
+    /// The new data replaces the filesystem entity at `destinationURL`.
     func runCollection(intoURL destinationURL: URL) async throws {
         let fm = FileManager.default
         try fm.deleteAndCreate(at: destinationURL)

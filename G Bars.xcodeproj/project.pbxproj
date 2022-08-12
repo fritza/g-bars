@@ -54,7 +54,6 @@
 		1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */; };
 		1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */; };
 		1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */; };
-		1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */; };
 		1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */; };
 		1FCB95E8286CD7A000DE9DD0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E7286CD7A000DE9DD0 /* Collections */; };
 		1FCB95EA286CD7A000DE9DD0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E9286CD7A000DE9DD0 /* DequeModule */; };
@@ -599,7 +598,6 @@
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
-				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,

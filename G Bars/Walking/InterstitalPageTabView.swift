@@ -40,7 +40,6 @@ struct InterstitalPageTabView: View {
                     }
                     else {
                         self.callback?()
-//                        showEndOfList = true
                     }
                 }
             }
