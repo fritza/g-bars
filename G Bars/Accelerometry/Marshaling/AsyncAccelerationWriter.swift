@@ -1,5 +1,5 @@
 //
-//  AccelerationWriter.swift
+//  AsyncAccelerationWriter.swift
 //  Better Step
 //
 //  Created by Fritz Anderson on 1/20/22.
@@ -8,9 +8,9 @@
 import Foundation
 import CoreMotion
 
-final class AccelerationWriter {
+final class AsyncAccelerationWriter {
     typealias InputStream = AsyncStream<CMAccelerometerData>
-    let stream: InputStream
+    var stream: InputStream!
     let outputURL: URL
     let outputHandle: FileHandle
 

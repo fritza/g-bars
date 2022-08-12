@@ -9,6 +9,7 @@ import Foundation
 import CoreMotion
 
 
+/// A wrapper on ``CMAccelerometerData`` or its components, made accessible to generic code via the ``Timestamped`` and ``XYZ`` protocols.
 struct AccelerometerItem: Codable, Timestamped, XYZ  {
     let x, y, z: Double
     let timestamp: TimeInterval
@@ -17,10 +18,12 @@ struct AccelerometerItem: Codable, Timestamped, XYZ  {
         case x, y, z, timestamp
     }
 
+    /// Initialize from time and space components.
     init(timestamp: TimeInterval, x: Double, y: Double, z: Double) {
         (self.timestamp, self.x, self.y, self.z) = (timestamp, x, y, z)
     }
 
+    /// Initialize from ``CMAccelerometerData`` components.
     init(_ accelerometry: CMAccelerometerData) {
         let acc = accelerometry.acceleration
         self.init(timestamp: accelerometry.timestamp,
@@ -29,6 +32,7 @@ struct AccelerometerItem: Codable, Timestamped, XYZ  {
 }
 
 extension AccelerometerItem {
+    /// Render this `AccelerometerItem` into a line of CSV.
     var csv: String {
         let components = [timestamp, x, y, z]
             .map { $0.pointThree }

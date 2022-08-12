@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B8F28A451F100D8681E /* WalkingContainerView.swift */; };
 		1F185B9228A5AED200D8681E /* PhaseSequencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9128A5AED200D8681E /* PhaseSequencing.swift */; };
+		1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */; };
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
 		1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F26AFAC286E203300586654 /* DASIQuestions.json */; };
@@ -55,7 +56,7 @@
 		1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */; };
 		1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */; };
 		1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */; };
-		1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */; };
+		1FCB95E4286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E2286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift */; };
 		1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */; };
 		1FCB95E8286CD7A000DE9DD0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E7286CD7A000DE9DD0 /* Collections */; };
 		1FCB95EA286CD7A000DE9DD0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCB95E9286CD7A000DE9DD0 /* DequeModule */; };
@@ -92,6 +93,7 @@
 /* Begin PBXFileReference section */
 		1F185B8F28A451F100D8681E /* WalkingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingContainerView.swift; sourceTree = "<group>"; };
 		1F185B9128A5AED200D8681E /* PhaseSequencing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseSequencing.swift; sourceTree = "<group>"; };
+		1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncAccelerationWriter.swift; sourceTree = "<group>"; };
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1F26AFAC286E203300586654 /* DASIQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DASIQuestions.json; sourceTree = "<group>"; };
@@ -144,7 +146,7 @@
 		1FCB95D0286CD37800DE9DD0 /* G_BarsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsUITests.swift; sourceTree = "<group>"; };
 		1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBarView.swift; sourceTree = "<group>"; };
-		1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerationWriter.swift; sourceTree = "<group>"; };
+		1FCB95E2286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncAccelerationWriter.swift; sourceTree = "<group>"; };
 		1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreMotion.swift; sourceTree = "<group>"; };
 		1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+extensions.swift"; sourceTree = "<group>"; };
 		1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -204,6 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */,
+				1FCB95E2286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift */,
+				1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */,
 				1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */,
 			);
 			path = Marshaling;
@@ -399,7 +403,6 @@
 			children = (
 				1F9C6AE5287F4A320097868B /* Graphing */,
 				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
-				1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */,
 				1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */,
 				1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */,
 				1F26AFA7286E049800586654 /* HorizontalBar.swift */,
@@ -609,7 +612,7 @@
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
-				1FCB95E4286CD5DF00DE9DD0 /* AccelerationWriter.swift in Sources */,
+				1FCB95E4286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
@@ -618,6 +621,7 @@
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
 				1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
+				1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */,
 				1FA1C08A28947AF0009D8F06 /* AtEnvironment.swift in Sources */,
 				1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */,
 				1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */,
