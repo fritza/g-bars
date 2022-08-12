@@ -20,15 +20,10 @@ import Combine
  */
 
 
-// FIXME: For demonstration purposes only
-let countdown_TMP_Duration = 30.0
+let countdown_TMP_Duration = 120.0
 let countdown_TMP_Interval = 10
 
-
-
-
-
-let sweep_TMP_Duration = 15.0
+let sweep_TMP_Duration = 5.0
 
 
 

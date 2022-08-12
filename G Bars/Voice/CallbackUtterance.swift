@@ -59,11 +59,20 @@ final class CallbackUtterance: AVSpeechUtterance {
 
     // MARK: Speech
     /// Present the utterance to the synthesizer for speaking.
-    func speak() {
+    func speak(function: String = #function,
+               fileID: String = #file,
+               line: Int = #line) {
+//                print("CallbackUtterance.speak",
+//                      "called from", function, "\(fileID):\(line)")
         Self.synthesizer.speak(self)
     }
 
-    func asyncSpeak() async {
+    func asyncSpeak(function: String = #function,
+                    fileID: String = #file,
+                    line: Int = #line) async {
+//        print("CallbackUtterance.asyncSpeak",
+//              "called from", function, "\(fileID):\(line)")
+
         self.speak()
         do {
             repeat {
