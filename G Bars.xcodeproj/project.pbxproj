@@ -200,6 +200,15 @@
 			path = Walking;
 			sourceTree = "<group>";
 		};
+		1F185B9328A6B88F00D8681E /* Marshaling */ = {
+			isa = PBXGroup;
+			children = (
+				1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */,
+				1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */,
+			);
+			path = Marshaling;
+			sourceTree = "<group>";
+		};
 		1F26AFAB286E201B00586654 /* DASI */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,12 +399,11 @@
 			children = (
 				1F9C6AE5287F4A320097868B /* Graphing */,
 				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
-				1FCB95F4286CD87800DE9DD0 /* AccelerometerItem.swift */,
 				1FCB95E2286CD5DF00DE9DD0 /* AccelerationWriter.swift */,
 				1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */,
-				1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */,
 				1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */,
 				1F26AFA7286E049800586654 /* HorizontalBar.swift */,
+				1F185B9328A6B88F00D8681E /* Marshaling */,
 			);
 			path = Accelerometry;
 			sourceTree = "<group>";
