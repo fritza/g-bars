@@ -25,6 +25,8 @@ extension CMAccelerometerData {
     public var scalar: Double { acceleration.scalar }
 }
 
+/*
+/// A shim between ``MotionManager`` (data source) and data consumers via a published cuttent datum.
 final class CMWatcher: ObservableObject {
     @Published var reading: CMAccelerometerData
     static var census: Int = 0
@@ -50,6 +52,7 @@ final class CMWatcher: ObservableObject {
         }
     }
 }
+ */
 
 struct AcccelerometryView: View {
 
