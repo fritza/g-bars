@@ -8,18 +8,50 @@
 import Foundation
 import CoreMotion
 
+protocol HasWriting {
+    static func createFile(at url: URL) throws -> HasWriting
+    func write(contentsOf: Data) throws
+    func close() throws
+}
+
+final class MockWriter: HasWriting {
+    static func createFile(at url: URL) throws -> HasWriting {
+        return MockWriter()
+    }
+    var data = Data()
+    func write(contentsOf content: Data) throws {
+        data.append(contentsOf: content)
+
+        let str = String(data: self.data,
+                         encoding: .utf8)
+        print("After write(), data holds:")
+        print(str ?? "NOTHING")
+        print()
+    }
+    func close() { /* For Rent */ }
+}
+
+let dummySubjectID = "demo_subject"
+
+extension FileHandle: HasWriting {
+    static func createFile(at url: URL) throws -> HasWriting {
+        let retval = try FileHandle(forWritingTo: url)
+        return retval
+    }
+
+}
+
 /// Write an ``AcceleratorItem`` array to a given URL.
 ///
 /// The item array is immutable; there is no “append” function.
-final class SyncAccelerationWriter {
+final class SyncAccelerationWriter<HW: HasWriting> {
     enum Errors: Error {
         case couldNotEncodeContents
     }
 
-    static let dummySubjectID = "demo_subject"
-
     let fileURL: URL
-    var fileHandle: FileHandle!
+//    var fileHandle: FileHandle!
+    var outputSink: HW?
     var records: [AccelerometerItem] = []
     var isOpen: Bool
 
@@ -51,7 +83,8 @@ final class SyncAccelerationWriter {
                "The file name should have the csv extension. (\(fileURL.lastPathComponent))")
 
         // Create and open the output file.
-        fileHandle = try Self.createFile(at: destination)
+        outputSink = try HW.createFile(at: destination) as? HW
+//        try Self.createFile(at: destination)
         isOpen = true
     }
 
@@ -62,18 +95,18 @@ final class SyncAccelerationWriter {
 
         let lines = records
             .map(\.csv)
-            .map { rawLine in
-                return Self.dummySubjectID + "," + rawLine
+            .map { dummySubjectID + "," + $0
             }
             .joined(separator: "\r\n")
 
         guard let contentData = lines.data(using: .utf8) else { throw Errors.couldNotEncodeContents }
-        try fileHandle.write(contentsOf: contentData)
+        try outputSink?.write(contentsOf: contentData)
     }
 
     /// Close the CSV output file.
     func close() throws {
         isOpen = false
-        try fileHandle.close()
+        try outputSink?.close()
+        outputSink = nil
     }
 }
