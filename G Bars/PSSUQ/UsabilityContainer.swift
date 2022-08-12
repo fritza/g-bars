@@ -61,7 +61,7 @@ struct UsabilityContainer: View {
                 titleText: "Usability",
                 bodyText: usabilityInCopy, //"This space for rent",
                 systemImageName: "checkmark.circle",
-                continueTitle: "Continue")
+                continueTitle: "Continue", completion: {})
             .navigationBarBackButtonHidden(true)
         }
     }
@@ -73,7 +73,14 @@ struct UsabilityContainer: View {
                 titleText: "Completed",
                 bodyText: usabilityOutCopy,
                 systemImageName: "checkmark.circle",
-                continueTitle: "Continue")
+                continueTitle: "Continue") {
+
+
+// CALL BACK to the walking container
+// to signal a phase transition.
+
+
+                }
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
