@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+// TODO: Present the questions as a page-mode Picker.
+
+/// A  sequence of open-intertitial → questions → close-interstitial phases
+///
+/// The ``UsabilityController`` takes care of navigating among the phases and
+/// the usability questions, including recording the responses.
 struct UsabilityContainer: View {
     @EnvironmentObject var controller: UsabilityController
 
@@ -19,6 +25,7 @@ struct UsabilityContainer: View {
     }
 
     // MARK: - Links to phase views
+
     // MARK: Question
     func questionPresentationView() -> some View {
         NavigationLink("",

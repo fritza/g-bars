@@ -45,7 +45,7 @@ struct SweepSecondView: View {
          fileID: String = #file,
          line: Int = #line
     ) {
-        print("SweepSecondView.init called from", function, "\(fileID):\(line)")
+//        print("SweepSecondView.init called from", function, "\(fileID):\(line)")
 
         timer = TimeReader(interval: sweep_TMP_Duration, by: 0.075)
         wholeSeconds = Int(duration)

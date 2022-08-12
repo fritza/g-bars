@@ -20,6 +20,7 @@ enum EffortWalked: String, Hashable, CaseIterable {
     case veryHard = "Very Hard"
 }
 
+/// A `Form` for the post-usability survey asking about the condition of the subject and the chosen walking area.
 struct WalkInfoForm: View {
     var summary: String {
         var content = "Info: "
@@ -37,6 +38,7 @@ struct WalkInfoForm: View {
 
     var body: some View {
         Form {
+            // MARK: Home or not
             Section {
                 VStack {
                     Text("Where did you perform your walks?")
@@ -71,12 +73,13 @@ struct WalkInfoForm: View {
  NOT HAPPY with no longer having room for an invalid/empty length flag (⚠️). Nor that while the field format rejects non-numerics, it doesn't show the rejection.
  */
 
-
+            // MARK: Length of course
             Section {
                 TextField("feet", value: $lengthOfCourse, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.numberPad)
 //                    .frame(width: 80)
+                // Prepend the question text to the number.
                     .safeAreaInset(edge: .leading,
                                    spacing: 12.0
                     ) {
@@ -90,6 +93,7 @@ struct WalkInfoForm: View {
             }
             // Length of runway
 
+            // MARK: Straight or doubled
             Section {
                 VStack {
                     Text("Did you walk back-and-forth, or in a straight line?")
@@ -104,7 +108,10 @@ struct WalkInfoForm: View {
                     .pickerStyle(.segmented)                }
             }  // Back-and-forth section
 
+            // MARK: Effort
             Section {
+                // FIXME: The app won't let you recover
+                //        if you don't change the answer.
                 Picker("How hard was your body working?", selection: $effort) {
                     ForEach(EffortWalked.allCases, id: \.rawValue) { effort in
                         Text(effort.rawValue.capitalized)
@@ -113,6 +120,7 @@ struct WalkInfoForm: View {
                 }
             }   // Effort section
 
+            // MARK: Falling
             Section {
                 VStack {
                     Text("Were you concerned about falling during the walks?")
@@ -130,7 +138,7 @@ struct WalkInfoForm: View {
             }  // falling section
         }
         .safeAreaInset(edge: .top, content: {
-            Text("Tell us about your walking conditions — Where you chose for your walk, and how you felt while performing it.")
+            Text("Tell us about your walking conditions — where you chose for your walk, and how you felt while performing it.")
                 .padding()
         })
         .toolbar {

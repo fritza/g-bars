@@ -23,7 +23,13 @@ import Combine
 // FIXME: For demonstration purposes only
 let countdown_TMP_Duration = 30.0
 let countdown_TMP_Interval = 10
-let sweep_TMP_Duration = 5.0
+
+
+
+
+
+let sweep_TMP_Duration = 15.0
+
 
 
 
@@ -99,8 +105,8 @@ struct DigitalTimerView: View {
         serialNumber = Self.dtvSerial
         Self.dtvSerial += 1
 
-        print("DigitalTimerView.init", serialNumber,
-              "called from", function, "\(fileID):\(line)")
+//        print("DigitalTimerView.init", serialNumber,
+//              "called from", function, "\(fileID):\(line)")
 
         let tr =  TimeReader(interval: duration)
         self.timer = tr

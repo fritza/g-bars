@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/// The list of usability questions.
+///
+/// The _type_ responds to an Int subscript, but it is _not_ a `Collection`.
 struct UsabilityQuestion: Decodable, Identifiable {
     // MARK: - Type properties
     private static let baseFileName = "USurveyQuestions"
@@ -24,6 +27,8 @@ struct UsabilityQuestion: Decodable, Identifiable {
 
     // I'm not going to get in trouble by referencing the indices
     // before allQuestions loads, am I?
+
+    /// All the questions, as loaded from `Self.baseFileName\".json\"`
     static let allQuestions: [UsabilityQuestion] = {
         guard let fileURL = Bundle.main.url(forResource: baseFileName, withExtension: "json") else {
             assertionFailure("\(#function) - could not find \(baseFileName).json")

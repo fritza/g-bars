@@ -15,15 +15,18 @@ let addedLabels = [
     " (Excelllent)"    // 7
 ]
 
+/// The core of the usability-survey stack. Present the text of a question and collect the user's response via 7 buttons on a scale.
+///
+/// Clients provide a questin ID and a binding to the response. Responses are also published via the closure the client provides.
 struct UsabilityView: View {
-    @Binding var resultingChoice: Int
-    @EnvironmentObject var controller: UsabilityController
+    @Binding private var resultingChoice: Int
+    @EnvironmentObject private var controller: UsabilityController
 
-    let arbitraryCheckmarkEdge: CGFloat =  32
-    let arbitraryButtonWidth  : CGFloat = 240
+    private let arbitraryCheckmarkEdge: CGFloat =  32
+    private let arbitraryButtonWidth  : CGFloat = 240
 
-    let questionID: Int
-    let selectionCallback: (Int) -> Void
+    private let questionID: Int
+    private let selectionCallback: (Int) -> Void
 
     init(
         questionID: Int,
@@ -34,6 +37,9 @@ struct UsabilityView: View {
             self.selectionCallback = callback
         }
 
+    /// A `@ViewBuilder` for a title `View`
+    ///
+    /// I have no idea what this is doing here.
     static func TViewBuilder<T: View>(
         @ViewBuilder builder: () -> T
     ) -> some View {
@@ -65,8 +71,10 @@ struct UsabilityView: View {
         }
     }
 
+    // MARK: - body
     var body: some View {
         VStack {
+            // Question ID and text
             HStack(alignment: .top, spacing: 16) {
                 Text("\(questionID)")
                     .font(.largeTitle)
@@ -77,6 +85,8 @@ struct UsabilityView: View {
             .minimumScaleFactor(0.5)
             .padding()
             Divider()
+
+            // Stack of 7 buttons for the user's selection.
             VStack(alignment: .leading) {
                 ForEach(1..<8) { index in
                     Button {

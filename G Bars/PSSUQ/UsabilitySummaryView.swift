@@ -11,6 +11,7 @@ let bgColors: [UIColor] = [
     
     ]
 
+/// A `View` listing all usability questions and the user's responses.
 struct UsabilitySummaryView: View {
     @EnvironmentObject var controller: UsabilityController
 
@@ -30,6 +31,7 @@ struct UsabilitySummaryView: View {
         return "\(responseForQuestion(id: id))"
     }
 
+    /// A digit for the user's response, in a gray box.
     @ViewBuilder func responseViewForQuestion(id: Int,
                                               edge: CGFloat) -> some View {
         ZStack(alignment: .center) {
@@ -41,10 +43,12 @@ struct UsabilitySummaryView: View {
             .minimumScaleFactor(0.5)
     }
 
+    /// A row for a given question: ID, response, and text.
     @ViewBuilder func questionRowView(question: UsabilityQuestion) -> some View {
         HStack(alignment: .top) {
             Text("\(question.id.description)")
                 .font(.title2).monospacedDigit()
+                .frame(width: 32, alignment: .trailing)
 
             responseViewForQuestion(id: question.id, edge: 24.0)
             Text("\(question.text)")

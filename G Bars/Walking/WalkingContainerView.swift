@@ -73,7 +73,7 @@ struct WalkingContainerView: View {
                 NavigationLink(
                     "SHOULDN'T SEE (countdown_1)",
                     tag: WalkingState.countdown_1, selection: $state) {
-                    SweepSecondView(duration: 5.0) {
+                    SweepSecondView(duration: sweep_TMP_Duration) {
                         state = .walk_1
                     }.padding()
                     .navigationBarBackButtonHidden(true)
@@ -107,7 +107,7 @@ struct WalkingContainerView: View {
                 NavigationLink(
                     "SHOULDN'T SEE (countdown_2)",
                     tag: WalkingState.countdown_2, selection: $state) {
-                        SweepSecondView(duration: 5.0) {
+                        SweepSecondView(duration: sweep_TMP_Duration) {
                             state = .walk_2
                         }.padding()
                         .navigationBarBackButtonHidden(true)

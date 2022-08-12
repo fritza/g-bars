@@ -66,7 +66,7 @@ final class TimeReader: ObservableObject {
         serial = Self.timerSerial
         Self.timerSerial += 1
 
-        print("TimeReader.init", serial, "called from", function, "\(fileID):\(line)")
+//        print("TimeReader.init", serial, "called from", function, "\(fileID):\(line)")
 
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
@@ -97,7 +97,7 @@ final class TimeReader: ObservableObject {
     func start(function: String = #function,
                fileID: String = #file,
                line: Int = #line) {
-        print("TimeReader.START called from", function, "\(fileID):\(line)")
+//        print("TimeReader.START called from", function, "\(fileID):\(line)")
 
 
         // FIXME: timer status versus expected

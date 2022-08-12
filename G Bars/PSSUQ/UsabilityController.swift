@@ -8,10 +8,19 @@
 import Foundation
 import Combine
 
+/// The general state of presentation.
+///
+/// - `start`: opening interstitial
+/// - `questions`: the sequence of questions
+/// - `end`: the final interstitial
+/// - `summary` (demo only): display the responses to all questions.
 enum UsabilityPhase: CaseIterable, Comparable, Hashable {
     case start, questions, end, summary
 }
 
+/// Observable owner of the state of the usability workflow, including opening and closing interstitials.
+///
+/// ``UsabilitiyContainer`` and ``UsabilityView`` are clients.
 final class UsabilityController: ObservableObject {
 
     /// DRY for moving the displayed choice to the persistent record.
@@ -28,6 +37,9 @@ final class UsabilityController: ObservableObject {
         }
     }
 
+    /// The ID (not index) of the question currently displayed.
+    ///
+    /// Assignment stores the current response and loads up the response to the newly presented questions.
     @Published var questionID = 1 {
         willSet {
             storeCurrentResponse()
@@ -37,16 +49,21 @@ final class UsabilityController: ObservableObject {
         }
     }
 
+    /// The answer (1–7) for the current question. Initialized to zero (illegal)
     @Published var currentResponse = 0
 
     // TODO: Validate the question index.
 
+    /// The question currently displayed.
     var currentQuestion: UsabilityQuestion? {
         // Subscript on UsabilityQuestion addresses the ID, not the index in storage.
         return UsabilityQuestion[questionID]
     }
 
+    /// Is there a question after the current one?
     var canIncrement: Bool { currentPhase < .end }
+    /// Shift focus to the question after the current one.
+    /// - precondition: The current question is the last.
     func increment() {
         switch currentPhase {
         case .start: currentPhase = .questions; questionID = 1
@@ -58,7 +75,10 @@ final class UsabilityController: ObservableObject {
         }
     }
 
+    /// Is there a question before the current one?
     var canDecrement: Bool { currentPhase > .start }
+    /// Shift focus to the question before the current one.
+    /// - precondition: The current question is the first.
     func decrement() {
         switch currentPhase {
         case .start: preconditionFailure("Attempt to decrement beyond start")
@@ -70,22 +90,14 @@ final class UsabilityController: ObservableObject {
         }
     }
 
+    /// All responses, initialized to all-zeroes (unanswered).
     var results =  [Int](repeating: 0, count: UsabilityQuestion.count)
 
-    // TODO: Persist the answers.
-
-    func receive(answer: Int,
-                 toQuestion question: Int = 0) {
-//        assert(results.count == UsabilityQuestion.count)
-//        let realQuestion = (question == 0) ? questionID : question
-//        results[realQuestion-1] = answer
-        // Don't increment. There'll have to be a Continue button.
-//        if canIncrement { increment() }
-    }
-
-
-
     // Start without interstitials.
+    /// Set up the questions and display one.
+    /// - parameters:
+    ///     - phase: The portion (open/questions/close) to display. Defaults to the opening interstitial.
+    ///     - questionID: The ID (_not_ index) of the question to present. This persists even if the current phase is not .questions. Optional; default is the first question.
     init(phase: UsabilityPhase = .start, questionID: Int = 1) {
         currentPhase = phase
         self.questionID = questionID
