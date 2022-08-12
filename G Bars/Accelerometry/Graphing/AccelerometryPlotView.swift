@@ -7,16 +7,19 @@
 
 import SwiftUI
 
+/// A bare-bones view that plots a series (``Store2D``) of `t`, `x` data points.
 struct AccelerometryPlotView: View {
     @Environment(\.colorScheme) static private var colorScheme: ColorScheme
     let series: Store2D
     let lineColor: Color
     let lineWidth: CGFloat
 
-    static func preferredColor(versus other: Color?) -> Color {
+    /// The line color according to light/dark mode. The `versus` (overriding) parameter defaults to `nil`.
+    static func preferredColor(versus other: Color? = nil) -> Color {
         return other ?? (colorScheme == .light ? .black : .white)
     }
 
+    /// Initialize from a data series to plot; the color (if any) to enforce on the line, and its width.
     init(_ series: Store2D,
          lineColor color: Color? = nil,
          lineWidth: CGFloat = 1.0) {
@@ -26,6 +29,7 @@ struct AccelerometryPlotView: View {
         self.lineColor = Self.preferredColor(versus: color)
     }
 
+    /// View adoption
     var body: some View {
         VStack {
             GeometryReader { proxy in
@@ -64,17 +68,8 @@ struct AccelerometryPlotView_Previews: PreviewProvider {
         NavigationView {
             VStack {
                 ZStack {
-//                    Rectangle()
-//                        .foregroundColor(.gray)
-
-//                    AccelerometryPlotView(
-//                        Store2D(absData),
-//                        lineColor: .red,
-//                        lineWidth: 2.0)
-
                     AccelerometryPlotView(
                         Store2D(unfilteredData),
-//                        lineColor: .black,
                         lineWidth: 2.0)
 
 

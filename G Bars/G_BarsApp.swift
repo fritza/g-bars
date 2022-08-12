@@ -7,13 +7,9 @@
 
 import SwiftUI
 
-
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
-
-//let countdownController = CountdownController(forCountdown: true)
-// And now propagate it.
 
 import Accelerate
 // MARK: - App
@@ -51,13 +47,6 @@ struct G_BarsApp: App {
             }
 #else
             TabView(selection: $selectedTab) {
-                /* Was acceleration bars/
-                 // MARK: Acceleration Bars
-                 NavigationView { AcccelerometryView() }
-                 .tabItem { Label("Acceleration",
-                 systemImage: "move.3d") }
-                 */
-
                 // MARK: Walking workflow
                 NavigationView {
                     WalkingContainerView()
@@ -81,22 +70,6 @@ struct G_BarsApp: App {
                     .tabItem { Label("Usability",
                                      systemImage: "checkmark.circle")
                     }
-                
-//                // MARK: Sweep-second disk
-//                NavigationView {
-//                    SweepSecondView(
-//                        duration: sweep_TMP_Duration,
-//                        onCompletion: {}) }
-//                .tabItem {
-//                    Label("Sweep",
-//                          systemImage: "timer")
-//                }
-//
-//                // MARK: Digital countdown
-//                NavigationView { DigitalTimerView(duration: countdown_TMP_Duration )}
-//                    .tabItem { Label("Digital",
-//                                     systemImage: "clock")
-//                    }
             }
             .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)

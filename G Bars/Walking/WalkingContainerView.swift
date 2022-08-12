@@ -50,14 +50,6 @@ struct WalkingContainerView: View {
 
     var body: some View {
         NavigationView {
-            // LazyVStack did not prevent double-initialization of the target views (and thereby creation of multiple timers, some of which expire (second walk) while the first walk is run.
-            // Removing VStack didn't display countdown_1 when the intro was completed: nav title appeared, content did not.
-            // removing .hidden() from interstitial_1 and countdown_1 cases had no effect (maybe fewer initailizations?)
-
-            // Okay: Making sure all of these wait at least until onAppear before
-            // they start counting fixed the multiple concurrent timers.
-            // TODO: Prevent creation of redundant timers.
-
             VStack {
                 // MARK: Intro
                 NavigationLink(
