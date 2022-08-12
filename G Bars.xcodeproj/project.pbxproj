@@ -10,6 +10,9 @@
 		1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B8F28A451F100D8681E /* WalkingContainerView.swift */; };
 		1F185B9228A5AED200D8681E /* PhaseSequencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9128A5AED200D8681E /* PhaseSequencing.swift */; };
 		1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */; };
+		1F185B9728A6DBDD00D8681E /* SyncWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */; };
+		1F185B9928A6F06D00D8681E /* FloatEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9828A6F06D00D8681E /* FloatEquatable.swift */; };
+		1F185B9B28A6F99600D8681E /* RoughEqualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9A28A6F99600D8681E /* RoughEqualityTests.swift */; };
 		1F26AFA8286E049800586654 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA7286E049800586654 /* HorizontalBar.swift */; };
 		1F26AFAA286E056400586654 /* LogViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFA9286E056400586654 /* LogViewSizing.swift */; };
 		1F26AFAD286E203300586654 /* DASIQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F26AFAC286E203300586654 /* DASIQuestions.json */; };
@@ -94,6 +97,9 @@
 		1F185B8F28A451F100D8681E /* WalkingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingContainerView.swift; sourceTree = "<group>"; };
 		1F185B9128A5AED200D8681E /* PhaseSequencing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseSequencing.swift; sourceTree = "<group>"; };
 		1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncAccelerationWriter.swift; sourceTree = "<group>"; };
+		1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncWriterTests.swift; sourceTree = "<group>"; };
+		1F185B9828A6F06D00D8681E /* FloatEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatEquatable.swift; sourceTree = "<group>"; };
+		1F185B9A28A6F99600D8681E /* RoughEqualityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoughEqualityTests.swift; path = "G BarsTests/RoughEqualityTests.swift"; sourceTree = SOURCE_ROOT; };
 		1F26AFA7286E049800586654 /* HorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		1F26AFA9286E056400586654 /* LogViewSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewSizing.swift; sourceTree = "<group>"; };
 		1F26AFAC286E203300586654 /* DASIQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DASIQuestions.json; sourceTree = "<group>"; };
@@ -382,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */,
+				1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */,
 				1F9F2A7F287876A100490885 /* DASIPagesTests.swift */,
 				1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */,
 			);
@@ -418,6 +425,8 @@
 				1FCB95EF286CD80B00DE9DD0 /* CoreGraphics+Extensions.swift */,
 				1FCB95EE286CD80B00DE9DD0 /* FileManager+extensions.swift */,
 				1FCB95F0286CD80B00DE9DD0 /* Formatting+Extensions.swift */,
+				1F185B9828A6F06D00D8681E /* FloatEquatable.swift */,
+				1F185B9A28A6F99600D8681E /* RoughEqualityTests.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -612,6 +621,7 @@
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
+				1F185B9928A6F06D00D8681E /* FloatEquatable.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift in Sources */,
 				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */,
@@ -634,6 +644,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */,
+				1F185B9B28A6F99600D8681E /* RoughEqualityTests.swift in Sources */,
+				1F185B9728A6DBDD00D8681E /* SyncWriterTests.swift in Sources */,
 				1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */,
 				1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */,
 			);

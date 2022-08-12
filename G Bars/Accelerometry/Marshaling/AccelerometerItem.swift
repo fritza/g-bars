@@ -10,6 +10,8 @@ import CoreMotion
 
 
 /// A wrapper on ``CMAccelerometerData`` or its components, made accessible to generic code via the ``Timestamped`` and ``XYZ`` protocols.
+///
+/// - note: `AccelerometerItem` is declared `RoughlyEquatable`, but the implementation ignores the timestamp.
 struct AccelerometerItem: Codable, Timestamped, XYZ  {
     let x, y, z: Double
     let timestamp: TimeInterval
@@ -38,6 +40,20 @@ extension AccelerometerItem {
             .map { $0.pointThree }
             .joined(separator: ",")
         return components
+    }
+}
+
+extension AccelerometerItem: RoughlyEquatable {
+    static func ≈ (lhs: AccelerometerItem, rhs: AccelerometerItem) -> Bool {
+        for p in [
+            \AccelerometerItem.x,
+             \AccelerometerItem.y,
+             \AccelerometerItem.z ] {
+            if lhs[keyPath: p] !≈ rhs[keyPath: p] {
+                return false
+            }
+        }
+        return true
     }
 }
 
