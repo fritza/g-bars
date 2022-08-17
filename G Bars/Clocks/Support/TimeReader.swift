@@ -120,8 +120,8 @@ final class TimeReader: ObservableObject {
                         return
                     }
                     switch err {
-                    case .expired:   print("Timer serial", self.serial, "ran out")
-                    case .cancelled: print("Timer serial", self.serial, "was cancelled")
+                    case .expired:   break //print("Timer serial", self.serial, "ran out")
+                    case .cancelled:       // print("Timer serial", self.serial, "was cancelled")
                         self.status = .cancelled
                     }
                 }

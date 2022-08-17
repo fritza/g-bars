@@ -96,10 +96,6 @@ struct SweepSecondView: View {
                            alignment: .center)
                 Spacer()
                 Text("""
-Countdown only. You can repeat the countdown by tapping "Start" twice.
-
-In production, there would be only a Cancel button.
-
 Remember to unmute your phone and turn up the audio!
 """)
                 .font(.callout)

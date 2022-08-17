@@ -25,6 +25,8 @@
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
 		1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080628A4318400C3F846 /* InterstitialPageView.swift */; };
 		1F35080928A43FE400C3F846 /* InterstitalPageTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */; };
+		1F46668C28AD48A40044E2E1 /* ActivityUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */; };
+		1F46668E28AD74FE0044E2E1 /* Staging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46668D28AD74FE0044E2E1 /* Staging.swift */; };
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
@@ -113,6 +115,8 @@
 		1F35080628A4318400C3F846 /* InterstitialPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialPageView.swift; sourceTree = "<group>"; };
 		1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitalPageTabView.swift; sourceTree = "<group>"; };
 		1F35080A28A4405C00C3F846 /* walk-intro.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "walk-intro.json"; sourceTree = "<group>"; };
+		1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityUIController.swift; sourceTree = "<group>"; };
+		1F46668D28AD74FE0044E2E1 /* Staging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staging.swift; sourceTree = "<group>"; };
 		1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialView.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
@@ -365,11 +369,13 @@
 				1F185B8E28A44D5800D8681E /* Walking */,
 				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
+				1F46668D28AD74FE0044E2E1 /* Staging.swift */,
 				1F8DFF5A28A2EC650063C28C /* Resources */,
 				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
 				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
 				1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */,
 				1FCB95BB286CD37700DE9DD0 /* Preview Content */,
+				1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */,
 			);
 			path = "G Bars";
 			sourceTree = "<group>";
@@ -618,6 +624,7 @@
 				1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */,
 				1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */,
 				1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */,
+				1F46668C28AD48A40044E2E1 /* ActivityUIController.swift in Sources */,
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
@@ -629,6 +636,7 @@
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
 				1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
+				1F46668E28AD74FE0044E2E1 /* Staging.swift in Sources */,
 				1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
 				1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */,
