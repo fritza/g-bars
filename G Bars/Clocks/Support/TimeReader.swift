@@ -56,9 +56,6 @@ final class TimeReader: ObservableObject {
     var intervalState: OSSignpostIntervalState
 #endif
 
-//    let serial: Int
-//    static var timerSerial = 0
-
     /// Collect the parameters that will initialize the time publisher and its subscribers when ``start()`` is called.
     /// - Parameters:
     ///   - interval: Duration: the total span of the countdown
