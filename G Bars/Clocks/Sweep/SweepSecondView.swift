@@ -21,6 +21,7 @@ import Combine
 ///
 /// Note that the timer can't be paused, only canceled. After cancellation, the only thing to be done is to create a new timer, and assign it the full duration.
 struct SweepSecondView: View {
+    /*
     enum SpeakWalkSpeak: String, CaseIterable {
         // On appearance, "begin walking in n seconds"
         case sayOpening
@@ -29,8 +30,8 @@ struct SweepSecondView: View {
         // transition to the next WalkingContainerView subject
         // presumably this is just a callback. to the container.
     }
-
-
+     */
+    
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
     @ObservedObject var timer: TimeReader
     /// The current minute/second/fraction value of the countdown.
