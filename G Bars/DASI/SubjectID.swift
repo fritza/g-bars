@@ -29,6 +29,10 @@ enum AppStorageKeys: String {
 
     case wantsSpeech
 
+    /// Array of raw values of ApplicationState to persist the user's progress
+    case stateCompletion
+    case selectedTab
+
     static let dasiWalkRange = (1...10)
 }
 

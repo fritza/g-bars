@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
@@ -101,6 +100,7 @@ struct G_BarsApp: App {
             .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)
 
+            .environmentObject(ApplicationState())
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
