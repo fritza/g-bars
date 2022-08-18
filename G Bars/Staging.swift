@@ -110,6 +110,84 @@ extension AppStages where Self: CaseIterable, Self.AllCases.Index == Int {
     }
 }
 
+// MARK: - ApplicationState
+final class ApplicationState: ObservableObject {
+    /// One phase in the progress of the app.
+    enum State: String, CaseIterable, AppStages {
+        case onboarding, walking, dasi, usability, offboarding
+
+        /// `CaseIterable/allCases` would iterate through states not in use. Use `statesInUse` for the sequence of available `State`s.
+        static let statesInUse: [State] = [
+            .walking, .dasi, .usability
+        ]
+        var csvPrefix: String? { nil }
+    }
+
+    /// Set up `UserDefaults` with standard values.
+    static func initializeDefaults() {
+        let values: [String:Any] = [
+            AppStorageKeys.stateCompletion.rawValue : [String](),
+            AppStorageKeys.selectedTab.rawValue : 0
+        ]
+        UserDefaults.standard.register(defaults: values)
+    }
+
+    /// The list of raw values for stages that have been completed.
+    ///
+    /// `get` and `set` go by way of `UserDefaults`.
+    var completedStages: [String] {
+        set {
+            let defaults = UserDefaults.standard
+            defaults.set(newValue, forKey:  AppStorageKeys.stateCompletion.rawValue)
+        }
+        get {
+            let defaults = UserDefaults.standard
+            return defaults.object(forKey: AppStorageKeys.stateCompletion.rawValue) as! [String]
+        }
+    }
+
+    var subjectID: String? {
+        set {
+            let defaults = UserDefaults.standard
+            if let nonnil = newValue {
+                defaults.set(nonnil,
+                             forKey:  AppStorageKeys.subjectID.rawValue)
+            }
+            else {
+                defaults.removeObject(forKey: AppStorageKeys.subjectID.rawValue)
+            }
+        }
+        get {
+            let defaults = UserDefaults.standard
+            let raw = defaults.string(forKey: AppStorageKeys.subjectID.rawValue)
+            return raw
+        }
+    }
+
+
+    init() {
+        Self.initializeDefaults()
+
+        var candidate: State? = nil
+        for s in State.statesInUse {
+            if completedStages.contains(s.rawValue) {
+                candidate = s
+            }
+        }
+        currentAppState = candidate
+    }
+
+    @Published var currentAppState: State? = .onboarding
+    func advance() {
+        guard let current = currentAppState else { return }
+        completedStages.append(current.rawValue)
+
+        // `incremented` works on `allCases`, which include disused phases.
+        let next = State.statesInUse.first(where: {$0 > current})
+        currentAppState = next
+    }
+}
+
 // MARK: - WalkingState
 enum WalkingState: String, CaseIterable, AppStages {
     case interstitial_1, countdown_1, walk_1
