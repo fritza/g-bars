@@ -14,13 +14,19 @@ import Combine
 /// - `questions`: the sequence of questions
 /// - `end`: the final interstitial
 /// - `summary` (demo only): display the responses to all questions.
-enum UsabilityPhase: CaseIterable, Comparable, Hashable {
+/// - note: ``UsabilityController`` is the type that does incrementing and decrementing. It _could_ be amended to take advantage of `UsabilityPhase`'s being `AppStages`, but it's not plug-and-play.
+enum UsabilityPhase: // AppStages,
+                        CaseIterable, Comparable
+    //CaseIterable, Comparable, Hashable
+{
     case start, questions, end, summary
+    var csvPrefix: String? { "PSSUQ" }
 }
+
 
 /// Observable owner of the state of the usability workflow, including opening and closing interstitials.
 ///
-/// ``UsabilitiyContainer`` and ``UsabilityView`` are clients.
+/// ``UsabilityContainer`` and ``UsabilityView`` are clients.
 final class UsabilityController: ObservableObject {
 
     /// DRY for moving the displayed choice to the persistent record.

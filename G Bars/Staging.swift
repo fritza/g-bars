@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 /// Adopters allow instances to advance or retreat their values.
+public
 protocol AppStages: Hashable {
     /// A `String` to prepend to CSV flagging the type of item being reported.
     ///
@@ -27,7 +28,7 @@ extension AppStages {
     /// Change this object by advancing it in the order.
     ///
     /// If the object is already at the end of the order, do nothing. Contrast to `incremented`.
-    mutating func increment() {
+    public mutating func increment() {
         if let new = self.incremented {
             self = new
         }
@@ -36,56 +37,76 @@ extension AppStages {
     /// Change this object by advancing it in the order.
     ///
     /// If the object is already at the end of the order, do nothing. Contrast to `decremented`.
-    mutating func decrement() {
+    public mutating func decrement() {
         if let new = self.decremented {
             self = new
         }
     }
 
     /// Whether the item is at the bottom of the order
-    var canIncrement: Bool { self.incremented != nil }
+    public var canIncrement: Bool { self.incremented != nil }
     /// Whether the item is at the top of the order
-    var canDecrement: Bool { self.decremented != nil }
+    public var canDecrement: Bool { self.decremented != nil }
 }
 
 // MARK: - CaseIterable implementations
 extension AppStages where Self: CaseIterable, Self.AllCases.Index == Int {
     /// Default implementation when `Self` is `CaseIterable` and its indices are `Int`.
-    var incremented: Self? {
+    public var incremented: Self? {
         let index = Self.allCases.firstIndex(of: self)!
         let nextIndex = Self.allCases.index(after: index)
         if nextIndex >= Self.allCases.count {
             return nil
-            // TODO: un-incremented?
         }
         return Self.allCases[nextIndex]
     }
 
     /// Default implementation when `Self` is `CaseIterable` and its indices are `Int`.
-    var decremented: Self? {
+    public var decremented: Self? {
         let index = Self.allCases.firstIndex(of: self)!
         let nextIndex = index - 1
         guard nextIndex >= 0 else {
             return nil
-            // TODO: un-decremented?
         }
         return Self.allCases[nextIndex]
     }
 
     // MARK: Ordering
 
-    /// `Comparable` adoption
-    static func < (lhs: Self, rhs: Self) -> Bool {
-        let leftIndex = Self.allCases.firstIndex(of: lhs)!
-        let rightIndex = Self.allCases.firstIndex(of: rhs)!
-        return leftIndex < rightIndex
+    // You get Equatable for free.
+    // Comparable is not provided, and
+    // you can't adopt a protocol in a protocol extension.
+    //
+    // This forces a by-hand implementation of
+    // <, <=, >=, and >.
+    //
+    // You walk the list of cases and see which turns
+    // up first. Fortunately, we won't be seeing any
+    // thousand-case enums.
+
+    /// `Comparable` mimickry
+    static public func < (lhs: Self, rhs: Self) -> Bool {
+        if lhs == rhs { return false }
+        for item in Self.allCases {
+            if lhs == item { return true }
+        }
+        return false
     }
 
-    /// `Equatable` adoption
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        let leftIndex = Self.allCases.firstIndex(of: lhs)!
-        let rightIndex = Self.allCases.firstIndex(of: rhs)!
-        return leftIndex == rightIndex
+    static public func > (lhs: Self, rhs: Self) -> Bool {
+        if lhs == rhs { return false }
+        for item in Self.allCases {
+            if rhs == item { return true }
+        }
+        return false
+    }
+
+    static public func >= (lhs: Self, rhs: Self) -> Bool {
+        return (lhs == rhs) || (lhs > rhs)
+    }
+
+    static public func <= (lhs: Self, rhs: Self) -> Bool {
+        return (lhs == rhs) || (lhs < rhs)
     }
 }
 
