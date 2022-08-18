@@ -75,6 +75,7 @@
 		1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
+		1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBB1E228AD989D00EBB442 /* StagingTests.swift */; };
 		1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* CallbackUtterance.swift */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +170,7 @@
 		1FD7EE842881CBCB00D194B4 /* CountdownSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownSetupView.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
+		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -396,6 +398,7 @@
 				1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */,
 				1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */,
 				1F9F2A7F287876A100490885 /* DASIPagesTests.swift */,
+				1FDBB1E228AD989D00EBB442 /* StagingTests.swift */,
 				1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */,
 			);
 			path = "G BarsTests";
@@ -656,6 +659,7 @@
 				1F185B9728A6DBDD00D8681E /* SyncWriterTests.swift in Sources */,
 				1FCB95C7286CD37800DE9DD0 /* G_BarsTests.swift in Sources */,
 				1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */,
+				1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
