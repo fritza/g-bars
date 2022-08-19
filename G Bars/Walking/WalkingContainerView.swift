@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 
 private let instructionList     = InterstitialList(baseName: "walk-intro"       )
 private let mid_instructionList = InterstitialList(baseName: "second-walk-intro")
 private let end_walkingList     = InterstitialList(baseName: "usability-intro"  )
 
+let csvUTT       = UTType.commaSeparatedText
+let csvUTTString = "public.comma-separated-values-text"
+
+/// A wrapper view that programmatically displays stages of the walk test.
 struct WalkingContainerView: View {
     @State var state: WalkingState? = .interstitial_1
 
@@ -38,6 +43,7 @@ struct WalkingContainerView: View {
 
 // MARK: - Walking stages
 extension WalkingContainerView {
+    /// A `NavigationLink` for initial instructions (`interstitial_1`)
     @ViewBuilder
     func interstitial_1View() -> some View {
         NavigationLink(
@@ -50,11 +56,12 @@ extension WalkingContainerView {
             }
     }
 
+    /// A `NavigationLink` for the first pre-walk countdown (`countdown_1`)
     @ViewBuilder
     func countdown_1View() -> some View {
         NavigationLink(
-            "SHOULDN'T SEE (interstitial_1)",
-            tag: WalkingState.interstitial_1, selection: $state) {
+            "SHOULDN'T SEE (countdown_1)",
+            tag: WalkingState.countdown_1, selection: $state) {
                 InterstitalPageTabView(listing: instructionList, selection: 1) {
                     self.state = .walk_1
                 }.padding()
@@ -62,6 +69,7 @@ extension WalkingContainerView {
             }
     }
 
+    /// A `NavigationLink` for the first timed walk (`walk_1`)
     @ViewBuilder
     func walk_1View() -> some View {
         NavigationLink(
@@ -76,6 +84,7 @@ extension WalkingContainerView {
         //                .hidden()
     }
 
+    /// A `NavigationLink` for the interstitial view between the two walk sequences (`interstitial_2`)
     @ViewBuilder
     func interstitial_2View() -> some View    {             NavigationLink(
         "SHOULDN'T SEE (interstitial_2)",
@@ -88,21 +97,8 @@ extension WalkingContainerView {
         }
         //                .hidden()
     }
-
-    @ViewBuilder
-    func mid_instructionListView() -> some View {
-        NavigationLink(
-            "SHOULDN'T SEE (interstitial_2)",
-            tag: WalkingState.interstitial_2, selection: $state) {
-                InterstitalPageTabView(listing: mid_instructionList, selection: 1) {
-                    // → .countdown_2
-                    self.state = .countdown_2
-                }.padding()
-                    .navigationBarBackButtonHidden(true)
-            }
-        //                .hidden()
-    }
-
+    
+    /// A `NavigationLink` for the second pre-walk countdown (`countdown_2`)
     @ViewBuilder
     func countdown_2View() -> some View {
         NavigationLink(
@@ -117,6 +113,7 @@ extension WalkingContainerView {
         //                .hidden()
     }
 
+    /// A `NavigationLink` for the second timed walk (`walk_2`)
     func walk_2View() -> some View {
         NavigationLink(
             "SHOULDN'T SEE (walk_2)",
@@ -130,6 +127,7 @@ extension WalkingContainerView {
         //                .hidden()
     }
 
+    /// A `NavigationLink` for the closing screen (`end_interstitial`)
     @ViewBuilder
     func end_interstitialView() -> some View {
         NavigationLink(
