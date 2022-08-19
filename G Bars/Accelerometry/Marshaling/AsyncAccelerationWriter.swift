@@ -43,7 +43,7 @@ final class AsyncAccelerationWriter {
 
         let itemStream = stream
             .map { AccelerometerItem($0) }
-            .map(\.csv)
+            .compactMap(\.csvLine)
             .map { $0 + "\r\n" }
             .compactMap { $0.data(using: .utf8) }
         do {

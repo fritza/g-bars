@@ -15,8 +15,8 @@ struct DASIDisplayView: View {
     @EnvironmentObject var responses: DASIResponseStatus
 
     /// All responses as represented by a single line of CSV
-    var csvLine: String {
-        if let content = try? responses.csvLine() {
+    var csvLine: String? {
+        if let content = responses.csvLine {
             return content
         }
         else {
@@ -28,7 +28,7 @@ struct DASIDisplayView: View {
         VStack {
             // Text for whether all questions are complete
             Text("The user would \(responses.unknownIdentifiers.isEmpty ? "" : "not") be permitted to submit.\n" )
-            + Text(self.csvLine)
+            + Text(self.csvLine!)
                 .font(.custom("Courier", size: 9,
                               relativeTo: .caption))
             // Responses to each question

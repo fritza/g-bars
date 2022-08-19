@@ -89,7 +89,7 @@ class AccelerometerItemTests: XCTestCase {
     func testAccelerometerItemCSVFormat() {
         XCTAssertEqual(accelerometerItems.count, comparisonCSV.count, "setup count of items and csv strings")
         for (challenge, expected) in zip(accelerometerItems, comparisonCSV) {
-            let derivedCSV = challenge.csv
+            let derivedCSV = challenge.csvLine
             XCTAssertEqual(derivedCSV, expected, ".csv versus hand-encoding")
         }
     }

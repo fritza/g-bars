@@ -106,7 +106,11 @@ final class MotionManager {
     static let shared = MotionManager()
     static var census = 0
 
-    let motionManager: CMMotionManager
+    // FIXME: "A single instance can't be restarted"
+    //        Yes, but does it need to? .shared keeps the
+    //        object alive, which in turn keeps the
+    //        CMMotionManager alive and healthy
+    let cmMotionManager: CMMotionManager
     private let deviceState : DeviceState
     private let accState: AccelerometerState
     var isCancelled: Bool = false
@@ -121,7 +125,7 @@ final class MotionManager {
     init() {
         let cmManager = CMMotionManager()
         cmManager.accelerometerUpdateInterval = hzInterval
-        motionManager = cmManager
+        cmMotionManager = cmManager
 
         deviceState = DeviceState(cmManager)
         accState = AccelerometerState(cmManager)
@@ -139,7 +143,7 @@ final class MotionManager {
     ///
     /// Not intended for external use; use `.cancelUpdates()` instead.
     private func stopAccelerometer() {
-        motionManager.stopAccelerometerUpdates()
+        cmMotionManager.stopAccelerometerUpdates()
     }
 }
 
@@ -153,7 +157,7 @@ extension MotionManager: AsyncSequence, AsyncIteratorProtocol {
     }
 
     func makeAsyncIterator() -> MotionManager {
-        motionManager.startAccelerometerUpdates(to: .main)
+        cmMotionManager.startAccelerometerUpdates(to: .main)
         { accData, error in
             if let error = error {
                 print(#function, "Accelerometry error:", error)

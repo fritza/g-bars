@@ -38,7 +38,6 @@ extension FileHandle: HasWriting {
         let retval = try FileHandle(forWritingTo: url)
         return retval
     }
-
 }
 
 /// Write an ``AcceleratorItem`` array to a given URL.
@@ -94,7 +93,7 @@ final class SyncAccelerationWriter<HW: HasWriting> {
         assert(isOpen, "Attempt to write records out to a closed file handle.")
 
         let lines = records
-            .map(\.csv)
+            .compactMap(\.csvLine)
             .map { dummySubjectID + "," + $0
             }
             .joined(separator: "\r\n")

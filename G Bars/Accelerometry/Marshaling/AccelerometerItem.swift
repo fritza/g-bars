@@ -33,9 +33,8 @@ struct AccelerometerItem: Codable, Timestamped, XYZ  {
     }
 }
 
-extension AccelerometerItem {
-    /// Render this `AccelerometerItem` into a line of CSV.
-    var csv: String {
+extension AccelerometerItem: CSVRepresentable {
+    public var csvLine: String? {
         let components = [timestamp, x, y, z]
             .map { $0.pointThree }
             .joined(separator: ",")

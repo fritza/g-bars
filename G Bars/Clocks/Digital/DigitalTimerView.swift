@@ -78,6 +78,14 @@ struct SpeechOnOffView: View {
  - ``body``
  */
 
+/*
+ How do we work the MotionManager iterator?
+ Should DigitalTimerView bother accepting data at all?
+ Put that in a "manager?"
+
+ In time, it should not be responsible for cancellation. Except… we do that already for TimeReader
+ */
+
 struct DigitalTimerView: View {
     static var dtvSerial = 100
     let serialNumber: Int

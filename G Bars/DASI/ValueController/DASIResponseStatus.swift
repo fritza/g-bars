@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol CSVRepresentable {
-    func csvLine() throws -> String?
+    var csvLine: String? { get }
 }
 
 // MARK: - DASIReportErrors
@@ -127,7 +127,7 @@ extension DASIResponseStatus: RandomAccessCollection {
 }
 
 extension DASIResponseStatus: CSVRepresentable {
-    func csvLine() throws -> String? {
+    var csvLine: String? {
 //        guard firstUnknownIdentifier == nil else {
 //            throw DASIReportErrors.dasiResponsesIncomplete
 //        }

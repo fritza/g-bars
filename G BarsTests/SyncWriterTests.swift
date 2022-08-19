@@ -46,26 +46,29 @@ class SyncWriterTests: XCTestCase {
         XCTAssertEqual(lhs.count, rhs.count)
 
         zip(lhs, rhs)
-            .map { (l, r) -> (String, String) in (l.csv, r.csv) }
+            .map { (l, r) -> (String, String) in (l.csvLine!, r.csvLine!) }
             .forEach { (l, r) in
                 XCTAssertEqual(l, r)
             }
     }
 
-    func testWritingCreate() throws {
-        do {
-            let writer: SyncAccelerationWriter<MockWriter>
-            writer = try
-            SyncAccelerationWriter<MockWriter>(
-                destination: URL(fileURLWithPath: "/dev/null/q.csv"),
-                records: Self.items)
-            try writer.write()
-            try writer.close()
-        }
-        catch {
-            XCTFail("Creation of MockWriter failed: \(error)")
-        }
-    }
+    /*
+     SyncAccelerationWriter no longer available
+     */
+//    func testWritingCreate() throws {
+//        do {
+//            let writer: SyncAccelerationWriter<MockWriter>
+//            writer = try
+//            SyncAccelerationWriter<MockWriter>(
+//                destination: URL(fileURLWithPath: "/dev/null/q.csv"),
+//                records: Self.items)
+//            try writer.write()
+//            try writer.close()
+//        }
+//        catch {
+//            XCTFail("Creation of MockWriter failed: \(error)")
+//        }
+//    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
