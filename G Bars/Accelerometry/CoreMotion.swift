@@ -135,26 +135,6 @@ final class MotionManager {
         accState.active
     }
 
-
-    /*
-    /// Commence the Core Motion feed of accelerometer events.
-    ///
-    /// Events are handled by creating an `AsyncStream`  around `startAccelerometerUpdates`.
-    func startAccelerometry() {
-        stream = AsyncStream {
-            continuation in
-            motionManager.startAccelerometerUpdates(
-                to: .main, withHandler: Self.makeHandler(continuation)
-                )
-            continuation.onTermination = {
-                @Sendable _ in
-                self.stopAccelerometer()
-            }
-            // TODO: Obviates stopAccelerometer in cancelUpdates?
-            // At least be on the lookout in case repeated stop calls cause problems.
-        }
-    }
-*/
     /// Halt Core Motion reports on accelerometry.
     ///
     /// Not intended for external use; use `.cancelUpdates()` instead.

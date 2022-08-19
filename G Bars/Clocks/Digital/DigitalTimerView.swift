@@ -8,20 +8,16 @@
 import SwiftUI
 import Combine
 
-/*
- Back off and consider what you want to do.
 
- If the user wants speech, speak. If not, don't.
- Transition to does-want -> Don't speak immediately, you don't want "one minute, ten seconds" to pop in arbitrarily.
- Transition to doesn't-want -> Halt current speech. Do not respond to further ∆spoken-time.
-
- I have a dependency cycle among controller, speaker, and view.
-
- */
+let countdown_TMP_Duration = 25.0 // 120.0
 
 
-let countdown_TMP_Duration = 120.0
+
+
 let countdown_TMP_Interval = 10
+
+
+
 
 let sweep_TMP_Duration = 5.0
 
@@ -30,7 +26,7 @@ let sweep_TMP_Duration = 5.0
 
 // MARK: - DigitalTimerView
 private let digitalNarrative = """
-What the digital (walking) clock would show. The interval will be spoken at \(countdown_TMP_Interval)-second intervals, the better to demonstrate the feature.
+The interval is read out at \(countdown_TMP_Interval)-second intervals, the better to demonstrate the feature.
 """
 
 /**
@@ -88,7 +84,7 @@ struct DigitalTimerView: View {
 
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
     @ObservedObject var timer: TimeReader
-    @State private var minSecfrac : MinSecAndFraction?
+    @State private var minSecfrac: MinSecAndFraction?
 
     private let expirationCallback: (() -> Void)?
 
