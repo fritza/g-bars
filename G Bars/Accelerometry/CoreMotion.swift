@@ -134,7 +134,7 @@ final class MotionManager {
     func count() async -> Int { return await asyncBuffer.count }
 
     // MARK: - Initialization and start
-    init() {
+   fileprivate init() {
         let cmManager = CMMotionManager()
         cmManager.accelerometerUpdateInterval = hzInterval
         cmMotionManager = cmManager

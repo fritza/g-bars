@@ -19,6 +19,9 @@ extension CMAccelerometerData: CSVRepresentable {
 }
 
 // MARK: - AccelerometryConsuming
+/// Adopters can accept `CMAccelerometerData` elements and do simple reductions to `[String]`.
+///
+/// Basically, an array, but could be a writeable `FileHandle`
 protocol AccelerometryConsuming {
     func append(_ record: CMAccelerometerData)
     func append(contentsOf array: [CMAccelerometerData])
@@ -47,7 +50,6 @@ extension AccelerometryConsuming {
 /// - todo: `TimedWalkObserver` should accept any storage method (`AccelerometryConsuming`) rather than stick with `Array`.
 final class TimedWalkObserver: ObservableObject {
     // MARK: Properties
-    var motionManager: MotionManager
     var consumer: [CMAccelerometerData]
     let title: String
     var isRunning: Bool
@@ -55,7 +57,6 @@ final class TimedWalkObserver: ObservableObject {
     // MARK: Initializer
     init(title: String) {
         self.title = title
-        motionManager = MotionManager()
         consumer = []
         isRunning = false
     }
@@ -65,14 +66,14 @@ final class TimedWalkObserver: ObservableObject {
         isRunning = true
         Task {
             do {
-                for try await datum in motionManager {
+                for try await datum in MotionManager.shared {
                     // FIXME: This long-term storage
                     // object ought to be an actor.
                     consumer.append(datum)
                 }
             }
             catch {
-                motionManager.cancelUpdates()
+                MotionManager.shared.cancelUpdates()
                 isRunning = false
                 print("\(#file):\(#line): the incoming data loop threw", error)
             }
@@ -80,7 +81,7 @@ final class TimedWalkObserver: ObservableObject {
     }
 
     func stop() {
-        motionManager.cancelUpdates()
+        MotionManager.shared.cancelUpdates()
         isRunning = false
 
     }
@@ -105,6 +106,8 @@ extension TimedWalkObserver: AccelerometryConsuming {
     // The default implementation is fine.
     // func marshalledRecords() -> [String]
 
+// MARK: Marshalling
+
     /// Supplementary marshalling which adds  prefix to each line.
     /// - Parameter prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted.
     /// - Returns: An array of `Strings` consisting of `\_prefix` + "," + `marshalled record`.
@@ -118,21 +121,46 @@ extension TimedWalkObserver: AccelerometryConsuming {
             .map { prefix + $0}
     }
 
+    /// A `String` containing each line of the CSV data
+    ///   - parameter prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    /// - Returns: A single `String`, each line being the marshalling of the `CMAccelerometerData` records
     func allAsCSV(withPrefix prefix: String) -> String {
         return marshalledRecords(withPrefix: prefix)
             .joined(separator: "\r\\n")
     }
 
+    /// A `Data` instance containing the entire text of a CSV `String`
+    ///
+    /// This is a simple wrapper that takes the result of `allAsCSV(withPrefix:)` and renders it as bytes.
+    ///   - parameter prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
     func allAsData(prefixed prefix: String) -> Data {
         let content = allAsCSV(withPrefix: prefix)
         guard let data = content.data(using: .utf8) else { fatalError("Could not derive Data from the CSV string") }
         return data
     }
 
+    /// Write all CSV records into a file.
+    /// - Parameters:
+    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    ///   - url: The location of the new file.
     func write(withPrefix prefix: String, to url: URL) throws {
         let fm = FileManager.default
 
         let data = allAsData(prefixed: prefix)
         try fm.deleteAndCreate(at: url, contents: data)
+    }
+
+    /// Marshall all the `CMAccelerometerData` data and write it out to a named file in the Documents directory.
+    /// - Parameters:
+    ///   - fileName: The base name of the target file as a `String`. No extension will be added.
+    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    func writeToFile(named fileName: String,
+                     linesPrefixedWith prefix: String) throws {
+        precondition(!fileName.isEmpty,
+                     "\(#function): empty prefix string")
+        let destURL = try FileManager.default
+            .docsDirectory()
+            .appendingPathComponent(fileName)
+        try write(withPrefix: prefix, to: destURL)
     }
 }
