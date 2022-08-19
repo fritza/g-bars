@@ -173,24 +173,6 @@ extension MotionManager: AsyncSequence, AsyncIteratorProtocol {
     }
 
     func makeAsyncIterator() -> MotionManager {
-        // TODO: How do we do start-updates without starting the iterator?
-        //       You might want to do the two separately...?
-        //       Maybe not. I mean, if you can't start without providing
-        //       an action closure, then what closure do you want except to
-        //       feed the sequence?
-        // How does this fail? `throws` is a supertype of non-throwing,
-        // and there's no imaginable way to downcast or (more important)
-        // to handle the throw.
-
-
-        // TODO: What ops queue should this go on?
-        //       You create a new one by instantiating with `init()`.
-        //       I'd want serial. I don't need the main actor.
-        //       Should I go nuts with a separate queue for writing the
-        //       results? Probably not. Let the other things do what
-        //       they do without forcing a queueing system on top of
-        //       whatever the Task chooses.
-
         motionManager.startAccelerometerUpdates(to: .main)
         { accData, error in
             if let error = error {
