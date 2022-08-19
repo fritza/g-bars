@@ -110,47 +110,10 @@ struct AcccelerometryView: View {
             .padding()
 
             if isCollecting {
-                VStack {
-                    SimpleBarView(
-                        [
-                            abs(reading.acceleration.x),
-                            abs(reading.acceleration.y),
-                            abs(reading.acceleration.z)
-                        ],
-                        spacing: 0.20, color: .teal, reservedMax: 1.25)
-                }
-                HorizontalBar(reading.acceleration.scalar,
-                              minValue: 0.05, maxValue: 8.0)
-                .frame(height: 40, alignment: .leading)
+                activePlot()
             }
             else {
-                VStack {
-                    ZStack(alignment: .center) {
-                        Rectangle()
-                            .foregroundColor(
-                                Color(.sRGB,
-                                      white: (colorScheme == .light) ? 0.95 : 0.4,
-                                      opacity: 1.0))
-                        if accelerationStore.isEmpty {
-                            Text("No data").font(.largeTitle)
-                                .foregroundColor(.gray)
-                        }
-                        else {
-                            AccelerometryPlotView(
-                                logarithmicGraph ?
-                                accelerationStore.applying { log10(Swift.max($0, 0.01)) }
-                                : accelerationStore,
-                                lineColor: .red)
-                        }
-                    }
-                    .frame(height: 360)
-                    Button(action: {
-                        logarithmicGraph.toggle()
-                    }, label: {
-                        Text("\(logarithmicGraph ? "Logarithmic" : "Linear") scale")
-                            .font(.caption)
-                    })
-                }
+                idlePlot()
             }
         }
         .padding()
@@ -171,6 +134,58 @@ struct AcccelerometryView: View {
             catch {
                 motionManager.cancelUpdates()
             }
+        }
+    }
+
+    @ViewBuilder
+    func graphZStack() -> some View {
+        ZStack(alignment: .center) {
+            Rectangle()
+                .foregroundColor(
+                    Color(.sRGB,
+                          white: (colorScheme == .light) ? 0.95 : 0.4,
+                          opacity: 1.0))
+            if accelerationStore.isEmpty {
+                Text("No data").font(.largeTitle)
+                    .foregroundColor(.gray)
+            }
+            else {
+                AccelerometryPlotView(
+                    logarithmicGraph ?
+                    accelerationStore.applying { log10(Swift.max($0, 0.01)) }
+                    : accelerationStore,
+                    lineColor: .red)
+            }
+        }
+    }
+
+    @ViewBuilder
+    func activePlot() -> some View {
+        VStack {
+            SimpleBarView(
+                [
+                    abs(reading.acceleration.x),
+                    abs(reading.acceleration.y),
+                    abs(reading.acceleration.z)
+                ],
+                spacing: 0.20, color: .teal, reservedMax: 1.25)
+        }
+        HorizontalBar(reading.acceleration.scalar,
+                      minValue: 0.05, maxValue: 8.0)
+        .frame(height: 40, alignment: .leading)
+    }
+
+    @ViewBuilder
+    func idlePlot() -> some View {
+        VStack {
+            graphZStack()
+                .frame(height: 360)
+            Button(action: {
+                logarithmicGraph.toggle()
+            }, label: {
+                Text("\(logarithmicGraph ? "Logarithmic" : "Linear") scale")
+                    .font(.caption)
+            })
         }
     }
 }
