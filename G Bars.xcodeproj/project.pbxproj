@@ -76,6 +76,7 @@
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
 		1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBB1E228AD989D00EBB442 /* StagingTests.swift */; };
+		1FDD375228B00585001AE018 /* LastWalkingDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */; };
 		1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* CallbackUtterance.swift */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +172,7 @@
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
 		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
+		1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastWalkingDemoView.swift; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -209,6 +211,7 @@
 				1F185B8F28A451F100D8681E /* WalkingContainerView.swift */,
 				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
 				1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */,
+				1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */,
 				1F185B9128A5AED200D8681E /* PhaseSequencing.swift */,
 			);
 			path = Walking;
@@ -609,6 +612,7 @@
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
 				1FCB95E5286CD5DF00DE9DD0 /* CoreMotion.swift in Sources */,
 				1F57E8132874CCE500FFB840 /* DASIInterstitialView.swift in Sources */,
+				1FDD375228B00585001AE018 /* LastWalkingDemoView.swift in Sources */,
 				1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */,
 				1F8DFF6028A2F17E0063C28C /* WalkInfoForm.swift in Sources */,
 				1F26AFB7286E217300586654 /* SurveyContainerView.swift in Sources */,
