@@ -148,7 +148,6 @@
 		1FB324C02888B16600A2F351 /* DigitalTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalTimerView.swift; sourceTree = "<group>"; };
 		1FCB95B2286CD37700DE9DD0 /* G Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "G Bars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = G_BarsApp.swift; sourceTree = "<group>"; };
-		1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcccelerometryView.swift; sourceTree = "<group>"; };
 		1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FCB95BC286CD37700DE9DD0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1FCB95C2286CD37800DE9DD0 /* G BarsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "G BarsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -422,7 +421,6 @@
 			isa = PBXGroup;
 			children = (
 				1F9C6AE5287F4A320097868B /* Graphing */,
-				1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */,
 				1FCB95E3286CD5DF00DE9DD0 /* CoreMotion.swift */,
 				1FCB95DF286CD4AD00DE9DD0 /* SimpleBarView.swift */,
 				1F26AFA7286E049800586654 /* HorizontalBar.swift */,
