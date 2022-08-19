@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B8F28A451F100D8681E /* WalkingContainerView.swift */; };
 		1F185B9228A5AED200D8681E /* PhaseSequencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9128A5AED200D8681E /* PhaseSequencing.swift */; };
-		1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9428A6BA7500D8681E /* SyncAccelerationWriter.swift */; };
 		1F185B9728A6DBDD00D8681E /* SyncWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */; };
 		1F185B9928A6F06D00D8681E /* FloatEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9828A6F06D00D8681E /* FloatEquatable.swift */; };
 		1F185B9B28A6F99600D8681E /* RoughEqualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F185B9A28A6F99600D8681E /* RoughEqualityTests.swift */; };
@@ -76,6 +75,7 @@
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
 		1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBB1E228AD989D00EBB442 /* StagingTests.swift */; };
 		1FDD375228B00585001AE018 /* LastWalkingDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */; };
+		1FDD375428B01374001AE018 /* TimedWalkObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375328B01374001AE018 /* TimedWalkObserver.swift */; };
 		1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* CallbackUtterance.swift */; };
 /* End PBXBuildFile section */
 
@@ -172,6 +172,7 @@
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
 		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
 		1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastWalkingDemoView.swift; sourceTree = "<group>"; };
+		1FDD375328B01374001AE018 /* TimedWalkObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimedWalkObserver.swift; path = "G Bars/Walking/TimedWalkObserver.swift"; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -345,6 +346,7 @@
 		1FCB95A9286CD37700DE9DD0 = {
 			isa = PBXGroup;
 			children = (
+				1FDD375328B01374001AE018 /* TimedWalkObserver.swift */,
 				1FCB95B4286CD37700DE9DD0 /* G Bars */,
 				1FCB95C5286CD37800DE9DD0 /* G BarsTests */,
 				1FCB95CF286CD37800DE9DD0 /* G BarsUITests */,
@@ -630,6 +632,7 @@
 				1FB10A01287CD0A3007D7CDF /* UsabilityView.swift in Sources */,
 				1F9C6AE9288093DD0097868B /* Datum2D.swift in Sources */,
 				1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */,
+				1FDD375428B01374001AE018 /* TimedWalkObserver.swift in Sources */,
 				1F46668C28AD48A40044E2E1 /* ActivityUIController.swift in Sources */,
 				1F26AFBD286E226600586654 /* SubjectID.swift in Sources */,
 				1F26AFB3286E20BF00586654 /* DASIQuestionView.swift in Sources */,
@@ -644,7 +647,6 @@
 				1F46668E28AD74FE0044E2E1 /* Staging.swift in Sources */,
 				1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
-				1F185B9528A6BA7500D8681E /* SyncAccelerationWriter.swift in Sources */,
 				1FA1C08A28947AF0009D8F06 /* AtEnvironment.swift in Sources */,
 				1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */,
 				1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */,
