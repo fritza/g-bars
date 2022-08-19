@@ -48,8 +48,10 @@ extension AccelerometryConsuming {
 /// Non-view-related code that consumes and stores accelerometer data.
 ///
 /// - todo: `TimedWalkObserver` should accept any storage method (`AccelerometryConsuming`) rather than stick with `Array`.
-final class TimedWalkObserver: ObservableObject {
-    // MARK: Properties
+final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
+    // MARK:  Properties
+    // FIXME: The long-term storage object
+    //        ought to be an actor.
     var consumer: [CMAccelerometerData]
     let title: String
     var isRunning: Bool
@@ -61,14 +63,19 @@ final class TimedWalkObserver: ObservableObject {
         isRunning = false
     }
 
+    var description: String {
+        "TimedWalkObserver ("
+        + (isRunning ? "Running" : "Stopped")
+        + ", \(consumer.count)) “\(title)”"
+    }
+
     // MARK: Start/stop
+    /// Start the motion manager collecting accelerometry.
     func start() async {
         isRunning = true
         Task {
             do {
                 for try await datum in MotionManager.shared {
-                    // FIXME: This long-term storage
-                    // object ought to be an actor.
                     consumer.append(datum)
                 }
             }
@@ -80,13 +87,20 @@ final class TimedWalkObserver: ObservableObject {
         }
     }
 
+    /// Tear down the previous run of the manager in preparation for another run.
+    func reset() {
+        stop()
+        clearRecords()
+    }
+
+    /// Halt the Core Motion updates.
     func stop() {
         MotionManager.shared.cancelUpdates()
         isRunning = false
-
     }
 
-    func clearRecords() async {
+    /// Remove all records from the observer (whatever that might be).
+    func clearRecords() {
         assert(!isRunning)
         consumer.removeAll()
     }
