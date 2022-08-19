@@ -172,7 +172,7 @@
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
 		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
 		1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastWalkingDemoView.swift; sourceTree = "<group>"; };
-		1FDD375328B01374001AE018 /* TimedWalkObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimedWalkObserver.swift; path = "G Bars/Walking/TimedWalkObserver.swift"; sourceTree = "<group>"; };
+		1FDD375328B01374001AE018 /* TimedWalkObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedWalkObserver.swift; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,6 +207,7 @@
 		1F185B8E28A44D5800D8681E /* Walking */ = {
 			isa = PBXGroup;
 			children = (
+				1FDD375328B01374001AE018 /* TimedWalkObserver.swift */,
 				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
 				1F185B8F28A451F100D8681E /* WalkingContainerView.swift */,
 				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
@@ -346,7 +347,6 @@
 		1FCB95A9286CD37700DE9DD0 = {
 			isa = PBXGroup;
 			children = (
-				1FDD375328B01374001AE018 /* TimedWalkObserver.swift */,
 				1FCB95B4286CD37700DE9DD0 /* G Bars */,
 				1FCB95C5286CD37800DE9DD0 /* G BarsTests */,
 				1FCB95CF286CD37800DE9DD0 /* G BarsUITests */,
