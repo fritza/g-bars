@@ -45,7 +45,6 @@
 		1F9F2A80287876A100490885 /* DASIPagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A7F287876A100490885 /* DASIPagesTests.swift */; };
 		1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */; };
 		1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A832878B17300490885 /* DASIYNQuestionView.swift */; };
-		1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95B7286CD37700DE9DD0 /* AcccelerometryView.swift */; };
 		1F9F2A87287CB06600490885 /* DASIDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F2A86287CB06600490885 /* DASIDisplayView.swift */; };
 		1FA1C08A28947AF0009D8F06 /* AtEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */; };
 		1FB109FF287CCDF0007D7CDF /* USurveyQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FB109FE287CCDF0007D7CDF /* USurveyQuestions.json */; };
@@ -637,7 +636,6 @@
 				1FB10A05287CD340007D7CDF /* UsabilityController.swift in Sources */,
 				1F185B9928A6F06D00D8681E /* FloatEquatable.swift in Sources */,
 				1FCB95E4286CD5DF00DE9DD0 /* AsyncAccelerationWriter.swift in Sources */,
-				1F9F2A85287CAADB00490885 /* AcccelerometryView.swift in Sources */,
 				1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */,
 				1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */,
 				1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */,
