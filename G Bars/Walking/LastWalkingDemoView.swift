@@ -25,9 +25,24 @@ import SwiftUI
  Remember to MotionManager.cancelUpdates()
  */
 
+
+
+// Remember at the end of each walk to preserve the CSV/data from the observer before resetting it.
+// How do we do that? This View consumes it, and the WalkingContainerView has to harvest them at the end of .walk_1 and .walk_2
+
+// `WalkingState` being `AppStages`, it's Hashable, therefore can be keys for `Dictionary`s.
+
+// See WalkingState.csvPrefix for the dataset prefix. WalkingContainerView knows about it.
+// Added WalkingState .demoSummary
+
+
 struct LastWalkingDemoView: View {
+
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+       VStack {
+           Text("End of Demo")
+       }
     }
 }
 
