@@ -48,6 +48,18 @@ actor IncomingAccelerometry {
         return buffer.popFirst()
     }
     // And now we're back to polling, right?
+
+    /// Return all elements in the `Deque` as an `Array`, then empty it.
+    /// - warning: The `actor` should insulate the caller from the effects of new data coming in, but be careful.
+    func popAll() async throws -> [CMAccelerometerData] {
+        defer { clear() }
+        return Array<CMAccelerometerData>(buffer)
+    }
+
+    /// Remove all elements from the `Deque`.
+    func clear() {
+        buffer.removeAll()
+    }
 }
 
 // MARK: - Available / Active
