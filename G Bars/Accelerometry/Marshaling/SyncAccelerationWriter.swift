@@ -43,6 +43,8 @@ extension FileHandle: HasWriting {
 /// Write an ``AcceleratorItem`` array to a given URL.
 ///
 /// The item array is immutable; there is no “append” function.
+@available(*, unavailable,
+            message: "Do not use, depends on static writing list, no replacement")
 final class SyncAccelerationWriter<HW: HasWriting> {
     enum Errors: Error {
         case couldNotEncodeContents
