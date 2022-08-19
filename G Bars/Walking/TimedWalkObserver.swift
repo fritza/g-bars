@@ -53,7 +53,7 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
     // FIXME: The long-term storage object
     //        ought to be an actor.
     var consumer: [CMAccelerometerData]
-    let title: String
+    var title: String
     var isRunning: Bool
 
     // MARK: Initializer
@@ -175,6 +175,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
         let destURL = try FileManager.default
             .docsDirectory()
             .appendingPathComponent(fileName)
+
         try write(withPrefix: prefix, to: destURL)
     }
 }

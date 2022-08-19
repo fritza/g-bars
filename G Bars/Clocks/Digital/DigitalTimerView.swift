@@ -96,6 +96,8 @@ struct DigitalTimerView: View {
 
     private let expirationCallback: (() -> Void)?
 
+    var observer = TimedWalkObserver(title: "some Timer")
+
     init(duration: TimeInterval, immediately
          completion: (() -> Void)? = nil,
          function: String = #function,
@@ -110,6 +112,24 @@ struct DigitalTimerView: View {
         let tr =  TimeReader(interval: duration)
         self.timer = tr
         expirationCallback = completion
+    }
+
+    fileprivate func timerStateDidChange(_ stat: TimeReader.TimerStatus) {
+        if stat == .expired {
+            playSound(named: "Klaxon",
+                      thenSay: "Stop walking.")
+            expirationCallback?()
+        }
+        else if stat == .running {
+            playSound(named: "Klaxon",
+                      thenSay: "Start walking.")
+        }
+
+        // If the timer halts, stop collecting.
+        switch timer.status {
+        case .cancelled, .expired: observer.stop()
+        default: break
+        }
     }
 
     var body: some View {
@@ -132,19 +152,29 @@ struct DigitalTimerView: View {
             }
             .padding()
         }
+        .task {
+            await self.observer.start
+        }
         .onAppear {
             timer.start()
         }
         .onReceive(timer.$status, perform: { stat in
-            if stat == .expired {
-                playSound(named: "Klaxon",
-                          thenSay: "Stop walking.")
-                expirationCallback?()
+            timerStateDidChange(stat)
+            try {
+                // TODO: Make the view aware of its stage.
+                // Remember that WalkingState has a prefix property.
+
+                observer.write(withPrefix: "walk_normal",
+                               to: "\(Date().iso).csv")
             }
-            else if stat == .running {
-                playSound(named: "Klaxon",
-                          thenSay: "Start walking.")
+            catch {
+                print("Writing the file failed:", error)
+                print()
             }
+            // TODO: Then harvest and save.
+            // Is this handler really the best place?
+
+
         })
         .onReceive(timer.timeSubject, perform: { newTime in
             self.minSecfrac = newTime
