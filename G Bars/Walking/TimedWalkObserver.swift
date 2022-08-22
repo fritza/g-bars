@@ -41,7 +41,7 @@ final class MockAccelerometerData: NSObject, AccelerometerDataContent {
     }
 }
 
-// MARK: - CMAccelerometerData (CSV)
+// MARK: - CMAccelerometerData (content) (CSV)
 extension CMAccelerometerData: CSVRepresentable {
     var csvLine: String? {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
@@ -52,13 +52,14 @@ extension CMAccelerometerData: CSVRepresentable {
 }
 
 // MARK: - AccelerometryConsuming
-/// Adopters can accept `CMAccelerometerData` elements and do simple reductions to `[String]`.
+/// Adopters can accept `AccelerometerDataContent` elements and do simple reductions to `[String]`.
 ///
 /// Basically, an array, but could be a writeable `FileHandle`
 protocol AccelerometryConsuming {
-    func append(_ record: CMAccelerometerData)
-    func append(contentsOf array: [CMAccelerometerData])
-    func allRecords() -> [CMAccelerometerData]
+//    associatedtype AD: AccelerometerDataContent
+    func append(_ record: AccelerometerDataContent)
+    func append(contentsOf array: [AccelerometerDataContent])
+    func allRecords() -> [AccelerometerDataContent]
     func marshalledRecords() -> [String]
 }
 
@@ -85,7 +86,7 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
     // MARK:  Properties
     // FIXME: The long-term storage object
     //        ought to be an actor.
-    var consumer: [CMAccelerometerData]
+    var consumer: [AccelerometerDataContent]
     var title: String
     var isRunning: Bool
 
@@ -122,16 +123,18 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 
     func testableStart(count: Int = 8) {
         // Problem: It wants accelerometer data.
-        let accelerations: [CMAcceleration] = [
-            .init(x: 0, y: 0, z: 0),
-            .init(x: 1, y: 0, z: 0),
-            .init(x: 0, y: 1, z: 0),
-            .init(x: 0, y: 0, z: 1),
-            .init(x: -1, y: 0, z: 0),
-            .init(x: 0, y: -1, z: 0),
-            .init(x: 0, y: 0, z: -1),
+        let accelerations: [MockAccelerometerData] = [
+            .init(t: 0.1, x: 0, y: 0, z: 0),
+            .init(t: 0.2, x: 1, y: 0, z: 0),
+            .init(t: 0.3, x: 0, y: 1, z: 0),
+            .init(t: 0.4, x: 0, y: 0, z: 1),
+            .init(t: 0.5, x: -1, y: 0, z: 0),
+            .init(t: 0.6, x: 0, y: -1, z: 0),
+            .init(t: 0.7, x: 0, y: 0, z: -1),
             ]
-        // CMAccelerometerData
+        consumer.append(contentsOf: accelerations)
+
+        // AccelerometerDataContent
         isRunning = true
     }
 
@@ -156,15 +159,13 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 
 // MARK: AccelerometryConsuming
 extension TimedWalkObserver: AccelerometryConsuming {
-    typealias AD = AccelerometerDataContent
-
-    func append(_ record: CMAccelerometerData) {
+    func append(_ record: AccelerometerDataContent) {
         consumer.append(record)
     }
-    func append(contentsOf array: [CMAccelerometerData]) {
+    func append(contentsOf array: [AccelerometerDataContent]) {
         consumer.append(contentsOf: array)
     }
-    func allRecords() -> [CMAccelerometerData] {
+    func allRecords() -> [AccelerometerDataContent] {
         return consumer
     }
     // The default implementation is fine.
@@ -190,7 +191,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
     /// - Returns: A single `String`, each line being the marshalling of the `CMAccelerometerData` records
     func allAsCSV(withPrefix prefix: String) -> String {
         return marshalledRecords(withPrefix: prefix)
-            .joined(separator: "\r\\n")
+            .joined(separator: "\r\n")
     }
 
     /// A `Data` instance containing the entire text of a CSV `String`
