@@ -192,7 +192,7 @@ final class ApplicationState: ObservableObject {
 enum WalkingState: String, CaseIterable, AppStages {
     case interstitial_1, countdown_1, walk_1
     case interstitial_2, countdown_2, walk_2
-    case end_interstitial, demo_summary
+    case ending_interstitial, demo_summary
 
     var csvPrefix: String? {
         switch self {

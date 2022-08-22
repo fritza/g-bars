@@ -23,7 +23,7 @@
 		1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC5286E27FB00586654 /* YesNoButton.swift */; };
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
 		1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080628A4318400C3F846 /* InterstitialPageView.swift */; };
-		1F35080928A43FE400C3F846 /* InterstitalPageTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */; };
+		1F35080928A43FE400C3F846 /* InterstitalPageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080828A43FE400C3F846 /* InterstitalPageContainerView.swift */; };
 		1F46668C28AD48A40044E2E1 /* ActivityUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */; };
 		1F46668E28AD74FE0044E2E1 /* Staging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46668D28AD74FE0044E2E1 /* Staging.swift */; };
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
@@ -114,7 +114,7 @@
 		1F26AFC5286E27FB00586654 /* YesNoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoButton.swift; sourceTree = "<group>"; };
 		1F26AFC6286E27FB00586654 /* YesNoStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YesNoStack.swift; sourceTree = "<group>"; };
 		1F35080628A4318400C3F846 /* InterstitialPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialPageView.swift; sourceTree = "<group>"; };
-		1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitalPageTabView.swift; sourceTree = "<group>"; };
+		1F35080828A43FE400C3F846 /* InterstitalPageContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitalPageContainerView.swift; sourceTree = "<group>"; };
 		1F35080A28A4405C00C3F846 /* walk-intro.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "walk-intro.json"; sourceTree = "<group>"; };
 		1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityUIController.swift; sourceTree = "<group>"; };
 		1F46668D28AD74FE0044E2E1 /* Staging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staging.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
 				1F185B8F28A451F100D8681E /* WalkingContainerView.swift */,
 				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
-				1F35080828A43FE400C3F846 /* InterstitalPageTabView.swift */,
+				1F35080828A43FE400C3F846 /* InterstitalPageContainerView.swift */,
 				1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */,
 				1F185B9128A5AED200D8681E /* PhaseSequencing.swift */,
 			);
@@ -603,7 +603,7 @@
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
 				1F185B9228A5AED200D8681E /* PhaseSequencing.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
-				1F35080928A43FE400C3F846 /* InterstitalPageTabView.swift in Sources */,
+				1F35080928A43FE400C3F846 /* InterstitalPageContainerView.swift in Sources */,
 				1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */,
 				1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */,
 				1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */,
@@ -829,6 +829,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wt9t.G-Bars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG G_BARS INCLUDE_WALK_TERMINAL";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

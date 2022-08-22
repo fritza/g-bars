@@ -9,9 +9,9 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 
-private let instructionList     = InterstitialList(baseName: "walk-intro"       )
-private let mid_instructionList = InterstitialList(baseName: "second-walk-intro")
-private let end_walkingList     = InterstitialList(baseName: "usability-intro"  )
+private let instructionContentList     = InterstitialList(baseName: "walk-intro"       )
+private let mid_instructionContentList = InterstitialList(baseName: "second-walk-intro")
+private let end_walkingContentList     = InterstitialList(baseName: "usability-intro"  )
 
 let csvUTT       = UTType.commaSeparatedText
 let csvUTTString = "public.comma-separated-values-text"
@@ -32,7 +32,11 @@ struct WalkingContainerView: View {
                 interstitial_2View()
                 countdown_2View()
                 walk_2View()
-                end_interstitialView()
+                ending_interstitialView()
+
+// demo_summaryView()
+
+
             }   // VStack
         }       // NavigationView
 
@@ -49,7 +53,7 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (interstitial_1)",
             tag: WalkingState.interstitial_1, selection: $state) {
-                InterstitalPageTabView(listing: instructionList, selection: 1) {
+                InterstitalPageContainerView(listing: instructionContentList, selection: 1) {
                     self.state = .countdown_1
                 }.padding()
                     .navigationBarBackButtonHidden(true)
@@ -62,7 +66,7 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (countdown_1)",
             tag: WalkingState.countdown_1, selection: $state) {
-                InterstitalPageTabView(listing: instructionList, selection: 1) {
+                InterstitalPageContainerView(listing: instructionContentList, selection: 1) {
                     self.state = .walk_1
                 }.padding()
                     .navigationBarBackButtonHidden(true)
@@ -99,7 +103,7 @@ extension WalkingContainerView {
     func interstitial_2View() -> some View    {             NavigationLink(
         "SHOULDN'T SEE (interstitial_2)",
         tag: WalkingState.interstitial_2, selection: $state) {
-            InterstitalPageTabView(listing: mid_instructionList, selection: 1) {
+            InterstitalPageContainerView(listing: mid_instructionContentList, selection: 1) {
                 // → .countdown_2
                 self.state = .countdown_2
             }.padding()
@@ -129,19 +133,20 @@ extension WalkingContainerView {
             "SHOULDN'T SEE (walk_2)",
             tag: WalkingState.walk_2, selection: $state) {
                 DigitalTimerView(duration: countdown_TMP_Duration) {
-                    // → .end_interstitial
-                    state = .end_interstitial
+                    // → .ending_interstitial
+                    state = .ending_interstitial
                 }.padding()
                     .navigationBarBackButtonHidden(true)
             }
         //                .hidden()
     }
 
-    /// A `NavigationLink` for the closing screen (`end_interstitial`)
+    /// A `NavigationLink` for the closing screen (`ending_interstitial`)
     @ViewBuilder
-    func end_interstitialView() -> some View {
+    func ending_interstitialView() -> some View {
+        // REGULAR farewell to the user.
         NavigationLink(
-            "SHOULDN'T SEE (end_interstitial)",
+            "SHOULDN'T SEE (ending_interstitial)",
             tag: WalkingState.end_interstitial, selection: $state) {
                 InterstitalPageTabView(
                     listing: end_walkingList, selection: 1) {
