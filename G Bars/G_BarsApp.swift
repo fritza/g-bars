@@ -79,23 +79,7 @@ struct G_BarsApp: App {
                 NavigationView { UsabilityContainer() }
                     .tabItem { Label("Usability",
                                      systemImage: "checkmark.circle")
-                    }
-                
-//                // MARK: Sweep-second disk
-//                NavigationView {
-//                    SweepSecondView(
-//                        duration: sweep_TMP_Duration,
-//                        onCompletion: {}) }
-//                .tabItem {
-//                    Label("Sweep",
-//                          systemImage: "timer")
-//                }
-//
-//                // MARK: Digital countdown
-//                NavigationView { DigitalTimerView(duration: countdown_TMP_Duration )}
-//                    .tabItem { Label("Digital",
-//                                     systemImage: "clock")
-//                    }
+                    }                
             }
             .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)

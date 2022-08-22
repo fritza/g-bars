@@ -94,15 +94,22 @@ struct DigitalTimerView: View {
     @ObservedObject var timer: TimeReader
     @State private var minSecfrac: MinSecAndFraction?
 
+    var walkingState: WalkingState
+
     private let expirationCallback: (() -> Void)?
 
     var observer = TimedWalkObserver(title: "some Timer")
 
-    init(duration: TimeInterval, immediately
-         completion: (() -> Void)? = nil,
+    init(duration: TimeInterval,
+         walkingState: WalkingState,
+         immediately completion: (() -> Void)? = nil,
          function: String = #function,
          fileID: String = #file,
          line: Int = #line) {
+        assert(walkingState == .walk_1 || walkingState == .walk_2,
+        "\(fileID):\(line): Unexpected walking state: \(walkingState)"
+        )
+        self.walkingState = walkingState
         serialNumber = Self.dtvSerial
         Self.dtvSerial += 1
 
@@ -128,6 +135,9 @@ struct DigitalTimerView: View {
         // If the timer halts, stop collecting.
         switch timer.status {
         case .cancelled, .expired: observer.stop()
+            // Now that it's stopped, you're ready to write a CSV file
+            // Do not call reset or clearRecords, you need those for writing.
+
         default: break
         }
     }
@@ -153,7 +163,9 @@ struct DigitalTimerView: View {
             .padding()
         }
         .task {
-            await self.observer.start
+            await self.observer.start()
+            // This appends CMAccelerometerData to
+            // the observer's consumer list.
         }
         .onAppear {
             timer.start()
@@ -196,7 +208,8 @@ struct DigitalTimerView: View {
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DigitalTimerView(duration: countdown_TMP_Duration)
+            DigitalTimerView(duration: countdown_TMP_Duration,
+                             walkingState: .walk_2)
                 .padding()
         }
     }

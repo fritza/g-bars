@@ -158,6 +158,8 @@ extension TimedWalkObserver: AccelerometryConsuming {
     ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
     ///   - url: The location of the new file.
     func write(withPrefix prefix: String, to url: URL) throws {
+        // TODO: Make it async
+
         let fm = FileManager.default
 
         let data = allAsData(prefixed: prefix)
@@ -170,6 +172,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
     ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
     func writeToFile(named fileName: String,
                      linesPrefixedWith prefix: String) throws {
+        // TODO: Make it async
         precondition(!fileName.isEmpty,
                      "\(#function): empty prefix string")
         let destURL = try FileManager.default

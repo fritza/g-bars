@@ -96,7 +96,8 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (walk_1)",
             tag: WalkingState.walk_1, selection: $state) {
-                DigitalTimerView(duration: countdown_TMP_Duration) {
+                DigitalTimerView(duration: countdown_TMP_Duration,
+                                 walkingState: .walk_1) {
                     // → .interstitial_2
                     state = .interstitial_2
                 }.padding()
@@ -139,10 +140,12 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (walk_2)",
             tag: WalkingState.walk_2, selection: $state) {
-                DigitalTimerView(duration: countdown_TMP_Duration) {
-                    // → .ending_interstitial
-                    state = .ending_interstitial
-                }.padding()
+                DigitalTimerView(
+                    duration: countdown_TMP_Duration,
+                    walkingState: .walk_2) {
+                        // → .ending_interstitial
+                        state = .ending_interstitial
+                    }.padding()
                     .navigationBarBackButtonHidden(true)
             }
         //                .hidden()
@@ -154,25 +157,22 @@ extension WalkingContainerView {
         // REGULAR farewell to the user.
         NavigationLink(
             "SHOULDN'T SEE (ending_interstitial)",
-            tag: WalkingState.end_interstitial, selection: $state) {
+            tag: WalkingState.ending_interstitial, selection: $state) {
 
                 #if INCLUDE_WALK_TERMINAL
 
                 // REGULAR farewell to the user.
-                InterstitalPageTabView(
+                InterstitalPageContainerView(
                     // Walk-demo, the summary page follows.
-
-                    // had been 1 sted $state
-                    listing: end_walkingContentList, selection: $state) {
+                    listing: end_walkingContentList, selection: 1) {
                         self.state = .demo_summary
                     }.padding() // completion closure for end_walkingList
                     .navigationBarBackButtonHidden(true)
 
                 #else
 
-                InterstitalPageTabView(
+                InterstitalPageContainerView(
                     // Not walk-demo, the ending interstitial goodbye is the end. (Loops around.)
-                    // WHY 1 and not $state?
                     listing: end_walkingList, selection: 1) {
                         self.state = .interstitial_1
                     }.padding() // completion closure for end_walkingList
