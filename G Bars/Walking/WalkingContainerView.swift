@@ -148,13 +148,50 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (ending_interstitial)",
             tag: WalkingState.end_interstitial, selection: $state) {
+
+                #if INCLUDE_WALK_TERMINAL
+
+                // REGULAR farewell to the user.
                 InterstitalPageTabView(
+                    // Walk-demo, the summary page follows.
+
+                    // WHY 1 and not $state?
+                    listing: end_walkingContentList, selection: $state) {
+                        self.state = .demo_summary
+                    }.padding() // completion closure for end_walkingList
+                    .navigationBarBackButtonHidden(true)
+
+                #else
+
+                InterstitalPageTabView(
+                    // Not walk-demo, the ending interstitial goodbye is the end. (Loops around.)
+                    // WHY 1 and not $state?
                     listing: end_walkingList, selection: 1) {
+                        self.state = .interstitial_1
+                    }.padding() // completion closure for end_walkingList
+                    .navigationBarBackButtonHidden(true)
+
+                #endif
+            }
+    }
+
+    #if INCLUDE_WALK_TERMINAL
+    // Is a walk-demo. Display the generated-data summary. Loops around to the initial screen interstitial_1
+    // which may at choice include clearing data as for a fresh user.
+    @ViewBuilder
+    func demo_summaryView() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (demo_summary)",
+            tag: WalkingState.demo_summary, selection: $state) {
+                InterstitalPageTabView(
+                    listing: demo_summary, selection: 1) {
                         self.state = .interstitial_1
                     }.padding() // completion closure for end_walkingList
                     .navigationBarBackButtonHidden(true)
             }
     }
+    #endif
+
 }
 
 // MARK: - Preview
