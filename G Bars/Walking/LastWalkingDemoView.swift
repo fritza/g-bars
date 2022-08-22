@@ -62,8 +62,12 @@ struct LastWalkingDemoView: View {
          Shouldn't (ha) be too hard, just spruce up the completions.
          */
        VStack {
+           Text("Both walks are complete. Browse the accelerometer contents here.")
+
+           
            Text("End of Demo")
        }
+       .navigationTitle("Summary (hidden)")
     }
 }
 

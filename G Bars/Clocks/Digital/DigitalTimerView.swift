@@ -170,23 +170,19 @@ struct DigitalTimerView: View {
         .onAppear {
             timer.start()
         }
+        .onDisappear() {
+            let isoDate = Date().iso
+            let state = walkingState.csvPrefix ?? "!!!!"
+            try? observer.writeToFile(
+                named: "Sample-\(isoDate)",
+                linesPrefixedWith: "\(state),Sample")
+            // Is this handler really the best place?
+            // or onReceive of timer.$status?
+        }
         .onReceive(timer.$status, perform: { stat in
             timerStateDidChange(stat)
-            try {
-                // TODO: Make the view aware of its stage.
-                // Remember that WalkingState has a prefix property.
-
-                observer.write(withPrefix: "walk_normal",
-                               to: "\(Date().iso).csv")
-            }
-            catch {
-                print("Writing the file failed:", error)
-                print()
-            }
-            // TODO: Then harvest and save.
             // Is this handler really the best place?
-
-
+            // or onDisappear?
         })
         .onReceive(timer.timeSubject, perform: { newTime in
             self.minSecfrac = newTime
