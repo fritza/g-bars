@@ -76,6 +76,7 @@
 		1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBB1E228AD989D00EBB442 /* StagingTests.swift */; };
 		1FDD375228B00585001AE018 /* LastWalkingDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */; };
 		1FDD375428B01374001AE018 /* TimedWalkObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375328B01374001AE018 /* TimedWalkObserver.swift */; };
+		1FDD375628B41C96001AE018 /* TimedWalkObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD375528B41C96001AE018 /* TimedWalkObserverTests.swift */; };
 		1FEEA766288F008C00B60409 /* CallbackUtterance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEA765288F008C00B60409 /* CallbackUtterance.swift */; };
 /* End PBXBuildFile section */
 
@@ -172,6 +173,7 @@
 		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
 		1FDD375128B00585001AE018 /* LastWalkingDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastWalkingDemoView.swift; sourceTree = "<group>"; };
 		1FDD375328B01374001AE018 /* TimedWalkObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedWalkObserver.swift; sourceTree = "<group>"; };
+		1FDD375528B41C96001AE018 /* TimedWalkObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedWalkObserverTests.swift; sourceTree = "<group>"; };
 		1FEEA765288F008C00B60409 /* CallbackUtterance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackUtterance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -400,6 +402,7 @@
 			children = (
 				1FCB95C6286CD37800DE9DD0 /* G_BarsTests.swift */,
 				1F185B9628A6DBDD00D8681E /* SyncWriterTests.swift */,
+				1FDD375528B41C96001AE018 /* TimedWalkObserverTests.swift */,
 				1F9F2A7F287876A100490885 /* DASIPagesTests.swift */,
 				1FDBB1E228AD989D00EBB442 /* StagingTests.swift */,
 				1F9F2A8128787AA300490885 /* DASIPhaseTests.swift */,
@@ -656,6 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FDD375628B41C96001AE018 /* TimedWalkObserverTests.swift in Sources */,
 				1F9F2A8228787AA300490885 /* DASIPhaseTests.swift in Sources */,
 				1F185B9B28A6F99600D8681E /* RoughEqualityTests.swift in Sources */,
 				1F185B9728A6DBDD00D8681E /* SyncWriterTests.swift in Sources */,

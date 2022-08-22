@@ -8,6 +8,39 @@
 import Foundation
 import CoreMotion
 
+protocol AccelerometerDataContent: NSObject {
+    var timestamp: TimeInterval { get }
+    var acceleration: CMAcceleration { get }
+}
+
+extension AccelerometerDataContent {
+    var csvLine: String? {
+        let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
+            .map(\.pointFive)
+            .joined(separator: ",")
+        return asString
+    }
+}
+
+extension CMAccelerometerData: AccelerometerDataContent {}
+
+final class MockAccelerometerData: NSObject, AccelerometerDataContent {
+    internal init(timestamp: TimeInterval, acceleration: CMAcceleration) {
+        self.timestamp = timestamp
+        self.acceleration = acceleration
+    }
+
+    let timestamp: TimeInterval
+    let acceleration: CMAcceleration
+
+    convenience init(t: TimeInterval? = nil,
+                     x: Double, y: Double, z: Double) {
+        let acc = CMAcceleration(x: x, y: y, z: z)
+        let ts = t ?? Date().timeIntervalSinceReferenceDate
+        self.init(timestamp: ts, acceleration: acc)
+    }
+}
+
 // MARK: - CMAccelerometerData (CSV)
 extension CMAccelerometerData: CSVRepresentable {
     var csvLine: String? {
@@ -87,6 +120,21 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
         }
     }
 
+    func testableStart(count: Int = 8) {
+        // Problem: It wants accelerometer data.
+        let accelerations: [CMAcceleration] = [
+            .init(x: 0, y: 0, z: 0),
+            .init(x: 1, y: 0, z: 0),
+            .init(x: 0, y: 1, z: 0),
+            .init(x: 0, y: 0, z: 1),
+            .init(x: -1, y: 0, z: 0),
+            .init(x: 0, y: -1, z: 0),
+            .init(x: 0, y: 0, z: -1),
+            ]
+        // CMAccelerometerData
+        isRunning = true
+    }
+
     /// Tear down the previous run of the manager in preparation for another run.
     func reset() {
         stop()
@@ -108,6 +156,8 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 
 // MARK: AccelerometryConsuming
 extension TimedWalkObserver: AccelerometryConsuming {
+    typealias AD = AccelerometerDataContent
+
     func append(_ record: CMAccelerometerData) {
         consumer.append(record)
     }
