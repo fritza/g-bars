@@ -171,11 +171,11 @@ struct DigitalTimerView: View {
             timer.start()
         }
         .onDisappear() {
-            let isoDate = Date().iso
-            let state = walkingState.csvPrefix ?? "!!!!"
-            try? observer.writeToFile(
-                named: "Sample-\(isoDate)",
-                linesPrefixedWith: "\(state),Sample")
+            do { try observer.writeToFile(walkState: self.walkingState)
+            } catch {
+                print("DigitalTimerView:\(#line) error on write: \(error)")
+                assertionFailure()
+            }
             // Is this handler really the best place?
             // or onReceive of timer.$status?
         }

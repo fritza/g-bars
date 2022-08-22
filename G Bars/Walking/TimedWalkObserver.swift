@@ -181,4 +181,15 @@ extension TimedWalkObserver: AccelerometryConsuming {
 
         try write(withPrefix: prefix, to: destURL)
     }
+
+    func writeToFile(walkState: WalkingState) throws {
+        precondition(walkState == .walk_2 || walkState == .walk_1,
+                     "Unexpected walk state \(walkState)"
+        )
+        let isoDate = Date().iso
+        let state = walkState.csvPrefix ?? "!!!!"
+        try writeToFile(
+            named: "Sample-\(isoDate)",
+            linesPrefixedWith: "\(state),Sample")
+    }
 }
