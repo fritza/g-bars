@@ -8,6 +8,9 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+/* TODO: Handle cancellation.
+ */
+
 
 private let instructionContentList     = InterstitialList(baseName: "walk-intro"       )
 private let mid_instructionContentList = InterstitialList(baseName: "second-walk-intro")
@@ -15,6 +18,10 @@ private let end_walkingContentList     = InterstitialList(baseName: "usability-i
 
 let csvUTT       = UTType.commaSeparatedText
 let csvUTTString = "public.comma-separated-values-text"
+
+protocol StageCompleting {
+    var completion: (Bool) -> Void { get }
+}
 
 /// A wrapper view that programmatically displays stages of the walk test.
 struct WalkingContainerView: View {
@@ -155,7 +162,7 @@ extension WalkingContainerView {
                 InterstitalPageTabView(
                     // Walk-demo, the summary page follows.
 
-                    // WHY 1 and not $state?
+                    // had been 1 sted $state
                     listing: end_walkingContentList, selection: $state) {
                         self.state = .demo_summary
                     }.padding() // completion closure for end_walkingList
@@ -175,7 +182,7 @@ extension WalkingContainerView {
             }
     }
 
-    #if INCLUDE_WALK_TERMINAL
+#if INCLUDE_WALK_TERMINAL
     // Is a walk-demo. Display the generated-data summary. Loops around to the initial screen interstitial_1
     // which may at choice include clearing data as for a fresh user.
     @ViewBuilder
@@ -183,14 +190,14 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (demo_summary)",
             tag: WalkingState.demo_summary, selection: $state) {
-                InterstitalPageTabView(
-                    listing: demo_summary, selection: 1) {
-                        self.state = .interstitial_1
-                    }.padding() // completion closure for end_walkingList
-                    .navigationBarBackButtonHidden(true)
+                LastWalkingDemoView() {
+                    self.state = .interstitial_1
+                }
+                .padding() // completion closure for end_walkingList
+                .navigationBarBackButtonHidden(true)
             }
     }
-    #endif
+#endif
 
 }
 

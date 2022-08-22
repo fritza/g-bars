@@ -37,9 +37,30 @@ import SwiftUI
 
 
 struct LastWalkingDemoView: View {
+    private let completion: (() -> Void)?
 
+    init(completion: @escaping () -> Void) {
+        self.completion = completion
+    }
 
     var body: some View {
+        /*
+         Title
+
+         section break
+         LazyVStack of lines from walk 1?
+
+         section break
+         LazyVStack of lines from walk 2?
+
+         section break
+         HStack
+         Button(export)
+         Button retry
+
+         TODO: Handle cancellation.
+         Shouldn't (ha) be too hard, just spruce up the completions.
+         */
        VStack {
            Text("End of Demo")
        }
@@ -48,6 +69,8 @@ struct LastWalkingDemoView: View {
 
 struct LastWalkingDemoView_Previews: PreviewProvider {
     static var previews: some View {
-        LastWalkingDemoView()
+        LastWalkingDemoView() {
+            print("for rent")
+        }
     }
 }
