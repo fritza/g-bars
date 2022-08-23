@@ -7,6 +7,20 @@
 
 import Foundation
 
+/**
+ ## Topics
+
+ ### Properties
+ - `id`
+ - `intro`
+ - `proceedTitle`
+ - `pageTitle`
+ - `systemImage`
+
+ ### Initialization
+ - `init(id:intro:proceedTitle:pageTitle:systemImage:)`
+ - `init(_:id:)`
+ */
 /// An element of ``InterstitialList``, providing common types of content for an interstitial view.
 ///
 /// The expected use decodes `InterstitialInfo` from a JSON file. It is _not_ possible to initialize one directly.
@@ -53,7 +67,20 @@ struct InterstitialInfo: Codable, Hashable, Identifiable, CustomStringConvertibl
     }
 }
 
-/// Content for the page _except_ for the ID, which is assigned at decoding time as JSON array order **plus one**.
+/**
+ ## Topics
+
+ ### Properties
+ - `intro`
+ - `proceedTitle`
+ - `pageTitle`
+ - `systemImage`
+
+ ### Decoding
+ - `unescaped`
+ */
+
+/// Decodable content for the page _except_ for the ID, which is assigned at decoding time as JSON array order **plus one**.
 ///
 /// See ``InterstitialInfo`` for details on the properties.
 fileprivate struct TaskInterstitialDecodable: Codable {
@@ -72,7 +99,31 @@ fileprivate struct TaskInterstitialDecodable: Codable {
     }
 }
 
-/// A collection of ``InterstitialInfo``,  as read from a JSON file.
+/**
+## Topics
+
+ ### Properties
+ - `decoder`
+ - `baseName`
+ - `interstitials`
+ - `decoder`
+ - `paseName`
+
+ ### Indexing
+ - `item(forID:)`
+
+ ### Initialization
+ - `init(baseName:)`
+
+ ### Collection
+ - `startIndex`
+ - `endIndex`
+ - `subscript(index:)`
+
+ ## CustomStringConvertible
+ - `description`
+ */
+/// An indexed collection of ``InterstitialInfo`` (static description of an interstitial page) as read from a JSON file.
 ///
 /// This is expected to be the content of all interstitials within a task. Clients are responsible for matching indices to the needs of a particular interstitial.
 ///

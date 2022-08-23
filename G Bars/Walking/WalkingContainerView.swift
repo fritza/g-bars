@@ -19,11 +19,49 @@ private let end_walkingContentList     = InterstitialList(baseName: "usability-i
 let csvUTT       = UTType.commaSeparatedText
 let csvUTTString = "public.comma-separated-values-text"
 
+/// Adopters promise to present a `completion` closure for the `WalkingContainerView` to designate the next page.
 protocol StageCompleting {
+    /// Informs the creator whether a contained `NavigationLink` destination has completed successfully or not.
     var completion: (Bool) -> Void { get }
 }
 
+/// ## Topics
+///
+/// ### Introduction
+///
+/// - ``interstitial_1View()``
+///
+/// ### First Walk
+///
+/// - ``countdown_1View()``
+/// - ``walk_1View()``
+///
+/// ### Second Walk
+///
+/// - ``interstitial_2View()``
+/// - ``countdown_2View()``
+/// - ``walk_2View()``
+///
+/// ### Conclusion
+///
+/// - ``ending_interstitialView()``
+/// - ``demo_summaryView()``
+
 /// A wrapper view that programmatically displays stages of the walk test.
+///
+/// The struct has to know whether the stage is `.interstitial_1` or `.interstitial_2`, because the output file names must be distinct.
+///
+/// **Theory**
+///
+/// The view is a succession of `NavigationLink`s, presented one at a time, whose destinations are the various interstitial, countdown, and data collection `View`s :
+/// * ``InterstitalPageContainerView``
+/// * ``DigitalTimerView``
+/// *  ``SweepSecondView``
+///
+///  Each has a `WalkingState` tag. When that view exits (as by a **Continue** button), the container gets a callback in which it designates the tag for the next view to be displayed.
+///
+///  As implemented, each NavigationLink is created by its own `@ViewBuilder` so the `body` property need only list them by name.
+///  - note: `demo_summaryView()` is presented only if the `INCLUDE_WALK_TERMINAL` compilation flag is set.
 struct WalkingContainerView: View {
     @State var state: WalkingState? = .interstitial_1
 
@@ -40,10 +78,9 @@ struct WalkingContainerView: View {
                 countdown_2View()
                 walk_2View()
                 ending_interstitialView()
-
-// demo_summaryView()
-
-
+#if INCLUDE_WALK_TERMINAL
+                demo_summaryView()
+#endif
             }   // VStack
         }       // NavigationView
 
@@ -54,6 +91,7 @@ struct WalkingContainerView: View {
 
 // MARK: - Walking stages
 extension WalkingContainerView {
+
     /// A `NavigationLink` for initial instructions (`interstitial_1`)
     @ViewBuilder
     func interstitial_1View() -> some View {
@@ -185,6 +223,10 @@ extension WalkingContainerView {
 #if INCLUDE_WALK_TERMINAL
     // Is a walk-demo. Display the generated-data summary. Loops around to the initial screen interstitial_1
     // which may at choice include clearing data as for a fresh user.
+
+    /// A `NavigationLink` for a demo app to demonstrate the data collected.
+    ///
+    /// Available only if the `INCLUDE_WALK_TERMINAL` compiler flag is set.
     @ViewBuilder
     func demo_summaryView() -> some View {
         NavigationLink(

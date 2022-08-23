@@ -9,7 +9,7 @@ import Foundation
 import CoreMotion
 
 
-/// A wrapper on ``CMAccelerometerData`` or its components, made accessible to generic code via the ``Timestamped`` and ``XYZ`` protocols.
+/// A wrapper on  ``CMAccelerometerData`` or its components, made accessible to generic code via the ``Timestamped`` and ``XYZ`` protocols.
 ///
 /// - note: `AccelerometerItem` is declared `RoughlyEquatable`, but the implementation ignores the timestamp.
 struct AccelerometerItem: Codable, Timestamped, XYZ  {

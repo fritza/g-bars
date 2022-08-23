@@ -35,7 +35,6 @@ The interval is read out at \(countdown_TMP_Interval)-second intervals, the bett
  ### Properties
  - ``text``
  -  ``size``
- - ``shouldSpeak``
 
  ### Initializer
  - ``init(toggling:size:label:)``

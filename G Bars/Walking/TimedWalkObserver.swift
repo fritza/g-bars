@@ -8,8 +8,17 @@
 import Foundation
 import CoreMotion
 
+/// ## Topics
+///
+/// ### Properties
+/// - ``timestamp``
+/// - ``acceleration``
+
+/// Adopters provide getters for the properties of ``CMAccelerometerData`` (`timestamp` and `acceleration`). Allows for initializable equivalents suitable for testing.
 protocol AccelerometerDataContent: NSObject {
+    /// The time recorded, in `TimeInterval` since an epoch related to restart time.
     var timestamp: TimeInterval { get }
+    /// The observed forces in G.
     var acceleration: CMAcceleration { get }
 }
 
@@ -24,15 +33,30 @@ extension AccelerometerDataContent {
 
 extension CMAccelerometerData: AccelerometerDataContent {}
 
+/// ## Topics
+///
+/// ### Initialization
+/// - ``init(timestamp:acceleration)``
+/// - ``init(t:x:y:z:)``
+///
+/// ### Properties
+/// - ``timestamp``
+/// - ``acceleration``
+
+/// An analogue to `CMAccelerometerData` that has an initializer that includes `timestamp`.
 final class MockAccelerometerData: NSObject, AccelerometerDataContent {
+    /// Initialize by `timestamp` and `acceleration`.
     internal init(timestamp: TimeInterval, acceleration: CMAcceleration) {
         self.timestamp = timestamp
         self.acceleration = acceleration
     }
 
+    /// The time recorded, in `TimeInterval` since an epoch related to restart time.
     let timestamp: TimeInterval
+    /// The observed forces in G.
     let acceleration: CMAcceleration
 
+    /// Initialize by `timestamp` and the `x`, `y`, and `z` components of acceleration.
     convenience init(t: TimeInterval? = nil,
                      x: Double, y: Double, z: Double) {
         let acc = CMAcceleration(x: x, y: y, z: z)
@@ -43,6 +67,7 @@ final class MockAccelerometerData: NSObject, AccelerometerDataContent {
 
 // MARK: - CMAccelerometerData (content) (CSV)
 extension CMAccelerometerData: CSVRepresentable {
+    /// Represent acceleration and timestamp as fields in a CSV record.
     var csvLine: String? {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
             .map(\.pointFive)
@@ -56,10 +81,13 @@ extension CMAccelerometerData: CSVRepresentable {
 ///
 /// Basically, an array, but could be a writeable `FileHandle`
 protocol AccelerometryConsuming {
-//    associatedtype AD: AccelerometerDataContent
+    /// Add the accelerometer observation to the list
     func append(_ record: AccelerometerDataContent)
+    /// Add multiple accelerometer observations to the list.
     func append(contentsOf array: [AccelerometerDataContent])
+    /// The accumulated list of observations as an `Array`
     func allRecords() -> [AccelerometerDataContent]
+    /// `Array` of the observations, rendered as CSV
     func marshalledRecords() -> [String]
 }
 
@@ -78,19 +106,58 @@ extension AccelerometryConsuming {
     }
 }
 
+
+/// ## Topics
+///
+/// ### Properties
+///
+/// - ``consumer``
+/// - ``title``
+/// - ``isRunning``
+///
+/// ### Initialization
+///
+/// - ``init(title:)``
+///
+/// ### Life Cycle
+///
+/// - ``start()``
+/// - ``testableStart()``
+/// - ``reset()``
+/// - ``stop()``
+/// - ``clearRecords()``
+///
+/// ### AccelerometryConsuming
+///
+/// - ``append(_:)``
+/// - ``append(contentsOf:)``
+/// -  ``allRecords()``
+///
+/// ### Marshalling
+///
+/// - ``marshalledRecords(withPrefix:)``
+/// - ``allAsCSV(withPrefix:)``
+/// - ``allAsData(prefixed:)``
+/// - ``write(withPrefix:to:)``
+/// - ``writeToFile(named:linesPrefixedWith:)``
+/// - ``writeToFile(walkState:)``
+
 // MARK: - TimedWalkObserver
 /// Non-view-related code that consumes and stores accelerometer data.
 ///
-/// - todo: `TimedWalkObserver` should accept any storage method (`AccelerometryConsuming`) rather than stick with `Array`.
+/// `TimedWalkObserver` bridges collection of observations (async for loop  as ``AccelerometryConsuming``) to marshalling and file output.( functions beginning `write`)
 final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
-    // MARK:  Properties
     // FIXME: The long-term storage object
     //        ought to be an actor.
+    /// The list of observation elements
     var consumer: [AccelerometerDataContent]
+    /// Distinguishing label for the observer.
     var title: String
+    /// Whether the observer should be open to observations.
     var isRunning: Bool
 
     // MARK: Initializer
+    /// Initialize with a title. The list is empty, `isRunning` is `false`.
     init(title: String) {
         self.title = title
         consumer = []
@@ -105,6 +172,8 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 
     // MARK: Start/stop
     /// Start the motion manager collecting accelerometry.
+    ///
+    /// Reports are collected through a `try await for` loop. If the loop iterator throws, the motion manager is cancelled.
     func start() async {
         isRunning = true
         Task {
@@ -121,8 +190,8 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
         }
     }
 
-    func testableStart(count: Int = 8) {
-        // Problem: It wants accelerometer data.
+    /// A sunchronous analogue to ``start()`` for testing
+    func testableStart() {
         let accelerations: [MockAccelerometerData] = [
             .init(t: 0.1, x: 0, y: 0, z: 0),
             .init(t: 0.2, x: 1, y: 0, z: 0),
@@ -158,13 +227,17 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 }
 
 // MARK: AccelerometryConsuming
+
 extension TimedWalkObserver: AccelerometryConsuming {
+    /// ``AccelerometryConsuming`` compliance
     func append(_ record: AccelerometerDataContent) {
         consumer.append(record)
     }
+    /// ``AccelerometryConsuming`` compliance
     func append(contentsOf array: [AccelerometerDataContent]) {
         consumer.append(contentsOf: array)
     }
+    /// ``AccelerometryConsuming`` compliance
     func allRecords() -> [AccelerometerDataContent] {
         return consumer
     }
@@ -188,6 +261,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
 
     /// A `String` containing each line of the CSV data
     ///   - parameter prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    ///
     /// - Returns: A single `String`, each line being the marshalling of the `CMAccelerometerData` records
     func allAsCSV(withPrefix prefix: String) -> String {
         return marshalledRecords(withPrefix: prefix)
