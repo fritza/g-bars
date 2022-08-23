@@ -58,12 +58,18 @@ struct G_BarsApp: App {
                  */
 
                 // MARK: Walking workflow
-                NavigationView {
+//                NavigationView {
+//                    WalkingContainerView()
+//                    // FIXME: Move padding to container view
+//                        .padding()
+//                        .navigationTitle("Walking Info")
+//                }
+                
                     WalkingContainerView()
                     // FIXME: Move padding to container view
                         .padding()
                         .navigationTitle("Walking Info")
-                }
+
                 .tabItem {
                     Label("Walking",
                           systemImage: "figure.walk")
