@@ -12,9 +12,9 @@ import UniformTypeIdentifiers
  */
 
 
-private let instructionContentList     = InterstitialList(baseName: "walk-intro"       )
-private let mid_instructionContentList = InterstitialList(baseName: "second-walk-intro")
-private let end_walkingContentList     = InterstitialList(baseName: "usability-intro"  )
+private let instructionContentList     = try! InterstitialList(baseName: "walk-intro"       )
+private let mid_instructionContentList = try! InterstitialList(baseName: "second-walk-intro")
+private let end_walkingContentList     = try! InterstitialList(baseName: "usability-intro"  )
 
 let csvUTT       = UTType.commaSeparatedText
 let csvUTTString = "public.comma-separated-values-text"

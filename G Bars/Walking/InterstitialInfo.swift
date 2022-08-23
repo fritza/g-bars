@@ -156,25 +156,24 @@ struct InterstitialList: Codable, CustomStringConvertible {
     ///
     /// Elements in the file will not specify IDs; they identify by their order in the `json` file. This initializer assigns each an `id`  of file order + 1.
     /// - Parameter baseName: The base name of the file to decode, e.g. `mumble` for `mumble.json`.  The source file must have the `json` extension.
-    init(baseName: String) {
+    init(baseName: String) throws {
         // TODO: init should throw, probably.
         //       Actually no, failing to get a content file should be fatal.
         self.baseName = baseName
         // Fill in the interstital list, if any
-        if let url = Bundle.main.url(forResource: baseName, withExtension: "json"),
-           let jsonData = try? Data(contentsOf: url),
-           let rawList = try? Self.decoder
+        guard let url = Bundle.main.url(forResource: baseName, withExtension: "json") else { throw DASIReportErrors.couldntCreateDASIFile}
+        let jsonData = try Data(contentsOf: url)
+        let rawList = try Self.decoder
             .decode([TaskInterstitialDecodable].self,
-                    from: jsonData) {
-            let idedList = rawList.enumerated()
-                .map { (idNum, content) in
-                    return InterstitialInfo(content, id: idNum+1)
-                }
-            interstitials = idedList
-        }
-        else {
-            interstitials = []
-        }
+                    from: jsonData)
+        let idedList = rawList.enumerated()
+            .map { (idNum, content) in
+                return InterstitialInfo(content, id: idNum+1)
+            }
+        interstitials = idedList
+//        else {
+//            interstitials = []
+//        }
     }
 
     // MARK: CustomStringConvertible adoption
