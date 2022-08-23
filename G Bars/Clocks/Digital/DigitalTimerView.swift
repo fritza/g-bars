@@ -127,8 +127,10 @@ struct DigitalTimerView: View {
             expirationCallback?()
         }
         else if stat == .running {
+            let content = (walkingState == .walk_1) ?
+            "Start walking." : "Start your fast walk."
             playSound(named: "Klaxon",
-                      thenSay: "Start walking.")
+                      thenSay: content)
         }
 
         // If the timer halts, stop collecting.
