@@ -103,6 +103,7 @@ extension WalkingContainerView {
                 }.padding()
                     .navigationBarBackButtonHidden(true)
             }
+            .hidden()
     }
 
     /// A `NavigationLink` for the first pre-walk countdown (`countdown_1`)
@@ -111,11 +112,12 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (countdown_1)",
             tag: WalkingState.countdown_1, selection: $state) {
-                InterstitalPageContainerView(listing: instructionContentList, selection: 1) {
-                    self.state = .walk_1
+                SweepSecondView(duration: sweep_TMP_Duration) {
+                    state = .walk_1
                 }.padding()
                     .navigationBarBackButtonHidden(true)
             }
+            .hidden()
     }
 
     /// A `NavigationLink` for the first timed walk (`walk_1`)
@@ -141,7 +143,7 @@ extension WalkingContainerView {
                 }.padding()
                     .navigationBarBackButtonHidden(true)
             }
-        //                .hidden()
+            .hidden()
     }
 
     /// A `NavigationLink` for the interstitial view between the two walk sequences (`interstitial_2`)
@@ -155,7 +157,7 @@ extension WalkingContainerView {
             }.padding()
                 .navigationBarBackButtonHidden(true)
         }
-        //                .hidden()
+        .hidden()
     }
     
     /// A `NavigationLink` for the second pre-walk countdown (`countdown_2`)
@@ -170,7 +172,7 @@ extension WalkingContainerView {
                 }.padding()
                     .navigationBarBackButtonHidden(true)
             }
-        //                .hidden()
+                        .hidden()
     }
 
     /// A `NavigationLink` for the second timed walk (`walk_2`)
@@ -186,7 +188,7 @@ extension WalkingContainerView {
                     }.padding()
                     .navigationBarBackButtonHidden(true)
             }
-        //                .hidden()
+                        .hidden()
     }
 
     /// A `NavigationLink` for the closing screen (`ending_interstitial`)
@@ -218,6 +220,7 @@ extension WalkingContainerView {
 
                 #endif
             }
+            .hidden()
     }
 
 #if INCLUDE_WALK_TERMINAL
@@ -238,6 +241,7 @@ extension WalkingContainerView {
                 .padding() // completion closure for end_walkingList
                 .navigationBarBackButtonHidden(true)
             }
+            .hidden()
     }
 #endif
 
