@@ -150,7 +150,8 @@ struct DigitalTimerView: View {
                 Spacer()
                 // MM:SS to screen
                 Text(minSecfrac?.clocked ?? "--:--" )
-                    .font(.system(size: 120, weight: .ultraLight))
+                    .font(.system(size: 100, weight: .ultraLight))
+                    .minimumScaleFactor(0.5)
                     .monospacedDigit()
 
                 // Start/stop
