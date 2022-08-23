@@ -15,12 +15,17 @@ enum MP3Errors: Error {
     case noSoundID(String)
 }
 
-
 func playSound(named: String, thenSay text: String) {
     Task {
-        let player = try SoundPlayer(name: named)
-        await player.playSoundAndWait()
-        await CallbackUtterance(string: text).asyncSpeak()
+        do {
+            let player = try SoundPlayer(name: named)
+            await player.playSoundAndWait()
+            await CallbackUtterance(string: text).asyncSpeak()
+        }
+        catch {
+            print("\(#fileID):\(#line) - error:", error)
+            print()
+        }
     }
 }
 
@@ -31,7 +36,7 @@ final class SoundPlayer {
     // MARK: Properties
     let soundName: String
     private var soundID  : SystemSoundID!
-    private var session  : AVAudioSession
+//    private var session  : AVAudioSession
 
     // MARK: Initialization
     /// Initialize from the base name of the `.mp3` sound file. The file is assumed to be in the main `Bundle`.
@@ -39,7 +44,6 @@ final class SoundPlayer {
     /// - throws: AVFoundatin errors from configuring the audio session; or `MP3Error`s if the sound file could not be found or could not be translated into a system sound ID.
     public init(name: String) throws {
         soundName = name
-        session = try Self.prepareEnvironment()
         soundID = try Self.prepareSound(name: name, existingID: 0)
     }
 
@@ -67,25 +71,25 @@ final class SoundPlayer {
 
 // MARK: Initialization helpers
 extension SoundPlayer {
-    private static var sharedAudioSession: AVAudioSession!
 
     // TODO: Should this be done once, like upon launch?
     //       Keeping it public, just in case.
-    /// Configure the shared `AVAudioSession` for a voice-style prompt that ducks other sounds under it.
-    /// - throws: `AVFoundation` errors if the session could not be configured or activated.
-    public static func prepareEnvironment() throws -> AVAudioSession {
-        if let retval = sharedAudioSession { return retval }
-        let returnedSession = AVAudioSession.sharedInstance()
-        try returnedSession.setCategory(
-            .playback,
-            mode: .voicePrompt,
-            // voicePrompt because it accompanies text-to-speech
-            options: [.defaultToSpeaker, .duckOthers])
-
-        try returnedSession.setActive(true)
-        sharedAudioSession = returnedSession
-        return returnedSession
-    }
+//    /// Configure the shared `AVAudioSession` for a voice-style prompt that ducks other sounds under it.
+//    /// - throws: `AVFoundation` errors if the session could not be configured or activated.
+//    @available(*, unavailable)
+//    public static func prepareEnvironment() throws -> AVAudioSession {
+//        if let retval = AVAudioSession. { return retval }
+//        let returnedSession = AVAudioSession.sharedInstance()
+//        try returnedSession.setCategory(
+//            .playback,
+//            mode: .voicePrompt,
+//            // voicePrompt because it accompanies text-to-speech
+//            options: [.defaultToSpeaker, .duckOthers])
+//
+//        try returnedSession.setActive(true)
+//        sharedAudioSession = returnedSession
+//        return returnedSession
+//    }
 
     // existingID: Do we need to guarantee it won't be called again?
     /// Register a sound for a `SystemSoundID`.
@@ -115,4 +119,18 @@ extension SoundPlayer {
 extension SoundPlayer: CustomStringConvertible {
     /// Compliance with `CustomStringConvertible`
     var description: String { "SoundPlayer(\(soundName)" }
+}
+
+
+func setUpAudioEnvironment() {
+    do {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playAndRecord,
+                                mode: .spokenAudio,
+                                options: [.defaultToSpeaker])
+        try session.setActive(true)
+    }
+    catch {
+        print(#function, "failed somewhere:", error)
+    }
 }
