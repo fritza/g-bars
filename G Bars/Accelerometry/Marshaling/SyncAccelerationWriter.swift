@@ -8,6 +8,9 @@
 import Foundation
 import CoreMotion
 
+@available(*, unavailable,
+            message: "Use TimedWalkObserver/AccelerometryConsuming/AccelerometerDataContent")
+
 protocol HasWriting {
     static func createFile(at url: URL) throws -> HasWriting
     func write(contentsOf: Data) throws
@@ -44,7 +47,7 @@ extension FileHandle: HasWriting {
 ///
 /// The item array is immutable; there is no “append” function.
 @available(*, unavailable,
-            message: "Do not use, depends on static writing list, no replacement")
+            message: "Use TimedWalkObserver")
 final class SyncAccelerationWriter<HW: HasWriting> {
     enum Errors: Error {
         case couldNotEncodeContents

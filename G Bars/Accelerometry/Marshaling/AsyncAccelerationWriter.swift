@@ -8,6 +8,8 @@
 import Foundation
 import CoreMotion
 
+@available(*, unavailable,
+            message: "Use TimedWalkObserver (sync)")
 final class AsyncAccelerationWriter {
     typealias InputStream = AsyncStream<CMAccelerometerData>
     var stream: InputStream!
