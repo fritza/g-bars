@@ -462,6 +462,7 @@
 				1FCB95AE286CD37700DE9DD0 /* Sources */,
 				1FCB95AF286CD37700DE9DD0 /* Frameworks */,
 				1FCB95B0286CD37700DE9DD0 /* Resources */,
+				1F9F86AB28B582FC001C55BD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -591,6 +592,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F9F86AB28B582FC001C55BD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/find \"${SRCROOT}\" -type f -name '*.json' -print0 | xargs -0 jsonlint -q\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1FCB95AE286CD37700DE9DD0 /* Sources */ = {
