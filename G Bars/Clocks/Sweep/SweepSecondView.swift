@@ -144,7 +144,7 @@ Remember to unmute your phone and turn up the audio!
                 }
                 .speak()
             }
-            .navigationTitle("Seconds")
+            .navigationTitle("Start in…")
         }
     }
 }

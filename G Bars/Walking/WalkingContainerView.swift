@@ -63,7 +63,12 @@ protocol StageCompleting {
 ///  As implemented, each NavigationLink is created by its own `@ViewBuilder` so the `body` property need only list them by name.
 ///  - note: `demo_summaryView()` is presented only if the `INCLUDE_WALK_TERMINAL` compilation flag is set.
 struct WalkingContainerView: View {
-    @State var state: WalkingState? = .interstitial_1
+    @State var state: WalkingState? = .interstitial_1 {
+        didSet {
+            print("state changed to", state ?? "NOTHING")
+            print()
+        }
+    }
 
     @State private var shouldShowActivity = false
     @State private var walkingData = Data()
@@ -85,7 +90,15 @@ struct WalkingContainerView: View {
         }       // NavigationView
 
         // MARK: Usability
-        .navigationTitle("Walking (beta)")
+        .navigationTitle(
+            "Walking (beta)"
+        )
+        .onAppear {
+            do { try SoundPlayer.initializeAudio() }
+            catch {
+                print("initializeAudio failed:", error)
+            }
+        }
     } // body
 }
 
@@ -199,7 +212,7 @@ extension WalkingContainerView {
             "SHOULDN'T SEE (ending_interstitial)",
             tag: WalkingState.ending_interstitial, selection: $state) {
 
-                #if INCLUDE_WALK_TERMINAL
+                #if false
 
                 // REGULAR farewell to the user.
                 InterstitalPageContainerView(
@@ -213,7 +226,7 @@ extension WalkingContainerView {
 
                 InterstitalPageContainerView(
                     // Not walk-demo, the ending interstitial goodbye is the end. (Loops around.)
-                    listing: end_walkingList, selection: 1) {
+                    listing: end_walkingContentList, selection: 1) {
                         self.state = .interstitial_1
                     }.padding() // completion closure for end_walkingList
                     .navigationBarBackButtonHidden(true)
