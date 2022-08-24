@@ -97,7 +97,7 @@ struct SweepSecondView: View {
                            alignment: .center)
                 Spacer()
                 Text("""
-Remember to unmute your phone and turn up the audio!
+Remember to UNMUTE YOUR PHONE and turn up the audio!
 """)
                 .font(.callout)
                 .minimumScaleFactor(0.5)

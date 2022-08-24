@@ -56,7 +56,7 @@ struct SurveyContainerView: View {
             NavigationLink(
                 tag: SurveyProgress.introProgress,
                 selection: {
-                    print("Progress =", contentEnvt.surveyProgress ?? "none")
+//                    print("Progress =", contentEnvt.surveyProgress ?? "none")
                     return $contentEnvt.surveyProgress
                 }()
                 //                    $contentEnvt.surveyProgress

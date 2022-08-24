@@ -44,12 +44,13 @@ final class DASIPages: ObservableObject
             surveyProgress = SurveyProgress(selected)
         }
     }
-    @Published var surveyProgress: SurveyProgress! {
-        didSet {
-            print("Changed surveyProgress from", (oldValue ?? "NIL"),
-                  "to", (surveyProgress ?? "NIL"))
-        }
-    }
+    @Published var surveyProgress: SurveyProgress!
+//    {
+//        didSet {
+//            print("Changed surveyProgress from", (oldValue ?? "NIL"),
+//                  "to", (surveyProgress ?? "NIL"))
+//        }
+//    }
 
     init(_ selection: DASIPhase = .intro) {
         selected = selection

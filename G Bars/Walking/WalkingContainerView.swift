@@ -63,12 +63,13 @@ protocol StageCompleting {
 ///  As implemented, each NavigationLink is created by its own `@ViewBuilder` so the `body` property need only list them by name.
 ///  - note: `demo_summaryView()` is presented only if the `INCLUDE_WALK_TERMINAL` compilation flag is set.
 struct WalkingContainerView: View {
-    @State var state: WalkingState? = .interstitial_1 {
-        didSet {
-            print("state changed to", state ?? "NOTHING")
-            print()
-        }
-    }
+    @State var state: WalkingState? = .interstitial_1
+//    {
+//        didSet {
+//            print("state changed to", state ?? "NOTHING")
+//            print()
+//        }
+//    }
 
     @State private var shouldShowActivity = false
     @State private var walkingData = Data()
