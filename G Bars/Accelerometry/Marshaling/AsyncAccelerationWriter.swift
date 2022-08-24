@@ -1,5 +1,5 @@
 //
-//  AccelerationWriter.swift
+//  AsyncAccelerationWriter.swift
 //  Better Step
 //
 //  Created by Fritz Anderson on 1/20/22.
@@ -8,10 +8,11 @@
 import Foundation
 import CoreMotion
 
-/// Appends elements of an `AsyncStream` of `CMAccelerometerData` direct from Core Motion to a file.
-final class AccelerationWriter {
+@available(*, unavailable,
+            message: "Use TimedWalkObserver (sync)")
+final class AsyncAccelerationWriter {
     typealias InputStream = AsyncStream<CMAccelerometerData>
-    let stream: InputStream
+    var stream: InputStream!
     let outputURL: URL
     let outputHandle: FileHandle
 
@@ -47,7 +48,7 @@ final class AccelerationWriter {
 
         let itemStream = stream
             .map { AccelerometerItem($0) }
-            .map(\.csv)
+            .compactMap(\.csvLine)
             .map { $0 + "\r\n" }
             .compactMap { $0.data(using: .utf8) }
         do {

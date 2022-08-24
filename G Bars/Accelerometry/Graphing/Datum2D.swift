@@ -84,7 +84,7 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     // FIXME: Why am I doing all this with scalars instead of affine transforms?
     /// A new `Datum2D` with the same value (`x`), but time (`t`) normalized.
     ///
-    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``. See ``Swift/BinaryFloatingPoint/unsafeScaledTo(span:)``
+    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``. See ``BinaryFloatingPoint/unsafeScaledTo(span:)``
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
     @inlinable

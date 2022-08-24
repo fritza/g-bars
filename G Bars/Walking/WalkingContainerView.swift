@@ -6,143 +6,292 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+
+/* TODO: Handle cancellation.
+ */
 
 
-private let instructionList     = InterstitialList(baseName: "walk-intro"       )
-private let mid_instructionList = InterstitialList(baseName: "second-walk-intro")
-private let end_walkingList     = InterstitialList(baseName: "usability-intro"  )
+private let instructionContentList     = try! InterstitialList(baseName: "walk-intro"       )
+private let mid_instructionContentList = try! InterstitialList(baseName: "second-walk-intro")
+private let end_walkingContentList     = try! InterstitialList(baseName: "usability-intro"  )
 
+let csvUTT       = UTType.commaSeparatedText
+let csvUTTString = "public.comma-separated-values-text"
 
-private struct ContainedView: View {
-    let systemName: String
-    let text: String
-    let closeout: () -> Void
-
-    internal init(imageName: String, text: String, closeout: @escaping () -> Void) {
-        self.systemName = imageName
-        self.text = text
-        self.closeout = closeout
-    }
-
-    var body: some View {
-        VStack(alignment: .center) {
-            Image(systemName: self.systemName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 100)
-                .foregroundColor(.accentColor)
-                .symbolRenderingMode(.hierarchical)
-
-            Text(self.text)
-            Button("Continue", action: closeout)
-        }
-    }
+/// Adopters promise to present a `completion` closure for the `WalkingContainerView` to designate the next page.
+protocol StageCompleting {
+    /// Informs the creator whether a contained `NavigationLink` destination has completed successfully or not.
+    var completion: (Bool) -> Void { get }
 }
 
-enum WalkingState: String, Hashable, CaseIterable {
-    case interstitial_1, countdown_1, walk_1
-    case interstitial_2, countdown_2, walk_2
-    case end_interstitial
-}
+/// ## Topics
+///
+/// ### Introduction
+///
+/// - ``interstitial_1View()``
+///
+/// ### First Walk
+///
+/// - ``countdown_1View()``
+/// - ``walk_1View()``
+///
+/// ### Second Walk
+///
+/// - ``interstitial_2View()``
+/// - ``countdown_2View()``
+/// - ``walk_2View()``
+///
+/// ### Conclusion
+///
+/// - ``ending_interstitialView()``
+/// - ``demo_summaryView()``
 
+/// A wrapper view that programmatically displays stages of the walk test.
+///
+/// The struct has to know whether the stage is `.interstitial_1` or `.interstitial_2`, because the output file names must be distinct.
+///
+/// **Theory**
+///
+/// The view is a succession of `NavigationLink`s, presented one at a time, whose destinations are the various interstitial, countdown, and data collection `View`s :
+/// * ``InterstitalPageContainerView``
+/// * ``DigitalTimerView``
+/// *  ``SweepSecondView``
+///
+///  Each has a `WalkingState` tag. When that view exits (as by a **Continue** button), the container gets a callback in which it designates the tag for the next view to be displayed.
+///
+///  As implemented, each NavigationLink is created by its own `@ViewBuilder` so the `body` property need only list them by name.
+///  - note: `demo_summaryView()` is presented only if the `INCLUDE_WALK_TERMINAL` compilation flag is set.
 struct WalkingContainerView: View {
     @State var state: WalkingState? = .interstitial_1
+//    {
+//        didSet {
+//            print("state changed to", state ?? "NOTHING")
+//            print()
+//        }
+//    }
+
+    @State private var shouldShowActivity = false
+    @State private var walkingData = Data()
 
     var body: some View {
         NavigationView {
             VStack {
-                // MARK: Intro
-                NavigationLink(
-                    "SHOULDN'T SEE (interstitial_1)",
-                    tag: WalkingState.interstitial_1, selection: $state) {
-                    InterstitalPageTabView(listing: instructionList, selection: 1) {
-                        self.state = .countdown_1
-                    }.padding()
-                    .navigationBarBackButtonHidden(true)
-                }
+                interstitial_1View()
+                countdown_1View()
+                walk_1View()
+                interstitial_2View()
+                countdown_2View()
+                walk_2View()
+                ending_interstitialView()
+#if INCLUDE_WALK_TERMINAL
+                demo_summaryView()
+#endif
+            }   // VStack
+        }       // NavigationView
 
-                // MARK: countdown (1)
-                NavigationLink(
-                    "SHOULDN'T SEE (countdown_1)",
-                    tag: WalkingState.countdown_1, selection: $state) {
-                    SweepSecondView(duration: sweep_TMP_Duration) {
-                        state = .walk_1
-                    }.padding()
-                    .navigationBarBackButtonHidden(true)
-                }
-//                .hidden()
-
-                // MARK: Walk (1)
-                NavigationLink(
-                    "SHOULDN'T SEE (walk_1)",
-                    tag: WalkingState.walk_1, selection: $state) {
-                    DigitalTimerView(duration: countdown_TMP_Duration) {
-                        state = .interstitial_2
-                    }.padding()
-                    .navigationBarBackButtonHidden(true)
-                }
-//                .hidden()
-
-
-                // MARK: Mid
-                NavigationLink(
-                    "SHOULDN'T SEE (interstitial_2)",
-                    tag: WalkingState.interstitial_2, selection: $state) {
-                        InterstitalPageTabView(listing: mid_instructionList, selection: 1) {
-                            self.state = .countdown_2
-                        }.padding()
-                    .navigationBarBackButtonHidden(true)
-                }
-                //                .hidden()
-
-                // MARK: Countdown (2)
-                NavigationLink(
-                    "SHOULDN'T SEE (countdown_2)",
-                    tag: WalkingState.countdown_2, selection: $state) {
-                        SweepSecondView(duration: sweep_TMP_Duration) {
-                            state = .walk_2
-                        }.padding()
-                        .navigationBarBackButtonHidden(true)
-                    }
-                //                .hidden()
-
-
-                // MARK: Walking (2)
-                NavigationLink(
-                    "SHOULDN'T SEE (walk_2)",
-                    tag: WalkingState.walk_2, selection: $state) {
-                        DigitalTimerView(duration: 71.0) {
-                            state = .end_interstitial
-                        }.padding()
-                        .navigationBarBackButtonHidden(true)
-                    }
-                //                .hidden()
-
-
-                // MARK: End
-                NavigationLink(
-                    "SHOULDN'T SEE (end_interstitial)",
-                    tag: WalkingState.end_interstitial, selection: $state) {
-                        InterstitalPageTabView(
-                            listing: end_walkingList,
-                            selection: 1) {
-                                self.state = .interstitial_1
-                            }.padding()
-                            .navigationBarBackButtonHidden(true)
-                    }
-                //                .hidden()
-
-                // MARK: Usability
-                
+        // MARK: Usability
+        .navigationTitle(
+            "Walking (beta)"
+        )
+        .onAppear {
+            do { try SoundPlayer.initializeAudio() }
+            catch {
+                print("initializeAudio failed:", error)
             }
-            .navigationTitle("Walking (beta)")
         }
-    }
+    } // body
 }
 
+// MARK: - Walking stages
+extension WalkingContainerView {
+
+    /// A `NavigationLink` for initial instructions (`interstitial_1`)
+    @ViewBuilder
+    func interstitial_1View() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (interstitial_1)",
+            tag: WalkingState.interstitial_1, selection: $state) {
+                InterstitalPageContainerView(listing: instructionContentList, selection: 1) {
+                    self.state = .countdown_1
+                }.padding()
+>>>>>>> testflight
+                    .navigationBarBackButtonHidden(true)
+            }
+            .hidden()
+    }
+
+    /// A `NavigationLink` for the first pre-walk countdown (`countdown_1`)
+    @ViewBuilder
+    func countdown_1View() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (countdown_1)",
+            tag: WalkingState.countdown_1, selection: $state) {
+                SweepSecondView(duration: Constants.sweepDuration) {
+                    state = .walk_1
+                }.padding()
+                    .navigationBarBackButtonHidden(true)
+            }
+            .hidden()
+    }
+
+    /// A `NavigationLink` for the first timed walk (`walk_1`)
+    @ViewBuilder
+    func walk_1View() -> some View {
+        // 1: Start the observer collecting.
+        // 2: in the completion closure harvest the contents of the observer. Maybe save them out, though Dan may not be happy to see separate files for the two runs.
+        // 3: There will be two of these.
+        // Who owns the consumer?
+        // because it looks like the only place to start
+        // one is from inside DigitalTimerView.
+        // That can be returned through the completion handler.
+
+        // AND: The TimerView has to know something about the stage/prefix/data retrieval
+
+        NavigationLink(
+            "SHOULDN'T SEE (walk_1)",
+            tag: WalkingState.walk_1, selection: $state) {
+                DigitalTimerView(duration: Constants.countdownDuration,
+                                 walkingState: .walk_1) {
+                    // → .interstitial_2
+                    state = .interstitial_2
+                }.padding()
+                    .navigationBarBackButtonHidden(true)
+            }
+            .hidden()
+    }
+
+    /// A `NavigationLink` for the interstitial view between the two walk sequences (`interstitial_2`)
+    @ViewBuilder
+    func interstitial_2View() -> some View    {             NavigationLink(
+        "SHOULDN'T SEE (interstitial_2)",
+        tag: WalkingState.interstitial_2, selection: $state) {
+            InterstitalPageContainerView(listing: mid_instructionContentList, selection: 1) {
+                // → .countdown_2
+                self.state = .countdown_2
+            }.padding()
+                .navigationBarBackButtonHidden(true)
+        }
+        .hidden()
+    }
+
+    /// A `NavigationLink` for the second pre-walk countdown (`countdown_2`)
+    @ViewBuilder
+    func countdown_2View() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (countdown_2)",
+            tag: WalkingState.countdown_2, selection: $state) {
+                SweepSecondView(duration: Constants.sweepDuration) {
+                    // → .walk_2
+                    state = .walk_2
+                }.padding()
+                    .navigationBarBackButtonHidden(true)
+            }
+                        .hidden()
+    }
+
+    /// A `NavigationLink` for the second timed walk (`walk_2`)
+    func walk_2View() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (walk_2)",
+            tag: WalkingState.walk_2, selection: $state) {
+                DigitalTimerView(
+                    duration: Constants.countdownDuration,
+                    walkingState: .walk_2) {
+                        // → .ending_interstitial
+                        state = .ending_interstitial
+                    }.padding()
+                    .navigationBarBackButtonHidden(true)
+            }
+                        .hidden()
+    }
+
+    /// A `NavigationLink` for the closing screen (`ending_interstitial`)
+    @ViewBuilder
+    func ending_interstitialView() -> some View {
+        // REGULAR farewell to the user.
+        NavigationLink(
+            "SHOULDN'T SEE (ending_interstitial)",
+            tag: WalkingState.ending_interstitial, selection: $state) {
+
+                #if INCLUDE_WALK_TERMINAL
+
+                // REGULAR farewell to the user.
+                InterstitalPageContainerView(
+                    // Walk-demo, the summary page follows.
+                    listing: end_walkingContentList, selection: 1) {
+                        self.state = .demo_summary
+                    }.padding() // completion closure for end_walkingList
+                    .navigationBarBackButtonHidden(true)
+
+                #else
+
+                InterstitalPageContainerView(
+                    // Not walk-demo, the ending interstitial goodbye is the end. (Loops around.)
+                    listing: end_walkingContentList, selection: 1) {
+                        self.state = .interstitial_1
+                    }.padding() // completion closure for end_walkingList
+                    .navigationBarBackButtonHidden(true)
+
+                #endif
+            }
+            .hidden()
+    }
+
+#if INCLUDE_WALK_TERMINAL
+    // Is a walk-demo. Display the generated-data summary. Loops around to the initial screen interstitial_1
+    // which may at choice include clearing data as for a fresh user.
+
+    /// A `NavigationLink` for a demo app to demonstrate the data collected.
+    ///
+    /// Available only if the `INCLUDE_WALK_TERMINAL` compiler flag is set.
+    @ViewBuilder
+    func demo_summaryView() -> some View {
+        NavigationLink(
+            "SHOULDN'T SEE (demo_summary)",
+            tag: WalkingState.demo_summary, selection: $state) {
+                LastWalkingDemoView() {
+                    self.state = .interstitial_1
+                }
+                .padding() // completion closure for end_walkingList
+                .navigationBarBackButtonHidden(true)
+            }
+            .hidden()
+    }
+#endif
+
+}
+
+// MARK: - Preview
 struct WalkingContainerView_Previews: PreviewProvider {
 
     static var previews: some View {
         WalkingContainerView()
     }
 }
+
+/*      SHOW-ACTIVITY button
+ Button {
+ shouldShowActivity = true
+ }
+ label: { Label(
+ "Tap to Export",
+ systemImage: "square.and.arrow.up")
+ }
+ .buttonStyle(.bordered)
+ */
+
+
+/*
+
+ }   // NavigationView
+ .sheet(isPresented: $shouldShowActivity, content: {
+ ActivityUIController(
+ //                    data: walkingData,
+ data: "01234 N/A 56789".data(using: .utf8)!,
+ text: "01234 N/A 56789"
+ //textEquivalent)
+ )
+ }) // .sheet content
+
+ */

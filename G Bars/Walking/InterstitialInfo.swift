@@ -7,6 +7,20 @@
 
 import Foundation
 
+/**
+ ## Topics
+
+ ### Properties
+ - `id`
+ - `intro`
+ - `proceedTitle`
+ - `pageTitle`
+ - `systemImage`
+
+ ### Initialization
+ - `init(id:intro:proceedTitle:pageTitle:systemImage:)`
+ - `init(_:id:)`
+ */
 /// An element of ``InterstitialList``, providing common types of content for an interstitial view.
 ///
 /// The expected use decodes `InterstitialInfo` from a JSON file. It is _not_ possible to initialize one directly.
@@ -53,7 +67,20 @@ struct InterstitialInfo: Codable, Hashable, Identifiable, CustomStringConvertibl
     }
 }
 
-/// Content for the page _except_ for the ID, which is assigned at decoding time as JSON array order **plus one**.
+/**
+ ## Topics
+
+ ### Properties
+ - `intro`
+ - `proceedTitle`
+ - `pageTitle`
+ - `systemImage`
+
+ ### Decoding
+ - `unescaped`
+ */
+
+/// Decodable content for the page _except_ for the ID, which is assigned at decoding time as JSON array order **plus one**.
 ///
 /// See ``InterstitialInfo`` for details on the properties.
 fileprivate struct TaskInterstitialDecodable: Codable {
@@ -72,7 +99,31 @@ fileprivate struct TaskInterstitialDecodable: Codable {
     }
 }
 
-/// A collection of ``InterstitialInfo``,  as read from a JSON file.
+/**
+## Topics
+
+ ### Properties
+ - `decoder`
+ - `baseName`
+ - `interstitials`
+ - `decoder`
+ - `paseName`
+
+ ### Indexing
+ - `item(forID:)`
+
+ ### Initialization
+ - `init(baseName:)`
+
+ ### Collection
+ - `startIndex`
+ - `endIndex`
+ - `subscript(index:)`
+
+ ## CustomStringConvertible
+ - `description`
+ */
+/// An indexed collection of ``InterstitialInfo`` (static description of an interstitial page) as read from a JSON file.
 ///
 /// This is expected to be the content of all interstitials within a task. Clients are responsible for matching indices to the needs of a particular interstitial.
 ///
@@ -105,25 +156,24 @@ struct InterstitialList: Codable, CustomStringConvertible {
     ///
     /// Elements in the file will not specify IDs; they identify by their order in the `json` file. This initializer assigns each an `id`  of file order + 1.
     /// - Parameter baseName: The base name of the file to decode, e.g. `mumble` for `mumble.json`.  The source file must have the `json` extension.
-    init(baseName: String) {
+    init(baseName: String) throws {
         // TODO: init should throw, probably.
         //       Actually no, failing to get a content file should be fatal.
         self.baseName = baseName
         // Fill in the interstital list, if any
-        if let url = Bundle.main.url(forResource: baseName, withExtension: "json"),
-           let jsonData = try? Data(contentsOf: url),
-           let rawList = try? Self.decoder
+        guard let url = Bundle.main.url(forResource: baseName, withExtension: "json") else { throw DASIReportErrors.couldntCreateDASIFile}
+        let jsonData = try Data(contentsOf: url)
+        let rawList = try Self.decoder
             .decode([TaskInterstitialDecodable].self,
-                    from: jsonData) {
-            let idedList = rawList.enumerated()
-                .map { (idNum, content) in
-                    return InterstitialInfo(content, id: idNum+1)
-                }
-            interstitials = idedList
-        }
-        else {
-            interstitials = []
-        }
+                    from: jsonData)
+        let idedList = rawList.enumerated()
+            .map { (idNum, content) in
+                return InterstitialInfo(content, id: idNum+1)
+            }
+        interstitials = idedList
+//        else {
+//            interstitials = []
+//        }
     }
 
     // MARK: CustomStringConvertible adoption

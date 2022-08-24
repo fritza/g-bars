@@ -8,29 +8,15 @@
 import SwiftUI
 import Combine
 
-/*
- Back off and consider what you want to do.
-
- If the user wants speech, speak. If not, don't.
- Transition to does-want -> Don't speak immediately, you don't want "one minute, ten seconds" to pop in arbitrarily.
- Transition to doesn't-want -> Halt current speech. Do not respond to further ∆spoken-time.
-
- I have a dependency cycle among controller, speaker, and view.
-
- */
-
-
-let countdown_TMP_Duration = 120.0
-let countdown_TMP_Interval = 10
-
-let sweep_TMP_Duration = 5.0
-
+// FIXME: Put this somewhere you can find it.
 
 
 
 // MARK: - DigitalTimerView
 private let digitalNarrative = """
-What the digital (walking) clock would show, and what would be spoken. The interval will be spoken at \(countdown_TMP_Interval)-second intervals, the better to demonstrate the feature.
+The interval is read out at \(Constants.countdownInterval)-second intervals, the better to demonstrate the feature.
+
+“Cancel” will stop the count but not dispatch to a recovery page.
 """
 
 /**
@@ -39,7 +25,6 @@ What the digital (walking) clock would show, and what would be spoken. The inter
  ### Properties
  - ``text``
  -  ``size``
- - ``shouldSpeak``
 
  ### Initializer
  - ``init(toggling:size:label:)``
@@ -82,21 +67,38 @@ struct SpeechOnOffView: View {
  - ``body``
  */
 
+/*
+ How do we work the MotionManager iterator?
+ Should DigitalTimerView bother accepting data at all?
+ Put that in a "manager?"
+
+ In time, it should not be responsible for cancellation. Except… we do that already for TimeReader
+ */
+
 struct DigitalTimerView: View {
     static var dtvSerial = 100
     let serialNumber: Int
 
     @AppStorage(AppStorageKeys.wantsSpeech.rawValue) var wantsSpeech = true
     @ObservedObject var timer: TimeReader
-    @State private var minSecfrac : MinSecAndFraction?
+    @State private var minSecfrac: MinSecAndFraction?
+
+    var walkingState: WalkingState
 
     private let expirationCallback: (() -> Void)?
 
-    init(duration: TimeInterval, immediately
-         completion: (() -> Void)? = nil,
+    var observer = TimedWalkObserver(title: "some Timer")
+
+    init(duration: TimeInterval,
+         walkingState: WalkingState,
+         immediately completion: (() -> Void)? = nil,
          function: String = #function,
          fileID: String = #file,
          line: Int = #line) {
+        assert(walkingState == .walk_1 || walkingState == .walk_2,
+        "\(fileID):\(line): Unexpected walking state: \(walkingState)"
+        )
+        self.walkingState = walkingState
         serialNumber = Self.dtvSerial
         Self.dtvSerial += 1
 
@@ -108,6 +110,29 @@ struct DigitalTimerView: View {
         expirationCallback = completion
     }
 
+    fileprivate func timerStateDidChange(_ stat: TimeReader.TimerStatus) {
+        if stat == .expired {
+            playSound(named: "Klaxon",
+                      thenSay: "Stop walking.")
+            expirationCallback?()
+        }
+        else if stat == .running {
+            let content = (walkingState == .walk_1) ?
+            "Start walking." : "Start your fast walk."
+            playSound(named: "Klaxon",
+                      thenSay: content)
+        }
+
+        // If the timer halts, stop collecting.
+        switch timer.status {
+        case .cancelled, .expired: observer.stop()
+            // Now that it's stopped, you're ready to write a CSV file
+            // Do not call reset or clearRecords, you need those for writing.
+
+        default: break
+        }
+    }
+
     var body: some View {
         GeometryReader { proxy in
             VStack {
@@ -117,30 +142,39 @@ struct DigitalTimerView: View {
                 Spacer()
                 // MM:SS to screen
                 Text(minSecfrac?.clocked ?? "--:--" )
-                    .font(.system(size: 120, weight: .ultraLight))
+                    .font(.system(size: 100, weight: .ultraLight))
+                    .minimumScaleFactor(0.5)
                     .monospacedDigit()
 
                 // Start/stop
+                Spacer()
                 Button("Cancel") {
                     timer.cancel()
                 }
-                Spacer()
             }
             .padding()
+        }
+        .task {
+            await self.observer.start()
+            // This appends CMAccelerometerData to
+            // the observer's consumer list.
         }
         .onAppear {
             timer.start()
         }
+        .onDisappear() {
+            do { try observer.writeToFile(walkState: self.walkingState)
+            } catch {
+                print("DigitalTimerView:\(#line) error on write: \(error)")
+                assertionFailure()
+            }
+            // Is this handler really the best place?
+            // or onReceive of timer.$status?
+        }
         .onReceive(timer.$status, perform: { stat in
-            if stat == .expired {
-                playSound(named: "Klaxon",
-                          thenSay: "Stop walking.")
-                expirationCallback?()
-            }
-            else if stat == .running {
-                playSound(named: "Klaxon",
-                          thenSay: "Start walking.")
-            }
+            timerStateDidChange(stat)
+            // Is this handler really the best place?
+            // or onDisappear?
         })
         .onReceive(timer.timeSubject, perform: { newTime in
             self.minSecfrac = newTime
@@ -150,7 +184,10 @@ struct DigitalTimerView: View {
                 string: newTime.spoken)
             .speak()
         }
-        .navigationTitle("Digital")
+        .navigationTitle(
+            (walkingState == .walk_1) ?
+            "Normal Walk" : "Fast Walk"
+        )
     }
 
 //    func start() {
@@ -162,7 +199,8 @@ struct DigitalTimerView: View {
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DigitalTimerView(duration: countdown_TMP_Duration)
+            DigitalTimerView(duration: Constants.countdownDuration,
+                             walkingState: .walk_2)
                 .padding()
         }
     }

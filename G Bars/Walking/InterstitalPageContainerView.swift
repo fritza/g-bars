@@ -1,5 +1,5 @@
 //
-//  InterstitalPageTabView.swift
+//  InterstitalPageContainerView.swift
 //  G Bars
 //
 //  Created by Fritz Anderson on 8/10/22.
@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - InterstitalPageTabView
 /// A view that flips through ``InterstitialPageView``s using `TabView`’s `page` style.
-struct InterstitalPageTabView: View {
+struct InterstitalPageContainerView: View {
     @State private var showEndOfList = false
     @State private var selectedPage: Int
 
@@ -52,9 +52,11 @@ struct InterstitalPageTabView: View {
 struct InterstitalPageTabView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            InterstitalPageTabView(listing: InterstitialList(baseName: "walk-intro"),
-                                   selection: 1)
-                .padding()
+            InterstitalPageContainerView(
+                listing: try! InterstitialList(
+                    baseName: "walk-intro"),
+                selection: 1)
+            .padding()
         }
     }
 }

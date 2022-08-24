@@ -15,7 +15,7 @@ let signposter = OSSignposter(subsystem: "com.wt9t.G-Bars",
                               category: .pointsOfInterest)
 #endif
 
-
+/// An `ObservableObject` that serves as a single source of truth for the time remaining in an interval, publishing minutes, seconds, and fractions in sync.
 final class TimeReader: ObservableObject {
     enum TerminationErrors: Error, CustomStringConvertible {
         case cancelled
@@ -35,25 +35,34 @@ final class TimeReader: ObservableObject {
     }
 
 
+    /// The current remaining time, as a ``MinSecAndFraction``
     @Published var currentTime: MinSecAndFraction = .zero
+    /// The ready/run/stopped/expired status of the count.
     @Published var status: TimerStatus = .ready
 
-    var startingDate, endingDate: Date
-    let totalInterval: TimeInterval
-    let tickInterval: TimeInterval
-    let tickTolerance: TimeInterval
+    private var startingDate, endingDate: Date
+    private let totalInterval: TimeInterval
+    private let tickInterval: TimeInterval
+    private let tickTolerance: TimeInterval
 
+    /// Broadcasts the current time remaining as rapidly as the underlying `Timer` publishes it.
     var timeSubject = PassthroughSubject<MinSecAndFraction, Never>()
+    /// Broadcasts the current time remaining at the top of every minute.
     var mmssSubject = PassthroughSubject<MinSecAndFraction, Never>()
+    /// Broadcasts only the number of seconds remaining
     var secondsSubject = PassthroughSubject<Int, Never>()
 
 #if LOGGER
     var intervalState: OSSignpostIntervalState
 #endif
 
-    let serial: Int
-    static var timerSerial = 0
-
+    /// Collect the parameters that will initialize the time publisher and its subscribers when ``start()`` is called.
+    /// - Parameters:
+    ///   - interval: Duration: the total span of the countdown
+    ///   - tickSize: Precision: the interval at which time will be emitted; default `0.01` (100 Hz).
+    ///   - function: The call site
+    ///   - fileID: The caller's file
+    ///   - line: The caller's line number in that file.
     init(interval: TimeInterval,
          by tickSize: TimeInterval = 0.01,
          function: String = #function,
@@ -63,11 +72,6 @@ final class TimeReader: ObservableObject {
         let spIS = signposter.beginInterval("TimeReader init")
         intervalState = spIS
 #endif
-        serial = Self.timerSerial
-        Self.timerSerial += 1
-
-//        print("TimeReader.init", serial, "called from", function, "\(fileID):\(line)")
-
         tickInterval = tickSize
         tickTolerance = tickSize / 20.0
 
@@ -81,10 +85,12 @@ final class TimeReader: ObservableObject {
     }
 
 
-    var sharedTimer: AnyPublisher<MinSecAndFraction, Error>!
-    var timeCancellable: AnyCancellable!
-    var mmssCancellable: AnyCancellable!
-    var secondsCancellable: AnyCancellable!
+    private var sharedTimer: AnyPublisher<MinSecAndFraction, Error>!
+    private var timeCancellable: AnyCancellable!
+    private var mmssCancellable: AnyCancellable!
+    private var secondsCancellable: AnyCancellable!
+
+    /// Stop the timer and updates `status` to whether it was cancelled or simply ran out.
     func cancel() {
         status = (status == .running) ?
             .cancelled : .expired
@@ -94,6 +100,9 @@ final class TimeReader: ObservableObject {
         sharedTimer = nil
     }
 
+    /// Initiate the countdown that was set up in `init`.
+    ///
+    /// Sets up the Combine chains from the `Timer` to all the published interval components.
     func start(function: String = #function,
                fileID: String = #file,
                line: Int = #line) {
@@ -116,12 +125,12 @@ final class TimeReader: ObservableObject {
                 case .finished: break
                 case .failure(let error):
                     guard let err = error as? TerminationErrors else {
-                        print("Timer serial", self.serial, ": other error: \(error).")
+//                        print("Timer serial", self.serial, ": other error: \(error).")
                         return
                     }
                     switch err {
-                    case .expired:   print("Timer serial", self.serial, "ran out")
-                    case .cancelled: print("Timer serial", self.serial, "was cancelled")
+                    case .expired:   break //print("Timer serial", self.serial, "ran out")
+                    case .cancelled:       // print("Timer serial", self.serial, "was cancelled")
                         self.status = .cancelled
                     }
                 }
@@ -136,7 +145,7 @@ final class TimeReader: ObservableObject {
             .replaceError(with: .zero)
             .filter {
                 // FIXME: use of global
-                $0.second % countdown_TMP_Interval
+                $0.second % Constants.countdownInterval
                  == 0
             }
             .removeDuplicates()
@@ -167,11 +176,13 @@ final class TimeReader: ObservableObject {
                     self.secondsSubject.send(secInteger)
                 }
             )
-        print("Timer serial", serial, "was started.")
+//        print("Timer serial", serial, "was started.")
     }
 
     static let roundingScale = 100.0
 
+    /// A `Publisher` that emits the `Timer`'s `Date` as minute/second/fraction at every tick.
+    /// - Returns: The `Publisher` resulting from that chain.
     private func setUpCombine() -> AnyPublisher<MinSecAndFraction, Error>
     {
         let retval = Timer.publish(every: tickInterval,

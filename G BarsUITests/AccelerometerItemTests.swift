@@ -27,16 +27,6 @@ class BinaryFormatTests: XCTestCase {
     }
 }
 
-final class MockAccelerometerData {
-    let acceleration: CMAcceleration
-    var timestamp   : TimeInterval
-    init(acceleration: CMAcceleration,
-         timestamp: TimeInterval) {
-        self.acceleration = acceleration
-        self.timestamp   = timestamp
-    }
-}
-
 class AccelerometerItemTests: XCTestCase {
     // TODO: Imcrement the ticks.
     static let startingTime: TimeInterval = 0
@@ -89,7 +79,7 @@ class AccelerometerItemTests: XCTestCase {
     func testAccelerometerItemCSVFormat() {
         XCTAssertEqual(accelerometerItems.count, comparisonCSV.count, "setup count of items and csv strings")
         for (challenge, expected) in zip(accelerometerItems, comparisonCSV) {
-            let derivedCSV = challenge.csv
+            let derivedCSV = challenge.csvLine
             XCTAssertEqual(derivedCSV, expected, ".csv versus hand-encoding")
         }
     }

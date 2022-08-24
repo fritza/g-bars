@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+enum Constants {
+#if DEBUG
+    static let countdownDuration    = 15.0
+#else
+    static let countdownDuration    = 120.0
+#endif
+
+    static let countdownInterval    = 10
+    static let sweepDuration        = 5.0
+}
+
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
@@ -48,12 +59,18 @@ struct G_BarsApp: App {
 #else
             TabView(selection: $selectedTab) {
                 // MARK: Walking workflow
-                NavigationView {
+//                NavigationView {
+//                    WalkingContainerView()
+//                    // FIXME: Move padding to container view
+//                        .padding()
+//                        .navigationTitle("Walking Info")
+//                }
+
                     WalkingContainerView()
                     // FIXME: Move padding to container view
                         .padding()
                         .navigationTitle("Walking Info")
-                }
+
                 .tabItem {
                     Label("Walking",
                           systemImage: "figure.walk")
@@ -74,6 +91,7 @@ struct G_BarsApp: App {
             .symbolRenderingMode(.hierarchical)
             .navigationBarBackButtonHidden(true)
 
+            .environmentObject(ApplicationState())
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())

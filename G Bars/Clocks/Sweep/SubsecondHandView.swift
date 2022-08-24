@@ -19,8 +19,6 @@ import Combine
 /// A thin rectangle that can be rotated through a circle, given fractions of 360º.
 ///
 /// The expected use is as a clock hand indicating fractions of a second.
-///
-/// Uses ``CountdownController`` as an `@EnvironmentObject`.
 struct SubsecondHandView: View {
     /// The desired position of the hand , _counterclockwise,_ in `0.0..<1.0`
     let fractionalSecond: TimeInterval

@@ -21,6 +21,7 @@ import Combine
 ///
 /// Note that the timer can't be paused, only canceled. After cancellation, the only thing to be done is to create a new timer, and assign it the full duration.
 struct SweepSecondView: View {
+    /*
     enum SpeakWalkSpeak: String, CaseIterable {
         // On appearance, "begin walking in n seconds"
         case sayOpening
@@ -29,8 +30,8 @@ struct SweepSecondView: View {
         // transition to the next WalkingContainerView subject
         // presumably this is just a callback. to the container.
     }
-
-
+     */
+    
     @Environment(\.colorScheme) private static var colorScheme: ColorScheme
     @ObservedObject var timer: TimeReader
     /// The current minute/second/fraction value of the countdown.
@@ -47,7 +48,7 @@ struct SweepSecondView: View {
     ) {
 //        print("SweepSecondView.init called from", function, "\(fileID):\(line)")
 
-        timer = TimeReader(interval: sweep_TMP_Duration, by: 0.075)
+        timer = TimeReader(interval: Constants.sweepDuration, by: 0.075)
         wholeSeconds = Int(duration)
         completionCallback = onCompletion
     }
@@ -96,11 +97,7 @@ struct SweepSecondView: View {
                            alignment: .center)
                 Spacer()
                 Text("""
-Countdown only. You can repeat the countdown by tapping "Start" twice.
-
-In production, there would be only a Cancel button.
-
-Remember to unmute your phone and turn up the audio!
+Remember to UNMUTE YOUR PHONE and turn up the audio!
 """)
                 .font(.callout)
                 .minimumScaleFactor(0.5)
@@ -147,7 +144,7 @@ Remember to unmute your phone and turn up the audio!
                 }
                 .speak()
             }
-            .navigationTitle("Seconds")
+            .navigationTitle("Start in…")
         }
     }
 }
@@ -155,7 +152,7 @@ Remember to unmute your phone and turn up the audio!
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SweepSecondView(duration: sweep_TMP_Duration) {
+            SweepSecondView(duration: Constants.sweepDuration) {
 
             }
                 .frame(width: 300)

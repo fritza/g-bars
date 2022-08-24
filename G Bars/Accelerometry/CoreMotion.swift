@@ -48,6 +48,18 @@ actor IncomingAccelerometry {
         return buffer.popFirst()
     }
     // And now we're back to polling, right?
+
+    /// Return all elements in the `Deque` as an `Array`, then empty it.
+    /// - warning: The `actor` should insulate the caller from the effects of new data coming in, but be careful.
+    func popAll() async throws -> [CMAccelerometerData] {
+        defer { clear() }
+        return Array<CMAccelerometerData>(buffer)
+    }
+
+    /// Remove all elements from the `Deque`.
+    func clear() {
+        buffer.removeAll()
+    }
 }
 
 // MARK: - Available / Active
@@ -106,7 +118,11 @@ final class MotionManager {
     static let shared = MotionManager()
     static var census = 0
 
-    let motionManager: CMMotionManager
+    // FIXME: "A single instance can't be restarted"
+    //        Yes, but does it need to? .shared keeps the
+    //        object alive, which in turn keeps the
+    //        CMMotionManager alive and healthy
+    let cmMotionManager: CMMotionManager
     private let deviceState : DeviceState
     private let accState: AccelerometerState
     var isCancelled: Bool = false
@@ -118,10 +134,10 @@ final class MotionManager {
     func count() async -> Int { return await asyncBuffer.count }
 
     // MARK: - Initialization and start
-    init() {
+   fileprivate init() {
         let cmManager = CMMotionManager()
         cmManager.accelerometerUpdateInterval = hzInterval
-        motionManager = cmManager
+        cmMotionManager = cmManager
 
         deviceState = DeviceState(cmManager)
         accState = AccelerometerState(cmManager)
@@ -135,31 +151,11 @@ final class MotionManager {
         accState.active
     }
 
-
-    /*
-    /// Commence the Core Motion feed of accelerometer events.
-    ///
-    /// Events are handled by creating an `AsyncStream`  around `startAccelerometerUpdates`.
-    func startAccelerometry() {
-        stream = AsyncStream {
-            continuation in
-            motionManager.startAccelerometerUpdates(
-                to: .main, withHandler: Self.makeHandler(continuation)
-                )
-            continuation.onTermination = {
-                @Sendable _ in
-                self.stopAccelerometer()
-            }
-            // TODO: Obviates stopAccelerometer in cancelUpdates?
-            // At least be on the lookout in case repeated stop calls cause problems.
-        }
-    }
-*/
     /// Halt Core Motion reports on accelerometry.
     ///
     /// Not intended for external use; use `.cancelUpdates()` instead.
     private func stopAccelerometer() {
-        motionManager.stopAccelerometerUpdates()
+        cmMotionManager.stopAccelerometerUpdates()
     }
 }
 
@@ -173,25 +169,7 @@ extension MotionManager: AsyncSequence, AsyncIteratorProtocol {
     }
 
     func makeAsyncIterator() -> MotionManager {
-        // TODO: How do we do start-updates without starting the iterator?
-        //       You might want to do the two separately...?
-        //       Maybe not. I mean, if you can't start without providing
-        //       an action closure, then what closure do you want except to
-        //       feed the sequence?
-        // How does this fail? `throws` is a supertype of non-throwing,
-        // and there's no imaginable way to downcast or (more important)
-        // to handle the throw.
-
-
-        // TODO: What ops queue should this go on?
-        //       You create a new one by instantiating with `init()`.
-        //       I'd want serial. I don't need the main actor.
-        //       Should I go nuts with a separate queue for writing the
-        //       results? Probably not. Let the other things do what
-        //       they do without forcing a queueing system on top of
-        //       whatever the Task chooses.
-
-        motionManager.startAccelerometerUpdates(to: .main)
+        cmMotionManager.startAccelerometerUpdates(to: .main)
         { accData, error in
             if let error = error {
                 print(#function, "Accelerometry error:", error)

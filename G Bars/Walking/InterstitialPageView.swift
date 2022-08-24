@@ -51,7 +51,7 @@ struct InterstitialPageView: View {
 
 // MARK: - Preview
 struct InterstitialPageView_Previews: PreviewProvider {
-    static let sampleIInfo = InterstitialInfo(id: 3, intro: "This is the instructional text.\n\nIt may be very long.", proceedTitle: "Continue", pageTitle: "Exercise", systemImage: "figure.walk")
+    static let sampleIInfo = InterstitialInfo(id: 3, intro: "This is the instructional text.\nIt may be very long.", proceedTitle: "Continue", pageTitle: "Exercise with a longer top.", systemImage: "figure.walk")
 
     static var previews: some View {
         NavigationView {
