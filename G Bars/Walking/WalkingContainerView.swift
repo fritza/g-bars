@@ -11,6 +11,10 @@ import UniformTypeIdentifiers
 /* TODO: Handle cancellation.
  */
 
+protocol HasVoidCompletion {
+    var completion: ()->Void { get }
+}
+
 
 private let instructionContentList     = try! InterstitialList(baseName: "walk-intro"       )
 private let mid_instructionContentList = try! InterstitialList(baseName: "second-walk-intro")
@@ -115,7 +119,6 @@ extension WalkingContainerView {
                 InterstitalPageContainerView(listing: instructionContentList, selection: 1) {
                     self.state = .countdown_1
                 }.padding()
->>>>>>> testflight
                     .navigationBarBackButtonHidden(true)
             }
             .hidden()

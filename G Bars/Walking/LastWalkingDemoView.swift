@@ -110,8 +110,10 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
 
             }
             .sheet(isPresented: $shouldShowActivity, content: {
-                ActivityUIController(url: currentURL!,
-                                     text: "\(allLineData.count) bytes")
+                if currentURL != nil {
+                    ActivityUIController(url: currentURL!,
+                                         text: "\(allLineData.count) bytes")
+                }
             })
             .navigationTitle("Summary")
         }

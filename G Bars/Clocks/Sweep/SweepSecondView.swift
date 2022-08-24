@@ -71,6 +71,7 @@ struct SweepSecondView: View {
         Text(stringForSeconds)
             .font(.system(size: edge, weight: .semibold))
             .monospacedDigit()
+            .foregroundColor(.gray)
     }
 
     @ViewBuilder private func clockFace(fitting size: CGSize) -> some View {
