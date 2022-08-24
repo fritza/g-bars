@@ -8,18 +8,13 @@
 import SwiftUI
 import Combine
 
-
-let countdown_TMP_Duration = 120.0
-let countdown_TMP_Interval = 10
-
-let sweep_TMP_Duration = 5.0
-
+// FIXME: Put this somewhere you can find it.
 
 
 
 // MARK: - DigitalTimerView
 private let digitalNarrative = """
-The interval is read out at \(countdown_TMP_Interval)-second intervals, the better to demonstrate the feature.
+The interval is read out at \(Constants.countdownInterval)-second intervals, the better to demonstrate the feature.
 
 “Cancel” will stop the count but not dispatch to a recovery page.
 """
@@ -201,7 +196,7 @@ struct DigitalTimerView: View {
 struct DigitalTimerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DigitalTimerView(duration: countdown_TMP_Duration,
+            DigitalTimerView(duration: Constants.countdownDuration,
                              walkingState: .walk_2)
                 .padding()
         }

@@ -126,7 +126,7 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (countdown_1)",
             tag: WalkingState.countdown_1, selection: $state) {
-                SweepSecondView(duration: sweep_TMP_Duration) {
+                SweepSecondView(duration: Constants.sweepDuration) {
                     state = .walk_1
                 }.padding()
                     .navigationBarBackButtonHidden(true)
@@ -150,7 +150,7 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (walk_1)",
             tag: WalkingState.walk_1, selection: $state) {
-                DigitalTimerView(duration: countdown_TMP_Duration,
+                DigitalTimerView(duration: Constants.countdownDuration,
                                  walkingState: .walk_1) {
                     // → .interstitial_2
                     state = .interstitial_2
@@ -180,7 +180,7 @@ extension WalkingContainerView {
         NavigationLink(
             "SHOULDN'T SEE (countdown_2)",
             tag: WalkingState.countdown_2, selection: $state) {
-                SweepSecondView(duration: sweep_TMP_Duration) {
+                SweepSecondView(duration: Constants.sweepDuration) {
                     // → .walk_2
                     state = .walk_2
                 }.padding()
@@ -195,7 +195,7 @@ extension WalkingContainerView {
             "SHOULDN'T SEE (walk_2)",
             tag: WalkingState.walk_2, selection: $state) {
                 DigitalTimerView(
-                    duration: countdown_TMP_Duration,
+                    duration: Constants.countdownDuration,
                     walkingState: .walk_2) {
                         // → .ending_interstitial
                         state = .ending_interstitial

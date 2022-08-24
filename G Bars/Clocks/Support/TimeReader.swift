@@ -145,7 +145,7 @@ final class TimeReader: ObservableObject {
             .replaceError(with: .zero)
             .filter {
                 // FIXME: use of global
-                $0.second % countdown_TMP_Interval
+                $0.second % Constants.countdownInterval
                  == 0
             }
             .removeDuplicates()

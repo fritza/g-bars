@@ -48,7 +48,7 @@ struct SweepSecondView: View {
     ) {
 //        print("SweepSecondView.init called from", function, "\(fileID):\(line)")
 
-        timer = TimeReader(interval: sweep_TMP_Duration, by: 0.075)
+        timer = TimeReader(interval: Constants.sweepDuration, by: 0.075)
         wholeSeconds = Int(duration)
         completionCallback = onCompletion
     }
@@ -152,7 +152,7 @@ Remember to UNMUTE YOUR PHONE and turn up the audio!
 struct SweepSecondView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SweepSecondView(duration: sweep_TMP_Duration) {
+            SweepSecondView(duration: Constants.sweepDuration) {
 
             }
                 .frame(width: 300)

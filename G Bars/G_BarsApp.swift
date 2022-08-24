@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+enum Constants {
+#if DEBUG
+    static let countdownDuration = 35.0
+#else
+    static let countdownDuration = 120.0
+#endif
+
+    static let countdownInterval = 10
+    static let sweepDuration = 5.0
+}
+
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
