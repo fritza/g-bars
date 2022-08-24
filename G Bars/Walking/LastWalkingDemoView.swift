@@ -12,7 +12,7 @@ import SwiftUI
 
  (deprecated) The min:sec view has to create/hook up with a MotionManager.
  A consumer for AccelerometerItems has to be created, then hook up with a MotionManager.
-    The Items are stored as they come in from the manager.
+ The Items are stored as they come in from the manager.
 
  The consumer can be anything that appends `AcceleratorItem`s. Append to an array, write to file, whatever.
 
@@ -36,38 +36,90 @@ import SwiftUI
 // Added WalkingState .demoSummary
 
 
-struct LastWalkingDemoView: View {
-    private let completion: (() -> Void)?
+struct LastWalkingDemoView: View, HasVoidCompletion {
+    internal let completion: (() -> Void)
 
     init(completion: @escaping () -> Void) {
         self.completion = completion
     }
 
+    @State var currentURL: URL?
+
+    func contents(forStage state: WalkingState) -> String {
+        guard TimedWalkObserver.filePaths.count == 2 else {
+            return "NO PATHS!"
+        }
+        let index = (state == .walk_1) ? 0 : 1
+        let path = TimedWalkObserver.filePaths[index]
+        currentURL = URL(fileURLWithPath: path)
+        do {
+            let str = try String(contentsOfFile: path)
+            return str
+        }
+        catch {
+            print("Error (\(error))\n\tretrieving", path)
+            return "N/A"
+        }
+    }
+
+    @State var fileContent: [String] = []
+
+    func contentLines(forStage state: WalkingState) -> [String] {
+        let lumped = contents(forStage: state)
+        let retval = lumped.split(separator: "\r\n")
+            .map { String($0) }
+        return retval
+    }
+
+    var allLineData: Data {
+        let rejoined = fileContent.joined(separator: "\r\n")
+        let data = rejoined.data(using: .utf8)!
+        return data
+    }
+
+    @State var shouldShowActivity = false
+
     var body: some View {
-        /*
-         Title
+        VStack {
+            Text("Both walks are complete. Browse the accelerometer contents here.").font(.title3)
+            Text("(\(fileContent.count) records)").font(.caption)
+            ScrollView() {
+                LazyVStack(alignment: .leading) {
+                    ForEach(fileContent, id: \.self) { line in
+                        Text(line).font(.caption2.monospaced())
+                    }
+                }
+            }
+            //            List(fileContent, id: \.self) { str in
+            //               Text(str).font(.caption2.monospaced())
+//            }
+            Spacer()
+            HStack {
+                Spacer()
 
-         section break
-         LazyVStack of lines from walk 1?
+                Button() { completion() }
+            label: {
+                Label("Repeat", systemImage: "arrow.counterclockwise")
+            }
+                Spacer()
+                Button { shouldShowActivity = true }
+            label: {
+                Label("Export…", systemImage: "square.and.arrow.up")
+            }
+                Spacer()
 
-         section break
-         LazyVStack of lines from walk 2?
-
-         section break
-         HStack
-         Button(export)
-         Button retry
-
-         TODO: Handle cancellation.
-         Shouldn't (ha) be too hard, just spruce up the completions.
-         */
-       VStack {
-           Text("Both walks are complete. Browse the accelerometer contents here.")
-
-           
-           Text("End of Demo")
-       }
-       .navigationTitle("Summary (hidden)")
+            }
+            .sheet(isPresented: $shouldShowActivity, content: {
+                ActivityUIController(url: currentURL!,
+                                     text: "\(allLineData.count) bytes")
+            })
+            .navigationTitle("Summary")
+        }
+        .onAppear {
+            if fileContent.isEmpty {
+                fileContent = contentLines(forStage: .walk_1)
+            }
+        }
     }
 }
 

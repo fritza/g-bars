@@ -278,17 +278,24 @@ extension TimedWalkObserver: AccelerometryConsuming {
         return data
     }
 
+    static var filePaths: [String] = []
+    static func registerFilePath(_ name: String) {
+        while filePaths.count > 2 {
+            filePaths.removeFirst()
+        }
+        filePaths.append(name)
+    }
+
     /// Write all CSV records into a file.
     /// - Parameters:
     ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
     ///   - url: The location of the new file.
     func write(withPrefix prefix: String, to url: URL) throws {
         // TODO: Make it async
-
         let fm = FileManager.default
-
         let data = allAsData(prefixed: prefix)
         try fm.deleteAndCreate(at: url, contents: data)
+        Self.registerFilePath(url.path)
     }
 
     /// Marshall all the `CMAccelerometerData` data and write it out to a named file in the Documents directory.
@@ -301,20 +308,27 @@ extension TimedWalkObserver: AccelerometryConsuming {
         precondition(!fileName.isEmpty,
                      "\(#function): empty prefix string")
         let destURL = try FileManager.default
-            .docsDirectory()
+            .docsDirectory(create: true)
             .appendingPathComponent(fileName)
+            .appendingPathExtension("rtf")
 
         try write(withPrefix: prefix, to: destURL)
+    }
+
+    func outputBaseName(walkState: WalkingState) -> String {
+        let isoDate = Date().iso
+        let state = walkState.csvPrefix
+        // Force-unwrap: The phase _will_ be .walk_N, which _will_ have a prefix.
+        return "Sample-\(state!):\(isoDate)"
     }
 
     func writeToFile(walkState: WalkingState) throws {
         precondition(walkState == .walk_2 || walkState == .walk_1,
                      "Unexpected walk state \(walkState)"
         )
-        let isoDate = Date().iso
-        let state = walkState.csvPrefix ?? "!!!!"
+        let baseName = outputBaseName(walkState: walkState)
         try writeToFile(
-            named: "Sample-\(isoDate)",
-            linesPrefixedWith: "\(state),Sample")
+            named: baseName,
+            linesPrefixedWith: "\(walkState.csvPrefix!),Sample")
     }
 }
