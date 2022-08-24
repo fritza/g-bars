@@ -184,7 +184,10 @@ struct DigitalTimerView: View {
                 string: newTime.spoken)
             .speak()
         }
-        .navigationTitle("Digital")
+        .navigationTitle(
+            (walkingState == .walk_1) ?
+            "Normal Walk" : "Fast Walk"
+        )
     }
 
 //    func start() {

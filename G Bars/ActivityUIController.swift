@@ -31,6 +31,10 @@ struct ActivityUIController: UIViewControllerRepresentable {
     init(data: Data, text: String) {
         activityItems = [data, text]
     }
+
+    init(url: URL, text: String) {
+        activityItems = [url, text]
+    }
 }
 
 

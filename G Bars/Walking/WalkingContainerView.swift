@@ -213,7 +213,7 @@ extension WalkingContainerView {
             "SHOULDN'T SEE (ending_interstitial)",
             tag: WalkingState.ending_interstitial, selection: $state) {
 
-                #if false
+                #if INCLUDE_WALK_TERMINAL
 
                 // REGULAR farewell to the user.
                 InterstitalPageContainerView(
