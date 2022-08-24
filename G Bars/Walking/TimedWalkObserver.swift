@@ -310,7 +310,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
         let destURL = try FileManager.default
             .docsDirectory(create: true)
             .appendingPathComponent(fileName)
-            .appendingPathExtension("rtf")
+            .appendingPathExtension("csv")
 
         try write(withPrefix: prefix, to: destURL)
     }
