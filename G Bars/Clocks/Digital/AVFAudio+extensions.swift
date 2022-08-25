@@ -41,6 +41,14 @@ extension AVAudioSession.Category: CustomStringConvertible {
 }
 
 struct CatModeOpts: CustomStringConvertible {
+    internal init(cat: AVAudioSession.Category,
+                  mode: AVAudioSession.Mode = .default,
+                  opts: AVAudioSession.CategoryOptions = []) {
+        self.cat = cat
+        self.mode = mode
+        self.opts = opts
+    }
+
     let cat: AVAudioSession.Category
     let mode: AVAudioSession.Mode
     let opts: AVAudioSession.CategoryOptions
@@ -53,4 +61,3 @@ struct CatModeOpts: CustomStringConvertible {
         try  session.setCategory(cat, mode: mode, options: opts)
     }
 }
-
