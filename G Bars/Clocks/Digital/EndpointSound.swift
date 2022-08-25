@@ -26,9 +26,33 @@ func playSound(named: String, thenSay text: String) {
 
 /// Given the base name of an MP3 file in the main `Bundle`, `SoundPlayer` plays it.
 final class SoundPlayer {
+
+    static let klaxonAudioSession: AVAudioSession = {
+        var retval: AVAudioSession
+        do {
+            retval = AVAudioSession()
+            try retval.setCategory(.playback,
+                                   mode: .voicePrompt,
+                                   options: [.duckOthers, .defaultToSpeaker])
+        } catch {
+            assertionFailure("\(#fileID):\(#line) - Custom session not available:\n\t\(error)")
+            retval = AVAudioSession.sharedInstance()
+            try! retval.setCategory(.playback,
+                                    mode: .voicePrompt,
+                                    options: [.duckOthers, .defaultToSpeaker])
+        }
+        do {
+            try retval.setActive(true)
+        } catch {
+            fatalError("\(#fileID):\(#line) - Can’t actovate session:\n\t\(error)")
+        }
+
+        return retval
+    }()
+
     // MARK: Properties
     let soundName: String
-//    private var soundID  : SystemSoundID!
+    //    private var soundID  : SystemSoundID!
 
     // MARK: Initialization
     /// Initialize from the base name of the `.mp3` sound file. The file is assumed to be in the main `Bundle`.
@@ -82,15 +106,35 @@ final class SoundPlayer {
 // playback - "music or other sounds that are **central to the successful use of your app.**"
 // NOT ambient (default) - "Your audio is silenced by screen locking and by the Silent switch (called the Ring/Silent switch on iPhone)"
 
+// Klaxon (beep sound)
+// It SEEMS to work when the device is asleep
+// It DOES NOT override the ring/silent switch.
+// It DOES NOT vibrate the device from the background. (the beep is silenced both audio and haptics.
+
+// Not known : Operation in the background.
+// Actually, I think it does override device-asleep.
+// Success: Speech overrides the Ring/Silent switch.
+//          This is a relief because the vibration could he hard to add.
+// Short:   Audio clipe seen not to override the switch.
+
+/*
+ NEXT: Try a custom audio session.
+       Theory: Beep sounds do not run off the shared audio sesson.
+ */
+
 extension SoundPlayer {
     static func initializeAudio() throws {
         guard Self.klaxonSoundID == 0 else { return }
-        try setUpAudioEnvironment()
+        setUpAudioEnvironment()
         try registerKlaxon()
     }
 
-    private static func setUpAudioEnvironment() throws {
+    private static func setUpAudioEnvironment() {
+        let _ = Self.klaxonAudioSession
         // MARK: play from background.
+        //       Believe solved; see initializer for klaxonAudioSession
+
+        /*
         do {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback,
@@ -101,6 +145,7 @@ extension SoundPlayer {
         catch {
             print(#function, "failed somewhere:", error)
         }
+         */
     }
 
     // MARK: initialize the klaxon sound
