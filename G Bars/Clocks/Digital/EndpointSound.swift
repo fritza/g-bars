@@ -63,6 +63,25 @@ final class SoundPlayer {
 }
 
 // MARK: Initialization helpers
+// FIXME: Can I override volume?
+// FIXME: Can I run in the background?
+//        Perhaps something similar to telephony?
+// FIXME: Can I have sounds override silence?
+
+// (If I were App Review, I'd have some questions to ask)
+
+// AVAudioSession options:
+// duckOthers
+// defaultToSpeaker
+
+// AVAudioSession modes:
+// NOT spokenAudio - it suspends audio to make way for other apps.
+// voicePrompt ?
+//
+// AVAudioSession category:
+// playback - "music or other sounds that are **central to the successful use of your app.**"
+// NOT ambient (default) - "Your audio is silenced by screen locking and by the Silent switch (called the Ring/Silent switch on iPhone)"
+
 extension SoundPlayer {
     static func initializeAudio() throws {
         guard Self.klaxonSoundID == 0 else { return }
@@ -74,9 +93,9 @@ extension SoundPlayer {
         // MARK: play from background.
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord,
-                                    mode: .spokenAudio,
-                                    options: [.defaultToSpeaker])
+            try session.setCategory(.playback,
+                                    mode: .voicePrompt,
+                                    options: [.duckOthers, .defaultToSpeaker])
             try session.setActive(true)
         }
         catch {
