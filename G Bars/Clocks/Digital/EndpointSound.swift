@@ -15,6 +15,13 @@ enum MP3Errors: Error {
     case noSoundID(String, Int)
 }
 
+/// Asynchronously play a sound, then speak some text.
+///
+/// As implemented, the name of the sound is ignored — it's simply the current beep sound.
+/// - note: See Core Haptics for haptic playback (It's iOS API!)
+/// - Parameters:
+///   - named: The name of the sound to play (NOT USED)
+///   - text: The string to be spoken after the sound.
 func playSound(named: String, thenSay text: String) {
     Task.detached {
         await SoundPlayer.playSound()
@@ -29,8 +36,19 @@ final class SoundPlayer {
 
     static let klaxonAudioSession: AVAudioSession = {
         var retval: AVAudioSession
+
+        // NOTE that while the audio session is customized,
+        //      the implementation of playSound(named: String, thenSay text: String)
+        //      just uses the SoundPlayer.playSound(), which in turn beeps
+        //      (AudioServicesPlayAlertSoundWithCompletion)
+        //      No actual playback is done.
+
         do {
             retval = AVAudioSession()
+
+            // THROWS, error code "what", userInfo "(null)"
+            // Speculation: The category, mode, and options are incompatible.
+            // Would be nice if the error told me which.
             try retval.setCategory(.playback,
                                    mode: .voicePrompt,
                                    options: [.duckOthers, .defaultToSpeaker])
@@ -130,22 +148,11 @@ extension SoundPlayer {
     }
 
     private static func setUpAudioEnvironment() {
+        // TODO: Move the static klaxonAudioSession here.
+        //       It's the only caller.
         let _ = Self.klaxonAudioSession
         // MARK: play from background.
         //       Believe solved; see initializer for klaxonAudioSession
-
-        /*
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback,
-                                    mode: .voicePrompt,
-                                    options: [.duckOthers, .defaultToSpeaker])
-            try session.setActive(true)
-        }
-        catch {
-            print(#function, "failed somewhere:", error)
-        }
-         */
     }
 
     // MARK: initialize the klaxon sound
