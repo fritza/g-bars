@@ -28,30 +28,34 @@ func playSound(named: String, thenSay text: String) {
         await CallbackUtterance(string: text).asyncSpeak()
     }
 }
+// FIXME: Dan will ask about haptics without the beep sound.
 
 // MARK: - SoundPlayer
+
 
 /// Given the base name of an MP3 file in the main `Bundle`, `SoundPlayer` plays it.
 final class SoundPlayer {
 
     static let klaxonAudioSession: AVAudioSession = {
+
         var retval: AVAudioSession
-
-        // NOTE that while the audio session is customized,
-        //      the implementation of playSound(named: String, thenSay text: String)
-        //      just uses the SoundPlayer.playSound(), which in turn beeps
-        //      (AudioServicesPlayAlertSoundWithCompletion)
-        //      No actual playback is done.
-
         do {
             retval = AVAudioSession()
 
-            // THROWS, error code "what", userInfo "(null)"
-            // Speculation: The category, mode, and options are incompatible.
-            // Would be nice if the error told me which.
-            try retval.setCategory(.playback,
-                                   mode: .voicePrompt,
-                                   options: [.duckOthers, .defaultToSpeaker])
+            // WITH AUDIO BACKGROUND MODE ENABLED
+            // Doesn't crash, still observes the ring/silent switch.
+//            cat: .playback, mode: .default, opts: []
+            // Suspends the app when in the bg, switch silences.
+//            cat: .playback, mode: .default, opts: [.mixWithOthers]
+
+            // SEE AVSpeechSynthesizer.usesApplicationAudioSession
+            // This may default to a separate session.
+            // See what happens if you set it to true.
+
+            let cmo = CatModeOpts(cat: .playback, mode: .default, opts: [.mixWithOthers])
+            try cmo.applyTo(session: retval)
+
+
         } catch {
             assertionFailure("\(#fileID):\(#line) - Custom session not available:\n\t\(error)")
             retval = AVAudioSession.sharedInstance()

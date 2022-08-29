@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+
+/*
+
+ FIXME: SwiftUI @Environment(\.managedObjectContext)
+        It's get/set, seems to have no clients but the coder.
+
+
+
+ */
+
 enum Constants {
 #if DEBUG
     static let countdownDuration    = 15.0
