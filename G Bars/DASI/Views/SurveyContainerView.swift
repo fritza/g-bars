@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// FIXME: Make transitions work. (See FIXME below)
+let slideTransition = AnyTransition.slide
 
 // TODO: Put `DASIResponseStatus` into the environment
 //       originating at the App level.
@@ -34,6 +36,11 @@ struct SurveyContainerView: View {
                 Text("Question - \(contentEnvt.selected.description) - Match? \(String(describing: SurveyProgress.questionProgress == contentEnvt.surveyProgress))")
             }
             )
+
+            // FIXME: Make transitions work.
+//            .transition(slideTransition)
+            // I think the problem is that we're not substituting views,
+            // we're changing the state of a single view.
 
             // MARK: - .completion
             NavigationLink(
