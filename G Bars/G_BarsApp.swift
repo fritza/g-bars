@@ -28,20 +28,6 @@ enum Constants {
     static let sweepDuration        = 5.0
 }
 
-enum LastPassCreds {
-    static let userID      = "iosuser"
-    static let password    = "Daf4Df24fshfg"
-    static let lastPassName = "ios-s3-apidev"
-
-    static let methodName = "POST"
-
-    static let uploadString    = "https://ios-s3-apidev.uchicago.edu/api/upload"
-    static let uploadURL = URL(fileURLWithPath: uploadString)
-
-    static let reviewPage = "https://ios-s3-apidev.uchicago.edu/files/"
-    static let reviewURL = URL(fileURLWithPath: reviewPage)
-}
-
 // FIXME: Reconstitute from whatever storage we use.
 let rootResponseStatus =  DASIResponseStatus()
 let dasiPages = DASIPages()
