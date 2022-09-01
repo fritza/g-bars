@@ -1,5 +1,5 @@
 //
-//  URLUpload.swift
+//  POSTCreator.swift
 //  G Bars
 //
 //  Created by Fritz Anderson on 9/1/22.
@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - UploadServerCreds
 public enum UploadServerCreds {
     static let userID      = "iosuser"
     static let password    = "Daf4Df24fshfg"
@@ -21,45 +22,25 @@ public enum UploadServerCreds {
     static let reviewURL = URL(fileURLWithPath: reviewPage)
 }
 
-
+// MARK: - SessionTaskDelegate
 public class SessionTaskDelegate: NSObject, URLSessionTaskDelegate {
+    /// The wait-for-end-of-upoad semaphore, `static` from ``POSTCreator``.
+    let semaphore: DispatchSemaphore
+    init(semaphore: DispatchSemaphore) {
+        self.semaphore = semaphore
+    }
 
+    /// Authorization callback method allowed in ``URLSessionTaskDelegate``
     public typealias ChallengeCallback = (URLSession.AuthChallengeDisposition, URLCredential?)
     -> Void
 
-
-    public func resultFunction(data: Data?, response: URLResponse?, error: Error?) {
-        defer { semaphore.signal() }
-        if let data = data {
-            print("Data:", data)
-            let dataString = String(data: data, encoding: .utf8)!
-            print("\t\(dataString.prefix(512))")
-        }
-        else {
-            print("Nil data")
-        }
-
-        if let httpResponse = response as? HTTPURLResponse {
-            print(); print("Response: (\(httpResponse.statusCode))", HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode))
-        }
-        else {
-            print(); print("No decodable response")
-        }
-
-        if let error = error {
-            print(); print("Error:", error)
-        }
-        else {
-            print(); print("No Error")
-        }
-    }
-
-
+    /// Permanent credentials with the remote server's username and password for Basic authorization.
     public let credential = URLCredential(
         user: UploadServerCreds.userID,
         password: UploadServerCreds.password,
         persistence: .forSession)
 
+    /// ``URLSessionTaskDelegate`` adoption for authorization challenges.
     public func urlSession(_ session: URLSession,
                     task: URLSessionTask,
                     didReceive challenge: URLAuthenticationChallenge,
@@ -78,6 +59,9 @@ public class SessionTaskDelegate: NSObject, URLSessionTaskDelegate {
     }
 }
 
+/*
+ The thought had been to realize the combination of text and file upload parameters rather than the snippet's making it an array of Any.
+ Abandoned as unnecessary, String uploads aren't done in this app.
 
 public protocol UpParameters: Hashable, CustomStringConvertible {
     var key: String { get }
@@ -88,70 +72,56 @@ public protocol UpParameters: Hashable, CustomStringConvertible {
     mutating func setDisabled(to: Bool)
     mutating func setContentType(to: String?)
 }
+ */
 
-public struct FileParameters: Hashable, CustomStringConvertible {
-    let key: String
-    let src: String
-    let type: String
-    private(set) var contentType: String?
-    private(set) var disabled = false
-
-    public init(key: String, src: String, type: String = "file") {
-        (self.key, self.src, self.type) = (key, src, type)
-    }
-
-    public var description: String {
-        "FileParameters(key: \(key), type: \(type)) src: “\(src)”"
-    }
-
-    public mutating func setDisabled(to doDisable: Bool) {
-        self.disabled = doDisable
-    }
-
-    public mutating func setContentType(to type: String?) {
-        self.contentType = type
-    }
-
-    public var url: URL {
-        URL(fileURLWithPath: src)
-    }
-
-    public var path: String {
-        url.path
-    }
-
-    public func dataContent() throws -> Data {
-        return try Data(contentsOf: self.url)
-    }
-
-    public func stringContent() throws -> String? {
-        String(data: try self.dataContent(), encoding: .utf8)
-    }
-}
 
 // FIXME: Take arbitrary paths/URLs, not just Bundle.main.
 
-public class POSTCreator {
-    let boundary = "Boundary-\(UUID().uuidString)"
-    static let semaphore = DispatchSemaphore(value: 0)
-    let parameters: [FileParameters]
+// MARK: - POSTCreator
 
-    public init(for parameters: [FileParameters]) {
+/// Accepts (`String`) content from a file and uploads it.
+///
+///Typical usage is
+/// ```
+/// let creator = PostCreator(atPath: "/usr/var/tmp.str",
+///                           key: "data/string")
+/// try creator.transmitAllFiles()
+/// ```
+///
+/// - warning: ``PostCreator`` assumes the contents can be decoded as UTF-8 text. **This is not necessarily so.** Provision for binary content will have to be added.
+
+public class POSTCreator {
+    /// Boundary line for the multipart submission. Includes a once-only `UUID`.
+    let boundary = "Boundary-\(UUID().uuidString)"
+    /// A semaphore to stall further upload attempts until the current one is finished.
+    static let semaphore = DispatchSemaphore(value: 0)
+
+    /// Descriptions of the files to be uploaded. Having more than one is not anticipated.
+    let parameters: [UploadFileParameters]
+
+    /// Initialize with an array of upload files.
+    public init(for parameters: [UploadFileParameters]) {
         self.parameters = parameters
     }
 
+    /// Initialize with a path to a single upload file.
     public convenience init(atPath path: String, key: String) {
-        let fileParams = FileParameters(key: key, src: path)
+        let fileParams = UploadFileParameters(key: key, src: path)
         self.init(for: [fileParams])
     }
 
+    /// Initialize with a URL for a single upload file.
     public convenience init(atURL url: URL, key: String) {
-        let fileParams = FileParameters(key: key, src: url.path)
+        let fileParams = UploadFileParameters(key: key, src: url.path)
         self.init(for: [fileParams])
     }
 
 
-    func addPartialBody(from fParameter: FileParameters,
+    /// Add the content of a file to the body of the `POST` request
+    /// - Parameters:
+    ///   - fParameter: `FileParameters` specifying a single file.
+    ///   - body: The `String` this part of the request is to be appended to.
+    private func addPartialBody(from fParameter: UploadFileParameters,
                      into body: inout String) {
         assert(!fParameter.disabled,
                "Disabled FileParameters got into \(#function), line \(#line)")
@@ -166,7 +136,7 @@ Content-Disposition:form-data; name="\(paramName)"
         }
 
         if fParameter.type == "text" {
-            // FIXME: just a placeholder
+            assertionFailure("\(#function), line \(#line) - unanticipated specification of `String` content.")
             let value = fParameter.src
             body += "\r\n\r\n\(value)\r\n"
         }
@@ -180,7 +150,8 @@ Content-Disposition:form-data; name="\(paramName)"
         print(#function, "end of iteration", #line)
     }
 
-    func fullBody() throws -> Data {
+    /// The full _content_ of the upload request `FileParameter`s.
+    private func fullBody() -> Data {
         var body = ""
         for param in parameters where !param.disabled {
             addPartialBody(from: param, into: &body)
@@ -193,7 +164,10 @@ Content-Disposition:form-data; name="\(paramName)"
         return postData!
     }
 
-    func formPostRequest(for postData: Data) -> URLRequest {
+    /// Build a `URLRequest` for uploading some `Data`.
+    /// - Parameter postData: the `Data` to be uploaded
+    /// - Returns: The complete `URLRequest`.
+    private func formPostRequest(for postData: Data) -> URLRequest {
         var request = URLRequest(url: UploadServerCreds.uploadURL, timeoutInterval: Double.infinity)
         let kvp: KeyValuePairs = [
             //        "Authorization": "Basic aW9zdXNlcjpEYWY0RGYyNGZzaGZn",
@@ -209,13 +183,14 @@ Content-Disposition:form-data; name="\(paramName)"
         return request
     }
 
+    /// Execute a data task for uploading all the contents of the  `[FileParameters]` presented to the initializer.
     public func transmitAllFiles() throws {
-        let bodyData : Data       = try fullBody()
+        let bodyData : Data       = fullBody()
         let request  : URLRequest = formPostRequest(for: bodyData)
         let task = URLSession.shared.dataTask(
             with: request,
             completionHandler: resultFunction)
-        task.delegate = SessionTaskDelegate()
+        task.delegate = SessionTaskDelegate(semaphore: Self.semaphore)
         task.resume()
 
         /*
@@ -230,7 +205,7 @@ Content-Disposition:form-data; name="\(paramName)"
 }
 
 extension POSTCreator {
-    public func resultFunction(data: Data?, response: URLResponse?, error: Error?) {
+    fileprivate func resultFunction(data: Data?, response: URLResponse?, error: Error?) {
         defer {
             Self.semaphore.signal()
         }
