@@ -370,21 +370,21 @@
 		1FCB95B4286CD37700DE9DD0 /* G Bars */ = {
 			isa = PBXGroup;
 			children = (
-				1FB324C32888BD8D00A2F351 /* Voice */,
+				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
+				1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */,
+				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
+				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
 				1FD7EE7F2881CAA400D194B4 /* Clocks */,
-				1FB109FD287CCDB4007D7CDF /* PSSUQ */,
 				1F26AFAB286E201B00586654 /* DASI */,
 				1FCB95ED286CD7F500DE9DD0 /* Extensions */,
-				1F185B8E28A44D5800D8681E /* Walking */,
-				1FCB95E1286CD5DF00DE9DD0 /* Accelerometry */,
 				1FCB95B5286CD37700DE9DD0 /* G_BarsApp.swift */,
-				1F46668D28AD74FE0044E2E1 /* Staging.swift */,
-				1F8DFF5A28A2EC650063C28C /* Resources */,
-				1FA1C08928947AF0009D8F06 /* AtEnvironment.swift */,
-				1FCB95B9286CD37700DE9DD0 /* Assets.xcassets */,
 				1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */,
 				1FCB95BB286CD37700DE9DD0 /* Preview Content */,
-				1F46668B28AD48A40044E2E1 /* ActivityUIController.swift */,
+				1FB109FD287CCDB4007D7CDF /* PSSUQ */,
+				1F8DFF5A28A2EC650063C28C /* Resources */,
+				1F46668D28AD74FE0044E2E1 /* Staging.swift */,
+				1FB324C32888BD8D00A2F351 /* Voice */,
+				1F185B8E28A44D5800D8681E /* Walking */,
 			);
 			path = "G Bars";
 			sourceTree = "<group>";
