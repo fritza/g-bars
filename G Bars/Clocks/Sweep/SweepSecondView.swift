@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 /**
  ## Topics
@@ -55,9 +54,6 @@ struct SweepSecondView: View {
 
     /// Whether the clock is running, as set by ``TimerStartStopButton``.
     /// - note: Stopping the countdown does not pause it.  When `isRunning` changes to `true`, its controller is completely restarted.
-//    @State var isRunning: Bool = false
-
-    private var cancellables: Set<AnyCancellable> = []
 
     var stringForSeconds: String {
         if let seconds = self.minSecFrac?.second, seconds >= 0 {
