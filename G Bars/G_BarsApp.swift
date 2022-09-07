@@ -36,11 +36,7 @@ import Accelerate
 // MARK: - App
 @main
 struct G_BarsApp: App {
-    // TODO: Remove?
-    @AppStorage(AppStorageKeys.wantsSpeech.rawValue) private var app_speech = true
-
     init() {
-        app_speech = true
     }
 
     //    var selectedTab = 0
