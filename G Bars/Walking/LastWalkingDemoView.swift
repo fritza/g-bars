@@ -92,11 +92,10 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
             }
             //            List(fileContent, id: \.self) { str in
             //               Text(str).font(.caption2.monospaced())
-//            }
+            //            }
             Spacer()
             HStack {
                 Spacer()
-
                 Button() { completion() }
             label: {
                 Label("Repeat", systemImage: "arrow.counterclockwise")

@@ -12,19 +12,24 @@ public enum UploadServerCreds {
 
     static let methodName = "POST"
 
-    #warning("Add non-production build configuration")
-    // It would be identical to the Release configuration, but
-    // using the development/beta/whatever instance of the server.
-
 #if API_DEV
+    // Use for internal test and development
     static let lastPassName = "ios-s3-apidev"
     static let uploadString = "https://ios-s3-apidev.uchicago.edu/api/upload"
     static let userID       = "iosuser"
     static let password     = "Daf4Df24fshfg"
+#elseif BETA_API
+    // Use for TestFlight
+    static let lastPassName = "ios-s3-apistage"
+    static let uploadString = "https://ios-s3-apistage.uchicago.edu/api/upload"
+    static let userID       = "iosuser"
+    static let password     = "Daf4Df24fshfg"
 #else
+    // Public-release (production server)
+    static let lastPassName = "ios-s3-api.uchicago.edu (PROD)"
     static let uploadString = "https://ios-s3-api.uchicago.edu/api/upload"
-    static let userID       = "PENDING"
-    static let password     = "PENDING"
+    static let userID       = "iosuser"
+    static let password     = "#jd89DFa882%"
 #endif
     static let uploadURL    = URL(string: uploadString)!
 
