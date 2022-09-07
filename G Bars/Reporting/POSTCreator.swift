@@ -9,36 +9,29 @@ import Foundation
 
 // MARK: - UploadServerCreds
 public enum UploadServerCreds {
-    static let userID      = "iosuser"
-    static let password    = "Daf4Df24fshfg"
-    static let lastPassName = "ios-s3-apidev"
 
     static let methodName = "POST"
 
-    static let uploadString    = "https://ios-s3-apidev.uchicago.edu/api/upload"
-    static let uploadURL = URL(string: uploadString)!
+    #warning("Add non-production build configuration")
+    // It would be identical to the Release configuration, but
+    // using the development/beta/whatever instance of the server.
 
-    static let reviewPage = "https://ios-s3-apidev.uchicago.edu/files/"
-    static let reviewURL = URL(fileURLWithPath: reviewPage)
+#if API_DEV
+    static let lastPassName = "ios-s3-apidev"
+    static let uploadString = "https://ios-s3-apidev.uchicago.edu/api/upload"
+    static let userID       = "iosuser"
+    static let password     = "Daf4Df24fshfg"
+#else
+    static let uploadString = "https://ios-s3-api.uchicago.edu/api/upload"
+    static let userID       = "PENDING"
+    static let password     = "PENDING"
+#endif
+    static let uploadURL    = URL(string: uploadString)!
+
+    static let reviewPage   = "https://ios-s3-apidev.uchicago.edu/files/"
+    static let reviewURL    = URL(fileURLWithPath: reviewPage)
 }
 
-/*
- The thought had been to realize the combination of text and file upload parameters rather than the snippet's making it an array of Any.
- Abandoned as unnecessary, String uploads aren't done in this app.
-
-public protocol UpParameters: Hashable, CustomStringConvertible {
-    var key: String { get }
-    var type: String { get }
-    var contentType: String? { get }
-    var disabled: Bool { get }
-
-    mutating func setDisabled(to: Bool)
-    mutating func setContentType(to: String?)
-}
- */
-
-
-// FIXME: Take arbitrary paths/URLs, not just Bundle.main.
 
 // MARK: - POSTCreator
 
@@ -79,7 +72,7 @@ public class POSTCreator {
         self.init(for: [fileParams])
     }
 
-
+    // MARK: Build POST payload
     /// Add the content of a file to the body of the `POST` request
     /// - Parameters:
     ///   - fParameter: `FileParameters` specifying a single file.
@@ -146,6 +139,7 @@ Content-Disposition:form-data; name="\(paramName)"
         return request
     }
 
+    // MARK: Execution
     /// Execute a data task for uploading all the contents of the  `[FileParameters]` presented to the initializer.
     public func transmitAllFiles() throws {
         let bodyData : Data       = fullBody()
@@ -155,18 +149,10 @@ Content-Disposition:form-data; name="\(paramName)"
             completionHandler: resultFunction)
         task.delegate = SessionTaskDelegate(semaphore: Self.semaphore)
         task.resume()
-
-        /*
-         Naïve attempt at using uploadTask did not immediately work.
-
-         let ulRequest = formUploadRequest()
-         let ulTask = URLSession.shared.uploadTask(with: ulRequest, from: bodyData)
-         ulTask.delegate = SessionTaskDelegate()
-         ulTask.resume()
-         */
     }
 }
 
+// MARK: - POST Completion
 extension POSTCreator {
     fileprivate func resultFunction(data: Data?, response: URLResponse?, error: Error?) {
         defer {
