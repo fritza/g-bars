@@ -21,6 +21,7 @@
 		1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFBE286E22CF00586654 /* DASIPages.swift */; };
 		1F26AFC8286E27FB00586654 /* YesNoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC5286E27FB00586654 /* YesNoButton.swift */; };
 		1F26AFC9286E27FB00586654 /* YesNoStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F26AFC6286E27FB00586654 /* YesNoStack.swift */; };
+		1F2ACEEB28C8E1C200FCAF53 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 1F2ACEEA28C8E1C200FCAF53 /* ZIPFoundation */; };
 		1F35080728A4318400C3F846 /* InterstitialPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080628A4318400C3F846 /* InterstitialPageView.swift */; };
 		1F35080928A43FE400C3F846 /* InterstitalPageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F35080828A43FE400C3F846 /* InterstitalPageContainerView.swift */; };
 		1F38161D28B8265E002CBEEB /* AVFAudio+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F38161C28B8265E002CBEEB /* AVFAudio+extensions.swift */; };
@@ -192,6 +193,7 @@
 				1FCB95E8286CD7A000DE9DD0 /* Collections in Frameworks */,
 				1FCB95EA286CD7A000DE9DD0 /* DequeModule in Frameworks */,
 				1FCB95EC286CD7A000DE9DD0 /* OrderedCollections in Frameworks */,
+				1F2ACEEB28C8E1C200FCAF53 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +497,7 @@
 				1FCB95E7286CD7A000DE9DD0 /* Collections */,
 				1FCB95E9286CD7A000DE9DD0 /* DequeModule */,
 				1FCB95EB286CD7A000DE9DD0 /* OrderedCollections */,
+				1F2ACEEA28C8E1C200FCAF53 /* ZIPFoundation */,
 			);
 			productName = "G Bars";
 			productReference = 1FCB95B2286CD37700DE9DD0 /* G Bars.app */;
@@ -570,6 +573,7 @@
 			mainGroup = 1FCB95A9286CD37700DE9DD0;
 			packageReferences = (
 				1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				1F2ACEE928C8E1C200FCAF53 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			productRefGroup = 1FCB95B3286CD37700DE9DD0 /* Products */;
 			projectDirPath = "";
@@ -1034,6 +1038,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1F2ACEE928C8E1C200FCAF53 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				branch = development;
+				kind = branch;
+			};
+		};
 		1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -1045,6 +1057,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1F2ACEEA28C8E1C200FCAF53 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F2ACEE928C8E1C200FCAF53 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
 		1FCB95E7286CD7A000DE9DD0 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1FCB95E6286CD7A000DE9DD0 /* XCRemoteSwiftPackageReference "swift-collections" */;
