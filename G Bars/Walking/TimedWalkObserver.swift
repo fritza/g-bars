@@ -23,7 +23,7 @@ protocol AccelerometerDataContent: NSObject {
 }
 
 extension AccelerometerDataContent {
-    var csvLine: String? {
+    var csvLine: String {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
             .map(\.pointFive)
             .joined(separator: ",")
@@ -68,7 +68,7 @@ final class MockAccelerometerData: NSObject, AccelerometerDataContent {
 // MARK: - CMAccelerometerData (content) (CSV)
 extension CMAccelerometerData: CSVRepresentable {
     /// Represent acceleration and timestamp as fields in a CSV record.
-    var csvLine: String? {
+    var csvLine: String {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
             .map(\.pointFive)
             .joined(separator: ",")
@@ -101,7 +101,7 @@ extension AccelerometryConsuming {
     // especially when the ad-interim store is a file.
     func marshalledRecords() -> [String] {
         let all = self.allRecords()
-        let strings = all.compactMap(\.csvLine)
+        let strings = all.map(\.csvLine)
         return strings
     }
 }

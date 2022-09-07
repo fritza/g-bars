@@ -10,16 +10,22 @@ import Foundation
 
 
 
-// MARK: - Timestamped
-public protocol Timestamped: CSVConvertible {
-    var timestamp: TimeInterval { get }
+protocol CSVRepresentable {
+    var csvLine: String { get }
 }
 
-extension Timestamped {
-    public var csvLine: String {
-        timestamp.csvLine
-    }
-}
+
+/*
+ // MARK: - Timestamped
+ public protocol Timestamped: CSVConvertible {
+ var timestamp: TimeInterval { get }
+ }
+
+ extension Timestamped {
+ public var csvLine: String {
+ timestamp.csvLine
+ }
+ }
 
 public protocol CSVConvertible {
     var csvLine: String { get }
@@ -64,3 +70,4 @@ extension Array where Element: CSVConvertible {
         return consolidated.joined(separator: ",")
     }
 }
+*/

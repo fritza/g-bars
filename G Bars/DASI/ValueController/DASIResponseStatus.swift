@@ -8,10 +8,6 @@
 import Foundation
 import Combine
 
-protocol CSVRepresentable {
-    var csvLine: String? { get }
-}
-
 // MARK: - DASIReportErrors
 enum DASIReportErrors: Error {
 //    case wrongDataType(UTType)
@@ -127,14 +123,14 @@ extension DASIResponseStatus: RandomAccessCollection {
 }
 
 extension DASIResponseStatus: CSVRepresentable {
-    var csvLine: String? {
+    var csvLine: String {
 //        guard firstUnknownIdentifier == nil else {
 //            throw DASIReportErrors.dasiResponsesIncomplete
 //        }
 
         guard let subjectID = SubjectID.shared.subjectID else {
             assertionFailure("No subject ID, shouldn't get to \(#function) in the first place.")
-            return nil
+            return "MISSING"
         }
 
         let firstTimestamp = Date().timeIntervalSince1960.rounded
