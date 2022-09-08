@@ -46,7 +46,7 @@ class SyncWriterTests: XCTestCase {
         XCTAssertEqual(lhs.count, rhs.count)
 
         zip(lhs, rhs)
-            .map { (l, r) -> (String, String) in (l.csvLine!, r.csvLine!) }
+            .map { (l, r) -> (String, String) in (l.csvLine, r.csvLine) }
             .forEach { (l, r) in
                 XCTAssertEqual(l, r)
             }

@@ -144,7 +144,7 @@ final class TimeReader: ObservableObject {
             }
             .replaceError(with: .zero)
             .filter {
-                $0.second % Int(Constants.countdownInterval)
+                $0.second % Constants.countdownInterval
                  == 0
             }
             .removeDuplicates()

@@ -24,7 +24,7 @@ enum Constants {
     static let countdownDuration    = 120.0
 #endif
 
-    static let countdownInterval    = 10
+    static let countdownInterval    = 30
     static let sweepDuration        = 5.0
 }
 

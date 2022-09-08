@@ -278,6 +278,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
         return data
     }
 
+    // MARK: Writing
     static var filePaths: [String] = []
     static func registerFilePath(_ name: String) {
         while filePaths.count > 2 {
