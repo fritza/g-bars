@@ -156,7 +156,16 @@ struct DigitalTimerView: View {
             timer.start()
         }
         .onDisappear() {
-            do { try observer.writeToFile(walkState: self.walkingState)
+            do {
+                try observer
+                    .writeForArchive(
+                        subjectID:
+
+                            "SAMPLE_ID",
+
+                        tag: self.walkingState.csvPrefix!)
+//                try observer
+//                    .writeToFile(walkState: self.walkingState)
             } catch {
                 print("DigitalTimerView:\(#line) error on write: \(error)")
                 assertionFailure()

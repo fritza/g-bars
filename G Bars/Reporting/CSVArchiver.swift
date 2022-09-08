@@ -16,11 +16,8 @@ final class LastWalkingData {
 //    let dest
 
 
-
-    init(tags: [String], subject: String) {
-        // TODO: Validate
+    init(subject: String) {
         subjectID = subject
-//        destinationDirectory = directory
     }
 
     var directoryName: String {
@@ -28,7 +25,7 @@ final class LastWalkingData {
     }
 
     /// Child directory of temporaties diectory, named uniquely for this package of `.csv` files.
-    var destinationDirectory: URL {
+    var destinationDirectoryURL: URL {
         let temporaryPath = NSTemporaryDirectory()
         let retval = URL(fileURLWithPath: temporaryPath, isDirectory: true)
             .appendingPathComponent(directoryName,
@@ -44,12 +41,25 @@ final class LastWalkingData {
     // Step 1: Create the destination directory
 
     // MARK: Write one CSV
-    func createArchiveDirectory() throws {
-        try FileManager.default
-            .createDirectory(
-                at: destinationDirectory,
-                withIntermediateDirectories: true)
-    }
+    lazy var destinationDirectory: URL = {
+        do {
+            try FileManager.default
+                .createDirectory(
+                    at: destinationDirectoryURL,
+                    withIntermediateDirectories: true)
+        }
+        catch {
+            preconditionFailure(error.localizedDescription)
+        }
+        return destinationDirectoryURL
+    }()
+
+//    func createArchiveDirectory() throws {
+//        try FileManager.default
+//            .createDirectory(
+//                at: destinationDirectory,
+//                withIntermediateDirectories: true)
+//    }
 
     /// Working directory + archive (`.zip`) name
     var zipFileURL: URL {
@@ -67,6 +77,8 @@ final class LastWalkingData {
             .appendingPathComponent(csvFileName(tag: tag))
     }
 
+    static var writtenArchives: [URL] = []
+
     func writeCSV(withData data : Data,
                   forTag tag    : String) throws {
         let taggedURL = csvFileURL(tag: tag)
@@ -78,6 +90,7 @@ final class LastWalkingData {
         if !success {
             throw FileStorageErrors.cantCreateFileAt(taggedURL)
         }
+        Self.writtenArchives.append(taggedURL)
     }
 
     func listTempDirectory() throws -> String {
@@ -116,6 +129,19 @@ final class LastWalkingData {
     }
 
     func writeTheZIPFile() throws {
+        let retval = Data()
+        guard let archive = Archive(data: retval, accessMode: .create)
+        else {
+            throw FileStorageErrors.cantInitializeZIPArchive
+        }
 
+        do {
+            for url in Self.writtenArchives {
+                try archive.addEntry(with: url.lastPathComponent, fileURL: url)
+            }
+        }
+        catch {
+            fatalError()
+        }
     }
 }
