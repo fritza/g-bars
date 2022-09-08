@@ -196,8 +196,8 @@ enum WalkingState: String, CaseIterable, AppStages {
 
     var csvPrefix: String? {
         switch self {
-        case .walk_1: return "walkNormal"
-        case .walk_2: return "walkFast"
+        case .walk_1: return "w_1"
+        case .walk_2: return "w_2"
 
         default: return nil
         }

@@ -16,6 +16,7 @@ public enum FileStorageErrors: Error {
     case noSubjectID
     case cantLoadData(URL)
     case uploadEmptyData(String)
+    case cantInitializeZIPArchive
 }
 
 extension FileManager {

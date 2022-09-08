@@ -9,8 +9,6 @@ import SwiftUI
 
 // MARK: - DigitalTimerView
 private let digitalNarrative = """
-The interval is read out at \(Constants.countdownInterval)-second intervals, the better to demonstrate the feature.
-
 “Cancel” will stop the count but not dispatch to a recovery page.
 """
 

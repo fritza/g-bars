@@ -91,14 +91,15 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
                 }
             }
             Spacer()
-            HStack {
-                Spacer()
-                Button() {
+            /*
+             Not used; the files are written out at onDisappear.
+            Button("Transmit") {
+                do {
                     let arch = LastWalkingData(
-                        tags: ["w_1", "w_f"],
+//                        tags: ["w_1", "w_f"],
                         subject: "SAMPLEID")
                     do {
-                        try arch.createArchiveDirectory()
+//                        try arch.createArchiveDirectory()
                         try arch.writeCSV(
                             withData: allLineData,
                             forTag: "w_1")
@@ -110,6 +111,16 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
                         print("Write failed", error)
                         print()
                     }
+                }
+                catch {
+
+                }
+            }
+             */
+
+            HStack {
+                Spacer()
+                Button() {
                     completion()
                 }
             label: {

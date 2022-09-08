@@ -5,6 +5,12 @@
 //  Created by Fritz Anderson on 8/19/22.
 //
 
+
+/*
+ TimedWalkObserver belongs to the walking view.
+the accels are in .consumer
+ */
+
 import Foundation
 import CoreMotion
 
