@@ -14,6 +14,8 @@ public enum FileStorageErrors: Error {
     case plainFileAtURL(URL)
     case cantCreateFileAt(URL)
     case noSubjectID
+    case cantLoadData(URL)
+    case uploadEmptyData(String)
 }
 
 extension FileManager {
