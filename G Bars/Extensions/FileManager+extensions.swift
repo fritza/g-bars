@@ -17,6 +17,7 @@ public enum FileStorageErrors: Error {
     case cantLoadData(URL)
     case uploadEmptyData(String)
     case cantInitializeZIPArchive
+    case cantGetArchiveData
 }
 
 extension FileManager {

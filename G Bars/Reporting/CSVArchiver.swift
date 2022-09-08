@@ -8,40 +8,34 @@
 import Foundation
 import ZIPFoundation
 
+/// Accumulate data (expected `.csv`) for export into a ZIP archive.
 final class LastWalkingData {
-
-//    let destinationDirectory: URL
+    /// Invariant: The ID of the user
     let subjectID: String
+    /// Invariant: time of creation of the export set
     let timestamp = Date().iso
-//    let dest
+    /// The output ZIP archive
+    let csvArchive: Archive
 
+    /// Capture file and directory locations and initialize the archive.
+    /// - Parameter subject: The ID of the user
+    init(subjectID subject: String) throws {
+        self.subjectID = subject
 
-    init(subject: String) {
-        subjectID = subject
-    }
-
-    var directoryName: String {
-        "\(subjectID)_\(timestamp)"
-    }
-
-    /// Child directory of temporaties diectory, named uniquely for this package of `.csv` files.
-    var destinationDirectoryURL: URL {
-        let temporaryPath = NSTemporaryDirectory()
-        let retval = URL(fileURLWithPath: temporaryPath, isDirectory: true)
-            .appendingPathComponent(directoryName,
-                                    isDirectory: true)
-        return retval
-    }
-
-    /// target `.zip` file name
-    var archiveName: String {
-        "\(directoryName).zip"
+        let backingStore = Data()
+        guard let _archive = Archive(
+            data: backingStore,
+            accessMode: .create)
+        else { throw FileStorageErrors.cantInitializeZIPArchive }
+        self.csvArchive = _archive
     }
 
     // Step 1: Create the destination directory
 
-    // MARK: Write one CSV
-    lazy var destinationDirectory: URL = {
+    // MARK: Working Directory
+
+    /// URL of the working directory that receives the `.csv` files and the `.zip` archive.
+    lazy var workingDirectory: URL! = {
         do {
             try FileManager.default
                 .createDirectory(
@@ -52,18 +46,79 @@ final class LastWalkingData {
             preconditionFailure(error.localizedDescription)
         }
         return destinationDirectoryURL
+
     }()
 
-//    func createArchiveDirectory() throws {
-//        try FileManager.default
-//            .createDirectory(
-//                at: destinationDirectory,
-//                withIntermediateDirectories: true)
-//    }
+    /// Create the file directory to receive the `.csv` files and the `.zip` archive.
+    private func createWorkingDirectory() -> URL {
+        do {
+            try FileManager.default
+                .createDirectory(
+                    at: destinationDirectoryURL,
+                    withIntermediateDirectories: true)
+        }
+        catch {
+            preconditionFailure(error.localizedDescription)
+        }
+        return destinationDirectoryURL
+    }
+
+    /// Write data into a `.csv` file in the working directory.
+    ///
+    /// Also, add the data into the `Archive` object
+    /// - Parameters:
+    ///   - data: The content of the file to archive.
+    ///   - tag: A short `String` distinguishing the phase (regular, fast) of collection.
+    func writeData(_ data : Data,
+                   forTag tag : String) throws {
+        // TODO: Replace duplicate-named files with the new one.
+        let taggedURL = csvFileURL(tag: tag)
+        let success = FileManager.default
+            .createFile(
+                atPath: taggedURL.path,
+                contents: data)
+        if !success {
+            throw FileStorageErrors.cantCreateFileAt(taggedURL)
+        }
+
+        try csvArchive.addEntry(
+            with: taggedURL.lastPathComponent,
+            fileURL: taggedURL)
+    }
+
+    /// Assemble and compress the file data and write it to a `.zip` file.
+    func exportZIPFile() throws {
+        guard let content = csvArchive.data else {
+            throw FileStorageErrors.cantGetArchiveData
+        }
+        try content.write(to: zipFileURL)
+    }
+}
+
+// MARK: - File names
+extension LastWalkingData {
+    var directoryName: String {
+        "\(subjectID)_\(timestamp)"
+    }
+
+    /// target `.zip` file name
+    var archiveName: String {
+        "\(directoryName).zip"
+    }
+
+    /// Child directory of temporaties diectory, named uniquely for this package of `.csv` files.
+    private var destinationDirectoryURL: URL {
+        let temporaryPath = NSTemporaryDirectory()
+        let retval = URL(fileURLWithPath: temporaryPath, isDirectory: true)
+            .appendingPathComponent(directoryName,
+                                    isDirectory: true)
+        return retval
+    }
 
     /// Working directory + archive (`.zip`) name
     var zipFileURL: URL {
-        destinationDirectory.appendingPathComponent(archiveName)
+        workingDirectory
+            .appendingPathComponent(archiveName)
     }
 
     /// Name of the tagged `.csv` file
@@ -73,75 +128,9 @@ final class LastWalkingData {
 
     /// Destination (wrapper) directory + per-exercise `.csv` name
     func csvFileURL(tag: String) -> URL {
-        destinationDirectory
+        workingDirectory
             .appendingPathComponent(csvFileName(tag: tag))
     }
-
-    static var writtenArchives: [URL] = []
-
-    func writeCSV(withData data : Data,
-                  forTag tag    : String) throws {
-        let taggedURL = csvFileURL(tag: tag)
-
-        let success = FileManager.default
-            .createFile(
-                atPath: taggedURL.path,
-                contents: data)
-        if !success {
-            throw FileStorageErrors.cantCreateFileAt(taggedURL)
-        }
-        Self.writtenArchives.append(taggedURL)
-    }
-
-    func listTempDirectory() throws -> String {
-        do {
-            let content = try Data(contentsOf: csvFileURL(tag: "w_1"))
-            if let asString = String(data: content, encoding: .utf8) {
-                print("Content length =", asString.count)
-                print("Prefix:", asString.prefix(128))
-                print()
-            }
-            else {
-                print("Couldn't convert")
-            }
-        }
-        catch {
-            print("No content for file:", error)
-            print()
-        }
-
-        let inTemporary = try FileManager.default
-            .contentsOfDirectory(atPath: NSTemporaryDirectory())
-        let tempAsArray = "[ " +
-        inTemporary.joined(separator: ", ") +
-        " ]"
-
-        let inTargetDir = try FileManager.default
-            .contentsOfDirectory(atPath: destinationDirectory.path)
-        let targetAsArray = "[ " +
-        inTargetDir.joined(separator: ", ") +
-        " ]"
-
-        var retval = ""
-        print("Temporary:", tempAsArray, separator: "\n", terminator: "\n\n", to: &retval)
-        print("Target:", targetAsArray, separator: "\n", terminator: "\n", to: &retval)
-        return retval
-    }
-
-    func writeTheZIPFile() throws {
-        let retval = Data()
-        guard let archive = Archive(data: retval, accessMode: .create)
-        else {
-            throw FileStorageErrors.cantInitializeZIPArchive
-        }
-
-        do {
-            for url in Self.writtenArchives {
-                try archive.addEntry(with: url.lastPathComponent, fileURL: url)
-            }
-        }
-        catch {
-            fatalError()
-        }
-    }
 }
+
+

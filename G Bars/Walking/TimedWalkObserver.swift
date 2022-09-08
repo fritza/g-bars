@@ -322,6 +322,15 @@ extension TimedWalkObserver: AccelerometryConsuming {
         try write(withPrefix: prefix, to: destURL)
     }
 
+    // FIXME: - URGENT - get a way to have a global subject ID.
+    static var lastData = LastWalkingData(subject: "SAMPLE")
+
+    func writeForArchive(subjectID: String, tag: String) throws {
+        let prefix = "\(tag),\(subjectID)"
+        let content = allAsData(prefixed: prefix)
+        try Self.lastData.writeCSV(withData: content, forTag: tag)
+    }
+
     func outputBaseName(walkState: WalkingState) -> String {
         let isoDate = Date().iso
         let state = walkState.csvPrefix
