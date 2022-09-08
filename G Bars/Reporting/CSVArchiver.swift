@@ -19,7 +19,11 @@ final class LastWalkingData {
 
     /// Capture file and directory locations and initialize the archive.
     /// - Parameter subject: The ID of the user
-    init(subjectID subject: String) throws {
+    //    init(subjectID subject: String)
+    init() throws {
+        guard let subject = SubjectID.shared.subjectID else {
+            throw FileStorageErrors.noSubjectID
+        }
         self.subjectID = subject
 
         let backingStore = Data()
