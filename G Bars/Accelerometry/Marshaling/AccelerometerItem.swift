@@ -43,14 +43,10 @@ extension AccelerometerItem: CSVRepresentable {
 
 extension AccelerometerItem: RoughlyEquatable {
     static func ≈ (lhs: AccelerometerItem, rhs: AccelerometerItem) -> Bool {
-        for p in [
-            \AccelerometerItem.x,
-             \AccelerometerItem.y,
-             \AccelerometerItem.z ] {
-            if lhs[keyPath: p] !≈ rhs[keyPath: p] {
-                return false
+        let paths: [KeyPath<AccelerometerItem,Double>] = [\.x, \.y, \.z]
+        return paths
+            .allSatisfy { componentPath in
+                lhs[keyPath: componentPath] ≈ rhs[keyPath: componentPath]
             }
-        }
-        return true
     }
 }
