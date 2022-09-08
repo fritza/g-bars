@@ -90,13 +90,28 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
                     }
                 }
             }
-            //            List(fileContent, id: \.self) { str in
-            //               Text(str).font(.caption2.monospaced())
-            //            }
             Spacer()
             HStack {
                 Spacer()
-                Button() { completion() }
+                Button() {
+                    let arch = LastWalkingData(
+                        tags: ["w_1", "w_f"],
+                        subject: "SAMPLEID")
+                    do {
+                        try arch.createArchiveDirectory()
+                        try arch.writeCSV(
+                            withData: allLineData,
+                            forTag: "w_1")
+                        print(
+                            try arch.listTempDirectory()
+                        )
+                    }
+                    catch {
+                        print("Write failed", error)
+                        print()
+                    }
+                    completion()
+                }
             label: {
                 Label("Repeat", systemImage: "arrow.counterclockwise")
             }
@@ -123,6 +138,7 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
         }
     }
 }
+
 
 struct LastWalkingDemoView_Previews: PreviewProvider {
     static var previews: some View {
