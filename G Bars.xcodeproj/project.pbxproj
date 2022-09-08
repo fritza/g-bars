@@ -73,9 +73,7 @@
 		1FCB95F9286CD8D300DE9DD0 /* XYZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB95F8286CD8D300DE9DD0 /* XYZ.swift */; };
 		1FCB95FC286CF0F500DE9DD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB95FB286CF0F500DE9DD0 /* LaunchScreen.storyboard */; };
 		1FD53750288B254B00CCCC5C /* UsabilitySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */; };
-		1FD7D3E528C145AA00E9D772 /* POSTCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7D3E428C145AA00E9D772 /* POSTCreator.swift */; };
-		1FD7D3E728C154B900E9D772 /* UploadFileParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7D3E628C154B900E9D772 /* UploadFileParameters.swift */; };
-		1FD7D3E928C155D800E9D772 /* SessionTaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7D3E828C155D800E9D772 /* SessionTaskDelegate.swift */; };
+		1FD7D3E928C155D800E9D772 /* UploadWalkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7D3E828C155D800E9D772 /* UploadWalkSession.swift */; };
 		1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */; };
 		1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */; };
 		1FDBB1E328AD989D00EBB442 /* StagingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBB1E228AD989D00EBB442 /* StagingTests.swift */; };
@@ -175,7 +173,7 @@
 		1FD5374F288B254B00CCCC5C /* UsabilitySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsabilitySummaryView.swift; sourceTree = "<group>"; };
 		1FD7D3E428C145AA00E9D772 /* POSTCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POSTCreator.swift; sourceTree = "<group>"; };
 		1FD7D3E628C154B900E9D772 /* UploadFileParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileParameters.swift; sourceTree = "<group>"; };
-		1FD7D3E828C155D800E9D772 /* SessionTaskDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTaskDelegate.swift; sourceTree = "<group>"; };
+		1FD7D3E828C155D800E9D772 /* UploadWalkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadWalkSession.swift; sourceTree = "<group>"; };
 		1FD7EE8A2881DE2B00D194B4 /* SweepSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweepSecondView.swift; sourceTree = "<group>"; };
 		1FD7EE8C2881DE8500D194B4 /* SubsecondHandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsecondHandView.swift; sourceTree = "<group>"; };
 		1FDBB1E228AD989D00EBB442 /* StagingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingTests.swift; sourceTree = "<group>"; };
@@ -461,7 +459,7 @@
 			children = (
 				1FD7D3E428C145AA00E9D772 /* POSTCreator.swift */,
 				1FD7D3E628C154B900E9D772 /* UploadFileParameters.swift */,
-				1FD7D3E828C155D800E9D772 /* SessionTaskDelegate.swift */,
+				1FD7D3E828C155D800E9D772 /* UploadWalkSession.swift */,
 			);
 			path = Reporting;
 			sourceTree = "<group>";
@@ -650,10 +648,9 @@
 				1FB10A03287CD125007D7CDF /* UsabilityQuestions.swift in Sources */,
 				1FCB95F5286CD87800DE9DD0 /* AccelerometerItem.swift in Sources */,
 				1F35080928A43FE400C3F846 /* InterstitalPageContainerView.swift in Sources */,
-				1FD7D3E928C155D800E9D772 /* SessionTaskDelegate.swift in Sources */,
+				1FD7D3E928C155D800E9D772 /* UploadWalkSession.swift in Sources */,
 				1FD7EE8B2881DE2B00D194B4 /* SweepSecondView.swift in Sources */,
 				1F185B9028A451F100D8681E /* WalkingContainerView.swift in Sources */,
-				1FD7D3E528C145AA00E9D772 /* POSTCreator.swift in Sources */,
 				1FD7EE8D2881DE8500D194B4 /* SubsecondHandView.swift in Sources */,
 				1FCB95E0286CD4AD00DE9DD0 /* SimpleBarView.swift in Sources */,
 				1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */,
@@ -672,7 +669,6 @@
 				1FB324C12888B16600A2F351 /* DigitalTimerView.swift in Sources */,
 				1F26AFB5286E214A00586654 /* DASIQuestions.swift in Sources */,
 				1F38161F28B9259E002CBEEB /* DisposableView.swift in Sources */,
-				1FD7D3E728C154B900E9D772 /* UploadFileParameters.swift in Sources */,
 				1F26AFBF286E22CF00586654 /* DASIPages.swift in Sources */,
 				1FCB95F1286CD80B00DE9DD0 /* FileManager+extensions.swift in Sources */,
 				1FB10A0A287E2BB4007D7CDF /* UsabilityInterstitialView.swift in Sources */,
