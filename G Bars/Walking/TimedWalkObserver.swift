@@ -68,7 +68,7 @@ final class MockAccelerometerData: NSObject, AccelerometerDataContent {
 // MARK: - CMAccelerometerData (content) (CSV)
 extension CMAccelerometerData: CSVRepresentable {
     /// Represent acceleration and timestamp as fields in a CSV record.
-    var csvLine: String {
+    public override var csvLine: String {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
             .map(\.pointFive)
             .joined(separator: ",")

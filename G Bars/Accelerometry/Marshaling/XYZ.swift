@@ -6,33 +6,44 @@
 //
 
 import Foundation
+import CoreMotion
 //import CoreMotion
 
 
 
-protocol CSVRepresentable {
+public protocol CSVRepresentable {
     var csvLine: String { get }
 }
 
 
-/*
- // MARK: - Timestamped
- public protocol Timestamped: CSVConvertible {
- var timestamp: TimeInterval { get }
- }
+// MARK: - Timestamped
+extension CMLogItem {
+    @objc
+    public var csvLine: String {
+        timestamp.csvLine
+    }
+}
 
- extension Timestamped {
- public var csvLine: String {
- timestamp.csvLine
- }
- }
+public protocol Timestamped {
+    var timestamp: TimeInterval { get }
+}
 
-public protocol CSVConvertible {
-    var csvLine: String { get }
+extension Double: CSVRepresentable {
+    public var csvLine: String { self.pointFive }
+}
+
+extension Float: CSVRepresentable {
+    public var csvLine: String { Double(self).csvLine }
+}
+
+extension String: CSVRepresentable {
+    public var csvLine: String {
+        #""\#(self)""#
+    }
 }
 
 // MARK: - XYZ
-public protocol XYZ: CSVConvertible {
+public protocol XYZ: CSVRepresentable {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }
@@ -44,21 +55,8 @@ extension XYZ {
     }
 }
 
-extension Double: CSVConvertible {
-    public var csvLine: String { self.pointFive }
-}
 
-extension Float: CSVConvertible {
-    public var csvLine: String { Double(self).csvLine }
-}
-
-extension String: CSVConvertible {
-    public var csvLine: String {
-        #""\#(self)""#
-    }
-}
-
-extension Array where Element: CSVConvertible {
+extension Array where Element: CSVRepresentable {
     public var csvLine: String {
         let consolidated = self.map { element -> String in
             switch element {
@@ -70,4 +68,12 @@ extension Array where Element: CSVConvertible {
         return consolidated.joined(separator: ",")
     }
 }
+
+
+
+/*
+ public protocol CSVRepresentable {
+    var csvLine: String { get }
+}
+
 */
