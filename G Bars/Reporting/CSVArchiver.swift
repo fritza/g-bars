@@ -32,7 +32,7 @@ enum ZIPCompletionKeys: String {
 
 /*
  1. The outer loop for archiving is a per-tag process of generating data and adding it to the archive.
- 2. The generator is LastWalkingData. There is one per archive chunk, one per tag. It's a persistent object.
+ 2. The generator is CSVArchiver. There is one per archive chunk, one per tag. It's a persistent object.
  3. DigitalTimerView
  4. It cannot be a TimedWalk observer; a fresh one is constructed with each DigitalTimerView
  5. MotionManager (.shared) generates the records for the chunk. It emits to TimedWalkObserver (start() async), which starts and stops it.
@@ -54,14 +54,14 @@ let addToArchive = NotificationCenter.default
         }
         completedTags.append(theTag)
         if completedTags.count == 2 {
-            try! LastWalkingData.shared.exportZIPFile()
+            try! CSVArchiver.shared.exportZIPFile()
         }
     }
 
 
 /// Accumulate data (expected `.csv`) for export into a ZIP archive.
-final class LastWalkingData {
-    static let shared = try! LastWalkingData()
+final class CSVArchiver {
+    static let shared = try! CSVArchiver()
 
     /// Invariant: The ID of the user
     let subjectID: String
@@ -173,7 +173,7 @@ final class LastWalkingData {
 }
 
 // MARK: - File names
-extension LastWalkingData {
+extension CSVArchiver {
     var directoryName: String {
         "\(subjectID)_\(timestamp)"
     }

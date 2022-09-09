@@ -94,21 +94,21 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
 
             HStack {
                 Spacer()
-                Button { shouldShowActivity = true }
-            label: {
-                Label("Export…", systemImage: "square.and.arrow.up")
-            }
+                Button(
+                    action: { shouldShowActivity = true },
+                    label: {
+                        Label("Export…", systemImage: "square.and.arrow.up")
+                    })
                 Spacer()
-
             }
-            .sheet(isPresented: $shouldShowActivity, content: {
-                if currentURL != nil {
-                    ActivityUIController(url: currentURL!,
-                                         text: "\(allLineData.count) bytes")
-                }
-            })
-            .navigationTitle("Summary")
         }
+        .navigationTitle("Summary")
+        .sheet(isPresented: $shouldShowActivity, content: {
+            if currentURL != nil {
+                ActivityUIController(url: currentURL!,
+                                     text: "\(allLineData.count) bytes")
+            }
+        })
         .onAppear {
             if fileContent.isEmpty {
                 fileContent = contentLines(forStage: .walk_1)
