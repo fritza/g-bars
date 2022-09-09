@@ -131,8 +131,21 @@ enum AppStorageKeys: String {
     static let dasiWalkRange = (1...10)
 }
 
+struct SubjectID {
+    static var id: String {
+        get { UserDefaults.standard
+            .string(forKey: AppStorageKeys.subjectID.rawValue) ?? "N/A"
+        }
+        set {
+            UserDefaults.standard
+                .set(newValue, forKey: AppStorageKeys.subjectID.rawValue)
+        }
+    }
+}
 
-final class SubjectID: ObservableObject {
+/*
+final class SubjectID //: ObservableObject
+{
     static let shared = SubjectID()
 
     @Published var id: String? {
@@ -149,3 +162,4 @@ final class SubjectID: ObservableObject {
         ?? "N/A"
     }
 }
+*/

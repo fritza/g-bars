@@ -128,11 +128,6 @@ extension DASIResponseStatus: CSVRepresentable {
 //            throw DASIReportErrors.dasiResponsesIncomplete
 //        }
 
-        guard let subjectID = SubjectID.shared.id else {
-            assertionFailure("No subject ID, shouldn't get to \(#function) in the first place.")
-            return "MISSING"
-        }
-
         let firstTimestamp = Date().timeIntervalSince1960.rounded
 
         let numberedResponses = allAnswers.enumerated()
@@ -143,7 +138,7 @@ extension DASIResponseStatus: CSVRepresentable {
             }
 
         let components: [String] =
-        [subjectID] + [firstTimestamp] + numberedResponses
+        [SubjectID.id] + [firstTimestamp] + numberedResponses
 
         assert(components.count == 2+DASIQuestion.count,
                "Expected \(2+DASIQuestion.count) response items, got \(components.count)")

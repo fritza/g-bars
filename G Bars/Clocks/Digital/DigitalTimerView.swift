@@ -160,12 +160,7 @@ struct DigitalTimerView: View {
         .onDisappear() {
             do {
                 try observer
-                    .writeForArchive(
-                        subjectID:
-
-                            "SAMPLE_ID",
-
-                        tag: self.walkingState.csvPrefix!)
+                    .writeForArchive(tag: self.walkingState.csvPrefix!)
 //                try observer
 //                    .writeToFile(walkState: self.walkingState)
             } catch {

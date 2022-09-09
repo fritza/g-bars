@@ -101,7 +101,6 @@ struct G_BarsApp: App {
             .environmentObject(dasiPages)
             .environmentObject(rootResponseStatus)
             .environmentObject(UsabilityController())
-            .environmentObject(SubjectID.shared)
 #endif
         }
         }

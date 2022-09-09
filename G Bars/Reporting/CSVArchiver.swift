@@ -63,10 +63,7 @@ final class LastWalkingData {
     /// - Parameter subject: The ID of the user
     //    init(subjectID subject: String)
     init() throws {
-        guard let subject = SubjectID.shared.id else {
-            throw FileStorageErrors.noSubjectID
-        }
-        self.subjectID = subject
+        self.subjectID = SubjectID.id
 
         let backingStore = Data()
         guard let _archive = Archive(
