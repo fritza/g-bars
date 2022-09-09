@@ -108,10 +108,6 @@ struct AccelerometerState: Availability {
 ///
 /// - bug: It's not obvious how to start the accelerometers independently of generating sequence elements.
 final class MotionManager {
-    /// Access to the singleton `MotionManager`.
-    ///
-    /// - bug: A single instance can't be restarted for a new walk. Add a way to replace `Self.shared`.
-
     // MARK: Properties
 
     /// The singleton `MotionManager`. Do not instantiate `MotionManager`.
