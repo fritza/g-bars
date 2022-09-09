@@ -128,7 +128,7 @@ extension DASIResponseStatus: CSVRepresentable {
 //            throw DASIReportErrors.dasiResponsesIncomplete
 //        }
 
-        guard let subjectID = SubjectID.shared.subjectID else {
+        guard let subjectID = SubjectID.shared.id else {
             assertionFailure("No subject ID, shouldn't get to \(#function) in the first place.")
             return "MISSING"
         }

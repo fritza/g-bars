@@ -92,12 +92,6 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
             }
             Spacer()
 
-            Button("Transmit") {
-                if (try? TimedWalkObserver.lastData.writeTheZIPFile()) == nil {
-                    fatalError("Could not write the zipfile. \(#filePath):\(#line)")
-                }
-            }
-
             HStack {
                 Spacer()
                 Button() {

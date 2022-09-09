@@ -8,21 +8,6 @@
 import Foundation
 import SwiftUI
 
-/*
- I haven’t figured out how or whether to make the subjectID an @Environment variable.
-
- It's View-scoped anyway; no effect outside a View struct.
- */
-private struct SubjectIDEnvironmentKey: EnvironmentKey {
-    static let defaultValue: String = ""
-}
-
-extension EnvironmentValues {
-    var subjectID: String {
-        get { self[SubjectIDEnvironmentKey.self] }
-        set { self[SubjectIDEnvironmentKey.self] = newValue }
-    }
-}
 
 /*
  Stage hierarchy
@@ -150,16 +135,16 @@ enum AppStorageKeys: String {
 final class SubjectID: ObservableObject {
     static let shared = SubjectID()
 
-    @Published var subjectID: String? {
+    @Published var id: String? {
         didSet {
             UserDefaults.standard
-                .set(subjectID,
+                .set(id,
                      forKey: AppStorageKeys.subjectID.rawValue)
         }
     }
 
     private init() {
-        subjectID = UserDefaults.standard
+        id = UserDefaults.standard
             .string(forKey: AppStorageKeys.subjectID.rawValue)
         ?? "N/A"
     }

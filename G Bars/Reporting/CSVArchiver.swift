@@ -28,7 +28,7 @@ enum ZIPProgressKeys: String {
  6. TimedWalkObserver appends each measurement (CMAccelerometerData) by comsumer.append()
  7. Consumer (TimedWalkObserver) is an array of AccelerometerDataContent.
  8. AccelerometerDataContent is a protocol that matches CMAccelerometerData.
- 9. CMAccelerometerData can emit a .csvLine (but only recently promises CSVRepresentable.
+ 9. CMAccelerometerData can emit a .csvLine (but only recently promises CSVRepresentable).
  */
 
 var completedTags: [String] = []
@@ -63,7 +63,7 @@ final class LastWalkingData {
     /// - Parameter subject: The ID of the user
     //    init(subjectID subject: String)
     init() throws {
-        guard let subject = SubjectID.shared.subjectID else {
+        guard let subject = SubjectID.shared.id else {
             throw FileStorageErrors.noSubjectID
         }
         self.subjectID = subject
