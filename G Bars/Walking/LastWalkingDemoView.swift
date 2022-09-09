@@ -94,13 +94,6 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
 
             HStack {
                 Spacer()
-                Button() {
-                    completion()
-                }
-            label: {
-                Label("Repeat", systemImage: "arrow.counterclockwise")
-            }
-                Spacer()
                 Button { shouldShowActivity = true }
             label: {
                 Label("Export…", systemImage: "square.and.arrow.up")
