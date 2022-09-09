@@ -9,12 +9,23 @@ import Foundation
 import ZIPFoundation
 
 // Whew. A notification.
+/// `Notification` for the addition of a (intended) `.csv` file.
 let ZIPProgressNotice = Notification.Name(rawValue: "zipProgressNotice")
 enum ZIPProgressKeys: String {
     // String, which phase tag has been completed.
+    /// The tag (`String`) inserted into CSV lines and file names.
     case tagCompleted
+    /// The name of the generated `.csv` file
     case fileName
 }
+
+/// `Notification` for the completion of the `.zip` file.
+let ZIPCompletionNotice = Notification.Name(rawValue: "zipCompletionNotice")
+enum ZIPCompletionKeys: String {
+    /// URL for the generated .zip file
+    case zipFileURL
+}
+
 
 
 // Where do I receive this notification?
@@ -77,7 +88,9 @@ final class LastWalkingData {
 
     // MARK: Working Directory
 
-    /// URL of the working directory that receives the `.csv` files and the `.zip` archive.
+    /// **URL** of the working directory that receives the `.csv` files and the `.zip` archive.
+    ///
+    /// The directory is created by ``createWorkingDirectory()``
     lazy var containerDirectory: URL! = {
         do {
             try FileManager.default
@@ -92,7 +105,9 @@ final class LastWalkingData {
 
     }()
 
-    /// Create the file directory to receive the `.csv` files and the `.zip` archive.
+    /// **Create** the file directory to receive the `.csv` files.
+    ///
+    /// Name/URL from ``containerDirectory``
     private func createWorkingDirectory() -> URL {
         do {
             try FileManager.default
@@ -106,15 +121,14 @@ final class LastWalkingData {
         return destinationDirectoryURL
     }
 
-    /// Write data into a `.csv` file in the working directory.
-    ///
-    /// Also, add the data into the `Archive` object
+    /// Write data into one `.csv` file in the working directory and add it to the `.zip` archive
     /// - Parameters:
     ///   - data: The content of the file to archive.
     ///   - tag: A short `String` distinguishing the phase (regular, fast) of collection.
     func writeData(_ data : Data,
                    forTag tag : String) throws {
         // TODO: Replace duplicate-named files with the new one.
+        // Create and write a csv file for the data.
         let taggedURL = csvFileURL(tag: tag)
         let success = FileManager.default
             .createFile(
@@ -124,10 +138,12 @@ final class LastWalkingData {
             throw FileStorageErrors.cantCreateFileAt(taggedURL)
         }
 
+        // Add to archive
         try csvArchive.addEntry(
             with: taggedURL.lastPathComponent,
             fileURL: taggedURL)
 
+        // Notify the addition of the file
         let params: [ZIPProgressKeys : String] = [
             .tagCompleted : tag,
             .fileName     : taggedURL.path
@@ -138,11 +154,21 @@ final class LastWalkingData {
     }
 
     /// Assemble and compress the file data and write it to a `.zip` file.
+    ///
+    /// Posts `ZIPCompletionNotice` with the URL of the product `.zip`.
     func exportZIPFile() throws {
         guard let content = csvArchive.data else {
             throw FileStorageErrors.cantGetArchiveData
         }
         try content.write(to: zipFileURL)
+
+        // Notify the export of the `.zip` file
+        let params: [ZIPCompletionKeys : URL] = [
+            .zipFileURL :    zipFileURL
+          ]
+        NotificationCenter.default
+            .post(name: ZIPCompletionNotice,
+                  object: self, userInfo: params)
     }
 }
 
@@ -183,5 +209,3 @@ extension LastWalkingData {
             .appendingPathComponent(csvFileName(tag: tag))
     }
 }
-
-
