@@ -68,13 +68,6 @@ protocol StageCompleting {
 ///  - note: `demo_summaryView()` is presented only if the `INCLUDE_WALK_TERMINAL` compilation flag is set.
 struct WalkingContainerView: View {
     @State var state: WalkingState? = .interstitial_1
-//    {
-//        didSet {
-//            print("state changed to", state ?? "NOTHING")
-//            print()
-//        }
-//    }
-
     @State private var shouldShowActivity = false
     @State private var walkingData = Data()
 
@@ -141,16 +134,6 @@ extension WalkingContainerView {
     /// A `NavigationLink` for the first timed walk (`walk_1`)
     @ViewBuilder
     func walk_1View() -> some View {
-        // 1: Start the observer collecting.
-        // 2: in the completion closure harvest the contents of the observer. Maybe save them out, though Dan may not be happy to see separate files for the two runs.
-        // 3: There will be two of these.
-        // Who owns the consumer?
-        // because it looks like the only place to start
-        // one is from inside DigitalTimerView.
-        // That can be returned through the completion handler.
-
-        // AND: The TimerView has to know something about the stage/prefix/data retrieval
-
         NavigationLink(
             "SHOULDN'T SEE (walk_1)",
             tag: WalkingState.walk_1, selection: $state) {

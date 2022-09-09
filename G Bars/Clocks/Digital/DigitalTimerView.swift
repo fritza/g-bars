@@ -85,9 +85,11 @@ struct DigitalTimerView: View {
     init(duration: TimeInterval,
          walkingState: WalkingState,
          immediately completion: (() -> Void)? = nil,
+
          function: String = #function,
          fileID: String = #file,
-         line: Int = #line) {
+         line: Int = #line
+    ) {
         assert(walkingState == .walk_1 || walkingState == .walk_2,
         "\(fileID):\(line): Unexpected walking state: \(walkingState)"
         )
