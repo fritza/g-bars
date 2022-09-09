@@ -170,6 +170,15 @@ extension TimedWalkObserver: AccelerometryConsuming {
     }
 
     // MARK: Writing
+
+    func addToArchive(tag: String) throws {
+        // TODO: Throwing
+        let prefix = "\(tag),\(SubjectID.id)"
+        let data = allAsData(prefixed: prefix)
+        try CSVArchiver.shared
+            .writeData(data, forTag: tag)
+    }
+
     static var filePaths: [String] = []
     static func registerFilePath(_ name: String) {
         while filePaths.count > 2 {
@@ -180,7 +189,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
 
     /// Write all CSV records into a file.
     /// - Parameters:
-    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``marshalledRecords(withPrefix:)``
     ///   - url: The location of the new file.
     func write(withPrefix prefix: String, to url: URL) throws {
         // TODO: Make it async
@@ -193,10 +202,9 @@ extension TimedWalkObserver: AccelerometryConsuming {
     /// Marshall all the `CMAccelerometerData` data and write it out to a named file in the Documents directory.
     /// - Parameters:
     ///   - fileName: The base name of the target file as a `String`. No extension will be added.
-    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``TimedWalkObserver/marshalledRecords(withPrefix:)``
+    ///   - prefix: A fragment of CSV that will be added to the front of each record. Any trailing comma at the end will be omitted. _See_ the note at ``marshalledRecords(withPrefix:)``
     func writeToFile(named fileName: String,
                      linesPrefixedWith prefix: String) throws {
-        // TODO: Make it async
         precondition(!fileName.isEmpty,
                      "\(#function): empty prefix string")
         let destURL = try FileManager.default
@@ -208,7 +216,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
     }
 
     // FIXME: - URGENT - get a way to have a global subject ID.
-    static var lastData = try! LastWalkingData()
+    static var lastData = try! CSVArchiver()
 
     func writeForArchive(tag: String) throws {
         let prefix = "\(tag),\(SubjectID.id)"
