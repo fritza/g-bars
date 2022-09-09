@@ -124,12 +124,7 @@ extension DASIResponseStatus: RandomAccessCollection {
 
 extension DASIResponseStatus: CSVRepresentable {
     var csvLine: String {
-//        guard firstUnknownIdentifier == nil else {
-//            throw DASIReportErrors.dasiResponsesIncomplete
-//        }
-
         let firstTimestamp = Date().timeIntervalSince1960.rounded
-
         let numberedResponses = allAnswers.enumerated()
             .map {
                     String(describing: $0 + 1)

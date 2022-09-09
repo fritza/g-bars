@@ -31,6 +31,8 @@
 		1F4B332E2877626800BD8974 /* DASIPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8142874D57400FFB840 /* DASIPhase.swift */; };
 		1F57E8132874CCE500FFB840 /* DASIInterstitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */; };
 		1F6B843A28CA548100A98663 /* CSVArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6B843928CA548100A98663 /* CSVArchiver.swift */; };
+		1F6B843C28CBC1EF00A98663 /* MockAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6B843B28CBC1EF00A98663 /* MockAccelerometerData.swift */; };
+		1F6B843E28CBC2F500A98663 /* AccelerometryConsuming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6B843D28CBC2F500A98663 /* AccelerometryConsuming.swift */; };
 		1F707E7128761ACB0099E398 /* DASIResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */; };
 		1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */; };
 		1F8DFF53289DC1070063C28C /* TimeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8DFF52289DC1070063C28C /* TimeReader.swift */; };
@@ -127,6 +129,8 @@
 		1F57E8112874B69300FFB840 /* DASIInterstitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIInterstitialView.swift; sourceTree = "<group>"; };
 		1F57E8142874D57400FFB840 /* DASIPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DASIPhase.swift; sourceTree = "<group>"; };
 		1F6B843928CA548100A98663 /* CSVArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVArchiver.swift; sourceTree = "<group>"; };
+		1F6B843B28CBC1EF00A98663 /* MockAccelerometerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccelerometerData.swift; sourceTree = "<group>"; };
+		1F6B843D28CBC2F500A98663 /* AccelerometryConsuming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerometryConsuming.swift; sourceTree = "<group>"; };
 		1F707E7028761ACB0099E398 /* DASIResponseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASIResponseStatus.swift; sourceTree = "<group>"; };
 		1F8DFF50289DC0AA0063C28C /* MinSecAndFraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSecAndFraction.swift; sourceTree = "<group>"; };
 		1F8DFF52289DC1070063C28C /* TimeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeReader.swift; sourceTree = "<group>"; };
@@ -218,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				1FDD375328B01374001AE018 /* TimedWalkObserver.swift */,
+				1F6B843D28CBC2F500A98663 /* AccelerometryConsuming.swift */,
 				1F8DFF5828A2CA060063C28C /* InterstitialInfo.swift */,
 				1F185B8F28A451F100D8681E /* WalkingContainerView.swift */,
 				1F35080628A4318400C3F846 /* InterstitialPageView.swift */,
@@ -427,6 +432,7 @@
 				1FCB95F6286CD88A00DE9DD0 /* AccelerometerItemTests.swift */,
 				1FCB95D0286CD37800DE9DD0 /* G_BarsUITests.swift */,
 				1FCB95D2286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift */,
+				1F6B843B28CBC1EF00A98663 /* MockAccelerometerData.swift */,
 			);
 			path = "G BarsUITests";
 			sourceTree = "<group>";
@@ -693,6 +699,7 @@
 				1F8DFF5528A1A8740063C28C /* EndpointSound.swift in Sources */,
 				1FCB95B6286CD37700DE9DD0 /* G_BarsApp.swift in Sources */,
 				1F46668E28AD74FE0044E2E1 /* Staging.swift in Sources */,
+				1F6B843E28CBC2F500A98663 /* AccelerometryConsuming.swift in Sources */,
 				1F8DFF51289DC0AA0063C28C /* MinSecAndFraction.swift in Sources */,
 				1F9F2A842878B17300490885 /* DASIYNQuestionView.swift in Sources */,
 				1FA1C08A28947AF0009D8F06 /* AtEnvironment.swift in Sources */,
@@ -722,6 +729,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FCB95D3286CD37800DE9DD0 /* G_BarsUITestsLaunchTests.swift in Sources */,
+				1F6B843C28CBC1EF00A98663 /* MockAccelerometerData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

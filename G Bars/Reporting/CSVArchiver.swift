@@ -28,7 +28,7 @@ enum ZIPProgressKeys: String {
  6. TimedWalkObserver appends each measurement (CMAccelerometerData) by comsumer.append()
  7. Consumer (TimedWalkObserver) is an array of AccelerometerDataContent.
  8. AccelerometerDataContent is a protocol that matches CMAccelerometerData.
- 9. CMAccelerometerData can emit a .csvLine (but only recently promises CSVRepresentable).
+ 9. CMAccelerometerData can emit a .csvLine (CSVRepresentable).
  */
 
 var completedTags: [String] = []
