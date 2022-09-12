@@ -179,13 +179,13 @@ extension TimedWalkObserver: AccelerometryConsuming {
             .writeData(data, forTag: tag)
     }
 
-    static var filePaths: [String] = []
-    static func registerFilePath(_ name: String) {
-        while filePaths.count > 2 {
-            filePaths.removeFirst()
-        }
-        filePaths.append(name)
-    }
+//    static var filePaths: [String] = []
+//    static func registerFilePath(_ name: String) {
+//        while filePaths.count > 2 {
+//            filePaths.removeFirst()
+//        }
+//        filePaths.append(name)
+//    }
 
     /// Write all CSV records into a file.
     /// - Parameters:
@@ -196,7 +196,7 @@ extension TimedWalkObserver: AccelerometryConsuming {
         let fm = FileManager.default
         let data = allAsData(prefixed: prefix)
         try fm.deleteAndCreate(at: url, contents: data)
-        Self.registerFilePath(url.path)
+//        Self.registerFilePath(url.path)
     }
 
     /// Marshall all the `CMAccelerometerData` data and write it out to a named file in the Documents directory.

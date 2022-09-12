@@ -46,29 +46,28 @@ struct LastWalkingDemoView: View, HasVoidCompletion {
     @State var currentURL: URL?
 
     func contents(forStage state: WalkingState) -> String {
-        guard TimedWalkObserver.filePaths.count == 2 else {
-            return "NO PATHS!"
-        }
-        let index = (state == .walk_1) ? 0 : 1
-        let path = TimedWalkObserver.filePaths[index]
-        currentURL = URL(fileURLWithPath: path)
-        do {
-            let str = try String(contentsOfFile: path)
-            return str
-        }
-        catch {
-            print("Error (\(error))\n\tretrieving", path)
-            return "N/A"
-        }
+        "\(#function) - removed the listing of one of the CSVs"
+//        let index = (state == .walk_1) ? 0 : 1
+//        let path = TimedWalkObserver.filePaths[index]
+//        currentURL = URL(fileURLWithPath: path)
+//        do {
+//            let str = try String(contentsOfFile: path)
+//            return str
+//        }
+//        catch {
+//            print("Error (\(error))\n\tretrieving", path)
+//            return "N/A"
+//        }
     }
 
     @State var fileContent: [String] = []
 
     func contentLines(forStage state: WalkingState) -> [String] {
-        let lumped = contents(forStage: state)
-        let retval = lumped.split(separator: "\r\n")
-            .map { String($0) }
-        return retval
+        return [ "NO CONTENT LINES" ]
+//        let lumped = contents(forStage: state)
+//        let retval = lumped.split(separator: "\r\n")
+//            .map { String($0) }
+//        return retval
     }
 
     var allLineData: Data {

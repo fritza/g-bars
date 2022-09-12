@@ -11,7 +11,7 @@ import CoreMotion
 
 extension TimedWalkObserver {
     /// A sunchronous analogue to ``start()`` for testing
-    func testableStart() {
+    public func testableStart() {
         let accelerations: [MockAccelerometerData] = [
             .init(t: 0.1, x: 0, y: 0, z: 0),
             .init(t: 0.2, x: 1, y: 0, z: 0),
@@ -29,7 +29,7 @@ extension TimedWalkObserver {
 }
 
 /// An analogue to `CMAccelerometerData` that has an initializer that includes `timestamp`.
-final class MockAccelerometerData: NSObject, AccelerometerDataContent {
+public final class MockAccelerometerData: NSObject, AccelerometerDataContent {
     /// Initialize by `timestamp` and `acceleration`.
     internal init(timestamp: TimeInterval, acceleration: CMAcceleration) {
         self.timestamp = timestamp
@@ -37,12 +37,12 @@ final class MockAccelerometerData: NSObject, AccelerometerDataContent {
     }
 
     /// The time recorded, in `TimeInterval` since an epoch related to restart time.
-    let timestamp: TimeInterval
+    public let timestamp: TimeInterval
     /// The observed forces in G.
-    let acceleration: CMAcceleration
+    public let acceleration: CMAcceleration
 
     /// Initialize by `timestamp` and the `x`, `y`, and `z` components of acceleration.
-    convenience init(t: TimeInterval? = nil,
+    public convenience init(t: TimeInterval? = nil,
                      x: Double, y: Double, z: Double) {
         let acc = CMAcceleration(x: x, y: y, z: z)
         let ts = t ?? Date().timeIntervalSinceReferenceDate

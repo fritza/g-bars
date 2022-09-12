@@ -63,22 +63,16 @@ class TimedWalkObserverTests: XCTestCase {
     func testTickloop() async {
         let observer = Self.observer(titled: "Title not used - tick")
         observer.testableStart()
-
+        
         // TODO:  Find a way to test the actual heartbeat from MotionManager.
-
-        do {
-            for (n, datum) in Self.accelerations.enumerated() {
-                XCTAssertEqual(Self.ts[n], datum.timestamp)
-                XCTAssertEqual(Self.xes[n], datum.acceleration.x)
-                XCTAssertEqual(Self.ys[n], datum.acceleration.y)
-                XCTAssertEqual(Self.zs[n], datum.acceleration.z)
-            }
-        }
-        catch {
-            XCTFail("for-try-await failed: \(error)")
+        for (n, datum) in Self.accelerations.enumerated() {
+            XCTAssertEqual(Self.ts[n], datum.timestamp)
+            XCTAssertEqual(Self.xes[n], datum.acceleration.x)
+            XCTAssertEqual(Self.ys[n], datum.acceleration.y)
+            XCTAssertEqual(Self.zs[n], datum.acceleration.z)
         }
     }
-
+    
     func testDataMarshalling() {
         let observer = Self.observer(titled: "Title not used - marshall-1")
         observer.testableStart()
