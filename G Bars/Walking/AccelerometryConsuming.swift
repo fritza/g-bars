@@ -13,6 +13,7 @@ import CoreMotion
 /// ### Properties
 /// - ``timestamp``
 /// - ``acceleration``
+/// - ``csvLine
 
 /// Adopters provide getters for the properties of ``CMAccelerometerData`` (`timestamp` and `acceleration`). Allows for initializable equivalents suitable for testing.
 protocol AccelerometerDataContent: NSObject & CSVRepresentable {
@@ -23,6 +24,7 @@ protocol AccelerometerDataContent: NSObject & CSVRepresentable {
 }
 
 extension AccelerometerDataContent {
+    /// `CSVRepresentable` adoption
     var csvLine: String {
         let asString = [timestamp, acceleration.x, acceleration.y, acceleration.z]
             .map(\.pointFive)
@@ -40,6 +42,7 @@ extension CMAccelerometerData: AccelerometerDataContent {}
 /// - ``init(t:x:y:z:)``
 ///
 /// ### Properties
+/// - ``csvLine``
 /// - ``timestamp``
 /// - ``acceleration``
 
@@ -55,6 +58,19 @@ extension CMAccelerometerData: CSVRepresentable {
 }
 
 // MARK: - AccelerometryConsuming
+
+/// ## Topics
+/// ### Recording
+/// - ``append(_:)``
+/// - ``append(contentsOf:)``
+/// - ``allRecords()``
+/// - ``marshalledRecords()``
+
+/// ### Properties
+/// - ``csvLine``
+/// - ``timestamp``
+/// - ``acceleration``
+
 /// Adopters can accept `AccelerometerDataContent` elements and do simple reductions to `[String]`.
 ///
 /// Basically, an array, but could be a writeable `FileHandle`
@@ -71,12 +87,14 @@ protocol AccelerometryConsuming {
 
 // MARK: Default implementation
 extension AccelerometryConsuming {
+    /// Default implementation of required `append(contentsOf:)`
     func append(contentsOf array: [CMAccelerometerData]) {
         for datum in array { self.append(datum) }
     }
 
     // Adopters should definitely override this,
     // especially when the ad-interim store is a file.
+    /// Default implementation of required `marshalledRecords()`
     func marshalledRecords() -> [String] {
         let all = self.allRecords()
         let strings = all.map(\.csvLine)

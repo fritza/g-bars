@@ -8,6 +8,9 @@
 import Foundation
 import CoreGraphics
 
+/// ## Topics
+/// - ``unsafeScaledTo(span:)``
+/// - ``scaledTo(span:)``
 extension BinaryFloatingPoint {
     /// Map the value to `(0...1)` from a given span of “real-world” values.
     ///
@@ -30,11 +33,33 @@ extension BinaryFloatingPoint {
     }
 }
 
+/// ## Topics
+///
+/// ## Initialization
+/// - ``init(point:)``
+/// - ``init(t:x:)``
+///
+/// ## Properties
+/// - ``t``
+/// - ``x``
+/// - ``asPoint``
+/// - -``\*(size:multiplicand:)``
+///
+/// ## Algebra
+/// - ``timeNormalized(within:)``
+/// - ``unsafeTimeNormalized(within:)``
+/// - ``datumNormalized(within:)``
+/// - ``unsafeDatumNormalized(within:)``
+///
+/// ## Embedded Type
+/// - ``Normalization``
+///
+
 /// A value type describing a pair of `Double` values.
 ///
 /// The expectation is that this will represent an element of a time series; hence the stored properties are `t` and `x`.
 ///
-/// Because a time series is ordered, `Datum2D` can be `Comparable`,
+/// Because a time series is (hopefully) ordered, `Datum2D` can be `Comparable`,
 /// _caveat_ that the default `==` isn't very useful between floaring-point valies. Comparison against an ε interval is not yet implemented,
 public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// `OptionSet` to specify whether to apply normalization to times, values, or both.
@@ -54,6 +79,7 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     /// The second (notionally data-at-time) component
     public let x: Double
 
+    /// Initialize a `Datum2D` from a `t` (time) and `x` (value)
     public init(t: Double, x: Double) {
         (self.t, self.x) = (t, x)
     }
@@ -71,10 +97,14 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
         CGPoint(x: t, y: x)
     }
 
+    /// Initialize a `Datum2D` from a `CGPoint`, where `point.x` -> `t` and `point.y` -> `x`
     public init(point: CGPoint) {
         self.init(t: point.x, x: point.y)
     }
 
+    /// The `Datum2D`, scaled by multiplying by the components of a `CGSize`
+    ///
+    /// The anticipated use is on a normalized `Datum2D`, yielding the value scaled into a `View`.
     public static func * (size: CGSize, multiplicand: Datum2D) -> Datum2D {
         Datum2D(t: multiplicand.t * size.width,
                 x: multiplicand.x * size.height)
@@ -84,7 +114,7 @@ public struct Datum2D: CustomStringConvertible, Comparable, Hashable {
     // FIXME: Why am I doing all this with scalars instead of affine transforms?
     /// A new `Datum2D` with the same value (`x`), but time (`t`) normalized.
     ///
-    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``. See ``BinaryFloatingPoint/unsafeScaledTo(span:)``
+    ///Use `unsafeTimeNormalized(within:)` when you are confident that `span` will not be empty. Otherwise use ``timeNormalized(within:)``. See ``BinaryFloatingPoint.unsafeScaledTo(span:)``
     /// - Parameter timeRange: The span of time to map the `t` property to `(0...1)`
     /// - Returns: A `Datum2D` with the `t`-value scaled.
     @inlinable

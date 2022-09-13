@@ -53,7 +53,7 @@ import CoreMotion
 // MARK: - TimedWalkObserver
 /// Non-view-related code that consumes and stores accelerometer data.
 ///
-/// `TimedWalkObserver` bridges collection of observations (async for loop  as ``AccelerometryConsuming``) to marshalling and file output.( functions beginning `write`)
+/// `TimedWalkObserver` bridges collection of observations (`async for` loop  as ``AccelerometryConsuming``) to marshalling and file output ( functions beginning `write`).
 final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
     // FIXME: The long-term storage object
     //        ought to be an actor.
@@ -121,14 +121,23 @@ final class TimedWalkObserver: ObservableObject, CustomStringConvertible {
 
 extension TimedWalkObserver: AccelerometryConsuming {
     /// ``AccelerometryConsuming`` compliance
+    /// 
+    /// Add one `AccelerometerDataContent` to the `Deque` buffer.
+
     func append(_ record: AccelerometerDataContent) {
         consumer.append(record)
     }
+
     /// ``AccelerometryConsuming`` compliance
+    ///
+    /// Add an array of `AccelerometerDataContent` to the `Deque` buffer.
     func append(contentsOf array: [AccelerometerDataContent]) {
         consumer.append(contentsOf: array)
     }
+
     /// ``AccelerometryConsuming`` compliance
+    ///
+    /// Retrieve the entire (current) contents of the `Deque` buffer.
     func allRecords() -> [AccelerometerDataContent] {
         return consumer
     }

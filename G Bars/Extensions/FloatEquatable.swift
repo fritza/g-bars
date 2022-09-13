@@ -30,7 +30,7 @@ fileprivate let ε = 1.0e-3
 extension BinaryFloatingPoint {
     /// Whether two floating-point values are “roughly” equal.
     ///
-    /// This is defined as being within ε \* greater magnitde  of each other
+    /// This is defined as being within ε \* greater magnitude  of each other
     static func ≈ (lhs: Self, rhs: Self) -> Bool {
         guard lhs != rhs else { return true }
 

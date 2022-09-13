@@ -8,6 +8,8 @@
 import SwiftUI
 
 /// A bare-bones view that plots a series (``Store2D``) of `t`, `x` data points.
+///
+/// Included here as an example of a consumer
 struct AccelerometryPlotView: View {
     @Environment(\.colorScheme) static private var colorScheme: ColorScheme
     let series: Store2D

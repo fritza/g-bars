@@ -56,20 +56,26 @@ private let _rounded: NumberFormatter = {
 }()
 
 extension BinaryFloatingPoint {
+    /// The float rendered with three places after the decimal.
+    /// - note: Assumes `self` can be force-cast to `NSNumber` and the formatted string is non-nil
     var pointThree: String {
         _pointThree.string(from: self as! NSNumber)!
     }
 
+    /// The float rendered with five places after the decimal.
+    /// - note: Assumes `self` can be force-cast to `NSNumber` and the formatted string is non-nil
     var pointFive: String {
         _pointFive.string(from: self as! NSNumber)!
     }
 
-   /// Render a `BinaryFloatingPoint` (_e.g._`Double`) as a spelled-out `String`
+   /// Render the truncated value of a `BinaryFloatingPoint` (_e.g._`Double`) as a spelled-out `String`
     var spelled: String {
         let asSeconds = Int(Double(self).rounded())
         return asSeconds.spelled
     }
 
+    /// The rounded float rendered as `Int`.
+    /// - note: Assumes `self` can be force-cast to `NSNumber` and the formatted string is non-nil
     var rounded: String {
         _rounded.string(from: self as! NSNumber)!
     }
@@ -82,10 +88,12 @@ private let isoFormatter: ISO8601DateFormatter = {
 }()
 
 extension Date {
+    /// Render the `Date` as an ISO-8601 string (_e.g._ `2022-06-14T12:35-0500`)
     public var iso: String {
         isoFormatter.string(from: self)
     }
 
+    /// The midnight commencing the year 1960 UTC. Sometimes used as an epoch date.
     static let y1960: Date = {
         let gregorian = Calendar(identifier: .gregorian)
         let components = DateComponents(
@@ -98,14 +106,21 @@ extension Date {
         return y1960
     }()
 
+    /// The date expressed as a time interval from the 1960 epoch.
     public var timeIntervalSince1960: TimeInterval {
         return Date().timeIntervalSince(Self.y1960)
     }
 }
 
 extension String {
+    /**
+    Simple translation of special characters in the string into control characters.
+    This makes it easier to put tabs and newlines into configuration strings.
+
+    - `|` (vertical bar) becomes `\n`
+    - `^` (caret) becomes `\t`.
+     */
     public var addControlCharacters: String {
-        // first, newlines
         let nlLines = self.split(separator: "|", omittingEmptySubsequences: false)
         let nlJoined = nlLines.joined(separator: "\n")
 
