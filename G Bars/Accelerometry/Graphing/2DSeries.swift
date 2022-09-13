@@ -9,8 +9,46 @@ import Foundation
 import Accelerate
 
 // MARK: - Store2D
-/// Ingest, normalize, and plot a 1-D time series of data.
+
+/// ## Topics
+///
+/// ## Initialization
+/// - ``init(_:)``
+/// - ``cloned()``
+///
+/// ## Properties
+/// - ``tMin``
+/// - ``tMax``
+/// - ``tSpan``
+/// - ``xMin``
+/// - ``xMax``
+/// - ``xSpan``
+///
+/// ## Algebra
+/// - ``append(_:)``
+/// - ``append(contentsOf:)``
+/// - ``applying(_:)``
+///
+/// ## Collection
+/// - ``startIndex``
+/// - ``endIndex``
+/// - ``subscript(_:)``
+/// - ``index(before:)``
+/// - ``index(after:)``
+/// - ``count``
+
+/// Ingest and plot a value+time series of data.
+///
+/// Notionally is a `Collection` (e.g. `Array`) of ``Datum2D``.  It knows about the spans of value and time in the series, which is convenient for plotting the series.
+///
+/// There is also an extension to `Array<Store2D>` that does the same,
+/// plus normalizes the values to `(0...1)`. Not clear why this class is necessary,
+/// unless to have both a value and a reference type. Note that only `[Datum2D]`
+/// can generate a SwiftUI `Path`.
+/// - warning: `Store2D` does nothing to preserve the time-ordering of its elements.
 final class Store2D {
+    // TODO: Reconcile the use of [Datum2D] vs Store2D
+
     /// Array of `Datum2D` constituting the values in the store.
     private var content: [Datum2D] = []
 
@@ -46,9 +84,7 @@ final class Store2D {
 extension Store2D: ObservableObject {
     // MARK: - Time range
 
-    // ***
     // FIXME: Time-range properties assume content is time-sorted.
-    // ***
 
     /// The minimum `t` value in the store
     /// - warning: Assumes the `content` array is already ordered by time.
@@ -167,6 +203,7 @@ extension Array where Element == Datum2D {
 
     // MARK: Normalization
 
+    /// Rescale `t` values to the span `(0...1)`
     @discardableResult
     func normalizedByTime() -> [Datum2D] {
         guard let timeSpan = tSpan else { return self }
@@ -189,6 +226,7 @@ extension Array where Element == Datum2D {
         return retval
     }
 
+    /// Rescale both value and time to `(0...1)`
     func normalized() -> [Datum2D] {
         guard let xes = xSpan, let ts = tSpan else { return self }
         var retval = self
@@ -202,6 +240,7 @@ extension Array where Element == Datum2D {
         return retval
     }
 
+    /// Normalize values, times, or both.
     func normalized(by axis: Datum2D.Normalization) -> [Datum2D] {
         guard !self.isEmpty && !axis.isEmpty else   { return self }
         if axis == .both           { return self.normalized()        }
@@ -212,6 +251,7 @@ extension Array where Element == Datum2D {
 
     // MARK: SwiftUI Path
 
+    /// Normalize the value and time dimensions, then rescale them to the spans of a `CGSize`.
     func fittedTo(_ dimensions: CGSize) -> [Datum2D] {
         guard !self.isEmpty else { return self }
         let retval = self
@@ -220,6 +260,7 @@ extension Array where Element == Datum2D {
         return retval
     }
 
+    /// Derive a SwiftUI drawable `Shape` from the values normalized to a `SGSize`.
     func path(within size: CGSize) -> some Shape {
         let transform: CGAffineTransform = .identity
             .translatedBy(x: 0.0, y: size.height)

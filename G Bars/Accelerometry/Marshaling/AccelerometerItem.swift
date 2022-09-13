@@ -8,11 +8,35 @@
 import Foundation
 import CoreMotion
 
+/// ## Topics
+///
+///### Initialization
+/// - ``init(_:)``
+/// - ``init(timestamp:x:y:z:)``
+///
+///### Properties
+///- ``x``
+///- ``y``
+///- ``z``
+///
+///### Export
+///- ``csvLine``
+///
+///### RoughlyEquatable
+///- ``≈(lhs:rhs:)``
+///
+
 /// A wrapper on  ``CMAccelerometerData`` or its components, made accessible to generic code via the ``Timestamped`` and ``XYZ`` protocols.
 ///
 /// - note: `AccelerometerItem` is declared `RoughlyEquatable`, but the implementation ignores the timestamp.
 struct AccelerometerItem: Codable, Timestamped, XYZ  {
-    let x, y, z: Double
+    /// The x-axis acceleration value
+    let x: Double
+    /// The y-axis acceleration value
+    let y: Double
+    /// The z-axis acceleration value
+    let z: Double
+    /// The time (interval from some epoch) of measurement.
     let timestamp: TimeInterval
 
     enum CodingKeys: String, CodingKey {
@@ -33,6 +57,7 @@ struct AccelerometerItem: Codable, Timestamped, XYZ  {
 }
 
 extension AccelerometerItem: CSVRepresentable {
+    /// The value as represented by CSV fields, time-x-y-z.
     public var csvLine: String {
         let components = [timestamp, x, y, z]
             .map { $0.pointThree }
@@ -42,6 +67,7 @@ extension AccelerometerItem: CSVRepresentable {
 }
 
 extension AccelerometerItem: RoughlyEquatable {
+    /// Whether this value and another are approximately equal.
     static func ≈ (lhs: AccelerometerItem, rhs: AccelerometerItem) -> Bool {
         let paths: [KeyPath<AccelerometerItem,Double>] = [\.x, \.y, \.z]
         return paths
